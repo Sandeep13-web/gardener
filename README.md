@@ -45,29 +45,62 @@ The document structure of the DOM can be altered from the \_document.js file ins
 Any file which has [] around its name inside the pages directory will be treated as a dynamic page by Next automatically.
 
 ```
+📦
+├─ .env.example
+├─ .eslintrc.json
+├─ .gitignore
+├─ .husky
+│  ├─ commit-msg
+│  ├─ pre-commit
+│  └─ pre-push
+├─ .npmrc
+├─ .prettierignore
+├─ .prettierrc
+├─ .vscode
+│  └─ settings.json
+├─ README.md
+├─ commitlint.config.js
 ├─ features
-│  ├─ dashboard
+│  ├─ auth
+│  │  ├─ interfaces
+│  │  │  └─ shared.interface.ts
+│  │  ├─ layout
+│  │  │  ├─ auth.module.scss
+│  │  │  └─ index.tsx
+│  │  ├─ layouts
+│  │  │  └─ main
+│  │  │     └─ index.tsx
+│  │  └─ login
+│  │     └─ interface
+│  │        └─ index.ts
+│  ├─ home
 │  │  └─ components
 │  │     ├─ chart
 │  │     │  └─ index.tsx
 │  │     ├─ stats-card
 │  │     │  └─ index.tsx
-│  │     └─ table
+│  │     └─ user-table
 │  │        └─ index.tsx
 │  └─ users
 │     └─ components
 │        └─ user-list
 │           └─ index.tsx
+├─ middleware.ts
 ├─ next.config.js
 ├─ package.json
-├─ pages # entry point and all the routes index.tsx is the / route.
-│  ├─ _app.tsx
-│  ├─ auth
+├─ pages
+│  ├─ _app.tsx  # entry point and all the routes and index.tsx is the / route.
+│  ├─ api
+│  │  ├─ auth
+│  │  │  └─ login
+│  │  │     └─ index.ts
+│  │  └─ hello.ts
+│  ├─ auth
 │  │  └─ login
 │  │     ├─ index.tsx
-│  │     └─ login.styles.ts
+│  │     └─ login.module.scss
 │  ├─ index.tsx
-│  ├─ customers
+│  ├─ settings
 │  │  └─ index.tsx
 │  └─ users
 │     ├─ [userId]
@@ -75,11 +108,13 @@ Any file which has [] around its name inside the pages directory will be treated
 │     ├─ create
 │     │  └─ index.tsx
 │     ├─ index.tsx
-│     └─ users.styles.ts
+│     └─ users.module.scss
 ├─ public
 │  ├─ favicon.ico
 │  └─ vercel.svg
 ├─ shared
+│  ├─ axios
+│  │  └─ index.ts
 │  ├─ components
 │  │  ├─ buttons
 │  │  │  ├─ primary-button
@@ -90,18 +125,20 @@ Any file which has [] around its name inside the pages directory will be treated
 │  │  │  └─ index.tsx
 │  │  └─ upload-file
 │  │     └─ index.tsx
+│  ├─ config
+│  │  └─ index.ts
 │  ├─ hooks
 │  │  └─ store.hook.ts
-│  ├─ interfaces
-│  │  └─ shared.interface.ts
 │  ├─ layouts
 │  │  └─ main
 │  │     ├─ header
 │  │     │  └─ index.tsx
 │  │     ├─ index.tsx
-│  │     ├─ main-layout.styles.ts
+│  │     ├─ main-layout.scss
 │  │     └─ side-bar
 │  │        └─ index.tsx
+│  ├─ theme
+│  │  └─ index.ts
 │  └─ utils
 │     └─ toast.util.ts
 ├─ store
@@ -110,7 +147,7 @@ Any file which has [] around its name inside the pages directory will be treated
 │     └─ user-slice
 │        └─ index.ts
 ├─ styles
-│  └─ main-layout.styles.ts
+│  └─ globals.scss
 ├─ tsconfig.json
 └─ yarn.lock
 ```
@@ -230,40 +267,46 @@ const handleLoginSubmit = () => {};
 
 # Code commenting
 
-  Here are some simple rules that must be followed while writing comments on your codebase.For more detailed information, these links 
-  can be followed:
-  
-- [JSDoc](https://www.section.io/engineering-education/jsdoc-documentation/)  
-  
+Here are some simple rules that must be followed while writing comments on your codebase.For more detailed information, these links
+can be followed:
+
+- [JSDoc](https://www.section.io/engineering-education/jsdoc-documentation/)
 - [Coding standards](https://developer.wordpress.org/coding-standards/inline-documentation-standards/javascript/#formatting-guidelines)
-  
+
   Inline comments inside methods and functions should be formatted as follows:
 
   ## Single line comments
-   They should begin with doule forward slashes
-   ```js
-   // Extract the array values.
-   ```
+
+  They should begin with doule forward slashes
+
+  ```js
+  // Extract the array values.
+  ```
+
   ## Multi-line comments
-   ```js
-   /*
-    * This is a comment that is long enough to warrant being stretched over
-    * the span of multiple lines. You'll notice this follows basically
-    * the same format as the JSDoc wrapping and comment block style.
-    */
-   ```
-   Important note: Multi-line comments must not begin with /** (double asterisk). Use /* (single asterisk) instead.
+
+  ```js
+  /*
+   * This is a comment that is long enough to warrant being stretched over
+   * the span of multiple lines. You'll notice this follows basically
+   * the same format as the JSDoc wrapping and comment block style.
+   */
+  ```
+
+  Important note: Multi-line comments must not begin with /\*_ (double asterisk). Use /_ (single asterisk) instead.
 
   ## Documentation comment
-  These types of comments are signified by using double asterisk after single forward slash i.e /** .The double asterisk is used to 
+
+  These types of comments are signified by using double asterisk after single forward slash i.e /\*\* .The double asterisk is used to
   indicate that the comment contains special information, such as the types of parameters and return values of a function.
+
   ```js
   /**
    * This is a documentation comment
-   * 
+   *
    * This function takes in two parameters, a number and a callback function
    * The function will square the number, and then pass the result to the callback
-   * 
+   *
    * @param {number} num - The number to be squared
    * @param {function} callback - The function to be called with the squared result
    * @returns {number} - The result of the square operation
@@ -276,12 +319,14 @@ const handleLoginSubmit = () => {};
   ```
 
   ## Aligning comments
-   Related comments should be spaced so that they align to make them more easily readable.
-   ```js
-   /**
-    * @param {very_long_type} name           Description.
-    * @param {type}           very_long_name Description.
-    */
+
+  Related comments should be spaced so that they align to make them more easily readable.
+
+  ```js
+  /**
+   * @param {very_long_type} name           Description.
+   * @param {type}           very_long_name Description.
+   */
   ```
 
 ## Learn More
