@@ -65,7 +65,7 @@ Any file which has [] around its name inside the pages directory will be treated
 │  │  ├─ interfaces
 │  │  │  └─ shared.interface.ts
 │  │  ├─ layout
-│  │  │  ├─ auth.module.scss
+│  │  │  ├─ auth.styles.ts
 │  │  │  └─ index.tsx
 │  │  ├─ layouts
 │  │  │  └─ main
@@ -98,7 +98,7 @@ Any file which has [] around its name inside the pages directory will be treated
 │  ├─ auth
 │  │  └─ login
 │  │     ├─ index.tsx
-│  │     └─ login.module.scss
+│  │     └─ login.styles.ts
 │  ├─ index.tsx
 │  ├─ settings
 │  │  └─ index.tsx
@@ -108,7 +108,7 @@ Any file which has [] around its name inside the pages directory will be treated
 │     ├─ create
 │     │  └─ index.tsx
 │     ├─ index.tsx
-│     └─ users.module.scss
+│     └─ users.styles.ts
 ├─ public
 │  ├─ favicon.ico
 │  └─ vercel.svg
@@ -207,7 +207,7 @@ export const redButton = css`
 `;
 ```
 
-#### Step 3: Import it in your folder and use it in className
+#### Step 3: Import it in your file and use it in className
 
 ```js
 import { redButton } from './<name_of_your_file>';
@@ -245,7 +245,7 @@ export const Button = styled.button`
 `;
 ```
 
-#### Step 3: Import it in your folder and use it as JSX tag
+#### Step 3: Import it in your file and use it as JSX tag
 
 ```js
 import { Button } from './<name_of_your_file>';
