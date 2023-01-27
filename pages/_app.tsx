@@ -11,10 +11,6 @@ import { ConfigProvider, theme } from 'antd';
 import NextNProgress from 'nextjs-progressbar';
 import { Provider } from 'react-redux';
 
-// Toast
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
 };
@@ -47,7 +43,6 @@ function App({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
           </>
         )}
       </ConfigProvider>
-      <ToastContainer></ToastContainer>
     </Provider>
   );
 }

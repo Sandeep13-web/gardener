@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify';
+import { notification } from "antd";
 
 export enum TOAST_TYPES {
   info,
@@ -8,27 +8,31 @@ export enum TOAST_TYPES {
 }
 
 export const showToast = (type: TOAST_TYPES, message: string) => {
-  const defaultValues = {
-    position: 'top-right',
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: false,
-    progress: undefined,
-    theme: 'light',
-  } as any;
+  notification.destroy();
+  const placement = 'topRight'; //topLeft bottomRight bottomLeft
   switch (type) {
     case TOAST_TYPES.info:
-      toast.info(message, defaultValues);
+      notification.info({
+        message: message,
+        placement
+      })
       break;
     case TOAST_TYPES.error:
-      toast.error(message, defaultValues);
+      notification.error({
+        message: message,
+        placement
+      })
       break;
     case TOAST_TYPES.success:
-      toast.success(message, defaultValues);
+      notification.success({
+        message: message,
+        placement
+      })
       break;
     default:
-      toast(message, defaultValues);
+      notification.success({
+        message: message,
+        placement
+      })
   }
 };
