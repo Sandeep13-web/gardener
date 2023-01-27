@@ -10,8 +10,8 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { username, password } = req.body;
-  if (username !== 'admin' || password !== 'admin') {
+  const { userName, password } = req.body;
+  if (userName !== 'admin' || password !== 'admin') {
     return res
       .status(401)
       .json({ message: 'Username and password both must be admin.' });

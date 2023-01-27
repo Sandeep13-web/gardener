@@ -1,6 +1,3 @@
-import '@shared/layouts/main/main-layout.scss';
-import '@styles/globals.scss';
-
 // import Loader from '@shared/components/spinner';
 import { store } from '@store/index';
 import { NextPage } from 'next';

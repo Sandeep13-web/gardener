@@ -4,19 +4,20 @@ import {
   SettingOutlined,
   UnorderedListOutlined,
   UserAddOutlined,
-  UserOutlined,
+  UserOutlined
 } from '@ant-design/icons';
-import { TOAST_TYPES, showToast } from '@shared/utils/toast.util';
+import { clearAuthFromStorage } from '@shared/utils/cookies-utils/cookies.util';
+import { showToast, TOAST_TYPES } from '@shared/utils/toast-utils/toast.util';
 import { Layout, Menu } from 'antd';
-import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/router';
+
 
 const { Sider } = Layout;
 
 const MainLayoutSidebar = ({ collapsed }: { collapsed: boolean }) => {
   const router = useRouter();
   const handleLogout = () => {
-    deleteCookie('_token');
+    clearAuthFromStorage();
     router.push('/auth/login');
     showToast(TOAST_TYPES.success, 'You have been logged out.');
   };
