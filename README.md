@@ -265,6 +265,40 @@ const handleLoginSubmit = () => {};
 
 ### And for creating a folder we use dash in between the words with all small letters like: <br/>user-profile
 
+# Middleware
+
+For middleware, next.js's own [middleware](https://nextjs.org/docs/advanced-features/middleware) feature is used.For this, a middleware.ts file is created in the root path of the project and since the code in this file runs before a request is completed,we can modify the response by rewriting, redirecting, modifying the request or response headers, or responding directly.In the project, middleware is used to redirect to '/auth/login' if there is no token present.
+
+```js
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+
+export async function middleware(request: NextRequest) {
+  const token = request.cookies.get('user');
+  if (!token) return NextResponse.redirect(new URL('/auth/login', request.url));
+  return NextResponse.next();
+}
+
+/**
+ * Add all the protected routes here in the matcher.
+ */
+export const config = {
+  matcher: ['/'],
+};
+```
+
+There are two use cases for this in the project:
+
+1. **With a valid API provided by backend.**
+
+   In this case ,the file '/pages/auth/login/index.tsx' handles the login.
+
+2. **With next.js own server-side code if there's no API ready yet.**
+
+   In this case, a separate dummy file '/pages/auth/login/index.api.tsx' handles the login.(NOTE: remember to rename the file to login.tsx)
+
+Similarly , cookies-next library is used for handling cookies here as shown in above code example. It provides a simple API for setting, getting, and deleting cookies in a Next.js application.
+
 # Code commenting
 
 Here are some simple rules that must be followed while writing comments on your codebase.For more detailed information, these links
