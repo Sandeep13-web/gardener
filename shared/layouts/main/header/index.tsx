@@ -4,6 +4,10 @@ import React, { Dispatch, SetStateAction } from "react";
 import {
     siteLayoutBackground
 } from './header.styles';
+
+import {
+    hFull
+} from '@styles/global-styles/global.styles';
 const { Header } = Layout;
 const { Search } = Input
 
@@ -27,14 +31,14 @@ const MainLayoutHeader: React.FC<Props> = ({ collapsed, setCollapsed }) => {
                         onClick: () => setCollapsed(!collapsed),
                     })}</Col>
                 <Col xs={6}>
-                    <Row gutter={12} justify={'space-between'}>
+                <Row gutter={12} className={hFull} justify={'space-between'}>
                         <Col xs={20}>
-                            <Row align={'middle'}>
+                            <Row align={'middle'} className={hFull}>
                                 <Search placeholder="input search text" enterButton />
                             </Row>
                         </Col>
                         <Col xs={4}>
-                            <Row align={'middle'}>
+                            <Row align={'middle'} className={hFull}>
                                 <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
                             </Row>
                         </Col>
