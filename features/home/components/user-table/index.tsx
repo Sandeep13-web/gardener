@@ -1,12 +1,14 @@
+import { timeFromNow } from '@shared/utils/relativeTime-utils/relativeTIme.util';
 import { Space, Table, Tag } from 'antd';
+import React from 'react';
 
 import type { ColumnsType } from 'antd/es/table';
-import React from 'react';
 
 interface DataType {
     key: string;
     name: string;
     age: number;
+    joinDate: string;
     address: string;
     tags: string[];
 }
@@ -27,6 +29,11 @@ const columns: ColumnsType<DataType> = [
         title: 'Address',
         dataIndex: 'address',
         key: 'address',
+    },
+    {
+        title: 'Joined Date',
+        dataIndex: 'joinDate',
+        key: 'joinDate',
     },
     {
         title: 'Tags',
@@ -66,6 +73,7 @@ const data: DataType[] = [
         name: 'John Brown',
         age: 32,
         address: 'New York No. 1 Lake Park',
+        joinDate: timeFromNow('2018-12-10'),
         tags: ['nice', 'developer'],
     },
     {
@@ -73,6 +81,7 @@ const data: DataType[] = [
         name: 'Jim Green',
         age: 42,
         address: 'London No. 1 Lake Park',
+        joinDate: timeFromNow('2020-12-10'),
         tags: ['loser'],
     },
     {
@@ -80,6 +89,7 @@ const data: DataType[] = [
         name: 'Joe Black',
         age: 32,
         address: 'Sidney No. 1 Lake Park',
+        joinDate: timeFromNow('2019-12-10'),
         tags: ['cool', 'teacher'],
     },
 ];
