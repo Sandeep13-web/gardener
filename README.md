@@ -299,6 +299,24 @@ There are two use cases for this in the project:
 
 Similarly , cookies-next library is used for handling cookies here as shown in above code example. It provides a simple API for setting, getting, and deleting cookies in a Next.js application.
 
+#Date formatting
+
+[Day.js](https://day.js.org/) library is used to format dates.A single util file is present at '/shared/utils/dateAndTime-utils/dateAndTime.util.ts' for all the date manipulations.In the project it's used to export relative time.
+```js
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+export const timeFromNow = (date: string) => {
+  dayjs.extend(relativeTime);
+  return dayjs().to(dayjs(date));
+};
+```
+# utils
+
+Any utilities should be made under shared/utils. If name of util is xyz:
+- Make the folder name xyz-utils and file inside that folder should be named xyz.util.ts
+ (**Note**: The folder name has a dash and file name has dot in the name with the folder name being plural(utils) and file name being singular(util))
+
 # Code commenting
 
 Here are some simple rules that must be followed while writing comments on your codebase.For more detailed information, these links
