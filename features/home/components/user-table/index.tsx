@@ -1,4 +1,4 @@
-import { timeFromNow } from '@shared/utils/relativeTime-utils/relativeTIme.util';
+import { timeFromNow } from '@shared/utils/dateAndTime-utils/dateAndTime.util';
 import { Space, Table, Tag } from 'antd';
 import React from 'react';
 

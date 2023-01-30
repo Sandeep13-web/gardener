@@ -5,14 +5,14 @@ import {
   UnorderedListOutlined,
   UserAddOutlined,
   UserOutlined
-} from '@ant-design/icons';
+} from '@ant-design/icons/lib';
 import { clearAuthFromStorage } from '@shared/utils/cookies-utils/cookies.util';
 import { showToast, TOAST_TYPES } from '@shared/utils/toast-utils/toast.util';
 import { Layout, Menu } from 'antd';
 import { useRouter } from 'next/router';
 import {
   logo
-} from './sideBar.styles';
+} from '@shared/layouts/main/side-bar/sideBar.styles';
 
 
 const { Sider } = Layout;

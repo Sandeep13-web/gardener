@@ -1,13 +1,9 @@
-import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from "@ant-design/icons";
+import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from "@ant-design/icons/lib";
+import { siteLayoutBackground } from '@shared/layouts/main/header/header.styles';
+import { hFull } from '@styles/global-styles/global.styles';
 import { Avatar, Col, Input, Layout, Row } from "antd";
 import React, { Dispatch, SetStateAction } from "react";
-import {
-    siteLayoutBackground
-} from './header.styles';
 
-import {
-    hFull
-} from '@styles/global-styles/global.styles';
 const { Header } = Layout;
 const { Search } = Input
 
@@ -31,7 +27,7 @@ const MainLayoutHeader: React.FC<Props> = ({ collapsed, setCollapsed }) => {
                         onClick: () => setCollapsed(!collapsed),
                     })}</Col>
                 <Col xs={6}>
-                <Row gutter={12} className={hFull} justify={'space-between'}>
+                    <Row gutter={12} className={hFull} justify={'space-between'}>
                         <Col xs={20}>
                             <Row align={'middle'} className={hFull}>
                                 <Search placeholder="input search text" enterButton />
