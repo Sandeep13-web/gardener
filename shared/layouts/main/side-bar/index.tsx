@@ -10,6 +10,9 @@ import { clearAuthFromStorage } from '@shared/utils/cookies-utils/cookies.util';
 import { showToast, TOAST_TYPES } from '@shared/utils/toast-utils/toast.util';
 import { Layout, Menu } from 'antd';
 import { useRouter } from 'next/router';
+import {
+  logo
+} from './sideBar.styles';
 
 
 const { Sider } = Layout;
@@ -23,7 +26,7 @@ const MainLayoutSidebar = ({ collapsed }: { collapsed: boolean }) => {
   };
   return (
     <Sider theme="light" trigger={null} collapsible collapsed={collapsed}>
-      <div className="logo">LOGO</div>
+      <div className={logo}>LOGO</div>
       <Menu
         theme="light"
         mode="inline"

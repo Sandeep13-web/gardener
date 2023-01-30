@@ -1,8 +1,6 @@
 import {
   EyeInvisibleOutlined,
-  EyeTwoTone,
-  UserOutlined,
-  LockOutlined
+  EyeTwoTone, LockOutlined, UserOutlined
 } from '@ant-design/icons';
 
 import { ILogin } from '@features/auth/login/interface';

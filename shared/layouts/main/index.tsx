@@ -27,7 +27,6 @@ const MainLayout: React.FC<IProps> = ({ children, title }) => {
         <Layout className="site-layout" style={{ minHeight: '100vh' }}>
           <MainLayoutHeader {...{ collapsed, setCollapsed }}></MainLayoutHeader>
           <Content
-            className="site-layout-background"
             style={{
               margin: '24px 16px',
               padding: 24,
