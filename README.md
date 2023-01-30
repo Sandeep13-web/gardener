@@ -299,7 +299,8 @@ There are two use cases for this in the project:
 
 Similarly , cookies-next library is used for handling cookies here as shown in above code example. It provides a simple API for setting, getting, and deleting cookies in a Next.js application.
 
-#Date formatting
+
+# Date formatting
 
 [Day.js](https://day.js.org/) library is used to format dates.A single util file is present at '/shared/utils/dateAndTime-utils/dateAndTime.util.ts' for all the date manipulations.In the project it's used to export relative time.
 ```js
