@@ -318,6 +318,34 @@ Any utilities should be made under shared/utils. If name of util is xyz:
 - Make the folder name xyz-utils and file inside that folder should be named xyz.util.ts
  (**Note**: The folder name has a dash and file name has dot in the name with the folder name being plural(utils) and file name being singular(util))
 
+# Security headers
+ 
+All the security header options are set in 'next.config.js' file. The one's being used currently are: 
+
+### X-Frame-Options
+   This header indicates whether the site should be allowed to be displayed within an iframe. This can prevent against clickjacking      
+   attacks.
+
+### X-Content-Type-Options
+   This header prevents the browser from attempting to guess the type of content if the Content-Type header is not explicitly set. This 
+   can prevent XSS exploits for websites that allow users to upload and share files.The only valid value for this header is nosniff.
+
+### Referrer-Policy
+   This header controls how much information the browser includes when navigating from the current website (origin) to another. You can 
+   read about the different options [here](https://scotthelme.co.uk/a-new-security-header-referrer-policy/). The options currently being 
+   used is 'strict-origin'.
+
+### Permissions-Policy
+   This header allows you to control which features and APIs can be used in the browser.For example, if your CMS web app does not need to 
+   access the camera or microphone of the device, you can set the camera and microphone permissions to none. If your CMS web app requires 
+   access to certain sensors or media content, you can set the corresponding permissions to self.
+
+### Content-Security-Policy
+   This header helps prevent cross-site scripting (XSS), clickjacking and other code injection attacks. Content Security Policy (CSP) can 
+   specify allowed origins for content including scripts, stylesheets, images, fonts, objects, media (audio, video), iframes, and more.
+
+You can read about the many different CSP options [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP).
+
 # Code commenting
 
 Here are some simple rules that must be followed while writing comments on your codebase.For more detailed information, these links
