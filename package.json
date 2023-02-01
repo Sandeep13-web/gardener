@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prettier": "prettier --write .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "check-yarn-lock": "sh -c 'git diff --quiet HEAD yarn.lock || (echo \"Error: New packages have been installed. Please consult wit your team lead of tech lead about the new packages.\" && exit 1)'"
   },
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
@@ -27,6 +28,7 @@
     "emotions": "^0.0.1",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
+    "moment": "^2.29.4",
     "next": "13.0.6",
     "nextjs-progressbar": "^0.0.16",
     "react": "18.2.0",
