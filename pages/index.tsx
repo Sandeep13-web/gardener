@@ -32,9 +32,8 @@ const Home: NextPageWithLayout = () => {
         <UserTable></UserTable>
       </Col>
     </Row>
-  )
-}
-
+  );
+};
 
 export default Home;
 
