@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import usersReducer from '@store/slices/user-slice';
+import usersTableSlice from './slices/users-table-slice';
 
 export const store = configureStore({
   reducer: {
     users: usersReducer,
+    userTable: usersTableSlice,
   },
 });
 
