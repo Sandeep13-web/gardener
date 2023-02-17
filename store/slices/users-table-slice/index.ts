@@ -31,7 +31,13 @@ const initialState: State = {
 const userTableSlice = createSlice({
   name: 'User Slice',
   initialState,
-  reducers: {},
+  reducers: {
+    changePageUserTable: (state, action) => {
+      console.log(action.payload);
+      state.pageNumber = action.payload.page;
+      state.pageSize = action.payload.pageSize;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getUserTableData.pending, (state, action) => {
       state.isLoading = true;
@@ -47,5 +53,6 @@ const userTableSlice = createSlice({
     });
   },
 });
+export const { changePageUserTable } = userTableSlice.actions;
 
 export default userTableSlice.reducer;

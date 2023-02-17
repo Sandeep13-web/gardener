@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 
 import { getUserTableData } from '@store/actions/user-table-actions';
 import { useAppDispatch, useAppSelector } from '@store/redux-Hooks';
+import { changePageUserTable } from '@store/slices/users-table-slice';
 import type { ColumnsType } from 'antd/es/table';
 
 interface DataType {
@@ -58,10 +59,13 @@ const columns: ColumnsType<DataType> = [
 
 const UserTable: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { Users, pageSize, totalRecords, pageNumber } = useAppSelector(
+    (state) => state.userTable
+  );
   useEffect(() => {
     dispatch(getUserTableData());
-  }, []);
-  const { Users } = useAppSelector((state) => state.userTable);
+  }, [pageSize, pageNumber]);
+
   const data: any = Users.map((item, index) => {
     return {
       key: item.id,
@@ -70,6 +74,23 @@ const UserTable: React.FC = () => {
       quality: item.company.bs.split(' '),
     };
   });
-  return <Table columns={columns} dataSource={data} />;
+  const changePage = (page: any, pageSize: any) => {
+    dispatch(changePageUserTable(page));
+  };
+  return (
+    <Table
+      columns={columns}
+      dataSource={data}
+      pagination={{
+        showSizeChanger: true,
+        pageSizeOptions: ['3', '5', '10'],
+        pageSize: pageSize,
+        onChange: changePage,
+        total: totalRecords,
+        current: pageNumber,
+        defaultCurrent: 1,
+      }}
+    />
+  );
 };
 export default UserTable;
