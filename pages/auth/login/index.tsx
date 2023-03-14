@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 
 import AuthLayout from '@features/auth/layout';
 import { NextPageWithLayout } from '@pages/_app';
-
+import Head from 'next/head';
 
 const Login: NextPageWithLayout = () => {
   const router = useRouter();
@@ -39,6 +39,12 @@ const Login: NextPageWithLayout = () => {
 
   return (
     <>
+      <Head>
+        <title>test</title>
+        <meta property="og:title" content="title" />
+        <meta property="og:description" content='this is the description of a page for testing purpose' />
+        <meta property="og:image" content='https://media.istockphoto.com/id/637696304/photo/patan.jpg?s=612x612&w=0&k=20&c=-53aSTGBGoOOqX5aoC3Hs1jhZ527v3Id_xOawHHVPpg=' />
+      </Head>
       <ConfigProvider theme={{
         token: {
           colorBgBase: '#ffffff',
