@@ -11,7 +11,7 @@ export const loginUser: any = async ({
 }: ILogin) => {
     notification.destroy();
     try {
-        const response = await axiosInstance.post('Account/Login', {
+        const response = await axiosInstance.post('login', {
             userName: userName.trim(),
             password,
             rememberMe,

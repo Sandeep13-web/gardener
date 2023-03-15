@@ -4,7 +4,6 @@ import {
 } from '@ant-design/icons';
 
 import { ILogin } from '@features/auth/login/interface';
-import { loginUser } from '@shared/services/auth';
 import { getUserFromStorage } from '@shared/utils/cookies-utils/cookies.util';
 import { showToast, TOAST_TYPES } from '@shared/utils/toast-utils/toast.util';
 import { Button, Checkbox, ConfigProvider, Form, Input } from 'antd';
@@ -23,11 +22,11 @@ const Login: NextPageWithLayout = () => {
   const handleLogin = async (values: ILogin) => {
     setDisabled(true);
     const { userName, password, rememberMe } = values;
-    const [response] = await loginUser({ userName, password, rememberMe })
-    if (response && getUserFromStorage()) {
+    // const [response] = await loginUser({ userName, password, rememberMe })
+    // if (response && getUserFromStorage()) {
       showToast(TOAST_TYPES.success, 'Successfully logged in.');
       router.push('/');
-    }
+    // }
     setDisabled(false);
   };
 
