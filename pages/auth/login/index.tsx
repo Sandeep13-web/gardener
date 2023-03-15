@@ -6,19 +6,25 @@ import {
 import { ILogin } from '@features/auth/login/interface';
 import { getUserFromStorage } from '@shared/utils/cookies-utils/cookies.util';
 import { showToast, TOAST_TYPES } from '@shared/utils/toast-utils/toast.util';
+import { getTestData } from '@store/actions/test-actions';
+import { useAppDispatch, useAppSelector } from '@store/redux-Hooks';
 import { Button, Checkbox, ConfigProvider, Form, Input } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import AuthLayout from '@features/auth/layout';
 import { NextPageWithLayout } from '@pages/_app';
+import axios from 'axios';
 import Head from 'next/head';
 
-const Login: NextPageWithLayout = () => {
+const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [disabled, setDisabled] = useState(false);
   const [form] = Form.useForm();
-
+  // const { testData } = useAppSelector(
+  //   (state: any) => state.testData
+  // );
   const handleLogin = async (values: ILogin) => {
     setDisabled(true);
     const { userName, password, rememberMe } = values;
@@ -31,18 +37,18 @@ const Login: NextPageWithLayout = () => {
   };
 
   useEffect(() => {
+    // dispatch(getTestData());
     if (getUserFromStorage()) {
       router.push('/');
     }
   }, []);
-
   return (
     <>
       <Head>
         <title>test</title>
-        <meta property="og:title" content="title" />
-        <meta property="og:description" content='this is the description of a page for testing purpose' />
-        <meta property="og:image" content='https://media.istockphoto.com/id/637696304/photo/patan.jpg?s=612x612&w=0&k=20&c=-53aSTGBGoOOqX5aoC3Hs1jhZ527v3Id_xOawHHVPpg=' />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={imageUrl} />
       </Head>
       <ConfigProvider theme={{
         token: {
@@ -116,3 +122,21 @@ export default Login;
 Login.getLayout = function getLayout(page: React.ReactElement) {
   return <AuthLayout>{page}</AuthLayout>;
 };
+
+export async function getServerSideProps() {
+  // Fetch dynamic data from an API or database
+  const apiUrl = 'https://jsonplaceholder.typicode.com/albums/1/photos';
+
+  // Use axios to fetch data from the API
+  const response = await axios.get(apiUrl);
+  const responseData = response.data[0];
+
+  const data = {
+    title: responseData.title,
+    description: responseData.url,
+    imageUrl: responseData.thumbnailUrl,
+  };
+  return {
+    props: data,
+  };
+}

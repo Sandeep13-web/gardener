@@ -33,7 +33,6 @@ const userTableSlice = createSlice({
   initialState,
   reducers: {
     changePageUserTable: (state, action) => {
-      console.log(action.payload);
       state.pageNumber = action.payload.page;
       state.pageSize = action.payload.pageSize;
     },
