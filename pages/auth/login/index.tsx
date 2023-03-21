@@ -15,6 +15,8 @@ import { useEffect, useState } from 'react';
 
 import AuthLayout from '@features/auth/layout';
 import { NextPageWithLayout } from '@pages/_app';
+import { getMetaDescription } from '@store/actions/test-actions';
+import { wrapper } from '@store/index';
 import Head from 'next/head';
 
 const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
@@ -144,8 +146,15 @@ Login.getLayout = function getLayout(page: React.ReactElement) {
 //   };
 // };
 
-// export const getServerSideProps = wrapper.getServerSideProps(
-//   (store) => async (ctx) => {
-//     console.log(ctx);
-//   }
-// );
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    // const dispatch = useAppDispatch();
+    const response = store.dispatch(getMetaDescription({}));
+
+    return {
+      props: {
+        title: 'title',
+      },
+    };
+  }
+);
