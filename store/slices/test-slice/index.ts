@@ -10,12 +10,18 @@ interface MetaDescription {
 }
 
 interface MetaDataState {
-    metaDescription: MetaDescription[];
+    metaDescription: MetaDescription;
     isLoading: boolean;
 }
 
 const initialState: MetaDataState = {
-    metaDescription: [],
+    metaDescription: {
+        albumId: 0,
+        id: 0,
+        title: '',
+        url: '',
+        thumbnailUrl: '',
+    },
     isLoading: true,
 };
 
@@ -32,7 +38,13 @@ const metaSlice = createSlice({
             state.isLoading = false;
         });
         builder.addCase(getMetaDescription.rejected, (state, action) => {
-            state.metaDescription = [];
+            state.metaDescription = {
+                albumId: 0,
+                id: 0,
+                title: '',
+                url: '',
+                thumbnailUrl: '',
+            };
             state.isLoading = false;
         });
     },
