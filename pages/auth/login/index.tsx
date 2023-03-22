@@ -2,48 +2,45 @@ import {
   EyeInvisibleOutlined,
   EyeTwoTone,
   LockOutlined,
-  UserOutlined,
+  UserOutlined
 } from '@ant-design/icons';
 
+import AuthLayout from '@features/auth/layout';
 import { ILogin } from '@features/auth/login/interface';
+import { NextPageWithLayout } from '@pages/_app';
+import { loginUser } from '@shared/services/auth';
 import { getUserFromStorage } from '@shared/utils/cookies-utils/cookies.util';
 import { showToast, TOAST_TYPES } from '@shared/utils/toast-utils/toast.util';
-import { useAppDispatch } from '@store/redux-Hooks';
+import { getMetaDescription } from '@store/actions/test-actions';
+import { store } from '@store/index';
 import { Button, Checkbox, ConfigProvider, Form, Input } from 'antd';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-import AuthLayout from '@features/auth/layout';
-import { NextPageWithLayout } from '@pages/_app';
-import { getMetaDescription } from '@store/actions/test-actions';
-import { wrapper } from '@store/index';
-import Head from 'next/head';
-
 const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const [disabled, setDisabled] = useState(false);
   const [form] = Form.useForm();
-  // const { testData } = useAppSelector(
-  //   (state: any) => state.testData
-  // );
+
   const handleLogin = async (values: ILogin) => {
     setDisabled(true);
     const { userName, password, rememberMe } = values;
-    // const [response] = await loginUser({ userName, password, rememberMe })
-    // if (response && getUserFromStorage()) {
-    showToast(TOAST_TYPES.success, 'Successfully logged in.');
-    router.push('/');
-    // }
+    const [response] = await loginUser({ userName, password, rememberMe });
+    console.log(response, getUserFromStorage())
+    if (response && getUserFromStorage()) {
+      showToast(TOAST_TYPES.success, 'Successfully logged in.');
+      router.push('/');
+    }
     setDisabled(false);
   };
 
   useEffect(() => {
-    // dispatch(getTestData());
     if (getUserFromStorage()) {
       router.push('/');
     }
   }, []);
+
   return (
     <>
       <Head>
@@ -126,35 +123,17 @@ Login.getLayout = function getLayout(page: React.ReactElement) {
   return <AuthLayout>{page}</AuthLayout>;
 };
 
-// export const getServerSideProps = async () => {
-//   // Fetch dynamic data from an API or database
-//   // const apiUrl = 'https://jsonplaceholder.typicode.com/albums/1/photos';
+export async function getServerSideProps() {
+  await store.dispatch(getMetaDescription());
+  const state = store.getState();
+  const { metaData: { metaDescription } } = state;
+  const data = {
+    title: metaDescription.title,
+    description: metaDescription.url,
+    imageUrl: metaDescription.thumbnailUrl,
+  };
+  return {
+    props: data,
+  };
+}
 
-//   // Use axios to fetch data from the API
-//   const response = store.dispatch(getMetaDescription({}));
-//   console.log('response', response);
-
-//   // const responseData = response.data[0];
-
-//   // const data = {
-//   //   title: responseData.title,
-//   //   description: responseData.url,
-//   //   imageUrl: responseData.thumbnailUrl,
-//   // };
-//   return {
-//     props: response,
-//   };
-// };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
-    // const dispatch = useAppDispatch();
-    const response = store.dispatch(getMetaDescription({}));
-
-    return {
-      props: {
-        title: 'title',
-      },
-    };
-  }
-);

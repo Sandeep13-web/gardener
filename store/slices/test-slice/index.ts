@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getTestData } from '@store/actions/test-actions';
+import { getMetaDescription } from '@store/actions/test-actions';
 
-interface Test {
+interface MetaDescription {
     albumId: number;
     id: number;
     title: string;
@@ -9,33 +9,33 @@ interface Test {
     thumbnailUrl: string;
 }
 
-interface State {
-    testData: Test[];
+interface MetaDataState {
+    metaDescription: MetaDescription[];
     isLoading: boolean;
 }
 
-const initialState: State = {
-    testData: [],
+const initialState: MetaDataState = {
+    metaDescription: [],
     isLoading: true,
 };
 
-const testSlice = createSlice({
+const metaSlice = createSlice({
     name: 'test slice',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(getTestData.pending, (state, action) => {
+        builder.addCase(getMetaDescription.pending, (state, action) => {
             state.isLoading = true;
         });
-        builder.addCase(getTestData.fulfilled, (state, action) => {
-            state.testData = action.payload[0];
+        builder.addCase(getMetaDescription.fulfilled, (state, action) => {
+            state.metaDescription = action.payload[0];
             state.isLoading = false;
         });
-        builder.addCase(getTestData.rejected, (state, action) => {
-            state.testData = [];
+        builder.addCase(getMetaDescription.rejected, (state, action) => {
+            state.metaDescription = [];
             state.isLoading = false;
         });
     },
 });
 
-export default testSlice.reducer;
+export default metaSlice.reducer;
