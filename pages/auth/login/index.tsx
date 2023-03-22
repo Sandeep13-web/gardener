@@ -27,7 +27,6 @@ const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
     setDisabled(true);
     const { userName, password, rememberMe } = values;
     const [response] = await loginUser({ userName, password, rememberMe });
-    console.log(response, getUserFromStorage())
     if (response && getUserFromStorage()) {
       showToast(TOAST_TYPES.success, 'Successfully logged in.');
       router.push('/');
