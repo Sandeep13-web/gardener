@@ -102,7 +102,7 @@ const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
             <a
               id="back"
               className="btn btn-primary"
-              href="https://uat.ordering-kfc.ekbana.net/checkout/review?TXNID=3104"
+              href="https://uat.ordering-kfc.ekbana.net/checkout/review/failure?TXNID=3104"
             >
               Return
             </a>
