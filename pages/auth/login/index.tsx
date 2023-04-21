@@ -2,7 +2,7 @@ import {
   EyeInvisibleOutlined,
   EyeTwoTone,
   LockOutlined,
-  UserOutlined
+  UserOutlined,
 } from '@ant-design/icons';
 
 import AuthLayout from '@features/auth/layout';
@@ -99,6 +99,13 @@ const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
           <Form.Item>
+            <a
+              id="back"
+              className="btn btn-primary"
+              href="https://uat.ordering-kfc.ekbana.net/checkout/review?TXNID=3104"
+            >
+              Return
+            </a>
             <Button
               type="primary"
               htmlType="submit"
@@ -125,7 +132,9 @@ Login.getLayout = function getLayout(page: React.ReactElement) {
 export async function getServerSideProps() {
   await store.dispatch(getMetaDescription());
   const state = store.getState();
-  const { metaData: { metaDescription } } = state;
+  const {
+    metaData: { metaDescription },
+  } = state;
   const data = {
     title: metaDescription.title,
     description: metaDescription.url,
@@ -135,4 +144,3 @@ export async function getServerSideProps() {
     props: data,
   };
 }
-
