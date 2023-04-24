@@ -6,6 +6,7 @@ import {
 } from '@ant-design/icons';
 
 import AuthLayout from '@features/auth/layout';
+import { test } from '@features/auth/layout/layout.styles';
 import { ILogin } from '@features/auth/login/interface';
 import { NextPageWithLayout } from '@pages/_app';
 import { loginUser } from '@shared/services/auth';
@@ -17,7 +18,6 @@ import { Button, Checkbox, ConfigProvider, Form, Input } from 'antd';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { test } from './login.styles';
 
 const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
   const router = useRouter();
