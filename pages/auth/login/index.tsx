@@ -17,6 +17,7 @@ import { Button, Checkbox, ConfigProvider, Form, Input } from 'antd';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { test } from './login.styles';
 
 const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
   const router = useRouter();
@@ -101,7 +102,7 @@ const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
           <Form.Item>
             <a
               id="back"
-              className="btn btn-primary"
+              className={test}
               href="https://uat.ordering-kfc.ekbana.net/checkout/review/failure?TXNID=3104"
             >
               Return
