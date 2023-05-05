@@ -104,6 +104,7 @@ const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
           <Form.Item
             name="rememberMe"
             valuePropName="checked"
+            data-testid="Remember me"
             initialValue={false}
           >
             <Checkbox>Remember me</Checkbox>
@@ -114,6 +115,7 @@ const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
                 type="primary"
                 htmlType="submit"
                 size="large"
+                data-testid="Sign In"
                 block
                 disabled={
                   // !form.getFieldsValue(['userName', 'password']) ||
