@@ -25,6 +25,8 @@ const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
   const [loading, setLoading] = useState(false);
 
   const [form] = Form.useForm();
+  const { getFieldValue, getFieldsError } = form;
+
   // const { testData } = useAppSelector(
   //   (state: any) => state.testData
   // );
@@ -62,6 +64,7 @@ const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
       >
         <Form
           onFinish={handleLogin}
+          autoComplete="off"
           layout="vertical"
           form={form}
           requiredMark={false}
@@ -99,25 +102,32 @@ const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
             />
           </Form.Item>
           <Form.Item
-            data-testid="Remember me"
             name="rememberMe"
             valuePropName="checked"
             initialValue={false}
           >
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
-          <Form.Item>
-            <Button
-              data-testid="Sign In"
-              type="primary"
-              htmlType="submit"
-              size="large"
-              block
-              disabled={disabled}
-              loading={loading}
-            >
-              Sign In
-            </Button>
+          <Form.Item shouldUpdate>
+            {() => (
+              <Button
+                type="primary"
+                htmlType="submit"
+                size="large"
+                block
+                disabled={
+                  // !form.getFieldsValue(['userName', 'password']) ||
+                  !getFieldValue('userName') ||
+                  !getFieldValue('password') ||
+                  !!getFieldsError().filter(({ errors }) => errors.length)
+                    .length ||
+                  disabled
+                }
+                loading={disabled}
+              >
+                Sign In
+              </Button>
+            )}
           </Form.Item>
         </Form>
       </ConfigProvider>
