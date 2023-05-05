@@ -1,5 +1,7 @@
 import Login from '@pages/auth/login/index';
 import { store } from '@store/index';
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 jest.mock('next/router', () => ({
@@ -11,11 +13,56 @@ jest.mock('next/router', () => ({
   },
 }));
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      addListener: function () {},
+      removeListener: function () {},
+    };
+  }; //fixing the window.matchMedia issue , need to mock it.
 
 describe('Login', () => {
   it('renders login', () => {
-    <Provider store={store}>
-      render(<Login />, {});
-    </Provider>
+    render(
+      <Provider store={store}>
+        <Login />
+      </Provider>
+    );
+
+    // checking if the fields have rendered or not
+    expect(screen.getByTestId('Username')).toBeInTheDocument();
+    expect(screen.getByTestId('Password')).toBeInTheDocument();
+    expect(screen.getByTestId('Remember me')).toBeInTheDocument();
+    expect(screen.getByTestId('Sign In')).toBeInTheDocument();
+  });
+
+  it('should disable login button when required fields are empty', () => {
+    render(
+      <Provider store={store}>
+        <Login />
+      </Provider>
+    );
+
+    // Find the login button
+    const loginButton = screen.getByTestId('Sign In');
+
+    // Check if the login button is disabled when required fields are empty
+    expect(loginButton).toBeDisabled();
+
+    // // Fill in the username field
+    // const usernameField = screen.getByLabelText('Username');
+    // fireEvent.change(usernameField, { target: { value: 'testuser' } });
+
+    // // Check if the login button is still disabled
+    // expect(loginButton).toBeDisabled();
+
+    // // Fill in the password field
+    // const passwordField = screen.getByLabelText('Password');
+    // fireEvent.change(passwordField, { target: { value: 'testpassword' } });
+
+    // // Check if the login button is now enabled
+    // expect(loginButton).toBeEnabled();
   });
 });
