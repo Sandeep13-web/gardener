@@ -21,7 +21,7 @@ import Head from 'next/head';
 const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [form] = Form.useForm();
