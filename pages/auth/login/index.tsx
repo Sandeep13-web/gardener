@@ -6,7 +6,6 @@ import {
 } from '@ant-design/icons';
 
 import AuthLayout from '@features/auth/layout';
-import { test } from '@features/auth/layout/layout.styles';
 import { ILogin } from '@features/auth/login/interface';
 import { NextPageWithLayout } from '@pages/_app';
 import { loginUser } from '@shared/services/auth';
@@ -100,13 +99,6 @@ const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
           <Form.Item>
-            <a
-              id="back"
-              className={test}
-              href="https://uat.ordering-kfc.ekbana.net/checkout/review/failure?TXNID=3104"
-            >
-              Return
-            </a>
             <Button
               type="primary"
               htmlType="submit"
