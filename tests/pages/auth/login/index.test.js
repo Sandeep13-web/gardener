@@ -1,7 +1,7 @@
 import Login from '@pages/auth/login/index';
 import { store } from '@store/index';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 jest.mock('next/router', () => ({
@@ -38,7 +38,7 @@ describe('Login', () => {
     expect(screen.getByTestId('Sign In')).toBeInTheDocument();
   });
 
-  it('should disable login button when required fields are empty', () => {
+  it('should disable login button when required fields are empty', async () => {
     render(
       <Provider store={store}>
         <Login />
@@ -51,18 +51,22 @@ describe('Login', () => {
     // Check if the login button is disabled when required fields are empty
     expect(loginButton).toBeDisabled();
 
-    // // Fill in the username field
-    // const usernameField = screen.getByLabelText('Username');
-    // fireEvent.change(usernameField, { target: { value: 'testuser' } });
+    // Fill in the username field
+    const usernameField = screen.getByLabelText('Username');
+    await act(() => {
+      fireEvent.change(usernameField, { target: { value: 'testuser' } });
+    });
 
-    // // Check if the login button is still disabled
-    // expect(loginButton).toBeDisabled();
+    // Check if the login button is still disabled
+    expect(loginButton).toBeDisabled();
 
-    // // Fill in the password field
-    // const passwordField = screen.getByLabelText('Password');
-    // fireEvent.change(passwordField, { target: { value: 'testpassword' } });
+    // Fill in the password field
+    const passwordField = screen.getByLabelText('Password');
+    await act(() => {
+      fireEvent.change(passwordField, { target: { value: 'testpassword' } });
+    });
 
-    // // Check if the login button is now enabled
-    // expect(loginButton).toBeEnabled();
+    // Check if the login button is now enabled
+    expect(loginButton).toBeEnabled();
   });
 });
