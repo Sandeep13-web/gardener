@@ -1,8 +1,8 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from "@ant-design/icons/lib";
-import { siteLayoutBackground } from '@shared/layouts/main/header/header.styles';
+import { ThemeContext } from "@pages/_app";
 import { hFull } from '@styles/global-styles/global.styles';
-import { Avatar, Col, Input, Layout, Row } from "antd";
-import React, { Dispatch, SetStateAction } from "react";
+import { Avatar, Col, Input, Layout, Row, Switch } from "antd";
+import React, { Dispatch, SetStateAction, useContext } from "react";
 
 const { Header } = Layout;
 const { Search } = Input
@@ -13,9 +13,14 @@ interface Props {
 }
 
 const MainLayoutHeader: React.FC<Props> = ({ collapsed, setCollapsed }) => {
+
+    const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
+
+    const toggleTheme = () => {
+        toggleDarkMode()
+    }
     return (
         <Header
-            className={siteLayoutBackground}
             style={{
                 padding: 0,
             }}
@@ -28,7 +33,14 @@ const MainLayoutHeader: React.FC<Props> = ({ collapsed, setCollapsed }) => {
                     })}</Col>
                 <Col xs={6}>
                     <Row gutter={12} className={hFull} justify={'space-between'}>
-                        <Col xs={20}>
+                        <Col xs={4}>
+                            <Row align={'middle'} className={hFull}>
+                                <Switch checkedChildren="dark" unCheckedChildren="light" checked={isDarkMode}
+                                    onChange={toggleTheme}
+                                />
+                            </Row>
+                        </Col>
+                        <Col xs={16}>
                             <Row align={'middle'} className={hFull}>
                                 <Search placeholder="input search text" enterButton />
                             </Row>
