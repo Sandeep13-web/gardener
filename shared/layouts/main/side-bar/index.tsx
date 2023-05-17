@@ -1,18 +1,20 @@
 import {
   HomeOutlined,
   LogoutOutlined,
+  ProjectOutlined,
   SettingOutlined,
   UnorderedListOutlined,
   UserAddOutlined,
   UserOutlined
 } from '@ant-design/icons/lib';
-import { clearAuthFromStorage } from '@shared/utils/cookies-utils/cookies.util';
-import { showToast, TOAST_TYPES } from '@shared/utils/toast-utils/toast.util';
-import { Layout, Menu } from 'antd';
-import { useRouter } from 'next/router';
 import {
   logo
 } from '@shared/layouts/main/side-bar/sideBar.styles';
+import { clearAuthFromStorage } from '@shared/utils/cookies-utils/cookies.util';
+import { TOAST_TYPES, showToast } from '@shared/utils/toast-utils/toast.util';
+import { Layout, Menu } from 'antd';
+import { SIDEBAR } from 'constants/sidebar.constants';
+import { useRouter } from 'next/router';
 
 
 const { Sider } = Layout;
@@ -24,6 +26,103 @@ const MainLayoutSidebar = ({ collapsed }: { collapsed: boolean }) => {
     router.push('/auth/login');
     showToast(TOAST_TYPES.success, 'You have been logged out.');
   };
+
+  const menuItems = [
+    {
+      key: '1',
+      icon: <HomeOutlined />,
+      label: SIDEBAR.HOME,
+    },
+    {
+      key: '2',
+      icon: <UserOutlined />,
+      label: SIDEBAR.USER,
+      children: [
+        {
+          key: 'sub-user-menu-1',
+          icon: <UnorderedListOutlined />,
+          label: 'List',
+        },
+        {
+          key: 'sub-user-menu-2',
+          icon: <UserAddOutlined />,
+          label: 'Add',
+        },
+      ],
+    },
+    {
+      key: '3',
+      icon: <SettingOutlined />,
+      label: SIDEBAR.SETTINGS,
+    },
+    {
+      key: '4',
+      icon: <UserOutlined />,
+      label: SIDEBAR.ECOMMERCE,
+      children: [
+        {
+          key: 'menu',
+          icon: <UnorderedListOutlined />,
+          label: SIDEBAR.MENU,
+        },
+        {
+          key: 'card',
+          icon: <UserAddOutlined />,
+          label: SIDEBAR.CARD,
+        },
+        {
+          key: 'account-details',
+          icon: <UserAddOutlined />,
+          label: SIDEBAR.ACCOUNT,
+        },
+        {
+          key: 'payment',
+          icon: <UserAddOutlined />,
+          label: SIDEBAR.PAYMENT,
+        },
+        {
+          key: 'product',
+          icon: <ProjectOutlined />,
+          label: SIDEBAR.PRODUCT,
+        },
+      ],
+    },
+    {
+      key: '5',
+      icon: <LogoutOutlined />,
+      label: 'Logout',
+    },
+  ]
+
+
+  const handleMenu = (key: string) => {
+    switch (key) {
+      case '1':
+        router.push('/');
+        break;
+      case 'sub-user-menu-1':
+        router.push('/users');
+        break;
+      case 'sub-user-menu-2':
+        router.push('/users/create');
+        break;
+      case '3':
+        router.push('/settings');
+        break;
+      case 'menu':
+        router.push('/ecommerce/menu');
+        break;
+      case 'card':
+        router.push('/ecommerce');
+        break;
+      case 'account-details':
+        router.push('/ecommerce/account-details');
+        break;
+      case '4':
+        handleLogout();
+        break;
+    }
+  }
   return (
     <Sider theme="light" trigger={null} collapsible collapsed={collapsed}>
       <div className={logo}>LOGO</div>
@@ -31,60 +130,8 @@ const MainLayoutSidebar = ({ collapsed }: { collapsed: boolean }) => {
         theme="light"
         mode="inline"
         defaultSelectedKeys={['1']}
-        items={[
-          {
-            key: '1',
-            icon: <HomeOutlined />,
-            label: 'Home',
-          },
-          {
-            key: '2',
-            icon: <UserOutlined />,
-            label: 'Users',
-            children: [
-              {
-                key: 'sub-user-menu-1',
-                icon: <UnorderedListOutlined />,
-                label: 'List',
-              },
-              {
-                key: 'sub-user-menu-2',
-                icon: <UserAddOutlined />,
-                label: 'Add',
-              },
-            ],
-          },
-          {
-            key: '3',
-            icon: <SettingOutlined />,
-            label: 'Settings',
-          },
-          {
-            key: '4',
-            icon: <LogoutOutlined />,
-            label: 'Logout',
-          },
-        ]}
-        onClick={(value) => {
-          const { key } = value;
-          switch (key) {
-            case '1':
-              router.push('/');
-              break;
-            case 'sub-user-menu-1':
-              router.push('/users');
-              break;
-            case 'sub-user-menu-2':
-              router.push('/users/create');
-              break;
-            case '3':
-              router.push('/settings');
-              break;
-            case '4':
-              handleLogout();
-              break;
-          }
-        }}
+        items={menuItems}
+        onClick={(value) => handleMenu(value.key)}
       />
     </Sider>
   );
