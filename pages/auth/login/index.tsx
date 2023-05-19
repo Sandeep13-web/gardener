@@ -72,7 +72,7 @@ const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
           <Form.Item
             name="userName"
             label={<strong>Username</strong>}
-            data-testid="Username"
+            data-testid="userName"
             rules={[
               {
                 required: true,
@@ -84,7 +84,7 @@ const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
           </Form.Item>
           <Form.Item
             name="password"
-            data-testid="Password"
+            data-testid="password"
             label={<strong>Password</strong>}
             rules={[
               {
@@ -104,7 +104,7 @@ const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
           <Form.Item
             name="rememberMe"
             valuePropName="checked"
-            data-testid="Remember me"
+            data-testid="rememberMe"
             initialValue={false}
           >
             <Checkbox>Remember me</Checkbox>
@@ -115,7 +115,7 @@ const Login: NextPageWithLayout = ({ title, description, imageUrl }: any) => {
                 type="primary"
                 htmlType="submit"
                 size="large"
-                data-testid="Sign In"
+                data-testid="signIn"
                 block
                 disabled={
                   // !form.getFieldsValue(['userName', 'password']) ||

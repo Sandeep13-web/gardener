@@ -32,10 +32,10 @@ describe('Login', () => {
     );
 
     // checking if the fields have rendered or not
-    expect(screen.getByTestId('Username')).toBeInTheDocument();
-    expect(screen.getByTestId('Password')).toBeInTheDocument();
-    expect(screen.getByTestId('Remember me')).toBeInTheDocument();
-    expect(screen.getByTestId('Sign In')).toBeInTheDocument();
+    expect(screen.getByTestId('userName')).toBeInTheDocument();
+    expect(screen.getByTestId('password')).toBeInTheDocument();
+    expect(screen.getByTestId('rememberMe')).toBeInTheDocument();
+    expect(screen.getByTestId('signIn')).toBeInTheDocument();
   });
 
   it('should disable login button when required fields are empty', async () => {
@@ -46,7 +46,7 @@ describe('Login', () => {
     );
 
     // Find the login button
-    const loginButton = screen.getByTestId('Sign In');
+    const loginButton = screen.getByTestId('signIn');
 
     // Check if the login button is disabled when required fields are empty
     expect(loginButton).toBeDisabled();
