@@ -1,7 +1,6 @@
 import {
     EyeInvisibleOutlined,
-    EyeTwoTone, UserOutlined,
-    LockOutlined
+    EyeTwoTone, LockOutlined, UserOutlined
 } from '@ant-design/icons';
 import { ILogin } from '@features/auth/login/interface';
 import { showToast, TOAST_TYPES } from '@shared/utils/toast-utils/toast.util';
@@ -10,10 +9,10 @@ import React from 'react';
 
 import AuthLayout from '@features/auth/layout';
 import { NextPageWithLayout } from '@pages/_app';
+import { Button, Checkbox, ConfigProvider, Form, Input } from 'antd';
 import axios from 'axios';
 import { setCookie } from 'cookies-next';
 import { useState } from 'react';
-import { Button, Checkbox, ConfigProvider, Form, Input } from 'antd';
 
 
 
@@ -117,4 +116,3 @@ export default Login;
 Login.getLayout = function getLayout(page: React.ReactElement) {
     return <AuthLayout>{page}</AuthLayout>;
 };
-
