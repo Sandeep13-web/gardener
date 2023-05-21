@@ -1,8 +1,5 @@
 import { Card, Layout } from 'antd';
 import Head from 'next/head';
-import {
-  content,
-} from './layout.styles';
 
 const { Content } = Layout;
 const AuthLayout = ({
@@ -14,10 +11,13 @@ const AuthLayout = ({
       <Head>
         <title>{title ? `${title} - Codebase` : 'Codebase'} </title>
       </Head>
-      <Content className={content}>
+      <Content className={'min-h-[100vh] flex  justify-center items-center'}>
         <Card
           title={
-            <h2 style={{ textAlign: 'center', textTransform: 'uppercase' }}>
+            <h2
+              className='uppercase text-center '
+            // style={{ textAlign: 'center', textTransform: 'uppercase' }}
+            >
               {title}
             </h2>
           }

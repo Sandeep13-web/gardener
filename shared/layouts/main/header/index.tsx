@@ -1,6 +1,5 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from "@ant-design/icons/lib";
 import { ThemeContext } from "@pages/_app";
-import { hFull } from '@styles/global-styles/global.styles';
 import { Avatar, Col, Input, Layout, Row, Switch } from "antd";
 import React, { Dispatch, SetStateAction, useContext } from "react";
 
@@ -21,32 +20,38 @@ const MainLayoutHeader: React.FC<Props> = ({ collapsed, setCollapsed }) => {
     }
     return (
         <Header
-            style={{
-                padding: 0,
-            }}
+            className={`p-0 ${isDarkMode ? 'bg-[#141414]' : 'bg-white'}`}
+        // style={{
+        //     padding: 0,
+        // }}
         >
-            <Row style={{ paddingRight: 20 }}>
+            <Row
+                className="px-3"
+            // style={{ paddingRight: 20 }}
+            >
                 <Col xs={18}>
                     {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                         className: 'trigger',
                         onClick: () => setCollapsed(!collapsed),
                     })}</Col>
-                <Col xs={6}>
-                    <Row gutter={12} className={hFull} justify={'space-between'}>
-                        <Col xs={4}>
-                            <Row align={'middle'} className={hFull}>
-                                <Switch checkedChildren="dark" unCheckedChildren="light" checked={isDarkMode}
+                <Col xs={6} className="flex">
+                    <Row gutter={12} align={'middle'}>
+                        <Col xs={5}>
+                            <Row align={'middle'} >
+                                <Switch
+                                    checkedChildren="dark"
+                                    unCheckedChildren="light" checked={isDarkMode}
                                     onChange={toggleTheme}
                                 />
                             </Row>
                         </Col>
                         <Col xs={16}>
-                            <Row align={'middle'} className={hFull}>
+                            <Row align={'middle'} >
                                 <Search placeholder="input search text" enterButton />
                             </Row>
                         </Col>
-                        <Col xs={4}>
-                            <Row align={'middle'} className={hFull}>
+                        <Col xs={3}>
+                            <Row align={'middle'} >
                                 <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
                             </Row>
                         </Col>

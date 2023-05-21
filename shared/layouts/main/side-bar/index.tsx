@@ -7,20 +7,21 @@ import {
   UserAddOutlined,
   UserOutlined
 } from '@ant-design/icons/lib';
-import {
-  logo
-} from '@shared/layouts/main/side-bar/sideBar.styles';
+import { ThemeContext } from '@pages/_app';
 import { clearAuthFromStorage } from '@shared/utils/cookies-utils/cookies.util';
 import { TOAST_TYPES, showToast } from '@shared/utils/toast-utils/toast.util';
 import { Layout, Menu } from 'antd';
 import { SIDEBAR } from 'constants/sidebar.constants';
 import { useRouter } from 'next/router';
+import { useContext } from 'react';
 
 
 const { Sider } = Layout;
 
 const MainLayoutSidebar = ({ collapsed }: { collapsed: boolean }) => {
   const router = useRouter();
+
+  const { isDarkMode } = useContext(ThemeContext);
   const handleLogout = () => {
     clearAuthFromStorage();
     router.push('/auth/login');
@@ -125,7 +126,9 @@ const MainLayoutSidebar = ({ collapsed }: { collapsed: boolean }) => {
   }
   return (
     <Sider theme="light" trigger={null} collapsible collapsed={collapsed}>
-      <div className={logo}>LOGO</div>
+      <div className='p-3'>
+        <div className={`h-12  rounded-md flex items-center justify-center  ${!isDarkMode ? 'bg-[#141414] text-white' : 'bg-white text-black'}`}>LOGO</div>
+      </div>
       <Menu
         theme="light"
         mode="inline"

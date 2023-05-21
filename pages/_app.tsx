@@ -1,8 +1,9 @@
-// import Loader from '@shared/components/spinner';
-// import '@shared/layouts/main/main-layout.scss';
+
 import { store } from '@store/index';
+import '@styles/globals.css';
 import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
+
 
 
 import { customTheme } from '@shared/theme';
