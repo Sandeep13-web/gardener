@@ -1,8 +1,8 @@
 import {
   HomeOutlined,
   LogoutOutlined,
-  ProjectOutlined,
   SettingOutlined,
+  ShopFilled,
   UnorderedListOutlined,
   UserAddOutlined,
   UserOutlined
@@ -58,35 +58,8 @@ const MainLayoutSidebar = ({ collapsed }: { collapsed: boolean }) => {
     },
     {
       key: '4',
-      icon: <UserOutlined />,
+      icon: <ShopFilled />,
       label: SIDEBAR.ECOMMERCE,
-      children: [
-        {
-          key: 'menu',
-          icon: <UnorderedListOutlined />,
-          label: SIDEBAR.MENU,
-        },
-        {
-          key: 'card',
-          icon: <UserAddOutlined />,
-          label: SIDEBAR.CARD,
-        },
-        {
-          key: 'account-details',
-          icon: <UserAddOutlined />,
-          label: SIDEBAR.ACCOUNT,
-        },
-        {
-          key: 'payment',
-          icon: <UserAddOutlined />,
-          label: SIDEBAR.PAYMENT,
-        },
-        {
-          key: 'product',
-          icon: <ProjectOutlined />,
-          label: SIDEBAR.PRODUCT,
-        },
-      ],
     },
     {
       key: '5',
@@ -109,6 +82,8 @@ const MainLayoutSidebar = ({ collapsed }: { collapsed: boolean }) => {
         break;
       case '3':
         router.push('/settings');
+      case '4':
+        router.push('/ecommerce');
         break;
       case 'menu':
         router.push('/ecommerce/menu');
