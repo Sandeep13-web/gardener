@@ -1,7 +1,10 @@
-
-const BucketIcon = () => {
+interface Props extends React.SVGProps<SVGSVGElement> {
+  isActive?: boolean;
+}
+const BucketIcon: React.FC<Props> = ({ isActive, ...rest }) => {
   return (
     <svg
+      {...rest}
       width="22"
       height="24"
       viewBox="0 0 22 24"
@@ -32,7 +35,7 @@ const BucketIcon = () => {
       />
       <mask
         id="mask0_1_1269"
-        style={{ maskType: "alpha" }}
+        style={{ maskType: 'alpha' }}
         maskUnits="userSpaceOnUse"
         x="2"
         y="12"
