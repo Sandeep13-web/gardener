@@ -75,13 +75,13 @@ const Ecommerce: NextPageWithLayout = () => {
                                 className="demo-loadmore-list"
                                 itemLayout="horizontal"
                                 dataSource={item?.list}
-                                renderItem={(item) => (
+                                renderItem={(items) => (
                                     <List.Item
                                     >
                                         <List.Item.Meta
-                                            title={<a href="https://ant.design" className="capitalize">{item?.title}</a>}
+                                            title={<a href={`ecommerce/${item?.name}`} className="capitalize">{items?.title}</a>}
                                         />
-                                        <div className="capitalize">by {item?.designedBy}</div>
+                                        <div className="capitalize">by {items?.designedBy}</div>
                                     </List.Item>
                                 )} />
                         </Card>
