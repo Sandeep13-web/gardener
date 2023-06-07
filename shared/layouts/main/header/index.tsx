@@ -1,7 +1,7 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from "@ant-design/icons/lib";
-import { ThemeContext } from "@pages/_app";
 import { Avatar, Col, Input, Layout, Row, Switch } from "antd";
-import React, { Dispatch, SetStateAction, useContext } from "react";
+import { useTheme } from "next-themes";
+import React, { Dispatch, SetStateAction } from "react";
 
 const { Header } = Layout;
 const { Search } = Input
@@ -13,21 +13,22 @@ interface Props {
 
 const MainLayoutHeader: React.FC<Props> = ({ collapsed, setCollapsed }) => {
 
-    const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
-
-    const toggleTheme = () => {
-        toggleDarkMode()
+    const { theme, setTheme } = useTheme()
+    const toggleTheme = (e: any) => {
+        if (e) {
+            setTheme('dark')
+        } else {
+            setTheme('false')
+        }
     }
+
     return (
         <Header
-            className={`p-0 ${isDarkMode ? 'bg-[#141414]' : 'bg-white'}`}
-        // style={{
-        //     padding: 0,
-        // }}
+            className={`p-0  dark:bg-[#141414] bg-white`}
+
         >
             <Row
                 className="px-3"
-            // style={{ paddingRight: 20 }}
             >
                 <Col xs={18}>
                     {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
@@ -40,7 +41,8 @@ const MainLayoutHeader: React.FC<Props> = ({ collapsed, setCollapsed }) => {
                             <Row align={'middle'} >
                                 <Switch
                                     checkedChildren="dark"
-                                    unCheckedChildren="light" checked={isDarkMode}
+                                    unCheckedChildren="light"
+                                    checked={theme === 'dark' && true}
                                     onChange={toggleTheme}
                                 />
                             </Row>

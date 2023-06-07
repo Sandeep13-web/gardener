@@ -7,8 +7,8 @@ import type { AppProps } from 'next/app';
 
 
 import { customTheme } from '@shared/theme';
-import { ConfigProvider, theme } from 'antd';
 import { getCookie, setCookie } from 'cookies-next';
+import { ThemeProvider } from 'next-themes';
 import NextNProgress from 'nextjs-progressbar';
 import { createContext, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
@@ -43,30 +43,22 @@ function App({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
 
 
   return (
-    <ThemeContext.Provider value={{ isDarkMode, toggleDarkMode }}>
+    <ThemeProvider enableSystem={true} attribute="class">
       <Provider store={store}>
-        <ConfigProvider
-          theme={{
-            algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
-            token: {
-              colorPrimary: customTheme.primaryColor,
-            },
-          }}
-        >
-          {getLayout(
-            <>
-              <NextNProgress
-                color={customTheme.primaryColor}
-                options={{ showSpinner: false }}
-                showOnShallow
-                height={5}
-              />
-              <Component {...pageProps} />
-            </>
-          )}
-        </ConfigProvider>
+
+        {getLayout(
+          <>
+            <NextNProgress
+              color={customTheme.primaryColor}
+              options={{ showSpinner: false }}
+              showOnShallow
+              height={5}
+            />
+            <Component {...pageProps} />
+          </>
+        )}
       </Provider>
-    </ThemeContext.Provider>
+    </ThemeProvider>
   );
 }
 
