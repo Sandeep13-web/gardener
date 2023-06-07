@@ -1,128 +1,250 @@
-import { UserOutlined } from "@ant-design/icons";
-import {
-    BucketIcon,
-    CaretDownIcon,
-    LocationPinIcon,
-    LogoIcon,
-    OfferIcon,
-    ProfileIcon,
-    SearchIcon
-} from "@shared/ui/Icons";
 import {
     Button,
-    Dropdown,
+    Checkbox,
+    Col,
+    DatePicker,
+    Form,
     Input,
-    Layout,
-    MenuProps,
-    message
-} from "antd";
-import Link from "next/link";
-import React from "react";
+    Radio,
+    Row,
+    Space,
+    Upload
+} from 'antd';
+import { useState } from 'react';
 
-const { Header, Content, Footer } = Layout;
+import { UploadOutlined } from '@ant-design/icons';
 
-const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    message.info("Click on left button.");
-    console.log("click left button", e);
-};
-
-const handleMenuClick: MenuProps["onClick"] = (e) => {
-    message.info("Click on menu item.");
-    console.log("click", e);
-};
-
-const items: MenuProps["items"] = [
-    {
-        label: "1st menu item",
-        key: "1",
-        icon: <UserOutlined />,
-    },
-    {
-        label: "2nd menu item",
-        key: "2",
-        icon: <UserOutlined />,
-    },
-    {
-        label: "3rd menu item",
-        key: "3",
-        icon: <UserOutlined />,
-        danger: true,
-    },
-    {
-        label: "4rd menu item",
-        key: "4",
-        icon: <UserOutlined />,
-        danger: true,
-        disabled: true,
-    },
-];
-
-const menuProps = {
-    items,
-    onClick: handleMenuClick,
-};
 const FormOne = () => {
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [isValid, setIsValid] = useState(true);
+    /*
+    *Form Submit 
+    **/
+    const handleSubmit = (event: any) => {
+        event.preventDefault();
+
+        // Perform further actions with the selectedFile, such as uploading it to the server
+        if (selectedFile) {
+            // Perform upload logic here
+        } else {
+            alert('Please select a file.');
+        }
+    };
+
+    /*
+   * File Upload
+   **/
+    const handleFileChange = (event: any) => {
+        const file = event.file;
+        const fileSize = file.size / 1024 / 1024; // File size in MB
+        const allowedExtensions = ['.jpg', '.jpeg', '.png', '.pdf'];
+
+        if (
+            !allowedExtensions.some((ext) => file.name.toLowerCase().endsWith(ext))
+        ) {
+            alert('Invalid file type. Please upload a JPG, PNG, or PDF file.');
+            event.file = ''; // Clear the file input
+            setSelectedFile(null);
+        } else if (fileSize > 1) {
+            // Max file size is 10 MB
+            alert('File size exceeds the allowed limit of 10MB.');
+            event.file = '';
+            setSelectedFile(null);
+        } else {
+            setSelectedFile(file);
+        }
+    };
+
+
+    const normFile = (e: any) => {
+        console.log('Upload event:', e);
+        if (Array.isArray(e)) {
+            return e;
+        }
+        return e?.fileList;
+    };
+
+    const onFinishFailed = (errorInfo: any) => {
+        console.log('Failed:', errorInfo);
+    };
+
+
     return (
-
-        <Header
-            className="mx-24 flex-space h-[80px] rounded-xl px-8 py-2 bg-primary"
+        <Form
+            name="basic"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            style={{ maxWidth: 600 }}
+            initialValues={{ remember: true }}
+            onFinish={handleSubmit}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
         >
-            <LogoIcon className="shrink-0" />
+            <Form.Item
+                label="First Name"
+                name="first name"
+                rules={[
+                    { required: true, message: 'Please input your first name!' },
+                    {
+                        max: 10,
+                        message: 'Value should be less than 10 character',
+                    },
+                    {
+                        min: 5,
+                        message: 'Value should be more than 5 character',
+                    },
+                ]}
+            >
+                <Input maxLength={15} />
+            </Form.Item>
+            <Form.Item
+                label="Last Name"
+                name="last"
+                rules={[
+                    { required: true, message: 'Please input your last name!' },
+                    {
+                        max: 10,
+                        message: 'Value should be less than 10 character',
+                    },
+                    {
+                        min: 5,
+                        message: 'Value should be more than 5 character',
+                    },
+                ]}
+            >
+                <Input maxLength={15} />
+            </Form.Item>
+            <Form.Item
+                label="Password"
+                name="Password"
+                rules={[
+                    { required: true, type: 'number' },
+                    {
+                        max: 15,
+                        message: 'Value should be less than 10 character',
+                    },
+                    {
+                        min: 5,
+                        message: 'Value should be more than 5 character',
+                    },
+                ]}
+            >
+                <Input.Password placeholder="input password" maxLength={15} />
+                {/* <Input.Password
+          placeholder="input password"
+          iconRender={(visible) =>
+            visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+          }
+        /> */}
+            </Form.Item>
+            <Form.Item
+                label="Phone number"
+                name="phone"
+                rules={[{ required: true, type: 'number' }]}
+            >
+                <Input />
+            </Form.Item>
+            <Form.Item
+                label="Email Address"
+                name="email"
+                rules={[
+                    {
+                        type: 'email',
+                        required: true,
+                    },
+                ]}
+            >
+                <Input />
+            </Form.Item>
+            <Form.Item
+                label="Date"
+                name="date"
+                rules={[{ required: true, type: 'number' }]}
+            >
+                <Space direction="vertical">
+                    <DatePicker />
+                </Space>
+            </Form.Item>
 
-            <Dropdown menu={menuProps}>
-                <Button
-                    size="large"
-                    style={{
-                        backgroundColor: "#F2F3F8",
-                        border: "0",
-                        borderRadius: "10rem",
-                    }}
-                    className="font-medium px-4 rounded-full flex-cente rounded-lg border-0 "
+            <Form.Item name="radio-group" label="Radio.Group">
+                <Radio.Group>
+                    <Radio value="a">item 1</Radio>
+                    <Radio value="b">item 2</Radio>
+                    <Radio value="c">item 3</Radio>
+                </Radio.Group>
+            </Form.Item>
+            <Form.Item name="checkbox-group" label="Checkbox.Group">
+                <Checkbox.Group>
+                    <Row>
+                        <Col span={8}>
+                            <Checkbox value="A" style={{ lineHeight: '32px' }}>
+                                A
+                            </Checkbox>
+                        </Col>
+                        <Col span={8}>
+                            <Checkbox value="B" style={{ lineHeight: '32px' }} disabled>
+                                B
+                            </Checkbox>
+                        </Col>
+                        <Col span={8}>
+                            <Checkbox value="C" style={{ lineHeight: '32px' }}>
+                                C
+                            </Checkbox>
+                        </Col>
+                        <Col span={8}>
+                            <Checkbox value="D" style={{ lineHeight: '32px' }}>
+                                D
+                            </Checkbox>
+                        </Col>
+                        <Col span={8}>
+                            <Checkbox value="E" style={{ lineHeight: '32px' }}>
+                                E
+                            </Checkbox>
+                        </Col>
+                        <Col span={8}>
+                            <Checkbox value="F" style={{ lineHeight: '32px' }}>
+                                F
+                            </Checkbox>
+                        </Col>
+                    </Row>
+                </Checkbox.Group>
+            </Form.Item>
+            <Form.Item
+                name="upload"
+                label="Upload"
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
+                extra="upload here"
+            >
+                <Upload
+                    name="logo"
+                    action="/upload.do"
+                    listType="picture"
+                    onChange={handleFileChange}
                 >
-                    <LocationPinIcon className="shrink-0" />
-                    Kathmandu
-                    <CaretDownIcon style={{ color: "#434343" }} />
+                    <Button icon={<UploadOutlined />}>Click to upload</Button>
+                </Upload>
+            </Form.Item>
+            <Form.Item name={['user', 'introduction']} label="Introduction">
+                <Input.TextArea />
+            </Form.Item>
+
+
+            <Form.Item
+                name="remember"
+                valuePropName="checked"
+                wrapperCol={{ offset: 8, span: 16 }}
+            >
+                <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <Button type="primary" htmlType="submit">
+                    Submit
                 </Button>
-            </Dropdown>
-            <div className="font-medium flex-center gap-1">
-                <Link href={"#"}>
-                    <Button className="font-medium text-white" type="link">
-                        Home
-                    </Button>
-                </Link>
-                <Button className="font-medium text-white" type="link">
-                    Menu
-                </Button>
-                <Button className="font-medium text-white " type="link">
-                    Nearby Location
-                </Button>
-            </div>
-            <div className="flex-center gap-1">
-                <Input
-                    placeholder="Search"
-                    size="large"
-                    bordered={false}
-                    className="!font-semibold w-40"
-                    prefix={<SearchIcon className="text-xs me-1" />}
-                />
-                <Button type="text">
-                    <span className="font-medium !flex justify-center align-middle gap-2">
-                        <OfferIcon className="text-xs" />{" "}
-                        <span className="text-base font-medium">Offer</span>
-                    </span>
-                </Button>
-                <Button type="text">
-                    <span className="font-medium !flex justify-center align-middle gap-2">
-                        <ProfileIcon /> <span className="text-base">SignIn</span>
-                    </span>
-                </Button>
-                <Button type="text">
-                    <span className="font-medium !flex justify-center align-middle gap-2">
-                        <BucketIcon /> <span className="text-base">Cart</span>
-                    </span>
-                </Button>
-            </div>
-        </Header>
+            </Form.Item>
+            {!isValid && <p>Please enter a valid phone number for Nepal.</p>}
+        </Form>
     );
 };
 

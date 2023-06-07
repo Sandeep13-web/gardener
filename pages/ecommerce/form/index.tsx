@@ -1,4 +1,4 @@
-import FormOne from "@features/ecommerce/form/FormOne";
+import FormTwo from "@features/ecommerce/form/FormTwo";
 import { NextPageWithLayout } from "@pages/_app";
 import MainLayout from "@shared/layouts/main";
 import { Card, List, Typography } from 'antd';
@@ -7,9 +7,13 @@ const { Title } = Typography;
 
 const FormComponent: NextPageWithLayout = () => {
     const data = [
+        // {
+        //     name: 'Form ',
+        //     item: <FormOne />
+        // },
         {
-            name: 'Form ',
-            item: <FormOne />
+            name: 'Form 2',
+            item: <FormTwo />
         },
 
     ]
@@ -17,11 +21,11 @@ const FormComponent: NextPageWithLayout = () => {
 
     return (
         <div>
-            <Title level={2}>Menu Component</Title>
+            <Title level={2}>Form Component</Title>
             <List
                 itemLayout="horizontal"
                 dataSource={data}
-                grid={{ gutter: 16, column: 1 }}
+                grid={{ gutter: 16, column: 2 }}
                 renderItem={(prev) => (
                     <List.Item>
                         <Card
