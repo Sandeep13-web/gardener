@@ -14,8 +14,6 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
-    "@emotion/css": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
     "@faker-js/faker": "^7.6.0",
     "@reduxjs/toolkit": "^1.9.1",
     "@types/node": "18.11.15",
