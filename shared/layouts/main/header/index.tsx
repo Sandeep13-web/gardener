@@ -18,14 +18,13 @@ const MainLayoutHeader: React.FC<Props> = ({ collapsed, setCollapsed }) => {
         if (e) {
             setTheme('dark')
         } else {
-            setTheme('false')
+            setTheme('light')
         }
     }
 
     return (
         <Header
             className={`p-0  dark:bg-[#141414] bg-white`}
-
         >
             <Row
                 className="px-3"

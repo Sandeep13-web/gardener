@@ -7,10 +7,10 @@ import type { AppProps } from 'next/app';
 
 
 import { customTheme } from '@shared/theme';
-import { getCookie, setCookie } from 'cookies-next';
-import { ThemeProvider } from 'next-themes';
+import { ConfigProvider, theme as antdtheme } from 'antd';
+import { ThemeProvider, useTheme } from 'next-themes';
 import NextNProgress from 'nextjs-progressbar';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect } from 'react';
 import { Provider } from 'react-redux';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -24,39 +24,38 @@ export const ThemeContext = createContext<any>(undefined);
 
 function App({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
-  const localTheme = getCookie('isDarkMode');
+  const { theme, setTheme } = useTheme();
 
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    setCookie('isDarkMode', !isDarkMode);
-  };
+  console.log("theme", theme)
 
   useEffect(() => {
-    if (localTheme) {
-      setIsDarkMode(true)
-    } else {
-      setCookie('isDarkMode', false);
-    }
-  }, [localTheme])
+    setTheme('light')
+  }, [])
 
 
   return (
     <ThemeProvider enableSystem={true} attribute="class">
       <Provider store={store}>
-
-        {getLayout(
-          <>
-            <NextNProgress
-              color={customTheme.primaryColor}
-              options={{ showSpinner: false }}
-              showOnShallow
-              height={5}
-            />
-            <Component {...pageProps} />
-          </>
-        )}
+        <ConfigProvider
+          theme={{
+            algorithm: theme === 'dark' ? antdtheme.darkAlgorithm : antdtheme.defaultAlgorithm,
+            token: {
+              colorPrimary: customTheme.primaryColor,
+            },
+          }}
+        >
+          {getLayout(
+            <>
+              <NextNProgress
+                color={customTheme.primaryColor}
+                options={{ showSpinner: false }}
+                showOnShallow
+                height={5}
+              />
+              <Component {...pageProps} />
+            </>
+          )}
+        </ConfigProvider>
       </Provider>
     </ThemeProvider>
   );
