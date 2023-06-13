@@ -1,24 +1,24 @@
-import CardOne from "@features/ecommerce/card/Product";
+import CartComponent from "@features/ecommerce/table/cart";
 import { NextPageWithLayout } from "@pages/_app";
 import MainLayout from "@shared/layouts/main";
 import { Card, List, Typography } from 'antd';
 
 const { Title } = Typography;
 
-const CardComponent: NextPageWithLayout = () => {
+const TableComponent: NextPageWithLayout = () => {
     const data = [
-        {
-            name: 'Products',
-            item: <CardOne />
-        },
 
+        {
+            name: 'Cart',
+            item: <CartComponent />
+        },
 
     ]
 
 
     return (
         <div>
-            <Title level={2}>Card Component</Title>
+            <Title level={2}>Table Component</Title>
             <List
                 itemLayout="horizontal"
                 dataSource={data}
@@ -44,8 +44,8 @@ const CardComponent: NextPageWithLayout = () => {
     )
 }
 
-export default CardComponent;
+export default TableComponent;
 
-CardComponent.getLayout = function getLayout(page: React.ReactElement) {
+TableComponent.getLayout = function getLayout(page: React.ReactElement) {
     return <MainLayout title="Ecommerce">{page}</MainLayout>;
 };

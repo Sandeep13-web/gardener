@@ -15,7 +15,6 @@ const MainLayoutHeader: React.FC<Props> = ({ collapsed, setCollapsed }) => {
 
     const { theme, setTheme } = useTheme();
 
-    console.log("themeasdas", theme)
     const toggleTheme = (e: any) => {
         if (e) {
             setTheme('dark')

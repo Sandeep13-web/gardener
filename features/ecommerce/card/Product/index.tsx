@@ -1,6 +1,8 @@
-import { Card, Col, List, Row, Space } from 'antd';
 import Image from 'next/image';
 // import { addtocart, heart, kfcimage, nonVeg } from 'imageConfig';
+import { ShoppingCartOutlined } from '@ant-design/icons';
+import Button from '@shared/components/button';
+import { Badge, Card, Divider, List, Tag, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
 
@@ -18,6 +20,7 @@ interface IProduct {
     title: string
 }
 
+const { Title } = Typography
 const CardOne = () => {
     const [data, setData] = useState<Array<IProduct>>([]);
 
@@ -32,7 +35,6 @@ const CardOne = () => {
             console.error('Error fetching data:', error);
         }
     }
-    console.log("data", data);
     useEffect(() => {
         fetchProduct();
     }, []);
@@ -41,107 +43,59 @@ const CardOne = () => {
         <>
             <List
                 grid={{
-                    gutter: 16,
+                    gutter: 60,
                     xs: 1,
                     sm: 2,
-                    md: 4,
-                    lg: 4,
-                    xl: 6,
-                    xxl: 3,
+                    md: 3,
+                    lg: 3,
+                    xl: 4,
+                    xxl: 4,
                 }}
+                pagination={{ position: 'bottom', align: 'end', defaultPageSize: 4 }}
                 dataSource={data}
                 renderItem={(item, index) => (
                     <List.Item>
-                        <Card
-                            key={`product-${index}`}
-                            title={item?.title}
-                            cover={
-                                <Image
-                                    className='h-3'
-                                    src={item?.thumbnail}
-                                    alt={'product-image'}
-                                    height={100}
-                                    width={100}
+                        <Badge.Ribbon text={`${item?.discountPercentage} %`} color='green'>
+                            <Card
+
+                                hoverable
+                                key={`product-${index}`}
+                                title={item?.title}
+                                cover={
+                                    <Image
+                                        src={item?.thumbnail}
+                                        alt={'product-image'}
+                                        height={250}
+                                        width={250}
+                                        className='border-radius-0'
+                                    />
+                                }
+                            >
+                                <Tag color="magenta">{item?.category}</Tag>
+                                <Divider orientation="left"></Divider>
+                                <Card.Meta
+                                    title={item.title}
+                                    description={
+                                        <Typography.Paragraph ellipsis={{ rows: 2, expandable: true, symbol: 'more' }} >
+                                            {item?.description}
+                                        </Typography.Paragraph>
+                                    }
                                 />
-                            }
-                        >Card content</Card>
+                                <div className='flex items-center mt-3'>
+                                    <Title level={5} className='!m-0'>
+                                        Rs {item.price}
+                                    </Title>
+                                    <div className="ms-auto">
+                                        <Button text='Add to cart' icon={<ShoppingCartOutlined />} size='middle' />
+                                    </div>
+
+                                </div>
+                            </Card>
+                        </Badge.Ribbon>
                     </List.Item >
                 )}
             />
-            <>
-                <div>
-                    <Row gutter={16}>
-                        <Space direction="vertical" size={16}>
-                            {data !== null ? (
-                                <ul>
-                                    {data?.map((item: any, index) => (
-                                        <Card style={{ width: 300 }} key={`cards-${index}`}>
-                                            <div className="card-top" style={{ height: '282px' }}>
-                                                {/* <div style={{ position: 'relative' }}>
-                                            <Image src={kfcimage} alt="Example" />
-                                        </div>
 
-                                        <div style={{ position: 'absolute', left: 20, top: 20 }}>
-                                            <Image src={nonVeg} alt="" />
-                                        </div>
-                                        <div style={{ position: 'absolute', right: 20, top: 20 }}>
-                                            <Image src={heart} alt="" />
-                                        </div> */}
-                                                <div
-                                                    style={{
-                                                        position: 'absolute',
-                                                        top: '260px',
-                                                        color: '#FF8910',
-                                                        background: 'rgb(255, 137, 16, 0.2)',
-                                                        opacity: 0.6,
-                                                        borderRadius: '10px',
-                                                        padding: '4px 8px',
-                                                    }}
-                                                >
-                                                    25% off on deals
-                                                </div>
-                                            </div>
-
-                                            <div
-                                                style={{ borderTop: '1px solid black' }}
-                                            >
-                                                <h3>{item.title}</h3>
-                                                <p>{item.description}</p>
-                                                <div>
-                                                    <Row style={{ alignItems: 'center' }}>
-                                                        <Col span={12}>
-                                                            <span style={{ fontWeight: '700', color: '#32373D' }}>
-                                                                Rs {item.price}
-                                                            </span>
-                                                        </Col>
-                                                        <Col span={12}>
-                                                            <button
-                                                                style={{
-                                                                    float: 'right',
-                                                                    borderRadius: '12px',
-                                                                    background: '#E5002B',
-                                                                    color: '#fff',
-                                                                    border: 'none',
-                                                                    padding: '10px',
-                                                                }}
-                                                            >
-                                                                Add To Cart
-                                                                {/* <Image src={addtocart} />Add To Cart */}
-                                                            </button>
-                                                        </Col>
-                                                    </Row>
-                                                </div>
-                                            </div>
-                                        </Card>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p>Loading...</p>
-                            )}
-                        </Space>
-                    </Row>
-                </div>
-            </>
         </>
     );
 }

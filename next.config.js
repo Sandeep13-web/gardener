@@ -36,7 +36,7 @@ const nextConfig = {
     ];
   },
   images: {
-    domains: ['https://i.dummyjson.com'],
+    domains: ['i.dummyjson.com'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [10, 12, 14, 16, 18, 20, 22, 24],
   },
