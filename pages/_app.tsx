@@ -1,6 +1,6 @@
 
 import { store } from '@store/index';
-import '@styles/globals.css';
+import '@styles/style.scss';
 import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 

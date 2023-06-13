@@ -43,6 +43,10 @@ const Ecommerce: NextPageWithLayout = () => {
                     title: 'signup',
                     designedBy: 'saman',
                 },
+                {
+                    title: 'cart',
+                    designedBy: 'saman',
+                },
 
             ]
         }

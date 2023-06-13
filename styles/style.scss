@@ -1,6 +1,7 @@
 @tailwind base;
-@tailwind components;
+
 @tailwind utilities;
+@import './component/button.scss';
 
 body {
   margin: 0;

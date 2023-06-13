@@ -1,4 +1,5 @@
 import CardOne from "@features/ecommerce/card/Product";
+import CartComponent from "@features/ecommerce/card/cart";
 import { NextPageWithLayout } from "@pages/_app";
 import MainLayout from "@shared/layouts/main";
 import { Card, List, Typography } from 'antd';
@@ -10,6 +11,10 @@ const CardComponent: NextPageWithLayout = () => {
         {
             name: 'Card 1',
             item: <CardOne />
+        },
+        {
+            name: 'Cart',
+            item: <CartComponent />
         },
 
     ]

@@ -1,0 +1,81 @@
+@tailwind components;
+
+.ant-btn {
+  @apply font-semibold rounded-xl shadow-none  capitalize;
+
+  &-primary {
+    @apply bg-primary  focus:bg-primary opacity-100  border-primary focus:border-primary;
+    &:not(:disabled) {
+      @apply hover:bg-primary hover:opacity-90 hover:border-primary text-white;
+    }
+    &[disabled] {
+      @apply bg-grey1 text-white border border-grey1;
+    }
+  }
+
+  &-default {
+    @apply bg-white  focus:bg-white opacity-100 border border-primary  focus:border-primary text-primary  focus:text-primary;
+
+    &[disabled] {
+      @apply hover:opacity-90 hover:bg-white text-grey1 border border-grey1 hover:border-primary hover:text-primary;
+    }
+  }
+
+  &-secondary {
+    @apply bg-secondary  focus:bg-secondary opacity-100  border border-secondary  focus:border-secondary text-white;
+    &:not(:disabled) {
+      @apply hover:bg-secondary hover:opacity-90 hover:border-secondary hover:text-white;
+    }
+    &[disabled] {
+      @apply bg-white text-grey1 border border-grey1;
+    }
+  }
+
+  &-danger {
+    @apply focus:border-danger text-danger  focus:text-danger;
+    &:not(:disabled) {
+      @apply hover:bg-white hover:opacity-90 hover:border-danger hover:text-danger;
+    }
+    &[disabled] {
+      @apply bg-white text-grey1 border border-grey1;
+    }
+  }
+
+  &-success {
+    @apply bg-success  focus:bg-success opacity-100 border border-success  focus:border-success text-white focus:text-white;
+    &:not(:disabled) {
+      @apply hover:bg-success hover:opacity-90 hover:border-success hover:text-white;
+    }
+    &[disabled] {
+      @apply bg-white text-grey1 border border-grey1;
+    }
+  }
+
+  &-warning {
+    @apply bg-warning  focus:bg-warning opacity-100 border border-warning  focus:border-warning text-white focus:text-white;
+
+    &:not(:disabled) {
+      @apply hover:bg-warning hover:opacity-90 hover:border-warning hover:text-white;
+    }
+    &[disabled] {
+      @apply bg-white text-grey1 border border-grey1;
+    }
+  }
+  &-link {
+    @apply text-primary;
+    &:not(:disabled) {
+      @apply hover:opacity-80 hover:text-primary;
+    }
+  }
+
+  &.ant-btn-background-ghost {
+    @apply bg-grey1 border-grey1 focus:border-grey1  focus:bg-grey1 text-white  opacity-100  focus:text-white;
+
+    &:not(:disabled) {
+      @apply hover:bg-grey1 hover:opacity-90   hover:border-grey1 hover:text-white;
+    }
+    &[disabled] {
+      @apply bg-white text-grey1 border border-grey1;
+    }
+  }
+}
