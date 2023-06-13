@@ -13,7 +13,9 @@ interface Props {
 
 const MainLayoutHeader: React.FC<Props> = ({ collapsed, setCollapsed }) => {
 
-    const { theme, setTheme } = useTheme()
+    const { theme, setTheme } = useTheme();
+
+    console.log("themeasdas", theme)
     const toggleTheme = (e: any) => {
         if (e) {
             setTheme('dark')
@@ -24,7 +26,7 @@ const MainLayoutHeader: React.FC<Props> = ({ collapsed, setCollapsed }) => {
 
     return (
         <Header
-            className={`p-0  dark:bg-[#141414] bg-white`}
+            className={`p-0  dark:bg-dark bg-white`}
         >
             <Row
                 className="px-3"
