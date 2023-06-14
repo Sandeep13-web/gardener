@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
 
-export type Props = {
+export type ButtonProps = {
   type?:
     | 'neutral'
     | 'primary'

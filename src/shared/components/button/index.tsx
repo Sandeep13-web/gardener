@@ -1,10 +1,10 @@
 import React from "react";
-import { Props } from "./button.props";
+import { ButtonProps } from "./button.props";
 
-const Button: React.FC<Props> = ({
+const Button: React.FC<ButtonProps> = ({
   htmlType = "button",
   children,
-  type,
+  type = "primary",
   disabled = false,
   className,
   onClick,
@@ -19,7 +19,7 @@ const Button: React.FC<Props> = ({
       onClick={onClick}
       type={htmlType}
       disabled={disabled}
-      className={`btn btn-${size} btn-${type} ${className} ${
+      className={`btn btn-${size} btn-${type} ${className ? className : ""} ${
         outline ? "btn-outline" : ""
       }`}
     >

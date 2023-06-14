@@ -3,7 +3,7 @@ import { NextPageWithLayout } from "./_app";
 import MainLayout from "@/shared/main-layout";
 
 const Home: NextPageWithLayout = () => {
-  return <div className="text-9xl font-bold">Home</div>;
+  return <div className="text-9xl font-bold min-h-[300vh]">Home</div>;
 };
 
 export default Home;
