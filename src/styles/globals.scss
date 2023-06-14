@@ -4,7 +4,8 @@
 
 //
 @import "./abstract/utils";
-@import "./components/header";
+@import "./components/header",
+        "./components/card";
 @layer components {
   .input {
     @apply shadow-none;

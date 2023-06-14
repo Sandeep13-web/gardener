@@ -1,0 +1,29 @@
+@layer components{
+    .plant-card{
+        @apply relative bg-white border border-[#ebebeb] rounded rounded-[5px] overflow-hidden mb-[30px] transition-all delay-150 duration-300 mb-0;
+        &:hover{
+            @apply border-[#07a04b];
+        }
+        &-title{
+            @apply text-[#253237] font-bold leading-[18px] text-sm capitalize transition-all ease-in-out delay-150 duration-300 cursor-pointer block w-max;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            &:hover{
+                @apply text-[#07a04b]
+            }
+        }
+    }
+
+    .category-card{
+        @apply overflow-hidden;
+        &:hover{
+            img{
+                transform: scale(1.05)
+            }
+        }
+        &-title{
+            @apply text-[#253237] font-bold leading-[18px] text-sm capitalize transition-all ease-in-out delay-150 duration-300 cursor-pointer block w-max;
+        }
+    }
+}
