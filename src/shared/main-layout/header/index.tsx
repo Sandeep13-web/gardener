@@ -1,3 +1,4 @@
+import Button from "@/shared/components/button";
 import { Logo } from "@/shared/lib/image-config";
 import Image from "next/image";
 import React from "react";
@@ -93,27 +94,32 @@ const Header = () => {
             </button>
           </div>
           {/* Why Plant Button */}
-          <button className="btn btn-primary btn-outline rounded-md">
+          <Button type="primary" outline>
             Why Plant
-          </button>
+          </Button>
           {/* Heart Button */}
-          <button className="btn btn-circle relative">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              fill="#555555"
-              viewBox="0 0 16 14"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
-              />
-            </svg>
+          <Button
+            type="circle"
+            className="relative"
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="#555555"
+                viewBox="0 0 16 14"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                />
+              </svg>
+            }
+          >
             <div className="badge badge-accent absolute p-[5px] -top-2 -right-2 text-white">
               0
             </div>
-          </button>
+          </Button>
           {/* Cart Button */}
           <button className="btn btn-circle relative">
             <svg
@@ -131,8 +137,10 @@ const Header = () => {
           </button>
           {/* Total Price */}
           <div>
-            <p className="text-[#555555] text-sm">TOTAL PRICE</p>
-            <p className="text-[#222222] text-sm">Rs. 1500</p>
+            <p className="text-[#555555] text-sm font-medium mb-1">
+              TOTAL PRICE
+            </p>
+            <p className="text-[#222222] text-sm font-semibold">Rs. 1500</p>
           </div>
         </div>
       </div>
