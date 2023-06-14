@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+//
+@import "./abstract/utils";
+@import "./components/header";
+@layer components {
+  .input {
+    @apply shadow-none;
+    @apply outline-none;
+    @apply h-full;
+  }
+}
+
+// * {
+//   outline: red;
+//   outline-style: dashed;
+//   outline-width: 1px;
+// }
