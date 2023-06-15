@@ -14,7 +14,7 @@ const Home: NextPageWithLayout = () => {
 
       <div className="border border-[#f58220] rounded rounded-xs px-[20px]">
         <div className="grid grid-cols-1 sm-grid-cols-2 md:grid-cols-3 ">
-          <div className="flex items-start px-[20px] py-[35px] relative gap-0">
+          <div className="flex items-start px-[20px] py-[20px] md:py-[35px] relative gap-0">
             <Image src={DeliveryImg} alt="Static Image" width={50} height={50} className="w-[45px] mr-[10px]" />
             <Title
               type="title-section"
@@ -22,9 +22,10 @@ const Home: NextPageWithLayout = () => {
               text="Delivery Service"
               subTitle="Get plants delivered to your doorstep without hassle!"
               subClassName="leading-[20px] text-[#666] text-[13px]"
+              mb="0"
             />
           </div>
-          <div className="flex items-start px-[5px] py-[35px] relative gap-0">
+          <div className="flex items-start  px-[20px] py-[20px] md:py-[35px] relative gap-0">
             <Image src={LockImg} alt="Static Image" width={50} height={50} className="w-[45px] mr-[10px]" />
             <Title
               type="title-section"
@@ -32,9 +33,10 @@ const Home: NextPageWithLayout = () => {
               text="100% Payment Secure"
               subTitle="Your payment are safe with us"
               subClassName="leading-[20px] text-[#666] text-[13px]"
+              mb="0"
             />
           </div>
-          <div className="flex items-start px-[5px] py-[35px] relative gap-0">
+          <div className="flex items-start  px-[20px] py-[20px] md:py-[35px] relative gap-0">
             <Image src={CallImg} alt="Static Image" width={50} height={50} className="w-[45px] mr-[10px]" />
             <Title
               type="title-section"
@@ -42,6 +44,7 @@ const Home: NextPageWithLayout = () => {
               text="Support 10 Am - 6 Pm"
               subTitle="We are available all week from 10 Am to 6 Pm"
               subClassName="leading-[20px] text-[#666] text-[13px]"
+              mb="0"
             />
           </div>
         </div>

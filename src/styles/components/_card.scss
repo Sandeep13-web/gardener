@@ -18,15 +18,7 @@
                 }
             }
         }
-        &:hover{
-            @apply border-[#07a04b];
-            .plant-card_preview-icon{
-                a{
-                    @apply opacity-100;
-                    transform: scaleX(1);
-                }
-            }
-        }
+        
         &-title{
             @apply text-[#253237] font-bold leading-[18px] text-sm capitalize transition-all ease-in-out delay-150 duration-300 cursor-pointer block w-max;
             white-space: nowrap;
@@ -36,7 +28,28 @@
                 @apply text-[#07a04b]
             }
         }
-        
+        &_cartBtn{
+            @apply absolute left-[15px] right-[15px] bottom-[15px] bg-white;
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(25px) translateZ(0);
+            -webkit-transform: translateY(25px) translateZ(0);
+            transition: opacity .3s ease,visibility .3s ease,transform .3s ease;
+        }
+        &:hover{
+            @apply border-[#07a04b];
+            .plant-card_preview-icon{
+                a{
+                    @apply opacity-100;
+                    transform: scaleX(1);
+                }
+            }
+            .plant-card_cartBtn{
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0) translateZ(0);
+            }
+        }
     }
 
     .category-card{

@@ -3,5 +3,6 @@ export type Props = {
     text: string,
     className?:string,
     subTitle?:string,
-    subClassName? :string
+    subClassName? :string,
+    mb?: string
 }

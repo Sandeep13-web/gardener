@@ -1,7 +1,7 @@
 import React from 'react'
 import { Props } from './title.props'
 
-const Title: React.FC<Props> = ({ type, text, className, subTitle , subClassName }) => {
+const Title: React.FC<Props> = ({ type, text, className, subTitle , subClassName , mb }) => {
 
     const getType = () => {
         if (type === 'title-content')
@@ -35,7 +35,7 @@ const Title: React.FC<Props> = ({ type, text, className, subTitle , subClassName
         );
     };
     return (
-        <div className={`flex justify-between items-center ${type == 'title-section' ? 'mb-[30px]' : ''}`}>
+        <div className={`flex justify-between items-center ${type == 'title-section' && !mb ? 'mb-[30px]' : ''}`}>
             {
                 getType()
             }
