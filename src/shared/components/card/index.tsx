@@ -2,6 +2,7 @@ import React from 'react'
 import { Props } from './card.props'
 import Image from 'next/image'
 import Link from 'next/link'
+import SearchIcon from '@/shared/icons/common/SearchIcon'
 
 const Card: React.FC<Props> = ({ type, title, price, image, link }) => {
     return (
@@ -10,6 +11,11 @@ const Card: React.FC<Props> = ({ type, title, price, image, link }) => {
             <figure>
                 <Image src={image} alt="Plant" className='w-full h-auto' width={100} height={100}/>
             </figure>
+            <div className='plant-card_preview-icon'>
+                <Link href={link} className='flex items-center justify-center'>
+                    <SearchIcon className='max-w-[15px] h-auto' />
+                </Link>
+            </div>
             <div className="card-body px-[15px] py-[20px] gap-[10px]">
                 <p className='text-xs text-[#999] uppercase'>{type}</p>
                 <h2 className="card-title plant-card-title">{title}</h2>

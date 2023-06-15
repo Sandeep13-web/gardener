@@ -1,7 +1,7 @@
 import React from 'react'
 import { Props } from './title.props'
 
-const Title: React.FC<Props> = ({ type, text, className, subTitle }) => {
+const Title: React.FC<Props> = ({ type, text, className, subTitle , subClassName }) => {
 
     const getType = () => {
         if (type === 'title-content')
@@ -18,7 +18,7 @@ const Title: React.FC<Props> = ({ type, text, className, subTitle }) => {
                     </h3>
                     {
                         subTitle &&
-                        <p className={className ? `${className}` : 'text-[#888] text-sm leading-[18px] mt-[10px]'}>
+                        <p className={subClassName ? `${subClassName}` : 'text-[#888] text-sm leading-[18px] mt-[10px]'}>
                             {subTitle}
                         </p>
                     }

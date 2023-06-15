@@ -1,8 +1,31 @@
 @layer components{
     .plant-card{
         @apply relative bg-white border border-[#ebebeb] rounded rounded-[5px] overflow-hidden mb-[30px] transition-all delay-150 duration-300 mb-0;
+        &_preview-icon{
+            @apply absolute top-[50%] transform translate-y-[-50%] left-0 right-0 text-center z-[1] h-[46px];
+            a{
+                @apply inline-flex bg-white  h-[46px] w-[46px] rounded rounded-full text-center opacity-0 transform;
+                transform: scale3d(0,0,0);
+                transition: all .3s linear;
+                svg path{
+                    fill: #253237;
+                }
+                &:hover{
+                    @apply bg-[#07a04b];
+                    svg path{
+                        fill: #fff;
+                    }
+                }
+            }
+        }
         &:hover{
             @apply border-[#07a04b];
+            .plant-card_preview-icon{
+                a{
+                    @apply opacity-100;
+                    transform: scaleX(1);
+                }
+            }
         }
         &-title{
             @apply text-[#253237] font-bold leading-[18px] text-sm capitalize transition-all ease-in-out delay-150 duration-300 cursor-pointer block w-max;
@@ -13,6 +36,7 @@
                 @apply text-[#07a04b]
             }
         }
+        
     }
 
     .category-card{
