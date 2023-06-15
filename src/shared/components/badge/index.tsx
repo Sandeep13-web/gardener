@@ -2,13 +2,10 @@ import React from "react";
 import { BadgeProps } from "./badge.props";
 
 const Badge: React.FC<BadgeProps> = ({
-  type = "accent",
   badgePosition = "top-right",
-  size = "md",
   children,
-  textColor = "white",
-  position = "absolute",
   className,
+  position = "absolute",
 }) => {
   const basePosition =
     {
@@ -23,9 +20,7 @@ const Badge: React.FC<BadgeProps> = ({
   // 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left' ;
   return (
     <div
-      className={`badge ${
-        type ? `badge-${type}` : "badge-accent"
-      } badge-${size} p-[5px] text-${textColor} ${position} ${basePosition}
+      className={`badge text-white p-[5px] ${position} ${basePosition}
       ${className ? className : ""}`}
     >
       {children}

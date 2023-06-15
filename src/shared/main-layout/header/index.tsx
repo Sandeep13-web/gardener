@@ -2,21 +2,25 @@ import Badge from "@/shared/components/badge";
 import Button from "@/shared/components/button";
 import Dropdown from "@/shared/components/dropdown";
 import { Logo } from "@/shared/lib/image-config";
-import FlowerIcon from "@/shared/ui/icons/common/FlowerIcon";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useScroll } from "framer-motion";
+import FlowerIcon from "@/shared/icons/common/FlowerIcon";
+import SearchIcon from "@/shared/icons/common/SearchIcon";
+import CartIcon from "@/shared/icons/common/CartIcon";
+import CaretDownIcon from "@/shared/icons/common/CaretDownIcon";
+import BarsIcon from "@/shared/icons/common/BarsIcon";
 
 const Header = () => {
   return (
     <>
       <header>
         {/* location header */}
-        <div className="bg-primary">
+        <div className="relative z-10 bg-primary">
           <div className="container mx-auto">
             <div className="navbar bg-primary min-h-[48px] text-[12px]">
               <div className="flex-1">
-                <p className="text-slate-50">Welcome to IamtheGardener!</p>
+                <p className="text-slate-50">Welcome to I am the Gardener !</p>
                 <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0"></div>
                 <div className="dropdown">
                   <label
@@ -27,7 +31,7 @@ const Header = () => {
                   </label>
                   <ul
                     tabIndex={0}
-                    className="p-2 shadow menu dropdown-content bg-base-100 rounded-sm w-52 mt-3"
+                    className="p-2 mt-3 rounded-sm shadow menu dropdown-content bg-base-100 w-52"
                   >
                     <li>
                       <a>Item 1</a>
@@ -52,7 +56,7 @@ const Header = () => {
         </div>
         {/* search header */}
         <div className="p-2 border-b-[1px] border-[#6071C60F]">
-          <div className="container flex items-center justify-between">
+          <div className="container flex items-center justify-between gap-3">
             {/* Logo */}
             <Image
               src={Logo}
@@ -70,68 +74,35 @@ const Header = () => {
               />
               <div className="divider divider-horizontal before:bg-[#E4E4E4] before:w-[1px] after:w-[1px] after:bg-[#E4E4E4] m-0 my-2"></div>
               <Dropdown data={["a", "b"]}>All Categories</Dropdown>
-              <Button type="primary" className="rounded-r-md rounded-l-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  fill="#ffffff"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />{" "}
-                </svg>
-              </Button>
+              <button className="rounded-l-none btn btn-primary rounded-r-md">
+                <SearchIcon />
+              </button>
             </div>
             {/* Why Plant Button */}
-            <Button type="primary" outline icon={<FlowerIcon />}>
-              Why Plant
-            </Button>
+            <button className="btn btn-primary btn-outline">
+              <FlowerIcon /> <p className="hidden lg:block">Why Plant</p>
+            </button>
             {/* Heart Button */}
-            <Button
-              type="circle"
-              className="relative"
-              icon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="#555555"
-                  viewBox="0 0 16 14"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
-                  />
-                </svg>
-              }
-            >
-              <Badge type="primary" badgePosition="top-right">
+            <button className="relative btn btn-circle">
+              <FlowerIcon />
+              <Badge
+                className="badge-accent "
+                type="primary"
+                badgePosition="top-right"
+              >
                 0
               </Badge>
-            </Button>
+            </button>
             {/* Cart Button */}
-            <Button
-              type="circle"
-              className="relative"
-              icon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="#555555"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383L5.93 1.757zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1z" />{" "}
-                </svg>
-              }
-            >
-              <Badge type="accent" badgePosition="top-right">
+            <button className="relative btn btn-circle">
+              <FlowerIcon />
+              <Badge className="badge-accent" badgePosition="top-right">
                 0
               </Badge>
-            </Button>
+            </button>
             {/* Total Price */}
             <div>
-              <p className="text-[#555555] text-sm font-medium mb-1">
+              <p className="text-[#555555] text-sm font-medium mb-1 whitespace-nowrap">
                 TOTAL PRICE
               </p>
               <p className="text-[#222222] text-sm font-semibold">Rs. 1500</p>
@@ -140,15 +111,40 @@ const Header = () => {
         </div>
         {/* Category header */}
       </header>
-      <div className={`border-b-[1px] sticky top-0 z-50 bg-white p-4`}>
-        <div className="container">
+      <div className="drawer">
+        <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+        <div className="drawer-content">
+          {/* Page content here */}
+          <label htmlFor="my-drawer" className="btn btn-primary drawer-button">
+            Open drawer
+          </label>
+        </div>
+        <div className="drawer-side">
+          <label htmlFor="my-drawer" className="drawer-overlay"></label>
+          <ul className="h-full p-4 menu w-80 bg-base-200 text-base-content">
+            {/* Sidebar content here */}
+            <li>
+              <a>Sidebar Item 1</a>
+            </li>
+            <li>
+              <a>Sidebar Item 2</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className={`border-b-[1px] sticky top-0 z-50 bg-white`}>
+        <div className="container flex items-center justify-between">
           <div className="dropdown">
-            <label tabIndex={0} className="btn btn-primary m-1 text-white">
-              All Categories
+            <label
+              tabIndex={0}
+              className="btn btn-primary rounded-sm text-white capitalize flex justify-between flex-nowrap whitespace-nowrap min-w-[15rem]"
+            >
+              <BarsIcon />
+              All Categories <CaretDownIcon />
             </label>
             <ul
               tabIndex={0}
-              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+              className="w-full p-2 shadow dropdown-content menu bg-base-100"
             >
               <li>
                 <a>Item 1</a>
@@ -158,9 +154,42 @@ const Header = () => {
               </li>
             </ul>
           </div>
-          <Button type="ghost" className="!bg-white border-0">
-            Home
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              type="ghost"
+              className="!bg-white border-0 text-text font-bold"
+            >
+              Home
+            </Button>
+            <Dropdown
+              data={["a", "b"]}
+              toggleClassName="!font-bold btn-ghost text-text"
+            >
+              OUR SERVICE
+            </Dropdown>
+            <Button
+              type="ghost"
+              className="!bg-white border-0 text-text font-bold"
+            >
+              OUTLET
+            </Button>
+            <Dropdown
+              data={["a", "b"]}
+              toggleClassName="!font-bold btn-ghost text-text"
+            >
+              ABOUT US
+            </Dropdown>
+            <Button
+              type="ghost"
+              className="!bg-white border-0 text-text font-bold"
+            >
+              BLOGS
+            </Button>
+          </div>
+          <button className="btn btn-ghost !bg-white !border-0 text-text font-bold">
+            <FlowerIcon className="text-2xl text-accent" />
+            Offer
+          </button>
         </div>
       </div>
     </>

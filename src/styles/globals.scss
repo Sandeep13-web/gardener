@@ -8,9 +8,16 @@
         "./components/card";
 @layer components {
   .input {
-    @apply shadow-none;
-    @apply outline-none;
-    @apply h-full;
+    @apply shadow-none outline-none h-full;
+  }
+  .btn-ghost {
+    @apply hover:bg-white hover:text-primary;
+  }
+  .container {
+    @apply max-w-screen-xl;
+  }
+  .flex {
+    @apply gap-1;
   }
 }
 
