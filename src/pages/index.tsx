@@ -6,10 +6,12 @@ import Title from "@/shared/components/title";
 import CategoryCard from "@/shared/components/category-card";
 import { CardImg, CategoryImg, DeliveryImg, LockImg, CallImg } from "@/shared/lib/image-config";
 import Image from "next/image";
+import Banner from "@/shared/components/banner";
 
 const Home: NextPageWithLayout = () => {
   return (
     <div className="container">
+      <Banner />
       <Title type="title-content" text="Home" />
 
       <div className="border border-[#f58220] rounded rounded-xs px-[20px]">
@@ -84,9 +86,8 @@ const Home: NextPageWithLayout = () => {
         </div>
       </section>
     </div>
-  );
-};
-
+  )
+}
 export default Home;
 Home.getLayout = (page) => {
   return <MainLayout>{page}</MainLayout>;

@@ -54,17 +54,14 @@ const Header = () => {
             </div>
           </div>
         </div>
-        {/* search header */}
-        <div className="p-2 border-b-[1px] border-[#6071C60F]">
-          <div className="container flex items-center justify-between gap-3">
-            {/* Logo */}
-            <Image
-              src={Logo}
-              width={150}
-              height={81}
-              quality={100}
-              alt="Logo"
-            />
+      </header>
+
+      {/* search header */}
+      <div className="p-2 border-b-[1px] border-[#6071C60F] bg-white sticky md:relative top-0 md:z-10 z-40">
+        <div className="container flex items-center justify-between w-full gap-3">
+          {/* Logo */}
+          <Image src={Logo} width={150} height={81} quality={100} alt="Logo" />
+          <div className="items-center justify-between flex-grow hidden md:flex ms-auto">
             {/* Search */}
             <div className="border-[1px] border-[#E4E4E4] rounded-md h-[48px] !outline-offset-0 flex items-center justify-between gap-1">
               <input
@@ -74,7 +71,7 @@ const Header = () => {
               />
               <div className="divider divider-horizontal before:bg-[#E4E4E4] before:w-[1px] after:w-[1px] after:bg-[#E4E4E4] m-0 my-2"></div>
               <Dropdown data={["a", "b"]}>All Categories</Dropdown>
-              <button className="rounded-l-none btn btn-primary rounded-r-md">
+              <button className="py-3 rounded-l-none btn btn-primary rounded-r-md">
                 <SearchIcon />
               </button>
             </div>
@@ -94,50 +91,119 @@ const Header = () => {
               </Badge>
             </button>
             {/* Cart Button */}
+          </div>
+          <div className="flex items-center gap-3">
+            {/* Cart */}
             <button className="relative btn btn-circle">
               <FlowerIcon />
               <Badge className="badge-accent" badgePosition="top-right">
                 0
               </Badge>
             </button>
+
             {/* Total Price */}
             <div>
-              <p className="text-[#555555] text-sm font-medium mb-1 whitespace-nowrap">
+              <p className="text-[#555555] text-sm font-medium mb-1 whitespace-nowrap hidden md:block">
                 TOTAL PRICE
               </p>
-              <p className="text-[#222222] text-sm font-semibold">Rs. 1500</p>
+              <p className="text-[#222222] text-sm font-semibold whitespace-nowrap">
+                NRP 1500
+              </p>
+            </div>
+            {/* md: Drawer */}
+            <div className="z-50 flex max-w-[8rem] drawer md:hidden">
+              <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+              <div className="drawer-content">
+                {/* Page content here */}
+                <label
+                  htmlFor="my-drawer"
+                  className="btn btn-ghost drawer-button"
+                >
+                  <BarsIcon />
+                </label>
+              </div>
+              <div className="drawer-side">
+                <label htmlFor="my-drawer" className="drawer-overlay"></label>
+                <ul className="h-full p-4 bg-white menu w-80 text-base-content">
+                  {/* Sidebar content here */}
+                  <li>
+                    <a className="mb-3 text-white rounded-md bg-primary">
+                      Location: Durbarmarg
+                    </a>
+                  </li>
+                  <li>
+                    <div className="p-0 border rounded-box !bg-white mb-3">
+                      <input className="w-[14rem] py-0 m-0 !bg-transparent input" />
+                      <button className="p-2 px-4 btn btn-primary btn-sm rounded-box">
+                        <SearchIcon className="max-h-[1rem] max-w-[1rem]" />
+                      </button>
+                    </div>
+                  </li>
+
+                  <li className="border-b-[1px] border-primary ">
+                    <p>Home</p>
+                  </li>
+                  <li className="border-b-[1px] border-primary">
+                    <div
+                      tabIndex={0}
+                      className="max-w-[18rem] w-full p-2 px-3 pn-0 collapse collapse-plus "
+                    >
+                      <input type="checkbox" className="min-h-6 peer" />
+                      <div className="font-medium collapse-title p-1 py-0 min-h-0 w-[17.5rem] flex items-center after:text-xl after:!-top-1">
+                        <p>Out Services</p>
+                      </div>
+                      <div className="p-1 max-w-[17.5rem] min-w-0 collapse-content">
+                        <p className="whitespace-normal  max-w-[17rem]">
+                          tabIndex={0} attribute is necessary to make the div
+                          focusable
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                  <li className="border-b-[1px] border-primary ">
+                    <p>Our Outlets</p>
+                  </li>
+                  <li className="border-b-[1px] border-primary">
+                    <div
+                      tabIndex={0}
+                      className="max-w-[18rem] w-full p-2 px-3 pn-0 collapse collapse-plus "
+                    >
+                      <input type="checkbox" className="min-h-6 peer" />
+                      <div className="font-medium collapse-title p-1 py-0 min-h-0 w-[17.5rem] flex items-center after:text-xl after:!-top-1">
+                        <p>About Us</p>
+                      </div>
+                      <div className="p-1 max-w-[17.5rem] min-w-0 collapse-content">
+                        <p className="whitespace-normal  max-w-[17rem]">
+                          tabIndex={0} attribute is necessary to make the div
+                          focusable
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                  <li className="border-b-[1px] border-primary ">
+                    <p>Blog</p>
+                  </li>
+                  <li>
+                    Our Services
+                    <button className="block btn btn-ghost text-start">
+                      Why Plants
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-        {/* Category header */}
-      </header>
-      <div className="drawer">
-        <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content">
-          {/* Page content here */}
-          <label htmlFor="my-drawer" className="btn btn-primary drawer-button">
-            Open drawer
-          </label>
-        </div>
-        <div className="drawer-side">
-          <label htmlFor="my-drawer" className="drawer-overlay"></label>
-          <ul className="h-full p-4 menu w-80 bg-base-200 text-base-content">
-            {/* Sidebar content here */}
-            <li>
-              <a>Sidebar Item 1</a>
-            </li>
-            <li>
-              <a>Sidebar Item 2</a>
-            </li>
-          </ul>
-        </div>
       </div>
-      <div className={`border-b-[1px] sticky top-0 z-50 bg-white`}>
+      {/* Category header */}
+      <div
+        className={`border-b-[1px] relative md:sticky top-0 md:z-40 z-10 bg-white `}
+      >
         <div className="container flex items-center justify-between">
-          <div className="dropdown">
+          <div className="dropdown  md:min-w-[15rem] min-w-full">
             <label
               tabIndex={0}
-              className="btn btn-primary rounded-sm text-white capitalize flex justify-between flex-nowrap whitespace-nowrap min-w-[15rem]"
+              className="btn btn-primary rounded-sm text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full"
             >
               <BarsIcon />
               All Categories <CaretDownIcon />
@@ -154,7 +220,7 @@ const Header = () => {
               </li>
             </ul>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="items-center hidden gap-2 md:flex">
             <Button
               type="ghost"
               className="!bg-white border-0 text-text font-bold"
@@ -186,7 +252,7 @@ const Header = () => {
               BLOGS
             </Button>
           </div>
-          <button className="btn btn-ghost !bg-white !border-0 text-text font-bold">
+          <button className="btn btn-ghost !bg-white !border-0 text-text font-bold hidden md:flex">
             <FlowerIcon className="text-2xl text-accent" />
             Offer
           </button>
