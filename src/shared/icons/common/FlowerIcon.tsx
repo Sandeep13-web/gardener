@@ -1,8 +1,11 @@
-import React from "react";
+import React, { HTMLAttributes } from "react";
 
-const FlowerIcon = () => {
+interface Props extends HTMLAttributes<SVGSVGElement> {}
+
+const FlowerIcon: React.FC<Props> = ({ ...rest }) => {
   return (
     <svg
+      {...rest}
       xmlns="http://www.w3.org/2000/svg"
       width="1.3rem"
       height="1.3rem"
