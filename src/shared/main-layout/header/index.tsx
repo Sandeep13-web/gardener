@@ -3,11 +3,8 @@ import Button from "@/shared/components/button";
 import Dropdown from "@/shared/components/dropdown";
 import { Logo } from "@/shared/lib/image-config";
 import Image from "next/image";
-import React, { useState } from "react";
-import { useScroll } from "framer-motion";
 import FlowerIcon from "@/shared/icons/common/FlowerIcon";
 import SearchIcon from "@/shared/icons/common/SearchIcon";
-import CartIcon from "@/shared/icons/common/CartIcon";
 import CaretDownIcon from "@/shared/icons/common/CaretDownIcon";
 import BarsIcon from "@/shared/icons/common/BarsIcon";
 
@@ -18,11 +15,11 @@ const Header = () => {
         {/* location header */}
         <div className="z-10 bg-primary">
           <div className="container mx-auto">
-            <div className="navbar bg-primary min-h-[48px] text-[12px]">
+            <div className="navbar bg-primary min-h-[48px] text-[12px] flex-wrap flex-col sm:flex-row px-2">
               <div className="flex-1">
                 <p className="text-slate-50">Welcome to I am the Gardener !</p>
-                <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0"></div>
-                <div className="dropdown">
+                <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 hidden sm:block"></div>
+                <div className="hidden dropdown sm:block">
                   <label
                     tabIndex={0}
                     className="btn btn-link text-md text-[12px] p-0 text-white no-underline h-auto min-h-fit capitalize"
