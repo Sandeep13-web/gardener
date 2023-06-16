@@ -13,15 +13,16 @@ import {
 } from "@/shared/lib/image-config";
 import Image from "next/image";
 import Banner from "@/shared/components/banner";
+import Categories from "@/features/Home/categories";
+import RecentProducts from "@/features/Home/recent";
+import Plants from "@/features/Home/Plants";
 
 const Home: NextPageWithLayout = () => {
   return (
     <div className="text-lg font-bold min-h-[300vh]">
-      home
       <Banner />
       <div className="container">
         <Title type="title-content" text="Home" />
-
         <div className="border border-[#f58220] rounded rounded-xs px-[20px]">
           <div className="grid grid-cols-1 sm-grid-cols-2 md:grid-cols-3 ">
             <div className="flex items-start px-[20px] py-[20px] md:py-[35px] relative gap-0">
@@ -77,134 +78,10 @@ const Home: NextPageWithLayout = () => {
             </div>
           </div>
         </div>
+        <Categories />
+        <RecentProducts />
+        <Plants />
 
-        <section className="my-[60px]">
-          <Title
-            type="title-section"
-            text="Shop By Categories"
-            subTitle="We’ve got something for everyone"
-          />
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            <CategoryCard
-              title="Plant With Pot"
-              totalProducts={27}
-              shopLink="#"
-              image={CategoryImg}
-            />
-            <CategoryCard
-              title="Plant With Pot"
-              totalProducts={27}
-              shopLink="#"
-              image={CategoryImg}
-            />
-            <CategoryCard
-              title="Plant With Pot"
-              totalProducts={27}
-              shopLink="#"
-              image={CategoryImg}
-            />
-            <CategoryCard
-              title="Plant With Pot"
-              totalProducts={27}
-              shopLink="#"
-              image={CategoryImg}
-            />
-            <CategoryCard
-              title="Plant With Pot"
-              totalProducts={27}
-              shopLink="#"
-              image={CategoryImg}
-            />
-            <CategoryCard
-              title="Plant With Pot"
-              totalProducts={27}
-              shopLink="#"
-              image={CategoryImg}
-            />
-          </div>
-        </section>
-
-        <section className="my-[60px]">
-          <Title type="title-section" text="Recent Addition" />
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            <Card
-              link="#"
-              type="asdas"
-              title="asdasd"
-              price={1260}
-              image={CardImg}
-            />
-            <Card
-              link="#"
-              type="asdas"
-              title="asdasd"
-              price={1260}
-              image={CardImg}
-            />
-            <Card
-              link="#"
-              type="asdas"
-              title="asdasd"
-              price={1260}
-              image={CardImg}
-            />
-            <Card
-              link="#"
-              type="asdas"
-              title="asdasd"
-              price={1260}
-              image={CardImg}
-            />
-            <Card
-              link="#"
-              type="asdas"
-              title="asdasd"
-              price={1260}
-              image={CardImg}
-            />
-          </div>
-        </section>
-
-        <section className="my-[60px]">
-          <Title type="title-section" text="Hanging Plants" />
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            <Card
-              link="#"
-              type="asdas"
-              title="asdasd"
-              price={1260}
-              image={CardImg}
-            />
-            <Card
-              link="#"
-              type="asdas"
-              title="asdasd"
-              price={1260}
-              image={CardImg}
-            />
-            <Card
-              link="#"
-              type="asdas"
-              title="asdasd"
-              price={1260}
-              image={CardImg}
-            />
-            <Card
-              link="#"
-              type="asdas"
-              title="asdasd"
-              price={1260}
-              image={CardImg}
-            />
-            <Card
-              link="#"
-              type="asdas"
-              title="asdasd"
-              price={1260}
-              image={CardImg}
-            />
-          </div>
-        </section>
       </div>
     </div>
   );
