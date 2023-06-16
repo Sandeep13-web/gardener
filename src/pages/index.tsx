@@ -35,7 +35,7 @@ const Home: NextPageWithLayout = () => {
                 className="text-slate-850 font-semibold text-normal capitalize leading-[22px] mb-0"
                 text="Delivery Service"
                 subTitle="Get plants delivered to your doorstep without hassle!"
-                subClassName="leading-[20px] text-[#666] text-[13px]"
+                subClassName="leading-[20px] text-gray-650 font-normal text-[13px]"
                 mb="0"
               />
             </div>
@@ -52,7 +52,7 @@ const Home: NextPageWithLayout = () => {
                 className="text-slate-850 font-semibold text-normal capitalize leading-[22px] mb-0"
                 text="100% Payment Secure"
                 subTitle="Your payment are safe with us"
-                subClassName="leading-[20px] text-[#666] text-[13px]"
+                subClassName="leading-[20px] text-gray-650 font-normal text-[13px]"
                 mb="0"
               />
             </div>
@@ -69,7 +69,7 @@ const Home: NextPageWithLayout = () => {
                 className="text-slate-850 font-semibold text-normal capitalize leading-[22px] mb-0"
                 text="Support 10 Am - 6 Pm"
                 subTitle="We are available all week from 10 Am to 6 Pm"
-                subClassName="leading-[20px] text-[#666] text-[13px]"
+                subClassName="leading-[20px] text-gray-650 font-normal text-[13px]"
                 mb="0"
               />
             </div>

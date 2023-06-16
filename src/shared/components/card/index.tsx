@@ -67,7 +67,7 @@ const Card: React.FC<Props> = ({ type, title, price, image, link }) => {
                 </div>
             </div>
             {/* <div className='plant-card_cartBtn'>
-                <Link href={'/'} className='text-[#253237] bg-white uppercase font-bold underline underline-offset-4 hover:textprimary'>Add to Cart</Link>
+                <Link href={'/'} className='text-slate-850 bg-white uppercase font-bold underline underline-offset-4 hover:textprimary'>Add to Cart</Link>
             </div> */}
         </div>
     )
