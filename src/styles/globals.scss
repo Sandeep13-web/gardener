@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+//
+@import "./abstract/utils";
+@import "./components/header",
+        "./components/card";
+@layer components {
+  .input {
+    @apply shadow-none outline-none h-full focus:outline-transparent;
+  }
+  .btn-ghost {
+    @apply hover:bg-white hover:text-primary;
+  }
+  .btn {
+    @apply min-h-0 min-w-0 h-auto;
+  }
+  .container {
+    @apply max-w-screen-xl;
+  }
+  .flex {
+    @apply gap-1;
+  }
+  .footer-title {
+    @apply opacity-100;
+  }
+  .footer-link {
+    @apply hover:text-primary font-semibold;
+  }
+}
+
+// * {
+//   outline: red;
+//   outline-style: dashed;
+//   outline-width: 1px;
+// }
