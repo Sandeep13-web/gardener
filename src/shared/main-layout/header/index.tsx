@@ -60,7 +60,9 @@ const Header = () => {
       <div className="p-2 border-b-[1px] border-[#6071C60F] bg-white sticky md:relative top-0 md:z-10 z-40">
         <div className="container flex items-center justify-between w-full gap-3">
           {/* Logo */}
-          <Image src={Logo} width={150} height={81} quality={100} alt="Logo" />
+          <div className="relative h-20 w-36">
+            <Image src={Logo} fill quality={100} alt="Logo" />
+          </div>
           <div className="items-center justify-between flex-grow hidden md:flex ms-auto">
             {/* Search */}
             <div className="border-[1px] border-[#E4E4E4] rounded-md h-[48px] !outline-offset-0 flex items-center justify-between gap-1">
