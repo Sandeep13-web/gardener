@@ -1,9 +1,14 @@
 import FooterBullet from "@/shared/icons/common/FooterBullet";
 import {
   AppStore,
+  CashOnHand,
+  Esewa,
+  FooterBg,
   Logo,
+  MasterCard,
   PlayStore,
   QR,
+  UnionPay,
   socials,
 } from "@/shared/lib/image-config";
 import Image from "next/image";
@@ -11,10 +16,11 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div>
-      <footer className="block p-10 footer bg-base-200 text-base-content">
+    <div className="relative">
+      <Image fill src={FooterBg} className="z-0" alt="footer-bg" />
+      <footer className="relative z-10 block p-10 pb-0 footer text-base-content">
         <div className="container flex flex-wrap items-start justify-between gap-2 footer">
-          <div className="w-[45%] md:w-[23%] mb-3">
+          <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
             <Image src={Logo} height={69} width={128} alt="footer-logo" />
             <p className="text-[12px]">
               A contemporary garden center to meet all of your plant needs.
@@ -23,7 +29,7 @@ const Footer = () => {
               covered!
             </p>
           </div>
-          <div className="w-[45%] md:w-[23%] mb-3">
+          <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
             <span className="footer-title">Services</span>
             <div className="flex items-start justify-start gap-4 mb-3">
               <FooterBullet className="mt-[0.2rem]" />
@@ -54,7 +60,7 @@ const Footer = () => {
               <Image src={QR} alt="QR" width={150} height={200} />
             </div>
           </div>
-          <div className="w-[45%] md:w-[23%] mb-3">
+          <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
             <span className="footer-title">Company</span>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
@@ -77,7 +83,7 @@ const Footer = () => {
               <button className="p-0 footer-link">Terms and Conditions</button>
             </div>
           </div>
-          <div className="w-[45%] md:w-[23%] mb-3">
+          <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
             <span className="footer-title">Buy Plants and Accessories</span>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
@@ -91,7 +97,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="container flex items-center justify-between">
+        <div className="container flex flex-wrap items-center justify-between gap-4 mb-4">
           <div className="flex">
             <button className="w-auto p-0 btn btn-circle">
               <Image
@@ -122,11 +128,54 @@ const Footer = () => {
             <h3 className="text-base font-bold text-black me-4">
               DOWNLOAD THE APP ON
             </h3>
-            <button className="p-0 btn">
-              <Image src={AppStore} height={32} width={108} alt="app-store" />
+            <div className="flex gap-3">
+              <button className="p-0 btn">
+                <Image src={AppStore} height={32} width={108} alt="app-store" />
+              </button>
+              <button className="p-0 btn">
+                <Image
+                  src={PlayStore}
+                  height={32}
+                  width={108}
+                  alt="play-store"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center justify-between gap-4 p-5 pb-2 mx-4 text-white bg-primary rounded-t-2xl">
+          <div className="flex flex-wrap justify-center gap-2 mx-auto">
+            <p className="text-center">
+              © 2022 I am the Gardener. All Rights Reserved
+            </p>
+            <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0"></div>
+            <p>Powered By Ekbana</p>
+          </div>
+          <div className="flex flex-wrap justify-center mx-auto">
+            <button className="p-0 bg-transparent border-0 btn">
+              <Image src={Esewa} height={58} width={58} alt="esewa" />
             </button>
-            <button className="p-0 btn">
-              <Image src={PlayStore} height={32} width={108} alt="play-store" />
+            <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
+            <button className="p-0 bg-transparent border-0 btn">
+              <Image
+                src={MasterCard}
+                height={58}
+                width={58}
+                alt="master-card"
+              />
+            </button>
+            <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
+            <button className="p-0 bg-transparent border-0 btn">
+              <Image
+                src={CashOnHand}
+                height={58}
+                width={58}
+                alt="cash on hand"
+              />
+            </button>
+            <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
+            <button className="p-0 bg-transparent border-0 btn">
+              <Image src={UnionPay} height={58} width={58} alt="union pay" />
             </button>
           </div>
         </div>

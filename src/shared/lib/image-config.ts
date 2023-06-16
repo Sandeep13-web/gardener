@@ -8,6 +8,12 @@ export const CallImg = '/images/call-img.png'
 export const QR = '/images/qr__scan_2.png';
 export const AppStore = '/images/apple-store.jpg';
 export const PlayStore = '/images/play-store.jpg';
+export const FooterBg = '/images/footer-bg.png';
+export const Esewa = '/images/esewa.png';
+export const MasterCard = '/images/master-card.png';
+export const CashOnHand = '/images/cash-on-hand.png';
+export const UnionPay = '/images/union-pay.png';
+
 export const socials = {
     facebook: 'images/facebook.svg',
     instagram: 'images/instagram.svg',

@@ -4,8 +4,7 @@
 
 //
 @import "./abstract/utils";
-@import "./components/header",
-        "./components/card";
+@import "./components/header", "./components/card";
 @layer components {
   .input {
     @apply shadow-none outline-none h-full focus:outline-transparent;
@@ -30,6 +29,11 @@
   }
 }
 
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  min-width: 100vw;
+}
 // * {
 //   outline: red;
 //   outline-style: dashed;
