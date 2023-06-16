@@ -21,8 +21,8 @@ const FooterBullet: React.FC<Props> = ({ ...rest }) => {
           y2="1.5"
           gradientUnits="objectBoundingBox"
         >
-          <stop offset="0" stop-color="#00ae4d" />
-          <stop offset="1" stop-color="#3aa268" />
+          <stop offset="0" stopColor="#00ae4d" />
+          <stop offset="1" stopColor="#3aa268" />
         </linearGradient>
       </defs>
       <circle
