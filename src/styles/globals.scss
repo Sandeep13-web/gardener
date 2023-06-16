@@ -18,14 +18,17 @@
   .container {
     @apply max-w-screen-xl;
   }
-  .flex {
-    @apply gap-1;
-  }
+  // .flex {
+  //   @apply gap-1;
+  // }
   .footer-title {
     @apply opacity-100;
   }
   .footer-link {
     @apply hover:text-primary font-semibold;
+  }
+  .dropdown-content {
+    @apply z-50;
   }
 }
 
