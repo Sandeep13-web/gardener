@@ -1,64 +1,63 @@
-import { Logo } from "@/shared/lib/image-config";
+import { Logo, banner } from "@/shared/lib/image-config";
 import Image from "next/image";
 import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, EffectFade, Navigation, Pagination } from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 
 const Banner = () => {
   return (
     <div>
-      <div className="w-full carousel">
-        <div id="slide1" className="relative w-full carousel-item">
-          <div className="w-full">
-            <Image fill alt="banner" src={Logo} className="w-full" />
-          </div>
-          <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide4" className="btn btn-circle">
-              ❮
-            </a>
-            <a href="#slide2" className="btn btn-circle">
-              ❯
-            </a>
-          </div>
-        </div>
-        <div id="slide2" className="relative w-full carousel-item">
-          <div className="w-full">
-            <Image fill alt="banner" src={Logo} className="w-full" />
-          </div>
-          <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide1" className="btn btn-circle">
-              ❮
-            </a>
-            <a href="#slide3" className="btn btn-circle">
-              ❯
-            </a>
-          </div>
-        </div>
-        <div id="slide3" className="relative w-full carousel-item">
-          <div className="w-full">
-            <Image fill alt="banner" src={Logo} className="w-full" />
-          </div>
-          <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide2" className="btn btn-circle">
-              ❮
-            </a>
-            <a href="#slide4" className="btn btn-circle">
-              ❯
-            </a>
-          </div>
-        </div>
-        <div id="slide4" className="relative w-full carousel-item">
-          <div className="w-full">
-            <Image fill alt="banner" src={Logo} className="w-full" />
-          </div>
-          <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide3" className="btn btn-circle">
-              ❮
-            </a>
-            <a href="#slide1" className="btn btn-circle">
-              ❯
-            </a>
-          </div>
-        </div>
-      </div>
+      <Swiper
+        loop={true}
+        className="mySwiper"
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+        centeredSlides={true}
+        pagination={{
+          clickable: true,
+        }}
+        modules={[Autoplay, Pagination]}
+      >
+        <SwiperSlide>
+          <Image
+            src={banner.one}
+            height={100}
+            width={2000}
+            // object-fit={''}
+            alt="banner"
+            priority
+            quality={100}
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <Image
+            src={banner.two}
+            height={100}
+            width={2000}
+            // object-fit={''}
+            alt="banner"
+            priority
+            quality={100}
+          />
+        </SwiperSlide>{" "}
+        <SwiperSlide>
+          <Image
+            src={banner.three}
+            height={100}
+            width={2000}
+            // object-fit={''}
+            alt="banner"
+            priority
+            quality={100}
+          />
+        </SwiperSlide>
+      </Swiper>
     </div>
   );
 };

@@ -18,4 +18,10 @@ export const socials = {
     facebook: 'images/facebook.svg',
     instagram: 'images/instagram.svg',
     youtube: 'images/youtube.svg'
+};
+
+export const banner = {
+    one: '/images/banner1.jpg',
+    two: '/images/banner2.jpg',
+    three: '/images/banner3.jpg',
 }

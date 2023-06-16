@@ -16,7 +16,7 @@
     @apply min-h-0 min-w-0 h-auto;
   }
   .container {
-    @apply max-w-screen-xl;
+    @apply px-4 md:px-10;
   }
   // .flex {
   //   @apply gap-1;

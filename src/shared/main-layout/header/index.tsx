@@ -3,11 +3,8 @@ import Button from "@/shared/components/button";
 import Dropdown from "@/shared/components/dropdown";
 import { Logo } from "@/shared/lib/image-config";
 import Image from "next/image";
-import React, { useState } from "react";
-import { useScroll } from "framer-motion";
 import FlowerIcon from "@/shared/icons/common/FlowerIcon";
 import SearchIcon from "@/shared/icons/common/SearchIcon";
-import CartIcon from "@/shared/icons/common/CartIcon";
 import CaretDownIcon from "@/shared/icons/common/CaretDownIcon";
 import BarsIcon from "@/shared/icons/common/BarsIcon";
 
@@ -18,11 +15,11 @@ const Header = () => {
         {/* location header */}
         <div className="z-10 bg-primary">
           <div className="container mx-auto">
-            <div className="navbar bg-primary min-h-[48px] text-[12px]">
+            <div className="navbar bg-primary min-h-[48px] text-[12px] flex-wrap flex-col sm:flex-row px-2">
               <div className="flex-1">
                 <p className="text-slate-50">Welcome to I am the Gardener !</p>
-                <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0"></div>
-                <div className="dropdown">
+                <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 hidden sm:block"></div>
+                <div className="hidden dropdown sm:block">
                   <label
                     tabIndex={0}
                     className="btn btn-link text-md text-[12px] p-0 text-white no-underline h-auto min-h-fit capitalize"
@@ -57,10 +54,10 @@ const Header = () => {
       </header>
 
       {/* search header */}
-      <div className="p-2 border-b-[1px] border-[#6071C60F] bg-white sticky md:static top-0 md:z-10 z-40">
-        <div className="container flex items-center justify-between w-full gap-3">
+      <div className="p-2 border-b-[1px] border-[#6071C60F] bg-white sticky md:static top-0 md:z-10 z-40 ">
+        <div className="container flex items-center justify-between w-full gap-3 max-h-12 sm:max-h-24">
           {/* Logo */}
-          <div className="relative h-20 w-36">
+          <div className="relative h-14 sm:h-20 w-36">
             <Image src={Logo} fill quality={100} alt="Logo" />
           </div>
           <div className="items-center justify-center flex-grow hidden gap-7 md:flex ms-auto">
@@ -107,7 +104,7 @@ const Header = () => {
               <p className="text-[#555555] text-sm font-medium mb-1 whitespace-nowrap hidden md:block">
                 TOTAL PRICE
               </p>
-              <p className="text-[#222222] text-sm font-semibold whitespace-nowrap">
+              <p className="text-[#222222] text-sm font-semibold hidden sm:block whitespace-nowrap">
                 NRP 1500
               </p>
             </div>
@@ -123,9 +120,17 @@ const Header = () => {
                   <BarsIcon />
                 </label>
               </div>
-              <div className="drawer-side">
+              <div className=" drawer-side">
                 <label htmlFor="my-drawer" className="drawer-overlay"></label>
-                <ul className="h-full p-4 bg-white menu w-80 text-base-content">
+                <ul className="w-64 h-full p-4 bg-white menu text-base-content">
+                  <div className="relative">
+                    <label
+                      htmlFor="my-drawer"
+                      className=" drawer-end absolute p-3 rounded-sm -top-4 right-[-3rem] btn btn-error"
+                    >
+                      x
+                    </label>
+                  </div>
                   {/* Sidebar content here */}
                   <li>
                     <a className="mb-3 text-white rounded-md bg-primary">
@@ -133,8 +138,8 @@ const Header = () => {
                     </a>
                   </li>
                   <li>
-                    <div className="p-0 border rounded-box !bg-white mb-3">
-                      <input className="w-[14rem] py-0 m-0 !bg-transparent input" />
+                    <div className="p-0 border rounded-box !bg-white mb-3 w-full flex">
+                      <input className=" py-0 m-0 pe-0 !bg-transparent input max-w-[10.5rem]" />
                       <button className="p-2 px-4 btn btn-primary btn-sm rounded-box">
                         <SearchIcon className="max-h-[1rem] max-w-[1rem]" />
                       </button>
@@ -144,42 +149,8 @@ const Header = () => {
                   <li className="border-b-[1px] border-primary ">
                     <p>Home</p>
                   </li>
-                  <li className="border-b-[1px] border-primary">
-                    <div
-                      tabIndex={0}
-                      className="max-w-[18rem] w-full p-2 px-3 pn-0 collapse collapse-plus "
-                    >
-                      <input type="checkbox" className="min-h-6 peer" />
-                      <div className="font-medium collapse-title p-1 py-0 min-h-0 w-[17.5rem] flex items-center after:text-xl after:!-top-1">
-                        <p>Out Services</p>
-                      </div>
-                      <div className="p-1 max-w-[17.5rem] min-w-0 collapse-content">
-                        <p className="whitespace-normal  max-w-[17rem]">
-                          tabIndex={0} attribute is necessary to make the div
-                          focusable
-                        </p>
-                      </div>
-                    </div>
-                  </li>
                   <li className="border-b-[1px] border-primary ">
                     <p>Our Outlets</p>
-                  </li>
-                  <li className="border-b-[1px] border-primary">
-                    <div
-                      tabIndex={0}
-                      className="max-w-[18rem] w-full p-2 px-3 pn-0 collapse collapse-plus "
-                    >
-                      <input type="checkbox" className="min-h-6 peer" />
-                      <div className="font-medium collapse-title p-1 py-0 min-h-0 w-[17.5rem] flex items-center after:text-xl after:!-top-1">
-                        <p>About Us</p>
-                      </div>
-                      <div className="p-1 max-w-[17.5rem] min-w-0 collapse-content">
-                        <p className="whitespace-normal  max-w-[17rem]">
-                          tabIndex={0} attribute is necessary to make the div
-                          focusable
-                        </p>
-                      </div>
-                    </div>
                   </li>
                   <li className="border-b-[1px] border-primary ">
                     <p>Blog</p>
