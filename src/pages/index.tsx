@@ -17,10 +17,9 @@ import Plants from "@/features/Home/plants";
 
 const Home: NextPageWithLayout = () => {
   return (
-    <div className="text-lg font-bold min-h-[300vh] p-2">
+    <div className="text-lg font-bold min-h-[300vh]">
       <Banner />
-      <div className="container">
-        <Title type="title-content" text="Home" />
+      <div className="container mt-6">
         <div className="border border-[#f58220] rounded rounded-xs px-[20px]">
           <div className="grid grid-cols-1 sm-grid-cols-2 md:grid-cols-3 ">
             <div className="flex items-start px-[20px] py-[20px] md:py-[35px] relative gap-0">
