@@ -20,7 +20,7 @@ const Badge: React.FC<BadgeProps> = ({
   // 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left' ;
   return (
     <div
-      className={`badge text-white p-[5px] ${position} ${basePosition}
+      className={`badge text-white py-[2px] px-[4px] md:p-[5px]  text-[11px] sm:text-sm ${position} ${basePosition}
       ${className ? className : ""}`}
     >
       {children}

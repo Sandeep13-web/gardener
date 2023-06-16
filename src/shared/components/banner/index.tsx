@@ -29,6 +29,7 @@ const Banner = () => {
             src={banner.one}
             height={100}
             width={2000}
+            style={{ maxHeight: "calc(100vh - 200px)", objectFit: "fill" }}
             // object-fit={''}
             alt="banner"
             priority
@@ -40,6 +41,7 @@ const Banner = () => {
             src={banner.two}
             height={100}
             width={2000}
+            style={{ maxHeight: "calc(100vh - 200px)", objectFit: "fill" }}
             // object-fit={''}
             alt="banner"
             priority
@@ -51,6 +53,7 @@ const Banner = () => {
             src={banner.three}
             height={100}
             width={2000}
+            style={{ maxHeight: "calc(100vh - 200px)", objectFit: "fill" }}
             // object-fit={''}
             alt="banner"
             priority

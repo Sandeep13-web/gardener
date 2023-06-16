@@ -13,22 +13,10 @@
     @apply hover:bg-white hover:text-primary;
   }
   .btn {
-    @apply min-h-0 min-w-0 h-auto;
+    @apply min-h-0 min-w-0 h-auto capitalize;
   }
   .container {
     @apply px-4 md:px-10;
-  }
-  // .flex {
-  //   @apply gap-1;
-  // }
-  .footer-title {
-    @apply opacity-100;
-  }
-  .footer-link {
-    @apply hover:text-primary font-semibold;
-  }
-  .dropdown-content {
-    @apply z-50;
   }
 }
 
