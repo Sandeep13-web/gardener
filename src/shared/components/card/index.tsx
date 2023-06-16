@@ -34,9 +34,9 @@ const Card: React.FC<Props> = ({ type, title, price, image, link }) => {
                 </Link>
             </div>
             <div className="card-body px-[15px] py-[20px] gap-[10px]">
-                <p className='text-xs text-[#999] uppercase'>{type}</p>
+                <p className='text-xs text-gray-450 uppercase'>{type}</p>
                 <h2 className="card-title plant-card-title">{title}</h2>
-                <p className='text-[#00ae4d] text-sm font-semibold'>NPR {price}</p>
+                <p className='text-primary text-sm font-semibold'>NPR {price}</p>
 
                 <div className="flex justify-end relative z-[3]">
                     {
@@ -48,8 +48,8 @@ const Card: React.FC<Props> = ({ type, title, price, image, link }) => {
                     }
                     {
                         addItem &&
-                        <div className='border border-[#00ae4d] flex items-center gap-3 rounded rounded-lg px-3'>
-                            <button className='text-[#00ae4d] py-1 text-sm w-[14px]'
+                        <div className='border border-primary flex items-center gap-3 rounded rounded-lg px-3'>
+                            <button className='text-primary py-1 text-sm w-[14px]'
                                 onClick={() => subItemNum(value)}
                             >
                                 {
@@ -58,8 +58,8 @@ const Card: React.FC<Props> = ({ type, title, price, image, link }) => {
                                         : '-'
                                 }
                             </button>
-                            <input type="text" className='text-center max-w-[35px] h-full font-bold text-sm border-0 focus:outline-0 text-[#00ae4d]' value={value} readOnly maxLength={3} />
-                            <button className='text-[#00ae4d] py-1 w-[14px]'
+                            <input type="text" className='text-center max-w-[35px] h-full font-bold text-sm border-0 focus:outline-0 text-primary' value={value} readOnly maxLength={3} />
+                            <button className='text-primary py-1 w-[14px]'
                                 onClick={() => addItemNum(value)}
                             >+</button>
                         </div>
@@ -67,7 +67,7 @@ const Card: React.FC<Props> = ({ type, title, price, image, link }) => {
                 </div>
             </div>
             {/* <div className='plant-card_cartBtn'>
-                <Link href={'/'} className='text-[#253237] bg-white uppercase font-bold underline underline-offset-4 hover:text[#00ae4d]'>Add to Cart</Link>
+                <Link href={'/'} className='text-slate-850 bg-white uppercase font-bold underline underline-offset-4 hover:textprimary'>Add to Cart</Link>
             </div> */}
         </div>
     )
