@@ -1,4 +1,5 @@
 import Card from '@/shared/components/card'
+import SkeletonLoadingCard from '@/shared/components/skeleton/products'
 import Title from '@/shared/components/title'
 import { CardImg } from '@/shared/lib/image-config'
 import React from 'react'
@@ -43,6 +44,7 @@ const RecentProducts = () => {
                     price={1260}
                     image={CardImg}
                 />
+                <SkeletonLoadingCard />
             </div>
         </section>
     )

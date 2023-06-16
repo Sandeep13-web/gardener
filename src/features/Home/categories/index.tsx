@@ -1,4 +1,5 @@
 import CategoryCard from '@/shared/components/category-card'
+import CategorySkeletonLoading from '@/shared/components/skeleton/category'
 import Title from '@/shared/components/title'
 import { CategoryImg } from '@/shared/lib/image-config'
 import React from 'react'
@@ -48,6 +49,7 @@ const Categories = () => {
                     shopLink="#"
                     image={CategoryImg}
                 />
+                <CategorySkeletonLoading />
             </div>
         </section>
     )

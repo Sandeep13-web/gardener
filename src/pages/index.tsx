@@ -1,9 +1,7 @@
 import React from "react";
 import { NextPageWithLayout } from "./_app";
 import MainLayout from "@/shared/main-layout";
-import Card from "@/shared/components/card";
 import Title from "@/shared/components/title";
-import CategoryCard from "@/shared/components/category-card";
 import {
   CardImg,
   CategoryImg,
@@ -15,11 +13,11 @@ import Image from "next/image";
 import Banner from "@/shared/components/banner";
 import Categories from "@/features/Home/categories";
 import RecentProducts from "@/features/Home/recent";
-import Plants from "@/features/Home/Plants";
+import Plants from "@/features/Home/plants";
 
 const Home: NextPageWithLayout = () => {
   return (
-    <div className="text-lg font-bold min-h-[300vh]">
+    <div className="text-lg font-bold min-h-[300vh] p-2">
       <Banner />
       <div className="container">
         <Title type="title-content" text="Home" />
@@ -81,7 +79,6 @@ const Home: NextPageWithLayout = () => {
         <Categories />
         <RecentProducts />
         <Plants />
-
       </div>
     </div>
   );
