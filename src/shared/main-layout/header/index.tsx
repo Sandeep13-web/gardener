@@ -55,7 +55,7 @@ const Header = () => {
       </header>
 
       {/* search header */}
-      <div className="p-2 border-b-[1px] border-[#6071C60F] bg-white sticky md:static top-0 md:z-10 z-40 ">
+      <div className="p-2 border-b-[1px]  border-[#6071C60F] bg-white sticky md:static top-0 md:z-10 z-40 ">
         <div className="container flex items-center justify-between w-full gap-3 max-h-12 sm:max-h-24">
           {/* Logo */}
           <div className="relative h-14 sm:h-20 w-36">
@@ -102,7 +102,7 @@ const Header = () => {
 
             {/* Total Price */}
             <div>
-              <p className="text-[#555555] text-sm font-medium mb-1 whitespace-nowrap hidden md:block">
+              <p className="hidden mb-1 text-sm font-medium text-gray-550 whitespace-nowrap md:block">
                 TOTAL PRICE
               </p>
               <p className="text-[#222222] text-sm font-semibold hidden sm:block whitespace-nowrap">
