@@ -9,6 +9,9 @@ import CaretDownIcon from "@/shared/icons/common/CaretDownIcon";
 import BarsIcon from "@/shared/icons/common/BarsIcon";
 import Drawer from "@/shared/components/drawer";
 import OfferIcon from "@/shared/icons/common/OfferIcon";
+import UserIcon from "@/shared/icons/common/UserIcon";
+import CartIcon from "@/shared/icons/common/CartIcon";
+import HeartIcon from "@/shared/icons/common/HeartIcon";
 
 const Header = () => {
   return (
@@ -42,6 +45,7 @@ const Header = () => {
                 </div>
               </div>
               <div className="flex-none">
+                <UserIcon className="text-white me-1" />
                 <button className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0">
                   Login
                 </button>
@@ -84,7 +88,7 @@ const Header = () => {
           <div className="flex items-center gap-3">
             {/* Heart Button */}
             <button className="relative hidden py-3 btn btn-circle md:flex">
-              <FlowerIcon />
+              <HeartIcon className="text-black" />
               <Badge
                 className="badge-accent "
                 type="primary"
@@ -94,8 +98,8 @@ const Header = () => {
               </Badge>
             </button>
             {/* Cart */}
-            <button className="relative py-1 sm:py-3 btn btn-sm sm:btn-md btn-circle">
-              <FlowerIcon />
+            <button className="relative py-3 btn btn-circle">
+              <CartIcon />
               <Badge className="badge-accent" badgePosition="top-right">
                 0
               </Badge>
@@ -106,7 +110,7 @@ const Header = () => {
               <p className="hidden mb-1 text-sm font-bold text-gray-600 text-gray-550 whitespace-nowrap md:block">
                 TOTAL PRICE
               </p>
-              <p className="text-[#222222] text-sm font-bold hidden sm:block whitespace-nowrap">
+              <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
                 NRP 1500
               </p>
             </div>
