@@ -17,7 +17,7 @@ import Plants from "@/features/Home/plants";
 
 const Home: NextPageWithLayout = () => {
   return (
-    <div className="text-lg font-bold min-h-[300vh]">
+    <div className="text-lg font-bold min-h-[300vh] p-2">
       <Banner />
       <div className="container">
         <Title type="title-content" text="Home" />
