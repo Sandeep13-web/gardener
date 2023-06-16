@@ -118,11 +118,11 @@ const Header = () => {
       {/* Category header */}
       <div className={`border-b-[1px]  md:sticky top-0 md:z-70 z-10 bg-white `}>
         <div className="container flex items-center justify-between">
-          <div className="flex w-full gap-5 md:w-auto">
+          <div className="flex w-full gap-10 md:w-auto">
             <div className="dropdown  md:min-w-[15rem] min-w-full">
               <label
                 tabIndex={0}
-                className="btn btn-primary rounded-sm text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full"
+                className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full"
               >
                 <BarsIcon />
                 All Categories <CaretDownIcon />
@@ -147,7 +147,7 @@ const Header = () => {
                 Home
               </Button>
               <Dropdown
-                data={["a", "b"]}
+                data={["Plant Consultation ", "Gift a plant "]}
                 toggleClassName="!font-bold btn-ghost text-text"
               >
                 OUR SERVICE
@@ -159,7 +159,13 @@ const Header = () => {
                 OUTLET
               </Button>
               <Dropdown
-                data={["a", "b"]}
+                data={[
+                  "Who We Are",
+                  "Our Story",
+                  "Values That Make Us Who We Are",
+                  "Working At I Am The Gardner",
+                  "Our CSR Project",
+                ]}
                 toggleClassName="!font-bold btn-ghost text-text"
               >
                 ABOUT US
