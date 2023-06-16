@@ -144,28 +144,28 @@ const Footer = () => {
           </div>
         </div>
         <div className="container">
-          <div className="flex flex-wrap items-center justify-between w-full gap-4 p-5 text-white bg-primary rounded-t-2xl">
+          <div className="flex flex-wrap items-center justify-between w-full gap-4 p-5 text-white sm:p-3 bg-primary rounded-t-2xl">
             <div className="flex flex-wrap justify-center gap-2 mx-auto">
               <p className="text-center">
                 © 2022 I am the Gardener. All Rights Reserved
               </p>
-              <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0"></div>
+              <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 hidden xs:flex"></div>
               <p>Powered By Ekbana</p>
             </div>
             <div className="flex flex-wrap justify-center mx-auto">
-              <button className="relative w-12 h-12 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
+              <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
                 <Image src={Esewa} fill alt="esewa" />
               </button>
               <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
-              <button className="relative w-12 h-12 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
+              <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
                 <Image src={MasterCard} fill alt="master-card" />
               </button>
               <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
-              <button className="relative w-12 h-12 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
+              <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
                 <Image src={CashOnHand} fill alt="cash on hand" />
               </button>
               <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
-              <button className="relative w-12 h-12 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
+              <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
                 <Image src={UnionPay} fill alt="union pay" />
               </button>
             </div>
