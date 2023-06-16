@@ -15,7 +15,7 @@ import Image from "next/image";
 import Banner from "@/shared/components/banner";
 import Categories from "@/features/Home/categories";
 import RecentProducts from "@/features/Home/recent";
-import Plants from "@/features/Home/Plants";
+import Plants from "@/features/Home/plants";
 
 const Home: NextPageWithLayout = () => {
   return (
@@ -81,7 +81,6 @@ const Home: NextPageWithLayout = () => {
         <Categories />
         <RecentProducts />
         <Plants />
-
       </div>
     </div>
   );
