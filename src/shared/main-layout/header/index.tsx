@@ -77,10 +77,10 @@ const Header = () => {
             </div>
             {/* Why Plant Button */}
             <button className="btn btn-primary btn-outline">
-              <FlowerIcon /> <p className="hidden lg:block">Why Plant</p>
+              <FlowerIcon /> <p className="hidden p-4 lg:block">Why Plant</p>
             </button>
             {/* Heart Button */}
-            <button className="relative btn btn-circle">
+            <button className="relative py-3 btn btn-circle">
               <FlowerIcon />
               <Badge
                 className="badge-accent "
@@ -94,7 +94,7 @@ const Header = () => {
           </div>
           <div className="flex items-center gap-3">
             {/* Cart */}
-            <button className="relative btn btn-circle">
+            <button className="relative py-3 btn btn-circle">
               <FlowerIcon />
               <Badge className="badge-accent" badgePosition="top-right">
                 0
