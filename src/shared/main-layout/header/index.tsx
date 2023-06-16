@@ -8,6 +8,7 @@ import SearchIcon from "@/shared/icons/common/SearchIcon";
 import CaretDownIcon from "@/shared/icons/common/CaretDownIcon";
 import BarsIcon from "@/shared/icons/common/BarsIcon";
 import Drawer from "@/shared/components/drawer";
+import OfferIcon from "@/shared/icons/common/OfferIcon";
 
 const Header = () => {
   return (
@@ -76,8 +77,8 @@ const Header = () => {
               </button>
             </div>
             {/* Why Plant Button */}
-            <button className="btn btn-primary btn-outline !min-h-12 font-bold">
-              <FlowerIcon /> <p className="hidden p-4 lg:block">Why Plant</p>
+            <button className="btn btn-primary btn-outline !min-h-12 font-bold text-base gap-0">
+              <FlowerIcon /> <p className="hidden lg:block">Why Plant</p>
             </button>
           </div>
           <div className="flex items-center gap-3">
@@ -102,10 +103,10 @@ const Header = () => {
 
             {/* Total Price */}
             <div>
-              <p className="hidden mb-1 text-sm font-medium text-gray-550 whitespace-nowrap md:block">
+              <p className="hidden mb-1 text-sm font-bold text-gray-600 text-gray-550 whitespace-nowrap md:block">
                 TOTAL PRICE
               </p>
-              <p className="text-[#222222] text-sm font-semibold hidden sm:block whitespace-nowrap">
+              <p className="text-[#222222] text-sm font-bold hidden sm:block whitespace-nowrap">
                 NRP 1500
               </p>
             </div>
@@ -141,7 +142,7 @@ const Header = () => {
             <div className="items-center hidden gap-2 md:flex">
               <Button
                 type="ghost"
-                className="!bg-white border-0 text-text font-bold"
+                className="!bg-white border-0 text-text font-bold uppercase"
               >
                 Home
               </Button>
@@ -165,15 +166,15 @@ const Header = () => {
               </Dropdown>
               <Button
                 type="ghost"
-                className="!bg-white border-0 text-text font-bold"
+                className="!bg-white border-0 text-text font-bold uppercase"
               >
                 BLOGS
               </Button>
             </div>
           </div>
-          <button className="btn btn-ghost !bg-white !border-0 text-text font-bold hidden md:flex">
-            <FlowerIcon className="text-2xl text-accent" />
-            Offer
+          <button className="btn btn-ghost !bg-white !border-0 text-text gap-1 font-bold hidden md:flex">
+            <OfferIcon className="text-accent" />
+            OFFER
           </button>
         </div>
       </div>
