@@ -12,10 +12,18 @@ import {
 import Image from "next/image";
 import Banner from "@/shared/components/banner";
 import Categories from "@/features/Home/categories";
-import RecentProducts from "@/features/Home/recent";
-import Plants from "@/features/Home/plants";
+
+import AppCategories from "@/features/Home/app-categories";
+import { useQuery } from "@tanstack/react-query";
+import { getHomeData } from "@/services/home.service";
+import { IAppCategories, IHome } from "@/interface/home.interface";
+import SkeletonLoadingCard from "@/shared/components/skeleton/products";
 
 const Home: NextPageWithLayout = () => {
+
+  const { data, isInitialLoading } = useQuery<IHome>({ queryKey: ['getHomeData'], queryFn: getHomeData });
+
+  // console.log("data", data?.data.appCategories)
   return (
     <div className="text-lg font-bold min-h-[300vh]">
       <Banner />
@@ -76,8 +84,15 @@ const Home: NextPageWithLayout = () => {
           </div>
         </div>
         <Categories />
-        <RecentProducts />
-        <Plants />
+        {data?.data?.appCategories.map((prev: IAppCategories, index: number) => (
+          <AppCategories
+            key={`appcatgories-${index}`}
+            prev={prev}
+          />
+        )
+        )}
+        <SkeletonLoadingCard />
+
       </div>
     </div>
   );

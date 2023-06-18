@@ -8,9 +8,8 @@ import React from 'react'
 
 const Categories = () => {
 
-    const { data: categories, isInitialLoading } = useQuery({ queryKey: ['getCategories'], queryFn: getProductCategory });
+    const { data: categories, isInitialLoading } = useQuery({ queryKey: ['getConfig'], queryFn: getProductCategory });
 
-    console.log("categories", categories)
 
     return (
         <section className="my-[60px]">
@@ -30,13 +29,13 @@ const Categories = () => {
                     </>
                     :
                     <>
-                        {categories?.data?.map((item: any, index: number) => (
+                        {categories?.data?.slice(0, 6).map((item: any, index: number) => (
                             <CategoryCard
                                 key={`categories-${index}`}
                                 title={item?.title}
                                 totalProducts={item?.productCount}
                                 shopLink="#"
-                                image={item.icon}
+                                image={item.backgroundImage}
                             />
                         ))}
                     </>

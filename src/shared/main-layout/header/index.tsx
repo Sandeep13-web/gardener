@@ -8,8 +8,14 @@ import SearchIcon from "@/shared/icons/common/SearchIcon";
 import CaretDownIcon from "@/shared/icons/common/CaretDownIcon";
 import BarsIcon from "@/shared/icons/common/BarsIcon";
 import Drawer from "@/shared/components/drawer";
+import { useQuery } from "@tanstack/react-query";
+import { getConfig } from "@/services/home.service";
 
 const Header = () => {
+
+  const { data: config, isInitialLoading } = useQuery({ queryKey: ['getCategories'], queryFn: getConfig });
+
+  console.log("config", config)
   return (
     <>
       <header>
