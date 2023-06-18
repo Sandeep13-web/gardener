@@ -6,19 +6,19 @@ const Title: React.FC<Props> = ({ type, text, className, subTitle , subClassName
     const getType = () => {
         if (type === 'title-content')
             return (
-                <h2 className={className ? `${className}` : 'py-[30px] text-[#3a3a3a] text-3xl font-medium text-center relative w-full'}>
+                <h2 className={className ? `${className}` : 'py-[30px] text-slate-850 text-3xl font-medium text-center relative w-full'}>
                     {text}
                 </h2>
             );
         if (type === 'title-section')
             return (
                 <div>
-                    <h3 className={className ? `${className}` : 'text-[#253237] text-2xl capitalize font-semibold mb-[15px]'}>
+                    <h3 className={className ? `${className}` : 'text-slate-850 text-2xl capitalize font-semibold mb-[15px]'}>
                         {text}
                     </h3>
                     {
                         subTitle &&
-                        <p className={subClassName ? `${subClassName}` : 'text-[#888] text-sm leading-[18px] mt-[10px]'}>
+                        <p className={subClassName ? `${subClassName}` : 'text-gray-450 text-sm font-normal leading-[18px] mt-[10px]'}>
                             {subTitle}
                         </p>
                     }
@@ -29,7 +29,7 @@ const Title: React.FC<Props> = ({ type, text, className, subTitle , subClassName
 
         //     );
         return (
-            <h2 className={className ? `${className}` : 'text-[#3a3a3a] text-2xl text-center relative'}>
+            <h2 className={className ? `${className}` : 'text-slate-955 text-2xl text-center relative'}>
                 {text}
             </h2>
         );

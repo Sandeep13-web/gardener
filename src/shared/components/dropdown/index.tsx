@@ -31,7 +31,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       </label>
       <ul
         tabIndex={0}
-        className={`dropdown-content menu p-2 shadow bg-base-100 rounded-sm w-52 z-[60] ${listClassName}`}
+        className={`dropdown-content menu p-2 shadow bg-base-100 rounded-sm  z-[60] ${listClassName}`}
       >
         {data?.map((item, index) => (
           <li key={index}>

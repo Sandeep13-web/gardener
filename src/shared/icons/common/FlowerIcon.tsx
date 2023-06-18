@@ -20,7 +20,7 @@ const FlowerIcon: React.FC<Props> = ({ ...rest }) => {
             height="1.3rem"
             transform="translate(422 1930)"
             fill="currentColor"
-            stroke="#707070"
+            stroke="currentColor"
             strokeWidth="1"
           />
         </clipPath>

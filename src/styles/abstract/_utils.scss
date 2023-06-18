@@ -1,0 +1,29 @@
+@layer components {
+  .footer-title {
+    @apply opacity-100;
+  }
+  .footer-link {
+    @apply hover:text-primary font-semibold;
+  }
+  .dropdown-content {
+    @apply z-50;
+  }
+  .collapse-title {
+    @apply p-1 border-primary border-b-[1px] rounded-none min-h-0 font-medium text-[13px];
+  }
+  .collapse {
+    @apply rounded-sm;
+  }
+  .collapse-text {
+    @apply border-primary border-b-[1px] font-medium text-[13px];
+  }
+}
+.collapse-content {
+  padding: 0rem !important;
+  > p {
+    padding: 0.25rem 0.25rem 0.25rem 0.75rem !important;
+  }
+}
+.swiper-pagination-bullet-active {
+  background-color: #00ad4e !important;
+}
