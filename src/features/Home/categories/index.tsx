@@ -11,8 +11,6 @@ interface IProps {
     categories: any;
 }
 const Categories: React.FC<IProps> = ({ loading, categories }) => {
-
-
     return (
         <section className="my-[60px]">
             <Title
