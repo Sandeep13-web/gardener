@@ -11,8 +11,6 @@ interface IProps {
     categories: any;
 }
 const Categories: React.FC<IProps> = ({ loading, categories }) => {
-
-
     return (
         <section className="my-[60px]">
             <Title
@@ -37,7 +35,7 @@ const Categories: React.FC<IProps> = ({ loading, categories }) => {
                                 title={item?.title}
                                 totalProducts={item?.productCount}
                                 shopLink="#"
-                                image={item.backgroundImage}
+                                image={item.icon}
                             />
                         ))}
                     </>
