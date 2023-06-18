@@ -8,6 +8,7 @@ export const getProductCategory = async () => {
     const response = await axios.get(`${baseURL}/category`, {
       headers: {
         "Api-Key": config.gateway.apiKey,
+        "Warehouse-Id": 1,
       },
     });
     return response.data;
@@ -21,6 +22,7 @@ export const getHomeData = async () => {
     const response = await axios.get(`${baseURL}/home`, {
       headers: {
         "Api-Key": config.gateway.apiKey,
+        "Warehouse-Id": 1,
       },
     });
     return response.data;
@@ -34,6 +36,7 @@ export const getConfig = async () => {
     const response = await axios.get(`${baseURL}/config`, {
       headers: {
         "Api-Key": config.gateway.apiKey,
+        "Warehouse-Id": 1,
       },
     });
     return response.data;

@@ -7,7 +7,14 @@ module.exports = {
     },
     extend: {
       colors: {
-        text: "#555555",
+        "gray-350" : "#ebebeb",
+        "gray-450" : "#999",
+        "gray-550": "#555555",
+        "gray-650": "#666",
+        
+        "slate-850" : "#253237",
+        "slate-955": '#3a3a3a',
+        "orange-450": '#f58220',
       },
       container: {
         // margin: {

@@ -23,12 +23,11 @@ const Home: NextPageWithLayout = () => {
 
   const { data, isInitialLoading } = useQuery<IHome>({ queryKey: ['getHomeData'], queryFn: getHomeData });
 
-  // console.log("data", data?.data.appCategories)
   return (
     <div className="text-lg font-bold min-h-[300vh]">
       <Banner />
       <div className="container mt-6">
-        <div className="border border-[#f58220] rounded rounded-xs px-[20px]">
+        <div className="border border-orange-450 rounded rounded-xs px-[20px]">
           <div className="grid grid-cols-1 sm-grid-cols-2 md:grid-cols-3 ">
             <div className="flex items-start px-[20px] py-[20px] md:py-[35px] relative gap-0">
               <Image
@@ -40,10 +39,10 @@ const Home: NextPageWithLayout = () => {
               />
               <Title
                 type="title-section"
-                className="text-[#253237] font-semibold text-normal capitalize leading-[22px] mb-0"
+                className="text-slate-850 font-semibold text-normal capitalize leading-[22px] mb-0"
                 text="Delivery Service"
                 subTitle="Get plants delivered to your doorstep without hassle!"
-                subClassName="leading-[20px] text-[#666] text-[13px]"
+                subClassName="leading-[20px] text-gray-650 font-normal text-[13px]"
                 mb="0"
               />
             </div>
@@ -57,10 +56,10 @@ const Home: NextPageWithLayout = () => {
               />
               <Title
                 type="title-section"
-                className="text-[#253237] font-semibold text-normal capitalize leading-[22px] mb-0"
+                className="text-slate-850 font-semibold text-normal capitalize leading-[22px] mb-0"
                 text="100% Payment Secure"
                 subTitle="Your payment are safe with us"
-                subClassName="leading-[20px] text-[#666] text-[13px]"
+                subClassName="leading-[20px] text-gray-650 font-normal text-[13px]"
                 mb="0"
               />
             </div>
@@ -74,24 +73,41 @@ const Home: NextPageWithLayout = () => {
               />
               <Title
                 type="title-section"
-                className="text-[#253237] font-semibold text-normal capitalize leading-[22px] mb-0"
+                className="text-slate-850 font-semibold text-normal capitalize leading-[22px] mb-0"
                 text="Support 10 Am - 6 Pm"
                 subTitle="We are available all week from 10 Am to 6 Pm"
-                subClassName="leading-[20px] text-[#666] text-[13px]"
+                subClassName="leading-[20px] text-gray-650 font-normal text-[13px]"
                 mb="0"
               />
             </div>
           </div>
         </div>
         <Categories />
-        {data?.data?.appCategories.map((prev: IAppCategories, index: number) => (
-          <AppCategories
-            key={`appcatgories-${index}`}
-            prev={prev}
-          />
-        )
-        )}
-        <SkeletonLoadingCard />
+        {isInitialLoading ?
+          <>
+            <div className="h-5 bg-gray-300 rounded mb-5 mx-4 w-20 animate-pulse"></div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+              {[1, 2, 3].map((item, index) => (
+                <SkeletonLoadingCard
+                  key={`app-skeleton-${index}`}
+                />
+              ))}
+            </div>
+          </>
+
+          :
+          <>
+            {data?.data?.appCategories.map((prev: IAppCategories, index: number) => (
+              <AppCategories
+                key={`appcatgories-${index}`}
+                prev={prev}
+              />
+            )
+            )}
+          </>
+        }
+
+
 
       </div>
     </div>

@@ -1,6 +1,9 @@
 import BarsIcon from "@/shared/icons/common/BarsIcon";
 import FlowerIcon from "@/shared/icons/common/FlowerIcon";
+import LocationIcon from "@/shared/icons/common/LocationIcon";
 import SearchIcon from "@/shared/icons/common/SearchIcon";
+import TagIcon from "@/shared/icons/common/TagIcon";
+import UserIcon from "@/shared/icons/common/UserIcon";
 import React from "react";
 
 const Drawer = () => {
@@ -27,14 +30,18 @@ const Drawer = () => {
           {/* Sidebar content here */}
           <li>
             <a className="mb-3 text-white rounded-md bg-primary">
+              <LocationIcon />
               Location: Durbarmarg
             </a>
           </li>
           <li>
-            <div className="p-0 border rounded-box !bg-white mb-3 w-full flex">
-              <input className=" py-0 m-0 pe-0 !bg-transparent input max-w-[10.5rem]" />
-              <button className="p-2 px-4 btn btn-primary btn-sm rounded-box">
-                <SearchIcon className="max-h-[1rem] max-w-[1rem]" />
+            <div className="p-0 border border-primary rounded-box !bg-white mb-3 w-full flex">
+              <input
+                placeholder="Search"
+                className=" py-0 m-0 pe-0 !bg-transparent input max-w-[10.5rem]"
+              />
+              <button className="p-2 px-4 rounded-l-none -me-[1px] rounded-box btn btn-primary btn-sm">
+                <SearchIcon className="max-h-[0.9rem] max-w-[0.9rem]" />
               </button>
             </div>
           </li>
@@ -77,11 +84,11 @@ const Drawer = () => {
               <div className="mt-6">
                 <p className="mb-2 text-base font-bold">My Account</p>
                 <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
-                  <FlowerIcon className="text-primary" />
+                  <UserIcon className="text-black" />
                   Login / Sign Up
                 </button>
                 <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
-                  <FlowerIcon className="text-primary" />
+                  <TagIcon className="text-black" />
                   Offer
                 </button>
               </div>

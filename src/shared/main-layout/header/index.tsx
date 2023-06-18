@@ -10,6 +10,10 @@ import BarsIcon from "@/shared/icons/common/BarsIcon";
 import Drawer from "@/shared/components/drawer";
 import { useQuery } from "@tanstack/react-query";
 import { getConfig } from "@/services/home.service";
+import OfferIcon from "@/shared/icons/common/OfferIcon";
+import UserIcon from "@/shared/icons/common/UserIcon";
+import CartIcon from "@/shared/icons/common/CartIcon";
+import HeartIcon from "@/shared/icons/common/HeartIcon";
 
 const Header = () => {
 
@@ -47,6 +51,7 @@ const Header = () => {
                 </div>
               </div>
               <div className="flex-none">
+                <UserIcon className="text-white me-1" />
                 <button className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0">
                   Login
                 </button>
@@ -61,7 +66,7 @@ const Header = () => {
       </header>
 
       {/* search header */}
-      <div className="p-2 border-b-[1px] border-[#6071C60F] bg-white sticky md:static top-0 md:z-10 z-40 ">
+      <div className="p-2 border-b-[1px]  border-[#6071C60F] bg-white sticky md:static top-0 md:z-10 z-40 ">
         <div className="container flex items-center justify-between w-full gap-3 max-h-12 sm:max-h-24">
           {/* Logo */}
           <div className="relative h-14 sm:h-20 w-36">
@@ -82,14 +87,14 @@ const Header = () => {
               </button>
             </div>
             {/* Why Plant Button */}
-            <button className="btn btn-primary btn-outline !min-h-12 font-bold">
-              <FlowerIcon /> <p className="hidden p-4 lg:block">Why Plant</p>
+            <button className="btn btn-primary btn-outline !min-h-12 font-bold text-base gap-0">
+              <FlowerIcon /> <p className="hidden lg:block">Why Plant</p>
             </button>
           </div>
           <div className="flex items-center gap-3">
             {/* Heart Button */}
             <button className="relative hidden py-3 btn btn-circle md:flex">
-              <FlowerIcon />
+              <HeartIcon className="text-black" />
               <Badge
                 className="badge-accent "
                 type="primary"
@@ -99,8 +104,8 @@ const Header = () => {
               </Badge>
             </button>
             {/* Cart */}
-            <button className="relative py-1 sm:py-3 btn btn-sm sm:btn-md btn-circle">
-              <FlowerIcon />
+            <button className="relative py-3 btn btn-circle">
+              <CartIcon />
               <Badge className="badge-accent" badgePosition="top-right">
                 0
               </Badge>
@@ -108,10 +113,10 @@ const Header = () => {
 
             {/* Total Price */}
             <div>
-              <p className="text-[#555555] text-sm font-medium mb-1 whitespace-nowrap hidden md:block">
+              <p className="hidden mb-1 text-sm font-bold text-gray-600 text-gray-550 whitespace-nowrap md:block">
                 TOTAL PRICE
               </p>
-              <p className="text-[#222222] text-sm font-semibold hidden sm:block whitespace-nowrap">
+              <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
                 NRP 1500
               </p>
             </div>
@@ -123,11 +128,11 @@ const Header = () => {
       {/* Category header */}
       <div className={`border-b-[1px]  md:sticky top-0 md:z-70 z-10 bg-white `}>
         <div className="container flex items-center justify-between">
-          <div className="flex w-full gap-5 md:w-auto">
+          <div className="flex w-full gap-10 md:w-auto">
             <div className="dropdown  md:min-w-[15rem] min-w-full">
               <label
                 tabIndex={0}
-                className="btn btn-primary rounded-sm text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full"
+                className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full"
               >
                 <BarsIcon />
                 All Categories <CaretDownIcon />
@@ -147,12 +152,12 @@ const Header = () => {
             <div className="items-center hidden gap-2 md:flex">
               <Button
                 type="ghost"
-                className="!bg-white border-0 text-text font-bold"
+                className="!bg-white border-0 text-text font-bold uppercase"
               >
                 Home
               </Button>
               <Dropdown
-                data={["a", "b"]}
+                data={["Plant Consultation ", "Gift a plant "]}
                 toggleClassName="!font-bold btn-ghost text-text"
               >
                 OUR SERVICE
@@ -164,22 +169,28 @@ const Header = () => {
                 OUTLET
               </Button>
               <Dropdown
-                data={["a", "b"]}
+                data={[
+                  "Who We Are",
+                  "Our Story",
+                  "Values That Make Us Who We Are",
+                  "Working At I Am The Gardner",
+                  "Our CSR Project",
+                ]}
                 toggleClassName="!font-bold btn-ghost text-text"
               >
                 ABOUT US
               </Dropdown>
               <Button
                 type="ghost"
-                className="!bg-white border-0 text-text font-bold"
+                className="!bg-white border-0 text-text font-bold uppercase"
               >
                 BLOGS
               </Button>
             </div>
           </div>
-          <button className="btn btn-ghost !bg-white !border-0 text-text font-bold hidden md:flex">
-            <FlowerIcon className="text-2xl text-accent" />
-            Offer
+          <button className="btn btn-ghost !bg-white !border-0 text-text gap-1 font-bold hidden md:flex">
+            <OfferIcon className="text-accent" />
+            OFFER
           </button>
         </div>
       </div>

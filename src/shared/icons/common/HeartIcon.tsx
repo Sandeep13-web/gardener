@@ -1,8 +1,11 @@
-import React from "react";
+import React, { HTMLAttributes } from "react";
 
-const HeartIcon = () => {
+interface Props extends HTMLAttributes<SVGSVGElement> {}
+
+const HeartIcon: React.FC<Props> = ({ ...rest }) => {
   return (
     <svg
+      {...rest}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"

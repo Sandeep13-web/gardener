@@ -12,15 +12,16 @@ interface IProps {
 const AppCategories: React.FC<IProps> = ({ prev }) => {
     console.log("prev", prev)
     return (
+
         <section className="my-[60px]">
             <Title type="title-section" text={prev.title} />
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                 {prev.products.map((item, index) => (
                     <Card
                         key={`app-cat-products-${index}`}
-                        link={item.link}
+                        link={'#'}
                         type="asdas"
-                        title={item.title}
+                        title={item?.title}
                         price={1260}
                         image={CardImg}
                     />
