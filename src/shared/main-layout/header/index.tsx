@@ -8,8 +8,8 @@ import SearchIcon from "@/shared/icons/common/SearchIcon";
 import CaretDownIcon from "@/shared/icons/common/CaretDownIcon";
 import BarsIcon from "@/shared/icons/common/BarsIcon";
 import Drawer from "@/shared/components/drawer";
-import { useQuery } from "@tanstack/react-query";
-import { getConfig } from "@/services/home.service";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getConfig, getProductCategory } from "@/services/home.service";
 import OfferIcon from "@/shared/icons/common/OfferIcon";
 import UserIcon from "@/shared/icons/common/UserIcon";
 import CartIcon from "@/shared/icons/common/CartIcon";
@@ -17,9 +17,12 @@ import HeartIcon from "@/shared/icons/common/HeartIcon";
 
 const Header = () => {
 
-  const { data: config, isInitialLoading } = useQuery({ queryKey: ['getCategories'], queryFn: getConfig });
+  const { data: config, isInitialLoading } = useQuery({ queryKey: ['getConfig'], queryFn: getConfig });
+  const { data: categories, isInitialLoading: loading } = useQuery({ queryKey: ['getCategories'], queryFn: getProductCategory });
+  const queryClient = useQueryClient();
+  const fetchData = async () => {
+  };
 
-  console.log("config", config)
   return (
     <>
       <header>
@@ -141,11 +144,13 @@ const Header = () => {
                 tabIndex={0}
                 className="w-full p-2 shadow dropdown-content menu bg-base-100"
               >
+                {categories?.data?.slice(0, 9).map((item: any, index: number) => (
+                  <li key={`menu-${index}`}>
+                    <a>{item.title}</a>
+                  </li>
+                ))}
                 <li>
-                  <a>Item 1</a>
-                </li>
-                <li>
-                  <a>Item 2</a>
+                  <a>+ More categories</a>
                 </li>
               </ul>
             </div>

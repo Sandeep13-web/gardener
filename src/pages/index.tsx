@@ -23,6 +23,8 @@ const Home: NextPageWithLayout = () => {
 
   const { data, isInitialLoading } = useQuery<IHome>({ queryKey: ['getHomeData'], queryFn: getHomeData });
 
+  const { data: categories, isInitialLoading: loadingCategories }: any = useQuery({ queryKey: ['getCategories'] });
+
   return (
     <div className="text-lg font-bold min-h-[300vh]">
       <Banner />
@@ -82,7 +84,10 @@ const Home: NextPageWithLayout = () => {
             </div>
           </div>
         </div>
-        <Categories />
+        <Categories
+          loading={loadingCategories}
+          categories={categories?.data.slice(0, 6)}
+        />
         {isInitialLoading ?
           <>
             <div className="h-5 bg-gray-300 rounded mb-5 mx-4 w-20 animate-pulse"></div>
@@ -94,7 +99,6 @@ const Home: NextPageWithLayout = () => {
               ))}
             </div>
           </>
-
           :
           <>
             {data?.data?.appCategories.map((prev: IAppCategories, index: number) => (
@@ -106,9 +110,6 @@ const Home: NextPageWithLayout = () => {
             )}
           </>
         }
-
-
-
       </div>
     </div>
   );

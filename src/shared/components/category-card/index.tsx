@@ -10,7 +10,7 @@ const CategoryCard: React.FC<Props> = ({ title, totalProducts, shopLink, image }
     <div className='relative category-card'>
       <Link className='absolute w-full h-full z-[1]' href={shopLink} />
       <div>
-        <Image src={image} className="w-full h-auto transition-all delay-200 duration-300" alt="Category Image" width={100} height={40} />
+        <Image src={image} className=" transition-all delay-200 duration-300 " alt="Category Image" width={200} height={20} />
       </div>
       <div className='absolute left-[40px] top-[50%] transform translate-y-[-50%] flex flex-col gap-[10px] z-[9]'>
         <h2 className='category-card-title'>{title}</h2>
