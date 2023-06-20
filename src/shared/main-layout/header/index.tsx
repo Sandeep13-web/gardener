@@ -146,36 +146,36 @@ const Header = () => {
               </label>
               <ul
                 tabIndex={0}
-                className="w-full p-2 shadow dropdown-content menu bg-base-100"
+                className="w-full p-0 shadow dropdown-content menu bg-base-100"
               >
                 {categories?.data
                   ?.slice(0, 9)
                   .map((item: any, index: number) => (
                     <li key={`menu-${index}`}>
-                      <p>{item.title}</p>
+                      <p className="dropdown-item">{item.title}</p>
                     </li>
                   ))}
                 <li>
-                  <p>+ More categories</p>
+                  <p className="dropdown-item">+ More categories</p>
                 </li>
               </ul>
             </div>
             <div className="items-center hidden gap-2 md:flex">
               <Button
                 type="ghost"
-                className="!bg-white border-0 text-text font-bold uppercase"
+                className="!bg-white border-0 text-gray-550 font-bold uppercase"
               >
                 Home
               </Button>
               <Dropdown
                 data={["Plant Consultation ", "Gift a plant "]}
-                toggleClassName="!font-bold btn-ghost text-text"
+                toggleClassName="!font-bold btn-ghost text-gray-550"
               >
                 OUR SERVICE
               </Dropdown>
               <Button
                 type="ghost"
-                className="!bg-white border-0 text-text font-bold"
+                className="!bg-white border-0 text-gray-550 font-bold"
               >
                 OUTLET
               </Button>
@@ -187,19 +187,19 @@ const Header = () => {
                   "Working At I Am The Gardner",
                   "Our CSR Project",
                 ]}
-                toggleClassName="!font-bold btn-ghost text-text"
+                toggleClassName="!font-bold btn-ghost text-gray-550"
               >
                 ABOUT US
               </Dropdown>
               <Button
                 type="ghost"
-                className="!bg-white border-0 text-text font-bold uppercase"
+                className="!bg-white border-0 text-gray-550 font-bold uppercase"
               >
                 BLOGS
               </Button>
             </div>
           </div>
-          <button className="btn btn-ghost !bg-white !border-0 text-text gap-1 font-bold hidden md:flex">
+          <button className="btn btn-ghost !bg-white !border-0 text-gray-550 gap-1 font-bold hidden md:flex">
             <OfferIcon className="text-accent" />
             OFFER
           </button>

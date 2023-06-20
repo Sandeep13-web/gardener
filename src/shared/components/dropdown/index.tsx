@@ -21,7 +21,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     <div className={`dropdown ${className}`}>
       <label
         tabIndex={0}
-        // className={`btn btn-${size} btn-${type} m-1 whitespace-nowrap text-[#555] text-sm font-medium flex gap-1 justify-center items-center ${toggleClassName}`}
         className={`btn-${size} m-1 whitespace-nowrap text-[#555] text-sm font-medium flex gap-1 justify-center items-center ${toggleClassName}`}
       >
         {iconPosition === "left" ? icon : ""}
@@ -31,11 +30,11 @@ const Dropdown: React.FC<DropdownProps> = ({
       </label>
       <ul
         tabIndex={0}
-        className={`dropdown-content menu p-2 shadow bg-base-100 rounded-sm  z-[60] ${listClassName}`}
+        className={`dropdown-content menu shadow p-0 bg-base-100 rounded-sm min-w-[110px] z-[60] ${listClassName}`}
       >
         {data?.map((item, index) => (
           <li key={index}>
-            <a>{item}</a>
+            <a className="dropdown-item">{item}</a>
           </li>
         ))}
       </ul>
