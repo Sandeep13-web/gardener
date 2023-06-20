@@ -18,15 +18,12 @@ const CategoryDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const { slug } = router.query
     const [grid, setGrid] = useState<boolean>(true)
-    const [col, setCol] = useState<boolean>(false)
 
     const changeCol = () => {
         setGrid(false)
-        setCol(true)
     }
     const changeGrid = () => {
         setGrid(true)
-        setCol(false)
     }
 
     const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
@@ -101,7 +98,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                                         onClick={changeGrid}
                                     ><BsFillGrid3X3GapFill className='w-[18px] h-auto' /></button>  {/** Active status toggle remain */}
                                     <button
-                                        className={`tab p-0 ${col ? 'text-primary' : 'text-zinc-600' } hover:text-primary`}
+                                        className={`tab p-0 ${!grid ? 'text-primary' : 'text-zinc-600' } hover:text-primary`}
                                         onClick={changeCol}
                                     ><FaListUl className='w-[18px] h-auto' /></button>
                                 </div>
