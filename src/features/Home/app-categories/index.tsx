@@ -19,7 +19,7 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
                 {prev.products.map((item, index) => (
                     <Card
                         key={`app-cat-products-${index}`}
-                        link={'#'}
+                        link={`/categories/${item.link}`}
                         type="asdas"
                         title={item?.title}
                         price={1260}
