@@ -19,13 +19,6 @@ const CategoryDetail: NextPageWithLayout = () => {
     const { slug } = router.query
     const [grid, setGrid] = useState<boolean>(true)
 
-    const changeCol = () => {
-        setGrid(false)
-    }
-    const changeGrid = () => {
-        setGrid(true)
-    }
-
     const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
 
     return (
@@ -95,11 +88,11 @@ const CategoryDetail: NextPageWithLayout = () => {
                                 <div className="tabs gap-[15px]">
                                     <button
                                         className={`tab tab-active p-0 ${grid ? 'text-primary' : 'text-zinc-600' } hover:text-primary`}
-                                        onClick={changeGrid}
+                                        onClick={() => setGrid(true)}
                                     ><BsFillGrid3X3GapFill className='w-[18px] h-auto' /></button>  {/** Active status toggle remain */}
                                     <button
                                         className={`tab p-0 ${!grid ? 'text-primary' : 'text-zinc-600' } hover:text-primary`}
-                                        onClick={changeCol}
+                                        onClick={() => setGrid(false)}
                                     ><FaListUl className='w-[18px] h-auto' /></button>
                                 </div>
                                 <p className='text-gray-750 text-sm leading-[20px] p-2'>There Are 20 Products.</p>
