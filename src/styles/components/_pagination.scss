@@ -10,6 +10,7 @@
             }
             &.disabled{
                 filter: contrast(.8);
+                cursor: not-allowed;
             }
         }
     }
