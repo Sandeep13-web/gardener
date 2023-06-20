@@ -14,6 +14,7 @@ import OfferIcon from "@/shared/icons/common/OfferIcon";
 import UserIcon from "@/shared/icons/common/UserIcon";
 import CartIcon from "@/shared/icons/common/CartIcon";
 import HeartIcon from "@/shared/icons/common/HeartIcon";
+import Link from "next/link";
 
 const Header = () => {
   const { data: config, isInitialLoading } = useQuery({
@@ -25,7 +26,7 @@ const Header = () => {
     queryFn: getProductCategory,
   });
   const queryClient = useQueryClient();
-  const fetchData = async () => {};
+  const fetchData = async () => { };
 
   return (
     <>
@@ -77,7 +78,9 @@ const Header = () => {
         <div className="container flex items-center justify-between w-full gap-3 max-h-12 sm:max-h-24">
           {/* Logo */}
           <div className="relative h-14 sm:h-20 w-36">
-            <Image src={Logo} fill quality={100} alt="Logo" />
+            <Link href={'/'}>
+              <Image src={Logo} fill quality={100} alt="Logo" />
+            </Link>
           </div>
           <div className="items-center justify-center flex-grow hidden gap-7 md:flex ms-auto">
             {/* Search */}
@@ -136,7 +139,7 @@ const Header = () => {
       <div className={`border-b-[1px]  md:sticky top-0 md:z-70 z-10 bg-white `}>
         <div className="container flex items-center justify-between">
           <div className="flex w-full gap-10 md:w-auto">
-            <div className="dropdown  md:min-w-[15rem] min-w-full">
+            <div className="dropdown dropdown-hover  md:min-w-[15rem] min-w-full">
               <label
                 tabIndex={0}
                 className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full"
@@ -152,11 +155,11 @@ const Header = () => {
                   ?.slice(0, 9)
                   .map((item: any, index: number) => (
                     <li key={`menu-${index}`}>
-                      <p>{item.title}</p>
+                      <Link href={`/categories/${item.slug}`} className="capitalize">{item.title}</Link>
                     </li>
                   ))}
                 <li>
-                  <p>+ More categories</p>
+                  <Link href="/categories">+ More categories</Link>
                 </li>
               </ul>
             </div>
