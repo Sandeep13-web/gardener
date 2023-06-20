@@ -64,3 +64,10 @@
         }
     }
 }
+.checkout-card{
+    @apply bg-slate-250 border border-gray-350 rounded rounded-[5px] px-[30px] py-[45px] pb-[50px] w-full md:w-[370px];
+
+    &-header{
+        @apply relative before:content-[''] before:absolute before:top-[10px] before:z-[1] before:left-0 before:bg-gray-350 before:h-[1px] before:w-full; 
+    }
+}
