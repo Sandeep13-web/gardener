@@ -16,12 +16,16 @@ import CartIcon from "@/shared/icons/common/CartIcon";
 import HeartIcon from "@/shared/icons/common/HeartIcon";
 
 const Header = () => {
-
-  const { data: config, isInitialLoading } = useQuery({ queryKey: ['getConfig'], queryFn: getConfig });
-  const { data: categories, isInitialLoading: loading } = useQuery({ queryKey: ['getCategories'], queryFn: getProductCategory });
+  const { data: config, isInitialLoading } = useQuery({
+    queryKey: ["getConfig"],
+    queryFn: getConfig,
+  });
+  const { data: categories, isInitialLoading: loading } = useQuery({
+    queryKey: ["getCategories"],
+    queryFn: getProductCategory,
+  });
   const queryClient = useQueryClient();
-  const fetchData = async () => {
-  };
+  const fetchData = async () => {};
 
   return (
     <>
@@ -45,10 +49,10 @@ const Header = () => {
                     className="p-2 mt-3 rounded-sm shadow menu dropdown-content bg-base-100 w-52"
                   >
                     <li>
-                      <a>Item 1</a>
+                      <p>Item 1</p>
                     </li>
                     <li>
-                      <a>Item 2</a>
+                      <p>Item 2</p>
                     </li>
                   </ul>
                 </div>
@@ -142,34 +146,36 @@ const Header = () => {
               </label>
               <ul
                 tabIndex={0}
-                className="w-full p-2 shadow dropdown-content menu bg-base-100"
+                className="w-full p-0 shadow dropdown-content menu bg-base-100"
               >
-                {categories?.data?.slice(0, 9).map((item: any, index: number) => (
-                  <li key={`menu-${index}`}>
-                    <a>{item.title}</a>
-                  </li>
-                ))}
+                {categories?.data
+                  ?.slice(0, 9)
+                  .map((item: any, index: number) => (
+                    <li key={`menu-${index}`}>
+                      <p className="dropdown-item">{item.title}</p>
+                    </li>
+                  ))}
                 <li>
-                  <a>+ More categories</a>
+                  <p className="dropdown-item">+ More categories</p>
                 </li>
               </ul>
             </div>
             <div className="items-center hidden gap-2 md:flex">
               <Button
                 type="ghost"
-                className="!bg-white border-0 text-text font-bold uppercase"
+                className="!bg-white border-0 text-gray-550 font-bold uppercase"
               >
                 Home
               </Button>
               <Dropdown
                 data={["Plant Consultation ", "Gift a plant "]}
-                toggleClassName="!font-bold btn-ghost text-text"
+                toggleClassName="!font-bold btn-ghost text-gray-550"
               >
                 OUR SERVICE
               </Dropdown>
               <Button
                 type="ghost"
-                className="!bg-white border-0 text-text font-bold"
+                className="!bg-white border-0 text-gray-550 font-bold"
               >
                 OUTLET
               </Button>
@@ -181,19 +187,19 @@ const Header = () => {
                   "Working At I Am The Gardner",
                   "Our CSR Project",
                 ]}
-                toggleClassName="!font-bold btn-ghost text-text"
+                toggleClassName="!font-bold btn-ghost text-gray-550"
               >
                 ABOUT US
               </Dropdown>
               <Button
                 type="ghost"
-                className="!bg-white border-0 text-text font-bold uppercase"
+                className="!bg-white border-0 text-gray-550 font-bold uppercase"
               >
                 BLOGS
               </Button>
             </div>
           </div>
-          <button className="btn btn-ghost !bg-white !border-0 text-text gap-1 font-bold hidden md:flex">
+          <button className="btn btn-ghost !bg-white !border-0 text-gray-550 gap-1 font-bold hidden md:flex">
             <OfferIcon className="text-accent" />
             OFFER
           </button>
