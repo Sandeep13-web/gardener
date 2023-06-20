@@ -20,7 +20,7 @@
         }
         
         &-title{
-            @apply text-slate-850 font-bold leading-[18px] text-sm capitalize transition-all ease-in-out delay-150 duration-300 cursor-pointer block w-max;
+            @apply text-slate-850 font-bold leading-[18px] text-sm capitalize transition-all ease-in-out delay-150 duration-300 cursor-pointer block;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -49,6 +49,14 @@
                 visibility: visible;
                 transform: translateY(0) translateZ(0);
             }
+        }
+        .desc{
+            @apply text-sm leading-[24px] text-zinc-250;
+            overflow: hidden;
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
     }
 

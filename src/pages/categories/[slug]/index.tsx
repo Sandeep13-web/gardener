@@ -2,18 +2,35 @@ import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react'
-import {BsFillGrid3X3GapFill} from 'react-icons/bs'
-import {FaListUl} from 'react-icons/fa'
+import { BsFillGrid3X3GapFill } from 'react-icons/bs'
+import { FaListUl } from 'react-icons/fa'
 
 import { NextPageWithLayout } from '@/pages/_app';
 import MainLayout from '@/shared/main-layout';
+import Card from '@/shared/components/card';
+import Pagination from '@/shared/components/pagination';
+import { CardImg } from '@/shared/lib/image-config'
+import CardLg from '@/shared/components/card-lg';
+import { useState } from 'react';
+
 
 const CategoryDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const { slug } = router.query
+    const [grid, setGrid] = useState<boolean>(true)
+    const [col, setCol] = useState<boolean>(false)
+
+    const changeCol = () => {
+        setGrid(false)
+        setCol(true)
+    }
+    const changeGrid = () => {
+        setGrid(true)
+        setCol(false)
+    }
 
     const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
-    
+
     return (
         <>
             <div className='product-page-banner'>
@@ -31,8 +48,8 @@ const CategoryDetail: NextPageWithLayout = () => {
                 </div>
             </div>
             <div className='container my-[60px]'>
-                <div className="grid grid-cols-12 md:grid-col-1 gap-[30px]">
-                    <div className='order-last md:order-first col-span-3 right-sidebar'>
+                <div className="grid grid-cols-12 md:gap-[30px]">
+                    <div className='order-last md:order-first col-span-12 md:col-span-3 right-sidebar'>
                         <div className='mb-[20px]'>
                             <h3 className='right-sidebar-head'>
                                 Filter By
@@ -75,12 +92,18 @@ const CategoryDetail: NextPageWithLayout = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='col-span-9'>
+                    <div className='col-span-12 md:col-span-9'>
                         <div className='flex flex-col sm:flex-row px-[30px] py-[10px] mb-[30px] bg-slate-150'>
                             <div className='flex-1 flex items-center mb-4 sm:mb-0 gap-[15px]'>
                                 <div className="tabs gap-[15px]">
-                                    <button className="tab tab-active p-0 text-primary hover:text-primary"><BsFillGrid3X3GapFill className='w-[18px] h-auto' /></button>  {/** Active status toggle remain */}
-                                    <button className="tab p-0 text-zinc-600 hover:text-primary"><FaListUl className='w-[18px] h-auto' /></button>
+                                    <button
+                                        className={`tab tab-active p-0 ${grid ? 'text-primary' : 'text-zinc-600' } hover:text-primary`}
+                                        onClick={changeGrid}
+                                    ><BsFillGrid3X3GapFill className='w-[18px] h-auto' /></button>  {/** Active status toggle remain */}
+                                    <button
+                                        className={`tab p-0 ${col ? 'text-primary' : 'text-zinc-600' } hover:text-primary`}
+                                        onClick={changeCol}
+                                    ><FaListUl className='w-[18px] h-auto' /></button>
                                 </div>
                                 <p className='text-gray-750 text-sm leading-[20px] p-2'>There Are 20 Products.</p>
                             </div>
@@ -89,6 +112,62 @@ const CategoryDetail: NextPageWithLayout = () => {
                                 dropdown/select
                             </div>
                         </div>
+                        {
+                            grid ?
+                                <div className='grid grid-cols-12 gap-[30px]'>
+                                    <div className='col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3'>
+                                        <Card
+                                            link="#"
+                                            type="asdas"
+                                            title="asdasd"
+                                            price={1260}
+                                            image={CardImg}
+                                        />
+                                    </div>
+                                    <div className='col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3'>
+                                        <Card
+                                            link="#"
+                                            type="asdas"
+                                            title="asdasd"
+                                            price={1260}
+                                            image={CardImg}
+                                        />
+                                    </div>
+                                    <div className='col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3'>
+                                        <Card
+                                            link="#"
+                                            type="asdas"
+                                            title="asdasd"
+                                            price={1260}
+                                            image={CardImg}
+                                        />
+                                    </div>
+                                    <div className='col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3'>
+                                        <Card
+                                            link="#"
+                                            type="asdas"
+                                            title="asdasd"
+                                            price={1260}
+                                            image={CardImg}
+                                        />
+                                    </div>
+                                </div> :
+                                <div className='grid grid-cols-12 gap-[30px]'>
+                                    <div className='col-span-12'>
+                                        <CardLg
+                                            link="#"
+                                            type="asdas"
+                                            title="asdasd"
+                                            price={1260}
+                                            image={CardImg}
+                                            availability='In stock'
+                                            desc="asdasdasdsdsa"
+                                        />
+                                    </div>
+                                </div>
+                        }
+
+                        <Pagination />
                     </div>
                 </div>
             </div>
