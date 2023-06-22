@@ -60,13 +60,13 @@ const Header = () => {
               </div>
               <div className="flex-none">
                 <UserIcon className="text-white me-1" />
-                <button className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0">
+                <Link href={'/auth/login'} className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0">
                   Login
-                </button>
+                </Link>
                 <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0"></div>
-                <button className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0">
+                <Link href={'/auth/register'} className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0">
                   Sign Up
-                </button>
+                </Link>
               </div>
             </div>
           </div>
