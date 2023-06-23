@@ -1,5 +1,6 @@
 import "@/styles/globals.scss";
 import 'react-toastify/dist/ReactToastify.css';
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";

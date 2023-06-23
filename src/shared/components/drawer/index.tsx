@@ -4,6 +4,7 @@ import LocationIcon from "@/shared/icons/common/LocationIcon";
 import SearchIcon from "@/shared/icons/common/SearchIcon";
 import TagIcon from "@/shared/icons/common/TagIcon";
 import UserIcon from "@/shared/icons/common/UserIcon";
+import Link from "next/link";
 import React from "react";
 
 const Drawer = () => {
@@ -83,14 +84,29 @@ const Drawer = () => {
               </div>
               <div className="mt-6">
                 <p className="mb-2 text-base font-bold">My Account</p>
-                <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
-                  <UserIcon className="text-black" />
-                  Login / Sign Up
-                </button>
+                
+                <div className="flex">
+                  <Link href="/login">
+                    <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
+                      <UserIcon className="text-black" />
+                      Login
+                    </button>
+                  </Link>
+                  <span>/</span>
+                  <Link href="/login">
+                    <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
+                      Sign Up
+                    </button>
+                  </Link>
+                </div>
+                
+                <Link href="/offer">
                 <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
                   <TagIcon className="text-black" />
                   Offer
                 </button>
+                </Link>
+                
               </div>
             </div>
           </li>

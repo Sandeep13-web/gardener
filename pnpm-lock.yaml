@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@tanstack/react-form':
+    specifier: ^0.0.11
+    version: 0.0.11(react-dom@18.2.0)(react@18.2.0)
   '@tanstack/react-query':
     specifier: ^4.29.13
     version: 4.29.13(react-dom@18.2.0)(react@18.2.0)
@@ -37,6 +40,9 @@ dependencies:
   next:
     specifier: 13.4.5
     version: 13.4.5(react-dom@18.2.0)(react@18.2.0)(sass@1.63.3)
+  pnpm:
+    specifier: ^8.6.3
+    version: 8.6.3
   postcss:
     specifier: 8.4.24
     version: 8.4.24
@@ -50,8 +56,8 @@ dependencies:
     specifier: ^7.44.3
     version: 7.44.3(react@18.2.0)
   react-icons:
-    specifier: ^4.9.0
-    version: 4.9.0(react@18.2.0)
+    specifier: ^4.10.1
+    version: 4.10.1(react@18.2.0)
   react-toastify:
     specifier: ^9.1.3
     version: 9.1.3(react-dom@18.2.0)(react@18.2.0)
@@ -321,8 +327,32 @@ packages:
       tslib: 2.5.3
     dev: false
 
+  /@tanstack/form-core@0.0.11:
+    resolution: {integrity: sha512-Sv7b9IG0XmBoDbDe0nXrTTl9xl05TA4ir0pwr/xJwNP683CNRIzBpug3/WVzWoQVLCvRvvmo3t12N75Ip8HQNg==}
+    dependencies:
+      '@tanstack/store': 0.0.1-beta.89
+    dev: false
+
   /@tanstack/query-core@4.29.11:
     resolution: {integrity: sha512-8C+hF6SFAb/TlFZyS9FItgNwrw4PMa7YeX+KQYe2ZAiEz6uzg6yIr+QBzPkUwZ/L0bXvGd1sufTm3wotoz+GwQ==}
+    dev: false
+
+  /@tanstack/react-form@0.0.11(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-76tyMuDVtHzWHSUSdYPIfpo06RexmSAg4dKMaBToH0yww8l1Y/PNKdoUGcmUHUUFstObm2ufw1VG2YAnsVWx8Q==}
+    peerDependencies:
+      react: ^17.0.0 || ^18.0.0
+      react-dom: ^17.0.0 || ^18.0.0
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@tanstack/form-core': 0.0.11
+      '@tanstack/react-store': 0.0.1-beta.85(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@tanstack/react-query@4.29.13(react-dom@18.2.0)(react@18.2.0):
@@ -341,6 +371,29 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
+
+  /@tanstack/react-store@0.0.1-beta.85(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-5APLxQOHgws735Va5ndbS6aa9pIILcximTr5dQeEFRzCNqjLyJ6YHGDuqng9zLMLzCyNILmdEtpNW0tp5l/tNw==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@tanstack/store': 0.0.1-beta.85
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
+
+  /@tanstack/store@0.0.1-beta.85:
+    resolution: {integrity: sha512-gUn8i4mhS7V5yRTu6NosoKuUBfw4w36JHx0rg2MJ5kAiKukISoTqlzUKKKzmVvVPL6H1xwaDGEf6bmLzLlgZEQ==}
+    engines: {node: '>=12'}
+    dev: false
+
+  /@tanstack/store@0.0.1-beta.89:
+    resolution: {integrity: sha512-YW2aAhsXI4QYLXRnxZzB7MgEah91itQcWAjN3GYg1HKHxPv/11T5bL1CUCSxFLTI0f+45uNRjsmof6eqsN3ECA==}
+    engines: {node: '>=12'}
     dev: false
 
   /@types/cookie@0.4.1:
@@ -2198,6 +2251,12 @@ packages:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}
     engines: {node: '>= 6'}
 
+  /pnpm@8.6.3:
+    resolution: {integrity: sha512-0Y4neugHIJEEa8y8oJMfd9wwgHkc1hIq6JC/UEEl2K92s3+zPaKH26n7u22m67E+MU6fpKRkx+/+PYWZzr5yQw==}
+    engines: {node: '>=16.14'}
+    hasBin: true
+    dev: false
+
   /postcss-import@15.1.0(postcss@8.4.24):
     resolution: {integrity: sha512-hpr+J05B2FVYUAXHeK1YyI267J/dDDhMU6B6civm8hSY1jYJnBXxzKDKDswzJmtLHryrjhnDjqqp/49t8FALew==}
     engines: {node: '>=14.0.0'}
@@ -2314,8 +2373,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-icons@4.9.0(react@18.2.0):
-    resolution: {integrity: sha512-ijUnFr//ycebOqujtqtV9PFS7JjhWg0QU6ykURVHuL4cbofvRCf3f6GMn9+fBktEFQOIVZnuAYLZdiyadRQRFg==}
+  /react-icons@4.10.1(react@18.2.0):
+    resolution: {integrity: sha512-/ngzDP/77tlCfqthiiGNZeYFACw85fUjZtLbedmJ5DTlNDIwETxhwBzdOJ21zj4iJdvc0J3y7yOsX3PpxAJzrw==}
     peerDependencies:
       react: '*'
     dependencies:
@@ -2863,7 +2922,3 @@ packages:
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
