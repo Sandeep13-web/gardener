@@ -70,7 +70,7 @@ if (isLoading) {
             </div>
             <div className="sorting flex items-center">
               <p className="text-gray-750 font-normal text-sm pr-3">Sort By:</p>
-              <select value={selectedOption} onChange={handleSelectChange}>
+              <select defaultValue ={selectedOption} onChange={handleSelectChange}>
                 <option value="">Please Select</option>
                 <option value="ascending">A to Z</option>
                 <option value="descending">Z to A</option>

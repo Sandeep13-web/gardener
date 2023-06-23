@@ -11,7 +11,13 @@ const Loader = () => {
 
   // Render the breadcrumb with dynamic text
   return (
-    <p>Loading...</p>
+    <div className="flex items-center mx-auto justify-center h-[400px]">
+       <div
+  className="h-[50px] w-[50px] animate-spin rounded-full border-[6px] border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+  role="status">
+</div>
+    </div>
+   
   );
 };
 

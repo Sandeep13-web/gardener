@@ -1,6 +1,7 @@
 import MainLayout from "@/shared/main-layout";
 import { NextPageWithLayout } from "../_app";
 import Input from "postcss/lib/input";
+import Image from 'next/image';
 
 const ProductsPage: NextPageWithLayout = () => {
   return (
@@ -9,11 +10,16 @@ const ProductsPage: NextPageWithLayout = () => {
         <div className="container">
           <div className="grid grid-cols-12">
             <div className="col-span-12 md:col-span-5">
-              <img src="images/product-img-1.png" alt="" />
+              <Image
+                          src="/images/product-img-1.png"
+                          alt=""
+                          className="img-fluid mx-auto flex"
+                          width={330} height={330}
+                        />
             </div>
             <div className="col-span-12 md:col-span-7">
               <h2 className="font-semibold text-2xl text-[#253237] mb-6">
-                Cool Por 8"
+                Cool Por 8
               </h2>
               <p className="font-bold text-sm color-[#253237] mb-2">
                 Category:
