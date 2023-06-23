@@ -29,10 +29,10 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
     if (
       error?.response?.status === 401 &&
-      window?.location?.pathname !== "/login"
+      window?.location?.pathname !== "/auth/login"
     ) {
       localStorage.setItem("logoutUser", "true");
-      window.location.href = "/login";
+      window.location.href = "/auth/login";
       return Promise.reject(error);
     }
     if (error.response?.status === 306 && !originalRequest._retry) {

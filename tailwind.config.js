@@ -50,7 +50,7 @@ module.exports = {
           info: "#4184e1",
           success: "#0c5a34",
           warning: "#edc95e",
-          error: "red",
+          error: "#dc3545",
           tertiary: '#f2f2f2',
         },
       },

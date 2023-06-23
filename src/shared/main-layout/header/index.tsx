@@ -1,7 +1,7 @@
 import Badge from "@/shared/components/badge";
 import Button from "@/shared/components/button";
 import Dropdown from "@/shared/components/dropdown";
-import { Logo } from "@/shared/lib/image-config";
+import { CardImg, Logo } from "@/shared/lib/image-config";
 import Image from "next/image";
 import FlowerIcon from "@/shared/icons/common/FlowerIcon";
 import SearchIcon from "@/shared/icons/common/SearchIcon";
@@ -60,13 +60,13 @@ const Header = () => {
               </div>
               <div className="flex-none">
                 <UserIcon className="text-white me-1" />
-                <button className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0">
+                <Link href={'/auth/login'} className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0">
                   Login
-                </button>
+                </Link>
                 <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0"></div>
-                <button className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0">
+                <Link href={'/auth/register'} className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0">
                   Sign Up
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -114,12 +114,90 @@ const Header = () => {
               </Badge>
             </button>
             {/* Cart */}
-            <button className="relative py-3 btn btn-circle">
+            <button className="relative py-3 btn btn-circle ">
               <CartIcon />
               <Badge className="badge-accent" badgePosition="top-right">
                 0
               </Badge>
             </button>
+            <div className="dropdown dropdown-hover relative py-3 bg-gray-350 btn-circle z-40 shrink-0">
+              <CartIcon className="mx-auto" />
+              <Badge className="badge-accent" badgePosition="top-right">
+                0
+              </Badge>
+              {/* dropdown content */}
+              <div
+                tabIndex={0}
+                className="dropdown-content right-0 z-[2] p-4 shadow bg-base-100 w-80"
+              >
+                {/* item list*/}
+                <div className="max-h-42 overflow-auto [&>*:first-child]:pt-0 ">
+                  <div className="pt-4 pb-4 flex gap-2 relative border-solid border-b-2 border-gray-350">
+                    <Link href="" className=" absolute w-full h-full"/>
+                    <div className="w-[85px] aspect-square border-solid border-2 border-gray-350 relative">
+                      <Image
+                        width={85}
+                        height={85}
+                        src={CardImg}
+                        alt="image"
+                        className=" object-contain aspect-square"
+                      />
+                      <Badge
+                        className="badge-accent left-1 top-1"
+                        badgePosition="top-left"
+                      >
+                        2x
+                      </Badge>
+                    </div>
+                    <div className="flex-grow">
+                      <h6 className=" font-semibold text-sm">Baby sun rose </h6>
+                      <p className="text-small">
+                        <span>NPR</span> 450
+                      </p>
+                    </div>
+                    <button className="btn-circle btn-error btn absolute right-0 w-5 aspect-square hover:bg-primary hover:border-primary">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-3 w-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                {/* pricing list */}
+                <div className="py-2 ">
+                  <p className="flex justify-between text-gray-450">
+                    Order Amount : <span>NPR 2700</span>
+                  </p>
+                  <p className="flex justify-between text-gray-450">
+                    Subtotal : <span>NPR 2700</span>
+                  </p>
+                  <p className="flex justify-between text-gray-450">
+                    Delievery charge : <span>NPR 100</span>
+                  </p>
+                  <p className="flex justify-between">
+                    Total : <span>NPR 2800</span>
+                  </p>
+                </div>
+                <div className=" [&>*:first-child]:mb-4">
+                  <button className="btn btn-block py-4 rounded-3xl font-normal hover:bg-primary hover:text-white">
+                    CART
+                  </button>
+                  <button className="btn btn-block py-4 rounded-3xl font-normal hover:bg-primary hover:text-white ">
+                    CHECKOUT
+                  </button>
+                </div>
+              </div>
+            </div>
 
             {/* Total Price */}
             <div>

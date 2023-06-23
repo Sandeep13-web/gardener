@@ -1,0 +1,6 @@
+@layer component{
+    .auth-form{
+        @apply bg-transparent p-[80px] w-full;
+        box-shadow: 0 0 6px rgba(0,0,0,.1);
+    }
+}
