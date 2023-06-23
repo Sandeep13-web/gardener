@@ -280,10 +280,12 @@ const Header = () => {
               </Button>
             </div>
           </div>
-          <button className="btn btn-ghost !bg-white !border-0 text-gray-550 gap-1 font-bold hidden md:flex">
-            <OfferIcon className="text-accent" />
-            OFFER
-          </button>
+          <Link href="/offer">
+            <button className="btn btn-ghost !bg-white !border-0 text-gray-550 gap-1 font-bold hidden md:flex">
+              <OfferIcon className="text-accent" />
+              OFFER
+            </button>
+          </Link>
         </div>
       </div>
     </>

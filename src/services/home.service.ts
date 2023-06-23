@@ -30,3 +30,5 @@ export const getConfig = async () => {
     throw error;
   }
 };
+
+
