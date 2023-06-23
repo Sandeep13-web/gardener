@@ -8,16 +8,17 @@ import { useQuery } from "@tanstack/react-query";
 import { IProduct } from "@/interface/product.interfcae";
 import { getOffers } from "@/services/offer.service";
 import Link from "next/link";
-import Image from 'next/image';
 import Loader from "@/components/Loading";
+import EmptyPage from "@/components/emptyPage";
 
 const Offer: NextPageWithLayout = () => {
 
   const [query, setQuery] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
-  const [offer, setOffer] = useState(1);
-  const [maxPrice, setMaxPrice] = useState(null);
-  const [minPrice, setMinPrice] = useState(null);
+  const offer = 1
+  const maxPrice = null
+  const minPrice = null
+
   const [selectedOption, setSelectedOption] = useState('');
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -82,27 +83,7 @@ if (isLoading) {
           <section className="my-[60px]">
             <div>
               {offers?.data.length === 0 ? (
-                <div className="message__section pt-0"> 
-                  <div className="container">
-                      <div className="message__section__inner">
-                        <Image
-                          src="/images/search-empty.svg"
-                          alt=""
-                          className="img-fluid mx-auto flex"
-                          width={330} height={330}
-                        />
-                       <div className="text-center">
-                          <h2 className="text-lg font-medium">No Products Found</h2>
-                          <p> Thank you for using I am the Gardener. We will be in contact with more details shortly.</p>
-                        </div>
-                        <div className="text-center">
-                          <Link href="/">
-                            Continue Shopping
-                           </Link> 
-                        </div>
-                      </div>
-                  </div>
-                </div>
+                  <EmptyPage />
                ) : (
                       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                         {offers.data.map((item: any, index: any) => (
