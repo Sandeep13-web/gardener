@@ -131,12 +131,13 @@ const Header = () => {
                 {/* item list*/}
                 <div className="max-h-42 overflow-auto [&>*:first-child]:pt-0 ">
                   <div className="pt-4 pb-4 flex gap-2 relative border-solid border-b-2 border-gray-350">
-                    {/* <Link href={#} className=" absolute w-full h-full"/> */}
+                    <Link href="" className=" absolute w-full h-full"/>
                     <div className="w-[85px] aspect-square border-solid border-2 border-gray-350 relative">
                       <Image
                         width={85}
                         height={85}
                         src={CardImg}
+                        alt="image"
                         className=" object-contain aspect-square"
                       />
                       <Badge
@@ -152,7 +153,7 @@ const Header = () => {
                         <span>NPR</span> 450
                       </p>
                     </div>
-                    <button className="btn-circle btn-error btn absolute right-0 w-5 aspect-square">
+                    <button className="btn-circle btn-error btn absolute right-0 w-5 aspect-square hover:bg-primary hover:border-primary">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-3 w-3"
@@ -181,7 +182,7 @@ const Header = () => {
                   <p className="flex justify-between text-gray-450">
                     Delievery charge : <span>NPR 100</span>
                   </p>
-                  <p className="flex justify-between text-gray-450">
+                  <p className="flex justify-between">
                     Total : <span>NPR 2800</span>
                   </p>
                 </div>
