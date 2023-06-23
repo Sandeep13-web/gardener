@@ -1,111 +1,134 @@
 import { signUp } from '@/services/auth.service'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { IRegisterProps } from './register.interface'
+import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
 
 const RegisterForm = () => {
     const router = useRouter()
 
-    const mutation: any = useMutation({ mutationFn: signUp })
-    const [fnameError, setFnameError] = useState('')
-    const [lnameError, setLnameError] = useState('')
-    const [phoneNumError, setPhoneNumError] = useState('')
-    const [emailError, setEmailError] = useState('')
-    const [passwordError, setPasswordError] = useState('')
-
-
-    const register = (e: any) => {
-        e.preventDefault()
-        const formData = new FormData(e.target);
-        const payload = Object.fromEntries(formData.entries());
-        // const payload = {first_name, last_name, mobile_number, email, password, confirmPassword}
-        mutation.mutate(payload)
-    }
-    useEffect(() => {
-        if (mutation.isSuccess) {
-            router.push('/auth/login')
-        }
-        if (mutation.isError) {
-            const errors = mutation.error.response.data.errors
-            errors.map((error: any) => {
-                if (error.title === 'first_name') setFnameError(error.message)
-                if (error.title === 'last_name') setLnameError(error.message)
-                if (error.title === 'email') setEmailError(error.message)
-                if (error.title === 'mobile_number') setPhoneNumError(error.message)
-                if (error.title === 'password') setPasswordError(error.message)
+    const mutation = useMutation({
+        mutationFn: signUp,
+        onSuccess : () => {
+            showToast(TOAST_TYPES.success, 'User Created Successfully.');
+            router.push('/auth/login');
+        },
+        onError :(error:any) => {
+            const errors = error?.response?.data?.errors
+            errors.map((err:any) => {
+                showToast(TOAST_TYPES.error, err.message);
             })
         }
-    }, [mutation])
-    
+    })
+
+    const { register, handleSubmit, watch, formState: { errors }, trigger } = useForm<IRegisterProps>()
+
+    const registerSubmit = (data: any) => {
+        mutation.mutate(data)
+    }
+
 
     return (
-        <form onSubmit={register}>
+        <form onSubmit={handleSubmit(registerSubmit)}>
             <div className='flex flex-col mb-[20px]'>
                 <input
                     type="text"
-                    name='first_name'
                     placeholder='Enter Your First Name'
+                    {...register("first_name", { required: 'FirstName is required.' })}
+                    onBlur={() => trigger('first_name')}
                     className='px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350'
                 />
                 {
-                    fnameError &&
-                    <p className='text-error text-xs leading-[24px] mt-1'>{fnameError}</p>
+                    errors.first_name &&
+                    <p className='text-error text-xs leading-[24px] mt-1'>{errors.first_name.message}</p>
                 }
             </div>
             <div className='flex flex-col mb-[20px]'>
                 <input
                     type="text"
-                    name="last_name"
+                    {...register("last_name", { required: 'LastName is required.' })}
                     placeholder='Enter Your Last Name'
+                    onBlur={() => trigger('last_name')}
                     className='px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350'
                 />
                 {
-                    lnameError &&
-                    <p className='text-error text-xs leading-[24px] mt-1'>{lnameError}</p>
+                    errors.last_name &&
+                    <p className='text-error text-xs leading-[24px] mt-1'>{errors.last_name.message}</p>
                 }
             </div>
             <div className='flex flex-col mb-[20px]'>
                 <input
                     type="text"
-                    name="mobile_number"
+                    {...register("mobile_number",
+                        {
+                            required: "Phone number is required.",
+                            pattern: {
+                                value: /^[9]\d{9}$/,
+                                message: "Phone number must start with 9 and have 10 digits.",
+                            }
+                        })}
+                    onBlur={() => trigger('mobile_number')}
                     placeholder='Enter Your Phone Number'
                     className='px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350'
                 />
                 {
-                    phoneNumError &&
-                    <p className='text-error text-xs leading-[24px] mt-1'>{phoneNumError}</p>
+                    errors.mobile_number &&
+                    <p className='text-error text-xs leading-[24px] mt-1'>{errors.mobile_number.message}</p>
                 }
             </div>
             <div className='flex flex-col mb-[20px]'>
                 <input
                     type="text"
-                    name="email"
+                    {...register("email", {
+                        pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Invalid email address.",
+                        },
+                    })}
                     placeholder='Enter Your Email'
                     className='px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350'
                 />
                 {
-                    emailError &&
-                    <p className='text-error text-xs leading-[24px] mt-1'>{emailError}</p>
+                    errors.email &&
+                    <p className='text-error text-xs leading-[24px] mt-1'>{errors.email.message}</p>
                 }
             </div>
             <div className='flex flex-col mb-[20px]'>
                 <input type="password"
                     placeholder='Password'
-                    name="password"
+                    {...register("password", {
+                        required: 'Password is required.',
+                        minLength: {
+                            value: 6,
+                            message: "Password must have at least 6 characters.",
+                        },
+                    })}
+                    onBlur={() => trigger('password')}
                     className='px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350'
                 />
                 {
-                    passwordError &&
-                    <p className='text-error text-xs leading-[24px] mt-1'>{passwordError}</p>
+                    errors.password &&
+                    <p className='text-error text-xs leading-[24px] mt-1'>{errors.password.message}</p>
                 }
             </div>
             <div className='flex flex-col mb-[20px]'>
                 <input type="password"
                     placeholder='Confirm Password'
-                    name="confirmPassword"
+                    {...register("confirm_password"
+                        ,
+                        {
+                            required: "Confirm Password is required.",
+                            validate: (value) => value === watch("password") || "Password do not match"
+                        },
+                    )}
                     className='px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350'
                 />
-                {/* <p className='text-error text-xs leading-[24px] mt-1'>Confirm Password Error</p> */}
+                {
+                    errors.confirm_password &&
+                    <p className='text-error text-xs leading-[24px] mt-1'>{errors.confirm_password.message}</p>
+                }
             </div>
             <div className='flex justify-between items-center'>
                 <button

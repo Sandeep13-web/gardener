@@ -31,7 +31,7 @@ export const login = async (data: any) => {
       refresh_token,
     });
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       return response.data;
     }
   } catch (error) {
