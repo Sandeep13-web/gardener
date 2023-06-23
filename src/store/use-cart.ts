@@ -14,6 +14,7 @@ interface IStore {
   clearCart: () => void; // New function to clear the cart
   subtotal: number;
   total: number;
+  calculateTotal: () => { subtotal: number; total: number };
 }
 
 export const useCart = create<IStore>((set, get) => ({
@@ -85,7 +86,15 @@ export const useCart = create<IStore>((set, get) => ({
 
     set({ cartItems: updatedCartItems });
   },
+  calculateTotal: () => {
+    const subtotal = get().cartItems.reduce(
+      (sum, item) => sum + item.product.unitPrice[0].sellingPrice * item.quantity,
+      0
+    );
+    const total = subtotal + 10; // Assume flat rate shipping fee of $10
 
+    return { subtotal, total };
+  },
   get subtotal() {
     return get().cartItems.reduce((sum, item) => sum + item.product.unitPrice[0].sellingPrice * item.quantity, 0);
   },
