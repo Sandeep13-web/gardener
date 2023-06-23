@@ -14,7 +14,7 @@ const LoginForm = () => {
     const mutation = useMutation({
         mutationFn: login,
         onSuccess: (data) => {
-            setCookie('user', data?.access_token);
+            setCookie('token', data?.access_token);
             showToast(TOAST_TYPES.success, 'Successfully logged in.');
             router.push('/');
         },
