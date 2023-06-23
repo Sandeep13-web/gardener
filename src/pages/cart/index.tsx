@@ -9,7 +9,8 @@ import { useState } from "react";
 import { useCart } from "@/store/use-cart";
 
 const Cart: NextPageWithLayout = () => {
-  const { cartItems, updateItemQuantity, removeFromCart } = useCart();
+  const { cartItems, updateItemQuantity, removeFromCart, clearCart } =
+    useCart();
   const [value, setValue] = useState<number>(1);
   const [addItem, setAddItem] = useState<boolean>(false);
 
@@ -20,7 +21,7 @@ const Cart: NextPageWithLayout = () => {
   const subItemNum = (value: number) => {
     if (value === 1) {
       setAddItem(false);
-    } else {
+    } else if (value > 1) {
       const subItem = value - 1;
       setValue(subItem);
     }
@@ -39,6 +40,13 @@ const Cart: NextPageWithLayout = () => {
   }, []);
   if (!isMounted) return null;
 
+  const calculateTotal = (): number => {
+    let total = 0;
+    cartItems.forEach((item) => {
+      total += item.product.unitPrice[0].sellingPrice * item.quantity;
+    });
+    return total;
+  };
   return (
     <>
       <div className="product-page-banner">
@@ -164,7 +172,10 @@ const Cart: NextPageWithLayout = () => {
           >
             Continue Shopping
           </Link>
-          <button className="btn btn-tertiary font-bold px-[63px] py-[17px] rounded-[50px] text-slate-850 text-sm uppercase leading-[1] hover:btn-primary hover:text-white">
+          <button
+            onClick={() => clearCart()}
+            className="btn btn-tertiary font-bold px-[63px] py-[17px] rounded-[50px] text-slate-850 text-sm uppercase leading-[1] hover:btn-primary hover:text-white"
+          >
             Clear Shopping Cart
           </button>
         </div>
@@ -199,19 +210,25 @@ const Cart: NextPageWithLayout = () => {
             </div>
             <div className="flex items-center justify-between w-full mt-[36px] mb-[27px]">
               <p className="text-sm font-semibold">Total products</p>
-              <p className="text-lg font-bold">NPR 2240</p>
+              <p className="text-lg font-bold">
+                NPR {calculateTotal().toFixed(2)}
+              </p>
             </div>
             <div className="flex items-center justify-between w-full mt-[36px] mb-[27px]">
               <p className="text-sm font-semibold">Subtotal</p>
-              <p className="text-lg font-bold">NPR 2240</p>
+              <p className="text-lg font-bold">
+                NPR {calculateTotal().toFixed(2)}
+              </p>
             </div>
             <div className="flex items-center justify-between w-full mt-[36px] mb-[27px]">
               <p className="text-sm font-semibold">Delivery Charge</p>
-              <p className="text-lg font-bold">NPR 150</p>
+              <p className="text-lg font-bold">NPR 0</p>
             </div>
             <div className="flex items-center justify-between w-full mb-[20px] text-primary">
               <p className="text-xl font-bold">Grand Total</p>
-              <p className="text-xl font-bold">NPR 2350</p>
+              <p className="text-xl font-bold">
+                NPR {calculateTotal().toFixed(2)}
+              </p>
             </div>
             <Link
               href={"/"}
