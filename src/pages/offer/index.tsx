@@ -12,12 +12,12 @@ import Image from 'next/image';
 import Loader from "@/components/Loading";
 
 const Offer: NextPageWithLayout = () => {
-  const query = ''
-  const pageNumber = 1
-  const offer = 1
-  const maxPrice = null
-  const minPrice = null
 
+  const [query, setQuery] = useState('');
+  const [pageNumber, setPageNumber] = useState(1);
+  const [offer, setOffer] = useState(1);
+  const [maxPrice, setMaxPrice] = useState(null);
+  const [minPrice, setMinPrice] = useState(null);
   const [selectedOption, setSelectedOption] = useState('');
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
