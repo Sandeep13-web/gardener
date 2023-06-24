@@ -5,7 +5,6 @@ import Breadcrumb from "@/components/Breadcrumb";
 import Card from "@/shared/components/card";
 import { CardImg } from "@/shared/lib/image-config";
 import { useQuery } from "@tanstack/react-query";
-import { IProduct } from "@/interface/product.interfcae";
 import { getOffers } from "@/services/offer.service";
 import Link from "next/link";
 import Loader from "@/components/Loading";
@@ -29,7 +28,6 @@ const { data: offers, isLoading, error } = useQuery(
   ['getOffers', query, pageNumber, offer, maxPrice, minPrice, selectedOption], () =>
     getOffers(query, pageNumber, offer, maxPrice, minPrice)
       .then((response) => {
-        console.log(response.data, response)
         if (selectedOption === "ascending") {
           if (response.data) {
             response.data.sort((firstProduct:any, secondProduct:any) => firstProduct.title.localeCompare(secondProduct.title));
@@ -67,10 +65,10 @@ if (isLoading) {
         <div className="container">
           <div className="top-bar flex items-center justify-between bg-gray-250 mt-[60px] my-[20px] p-[10px]">
             <div className="products-count">
-                <p className="text-gray-750 font-normal text-sm">There are {offers?.data?.length} products</p>
+                <p className="text-sm font-normal text-gray-750">There are {offers?.data?.length} products</p>
             </div>
-            <div className="sorting flex items-center">
-              <p className="text-gray-750 font-normal text-sm pr-3">Sort By:</p>
+            <div className="flex items-center sorting">
+              <p className="pr-3 text-sm font-normal text-gray-750">Sort By:</p>
               <select defaultValue ={selectedOption} onChange={handleSelectChange}>
                 <option value="">Please Select</option>
                 <option value="ascending">A to Z</option>

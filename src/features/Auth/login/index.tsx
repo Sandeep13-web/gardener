@@ -20,7 +20,7 @@ const LoginForm = () => {
         },
         onError: (error: any) => {
             const errors = error?.response?.data?.errors
-            showToast(TOAST_TYPES.error , errors[0]?.message)
+            showToast(TOAST_TYPES.error, errors[0]?.message)
         }
     })
     const { register, handleSubmit, formState: { errors }, trigger } = useForm<ILoginProps>()
@@ -30,14 +30,14 @@ const LoginForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit(loginSubmit)}>
+        <form onSubmit={handleSubmit(loginSubmit)} autoComplete='off'>
             <div className='flex flex-col mb-[20px]'>
                 <input
                     type="text"
                     placeholder='Phone Number/Email'
                     {...register("username", { required: 'Username is required.' })}
                     onBlur={() => trigger('username')}
-                    className='px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350'
+                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.username ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
                     errors.username &&
@@ -49,19 +49,27 @@ const LoginForm = () => {
                     placeholder='Password'
                     {...register("password", { required: 'Password is required.', })}
                     onBlur={() => trigger('password')}
-                    className='px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350'
+                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.password ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
                     errors.password &&
                     <p className='text-error text-xs leading-[24px] mt-1'>{errors.password.message}</p>
                 }
             </div>
-            <div className='flex justify-between items-center'>
+            <div className='flex items-center justify-between'>
                 <button
                     disabled={mutation.isLoading ? true : false}
                     type='submit'
-                    className='btn btn-tertiary text-slate-850 text-sm font-bold uppercase px-[30px] py-[11px] rounded-[30px] hover:bg-primary hover:text-white hover:border-primary'>Login</button>
-                <Link href='/auth/forgot-password' className='text-slate-850 text-sm hover:text-primary transition-all delay-100 duration-150'>Forgot Password?</Link>
+                    className='submit-btn'
+                >
+                    Login
+                    {
+                        mutation.isLoading &&
+                        <span
+                            className="w-5 h-5 border-4 border-white border-dotted rounded-full border-t-transparent animate-spin"></span>
+                    }
+                </button>
+                <Link href='/auth/forgot-password' className='text-sm transition-all duration-150 delay-100 text-slate-850 hover:text-primary'>Forgot Password?</Link>
             </div>
         </form>
     )

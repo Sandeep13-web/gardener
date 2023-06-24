@@ -11,13 +11,13 @@ const RegisterForm = () => {
 
     const mutation = useMutation({
         mutationFn: signUp,
-        onSuccess : () => {
+        onSuccess: () => {
             showToast(TOAST_TYPES.success, 'User Created Successfully.');
             router.push('/auth/login');
         },
-        onError :(error:any) => {
+        onError: (error: any) => {
             const errors = error?.response?.data?.errors
-            errors.map((err:any) => {
+            errors.map((err: any) => {
                 showToast(TOAST_TYPES.error, err.message);
             })
         }
@@ -31,14 +31,14 @@ const RegisterForm = () => {
 
 
     return (
-        <form onSubmit={handleSubmit(registerSubmit)}>
+        <form onSubmit={handleSubmit(registerSubmit)} autoComplete='off'>
             <div className='flex flex-col mb-[20px]'>
                 <input
                     type="text"
                     placeholder='Enter Your First Name'
                     {...register("first_name", { required: 'FirstName is required.' })}
                     onBlur={() => trigger('first_name')}
-                    className='px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350'
+                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.first_name ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
                     errors.first_name &&
@@ -51,7 +51,7 @@ const RegisterForm = () => {
                     {...register("last_name", { required: 'LastName is required.' })}
                     placeholder='Enter Your Last Name'
                     onBlur={() => trigger('last_name')}
-                    className='px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350'
+                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.last_name ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
                     errors.last_name &&
@@ -71,7 +71,7 @@ const RegisterForm = () => {
                         })}
                     onBlur={() => trigger('mobile_number')}
                     placeholder='Enter Your Phone Number'
-                    className='px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350'
+                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.mobile_number ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
                     errors.mobile_number &&
@@ -88,7 +88,7 @@ const RegisterForm = () => {
                         },
                     })}
                     placeholder='Enter Your Email'
-                    className='px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350'
+                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.email ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
                     errors.email &&
@@ -106,7 +106,7 @@ const RegisterForm = () => {
                         },
                     })}
                     onBlur={() => trigger('password')}
-                    className='px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350'
+                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.password ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
                     errors.password &&
@@ -123,19 +123,26 @@ const RegisterForm = () => {
                             validate: (value) => value === watch("password") || "Password do not match"
                         },
                     )}
-                    className='px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350'
+                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.confirm_password ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
                     errors.confirm_password &&
                     <p className='text-error text-xs leading-[24px] mt-1'>{errors.confirm_password.message}</p>
                 }
             </div>
-            <div className='flex justify-between items-center'>
+            <div className='flex items-center justify-between'>
                 <button
                     type='submit'
-                    className='btn btn-tertiary text-slate-850 text-sm font-bold uppercase px-[30px] py-[11px] rounded-[30px] hover:bg-primary hover:text-white hover:border-primary'
+                    className='submit-btn'
                     disabled={mutation.isLoading ? true : false}
-                >Sign Up</button>
+                >
+                    Sign Up
+                    {
+                        mutation.isLoading &&
+                        <span
+                            className="w-5 h-5 border-4 border-white border-dotted rounded-full border-t-transparent animate-spin"></span>
+                    }
+                </button>
             </div>
         </form>
     )

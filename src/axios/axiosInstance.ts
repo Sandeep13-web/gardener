@@ -12,6 +12,7 @@ const axiosInstance = axios.create({
     "Access-Control-Allow-Origin": "*",
     "Api-Key": config.gateway.apiKey,
     "Warehouse-Id": 1,
+    "Authorization": "",
   },
 });
 

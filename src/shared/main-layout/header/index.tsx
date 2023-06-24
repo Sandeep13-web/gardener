@@ -11,10 +11,12 @@ import Drawer from "@/shared/components/drawer";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getConfig, getProductCategory } from "@/services/home.service";
 import OfferIcon from "@/shared/icons/common/OfferIcon";
-import UserIcon from "@/shared/icons/common/UserIcon";
 import CartIcon from "@/shared/icons/common/CartIcon";
 import HeartIcon from "@/shared/icons/common/HeartIcon";
 import Link from "next/link";
+import { getProfile } from "@/services/profile.service";
+import { getCookie } from "cookies-next";
+import { FaUser } from "react-icons/fa";
 
 const Header = () => {
   const { data: config, isInitialLoading } = useQuery({
@@ -25,6 +27,13 @@ const Header = () => {
     queryKey: ["getCategories"],
     queryFn: getProductCategory,
   });
+  // if(getCookie("token")){
+  //   const {data:profile , isInitialLoading:loadingProfile} = useQuery({
+  //       queryKey: ["getProfile"],
+  //       queryFn: getProfile,
+  //   })
+  // }
+
   const queryClient = useQueryClient();
   const fetchData = async () => { };
 
@@ -59,12 +68,12 @@ const Header = () => {
                 </div>
               </div>
               <div className="flex-none">
-                <UserIcon className="text-white me-1" />
-                <Link href={'/auth/login'} className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0">
+                <FaUser className="w-[13px] h-auto text-white me-2" />
+                <Link href={'/auth/login'} className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]">
                   Login
                 </Link>
                 <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0"></div>
-                <Link href={'/auth/register'} className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0">
+                <Link href={'/auth/register'} className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]">
                   Sign Up
                 </Link>
               </div>
@@ -120,7 +129,7 @@ const Header = () => {
                 0
               </Badge>
             </button>
-            <div className="dropdown dropdown-hover relative py-3 bg-gray-350 btn-circle z-40 shrink-0">
+            <div className="relative z-40 py-3 dropdown dropdown-hover bg-gray-350 btn-circle shrink-0">
               <CartIcon className="mx-auto" />
               <Badge className="badge-accent" badgePosition="top-right">
                 0
@@ -132,15 +141,15 @@ const Header = () => {
               >
                 {/* item list*/}
                 <div className="max-h-42 overflow-auto [&>*:first-child]:pt-0 ">
-                  <div className="pt-4 pb-4 flex gap-2 relative border-solid border-b-2 border-gray-350">
-                    <Link href="" className=" absolute w-full h-full"/>
+                  <div className="relative flex gap-2 pt-4 pb-4 border-b-2 border-solid border-gray-350">
+                    <Link href="" className="absolute w-full h-full "/>
                     <div className="w-[85px] aspect-square border-solid border-2 border-gray-350 relative">
                       <Image
                         width={85}
                         height={85}
                         src={CardImg}
                         alt="image"
-                        className=" object-contain aspect-square"
+                        className="object-contain aspect-square"
                       />
                       <Badge
                         className="badge-accent left-1 top-1"
@@ -150,15 +159,15 @@ const Header = () => {
                       </Badge>
                     </div>
                     <div className="flex-grow">
-                      <h6 className=" font-semibold text-sm">Baby sun rose </h6>
+                      <h6 className="text-sm font-semibold ">Baby sun rose </h6>
                       <p className="text-small">
                         <span>NPR</span> 450
                       </p>
                     </div>
-                    <button className="btn-circle btn-error btn absolute right-0 w-5 aspect-square hover:bg-primary hover:border-primary">
+                    <button className="absolute right-0 w-5 btn-circle btn-error btn aspect-square hover:bg-primary hover:border-primary">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-3 w-3"
+                        className="w-3 h-3"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -189,10 +198,10 @@ const Header = () => {
                   </p>
                 </div>
                 <div className=" [&>*:first-child]:mb-4">
-                  <button className="btn btn-block py-4 rounded-3xl font-normal hover:bg-primary hover:text-white">
+                  <button className="py-4 font-normal btn btn-block rounded-3xl hover:bg-primary hover:text-white">
                     CART
                   </button>
-                  <button className="btn btn-block py-4 rounded-3xl font-normal hover:bg-primary hover:text-white ">
+                  <button className="py-4 font-normal btn btn-block rounded-3xl hover:bg-primary hover:text-white ">
                     CHECKOUT
                   </button>
                 </div>
