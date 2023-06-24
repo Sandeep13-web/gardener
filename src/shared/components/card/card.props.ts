@@ -1,7 +1,5 @@
+import { IProduct } from "@/interface/product.interface"
+
 export type Props = {
-    type: string,
-    title: string,
-    price: number,
-    image: string,
-    link: string
+    product: IProduct
 }

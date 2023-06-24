@@ -1,5 +1,5 @@
-import { IProduct } from '@/interface/product.interface'
-import { create } from 'zustand'
+import { IProduct } from '@/interface/product.interface';
+import { create } from 'zustand';
 
 interface ICartItem {
   product: IProduct;
@@ -11,12 +11,16 @@ interface IStore {
   addToCart: (product: IProduct, quantity?: number) => void;
   removeFromCart: (productId: number) => void;
   updateItemQuantity: (itemId: number, quantity: number) => void;
+  clearCart: () => void; // New function to clear the cart
   subtotal: number;
   total: number;
+  calculateTotal: () => { subtotal: number; total: number };
 }
 
 export const useCart = create<IStore>((set, get) => ({
-  cartItems: (typeof window !== 'undefined' && localStorage.getItem('cartItems')) ? JSON.parse(localStorage.getItem('cartItems') || '[]') : [],
+  cartItems: (typeof window !== 'undefined' && localStorage.getItem('cartItems'))
+    ? JSON.parse(localStorage.getItem('cartItems') || '[]')
+    : [],
   addToCart: (product, quantity = 1) => {
     const existingItem = get().cartItems.find(item => item.product.id === product.id);
 
@@ -54,6 +58,11 @@ export const useCart = create<IStore>((set, get) => ({
     set({ cartItems: updatedCartItems });
   },
   updateItemQuantity: (itemId, quantity) => {
+    if (quantity < 0) {
+      // Set quantity to 0 if it's less than 0
+      quantity = 0;
+    }
+
     const updatedCartItems = get().cartItems.map(item => {
       if (item.product.id === itemId) {
         return { ...item, quantity };
@@ -67,6 +76,24 @@ export const useCart = create<IStore>((set, get) => ({
     }
 
     set({ cartItems: updatedCartItems });
+  },
+  clearCart: () => {
+    const updatedCartItems: ICartItem[] = []; // Explicitly type updatedCartItems as an array of ICartItem
+
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('cartItems');
+    }
+
+    set({ cartItems: updatedCartItems });
+  },
+  calculateTotal: () => {
+    const subtotal = get().cartItems.reduce(
+      (sum, item) => sum + item.product.unitPrice[0].sellingPrice * item.quantity,
+      0
+    );
+    const total = subtotal + 10; // Assume flat rate shipping fee of $10
+
+    return { subtotal, total };
   },
   get subtotal() {
     return get().cartItems.reduce((sum, item) => sum + item.product.unitPrice[0].sellingPrice * item.quantity, 0);
