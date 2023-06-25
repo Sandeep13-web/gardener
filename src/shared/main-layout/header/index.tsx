@@ -1,7 +1,7 @@
 import Badge from "@/shared/components/badge";
 import Button from "@/shared/components/button";
 import Dropdown from "@/shared/components/dropdown";
-import { Logo } from "@/shared/lib/image-config";
+import { CardImg, Logo } from "@/shared/lib/image-config";
 import Image from "next/image";
 import FlowerIcon from "@/shared/icons/common/FlowerIcon";
 import SearchIcon from "@/shared/icons/common/SearchIcon";
@@ -11,10 +11,12 @@ import Drawer from "@/shared/components/drawer";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getConfig, getProductCategory } from "@/services/home.service";
 import OfferIcon from "@/shared/icons/common/OfferIcon";
-import UserIcon from "@/shared/icons/common/UserIcon";
+import CartIcon from "@/shared/icons/common/CartIcon";
 import HeartIcon from "@/shared/icons/common/HeartIcon";
 import Link from "next/link";
-import CartDropdown from "@/shared/components/cartDropdown";
+import { getProfile } from "@/services/profile.service";
+import { getCookie } from "cookies-next";
+import { FaUser } from "react-icons/fa";
 
 const Header = () => {
   const { data: config, isInitialLoading } = useQuery({
@@ -25,8 +27,15 @@ const Header = () => {
     queryKey: ["getCategories"],
     queryFn: getProductCategory,
   });
+  if(getCookie("token")){
+    const {data:profile , isInitialLoading:loadingProfile} = useQuery({
+        queryKey: ["getProfile"],
+        queryFn: getProfile,
+    })
+  }
+
   const queryClient = useQueryClient();
-  const fetchData = async () => {};
+  const fetchData = async () => { };
 
   return (
     <>
@@ -59,18 +68,14 @@ const Header = () => {
                 </div>
               </div>
               <div className="flex-none">
-                <UserIcon className="text-white me-1" />
+                <FaUser className="w-[13px] h-auto text-white me-2" />
                 <Link
-                  href={"/auth/login"}
-                  className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0"
-                >
+                  href={'/auth/login'}
+                  className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]">
                   Login
                 </Link>
                 <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0"></div>
-                <Link
-                  href={"/auth/register"}
-                  className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0"
-                >
+                <Link href={'/auth/register'} className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]">
                   Sign Up
                 </Link>
               </div>
@@ -120,105 +125,187 @@ const Header = () => {
               </Badge>
             </button>
             {/* Cart */}
-
-            <CartDropdown />
-
-            {/* Total Price */}
-            <div>
-              <p className="hidden mb-1 text-sm font-bold text-gray-600 text-gray-550 whitespace-nowrap md:block">
-                TOTAL PRICE
-              </p>
-              <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
-                NRP 1500
-              </p>
-            </div>
-            {/* md:drawer */}
-            <Drawer />
-          </div>
-        </div>
-      </div>
-      {/* Category header */}
-      <div className={`border-b-[1px]  md:sticky top-0 md:z-70 z-10 bg-white `}>
-        <div className="container flex items-center justify-between">
-          <div className="flex w-full gap-10 md:w-auto">
-            <div className="dropdown dropdown-hover  md:min-w-[15rem] min-w-full">
-              <label
+            <button className="relative py-3 btn btn-circle ">
+              <CartIcon />
+              <Badge className="badge-accent" badgePosition="top-right">
+                0
+              </Badge>
+            </button>
+            <div className="relative z-40 py-3 dropdown dropdown-hover bg-gray-350 btn-circle shrink-0">
+              <CartIcon className="mx-auto" />
+              <Badge className="badge-accent" badgePosition="top-right">
+                0
+              </Badge>
+              {/* dropdown content */}
+              <div
                 tabIndex={0}
-                className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full"
+                className="dropdown-content right-0 z-[2] p-4 shadow bg-base-100 w-80"
               >
-                <BarsIcon />
-                All Categories <CaretDownIcon />
-              </label>
-              <ul
-                tabIndex={0}
-                className="w-full p-0 shadow dropdown-content menu bg-base-100"
-              >
-                {categories?.data
-                  ?.slice(0, 9)
-                  .map((item: any, index: number) => (
-                    <li key={`menu-${index}`}>
-                      <Link
-                        href={`/categories/${item.slug}`}
-                        className="dropdown-item"
+                {/* item list*/}
+                <div className="max-h-42 overflow-auto [&>*:first-child]:pt-0 ">
+                  <div className="relative flex gap-2 pt-4 pb-4 border-b-2 border-solid border-gray-350">
+                    <Link href="" className="absolute w-full h-full "/>
+                    <div className="w-[85px] aspect-square border-solid border-2 border-gray-350 relative">
+                      <Image
+                        width={85}
+                        height={85}
+                        src={CardImg}
+                        alt="image"
+                        className="object-contain aspect-square"
+                      />
+                      <Badge
+                        className="badge-accent left-1 top-1"
+                        badgePosition="top-left"
                       >
-                        {item.title}
-                      </Link>
-                    </li>
-                  ))}
-                <li>
-                  <Link href="/categories" className="dropdown-item">
-                    + More categories
+                        2x
+                      </Badge>
+                    </div>
+                    <div className="flex-grow">
+                      <h6 className="text-sm font-semibold ">Baby sun rose </h6>
+                      <p className="text-small">
+                        <span>NPR</span> 450
+                      </p>
+                    </div>
+                    <button className="absolute right-0 w-5 btn-circle btn-error btn aspect-square hover:bg-primary hover:border-primary">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-3 h-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                {/* pricing list */}
+                <div className="py-2 ">
+                  <p className="flex justify-between text-gray-450">
+                    Order Amount : <span>NPR 2700</span>
+                  </p>
+                  <p className="flex justify-between text-gray-450">
+                    Subtotal : <span>NPR 2700</span>
+                  </p>
+                  <p className="flex justify-between text-gray-450">
+                    Delievery charge : <span>NPR 100</span>
+                  </p>
+                  <p className="flex justify-between">
+                    Total : <span>NPR 2800</span>
+                  </p>
+                </div>
+                <div className=" [&>*:first-child]:mb-4">
+                  <button className="py-4 font-normal btn btn-block rounded-3xl hover:bg-primary hover:text-white">
+                    CART
+                  </button>
+                  <button className="py-4 font-normal btn btn-block rounded-3xl hover:bg-primary hover:text-white ">
+                    CHECKOUT
+                  </button>
+                </div>
+              </div>
+            </div>
+
+  {/* Total Price */ }
+  <div>
+    <p className="hidden mb-1 text-sm font-bold text-gray-600 text-gray-550 whitespace-nowrap md:block">
+      TOTAL PRICE
+    </p>
+    <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
+      NRP 1500
+    </p>
+  </div>
+  {/* md:drawer */ }
+  <Drawer />
+          </div >
+        </div >
+      </div >
+  {/* Category header */ }
+  < div className = {`border-b-[1px]  md:sticky top-0 md:z-70 z-10 bg-white `}>
+    <div className="container flex items-center justify-between">
+      <div className="flex w-full gap-10 md:w-auto">
+        <div className="dropdown dropdown-hover  md:min-w-[15rem] min-w-full">
+          <label
+            tabIndex={0}
+            className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full"
+          >
+            <BarsIcon />
+            All Categories <CaretDownIcon />
+          </label>
+          <ul
+            tabIndex={0}
+            className="w-full p-0 shadow dropdown-content menu bg-base-100"
+          >
+            {categories?.data
+              ?.slice(0, 9)
+              .map((item: any, index: number) => (
+                <li key={`menu-${index}`}>
+                  <Link
+                    href={`/categories/${item.slug}`}
+                    className="dropdown-item"
+                  >
+                    {item.title}
                   </Link>
                 </li>
-              </ul>
-            </div>
-            <div className="items-center hidden gap-2 md:flex">
-              <Button
-                type="ghost"
-                className="!bg-white border-0 text-gray-550 font-bold uppercase"
-              >
-                Home
-              </Button>
-              <Dropdown
-                data={["Plant Consultation ", "Gift a plant "]}
-                toggleClassName="!font-bold btn-ghost text-gray-550"
-              >
-                OUR SERVICE
-              </Dropdown>
-              <Button
-                type="ghost"
-                className="!bg-white border-0 text-gray-550 font-bold"
-              >
-                OUTLET
-              </Button>
-              <Dropdown
-                data={[
-                  "Who We Are",
-                  "Our Story",
-                  "Values That Make Us Who We Are",
-                  "Working At I Am The Gardner",
-                  "Our CSR Project",
-                ]}
-                toggleClassName="!font-bold btn-ghost text-gray-550"
-              >
-                ABOUT US
-              </Dropdown>
-              <Button
-                type="ghost"
-                className="!bg-white border-0 text-gray-550 font-bold uppercase"
-              >
-                BLOGS
-              </Button>
-            </div>
-          </div>
-          <Link href="/offer">
-            <button className="btn btn-ghost !bg-white !border-0 text-gray-550 gap-1 font-bold hidden md:flex">
-              <OfferIcon className="text-accent" />
-              OFFER
-            </button>
-          </Link>
+              ))}
+            <li>
+              <Link href="/categories" className="dropdown-item">
+                + More categories
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div className="items-center hidden gap-2 md:flex">
+          <Button
+            type="ghost"
+            className="!bg-white border-0 text-gray-550 font-bold uppercase"
+          >
+            Home
+          </Button>
+          <Dropdown
+            data={["Plant Consultation ", "Gift a plant "]}
+            toggleClassName="!font-bold btn-ghost text-gray-550"
+          >
+            OUR SERVICE
+          </Dropdown>
+          <Button
+            type="ghost"
+            className="!bg-white border-0 text-gray-550 font-bold"
+          >
+            OUTLET
+          </Button>
+          <Dropdown
+            data={[
+              "Who We Are",
+              "Our Story",
+              "Values That Make Us Who We Are",
+              "Working At I Am The Gardner",
+              "Our CSR Project",
+            ]}
+            toggleClassName="!font-bold btn-ghost text-gray-550"
+          >
+            ABOUT US
+          </Dropdown>
+          <Button
+            type="ghost"
+            className="!bg-white border-0 text-gray-550 font-bold uppercase"
+          >
+            BLOGS
+          </Button>
         </div>
       </div>
+      <Link href="/offer">
+        <button className="btn btn-ghost !bg-white !border-0 text-gray-550 gap-1 font-bold hidden md:flex">
+          <OfferIcon className="text-accent" />
+          OFFER
+        </button>
+      </Link>
+    </div>
+      </div >
     </>
   );
 };

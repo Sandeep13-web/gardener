@@ -5,7 +5,7 @@ import { ILoginProps } from "@/features/Auth/login/login.interface";
 
 export const getUserFromStorage = (): any => {
   let token = getCookie(CookieKeys.TOKEN);
-  return token;
+  return token || '';
 };
 
 export const addAuthToStorage = (user: ILoginProps) => {
@@ -14,7 +14,7 @@ export const addAuthToStorage = (user: ILoginProps) => {
 
 export const getToken = () => {
   if (getUserFromStorage()) {
-    const token = JSON.parse(getUserFromStorage());
+    const token = getUserFromStorage();
     return token;
   }
 };

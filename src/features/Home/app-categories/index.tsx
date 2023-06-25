@@ -10,7 +10,6 @@ interface IProps {
 }
 
 const AppCategories: React.FC<IProps> = ({ prev }) => {
-  console.log("prev", prev);
   return (
     <section className="my-[60px]">
       <Title type="title-section" text={prev.title} />
