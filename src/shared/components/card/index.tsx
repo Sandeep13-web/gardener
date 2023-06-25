@@ -36,7 +36,7 @@ const Card: React.FC<Props> = ({ product }) => {
   return (
     <div className="relative card plant-card">
       <Link
-        href={`/${product.link}`}
+        href={`/${product?.slug}`}
         className="absolute top-0 bottom-0 left-0 right-0 z-[1]"
       />
       <figure>
@@ -50,7 +50,7 @@ const Card: React.FC<Props> = ({ product }) => {
       </figure>
       <div className="plant-card_preview-icon">
         <Link
-          href={`/${product.link}`}
+          href={`/${product?.slug}`}
           className="flex items-center justify-center"
         >
           <SearchIcon className="max-w-[15px] h-auto" />
@@ -58,11 +58,11 @@ const Card: React.FC<Props> = ({ product }) => {
       </div>
       <div className="card-body px-[15px] py-[20px] gap-[10px]">
         <p className="text-xs uppercase text-gray-450">
-          {product.categoryTitle}
+          {product?.categoryTitle}
         </p>
-        <h2 className="card-title plant-card-title">{product.title}</h2>
+        <h2 className="card-title plant-card-title">{product?.title}</h2>
         <p className="text-sm font-semibold text-primary">
-          NPR {product.unitPrice[0].sellingPrice}
+          NPR {product?.unitPrice[0].sellingPrice}
         </p>
 
         <div className="flex justify-end relative z-[3]">
