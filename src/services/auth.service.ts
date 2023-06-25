@@ -1,11 +1,9 @@
 import axiosInstance from "@/axios/axiosInstance";
 import { config } from "../../config";
 
-const baseURL = config.gateway.baseUrl;
-
 export const signUp = async (data: any) => {
   try {
-    const response = await axiosInstance.post(`${baseURL}/auth/signup`, data);
+    const response = await axiosInstance.post(`/auth/signup`, data);
 
     if (response.status === 201) {
       return response.data;
@@ -22,7 +20,7 @@ export const login = async (data: any) => {
   const provider = "";
   const refresh_token = "";
   try {
-    const response = await axiosInstance.post(`${baseURL}/auth/login`, {
+    const response = await axiosInstance.post(`/auth/login`, {
       ...data,
       grant_type,
       client_secret,
