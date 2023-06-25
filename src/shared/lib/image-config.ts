@@ -1,4 +1,4 @@
-
+export const FavIcon = '/favicon.png';
 export const Logo = '/images/logo.svg';
 export const CategoryImg = '/images/categoryImg.png'
 export const CardImg = '/images/card-img.jpeg'
