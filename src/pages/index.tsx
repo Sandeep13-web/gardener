@@ -22,7 +22,6 @@ import SkeletonLoadingCard from "@/shared/components/skeleton/products";
 const Home: NextPageWithLayout = () => {
 
   const { data, isInitialLoading } = useQuery<IHome>({ queryKey: ['getHomeData'], queryFn: getHomeData });
-
   const { data: categories, isInitialLoading: loadingCategories }: any = useQuery({ queryKey: ['getCategories'] });
 
   return (
