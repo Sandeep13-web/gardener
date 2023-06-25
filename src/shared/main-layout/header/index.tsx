@@ -27,12 +27,12 @@ const Header = () => {
     queryKey: ["getCategories"],
     queryFn: getProductCategory,
   });
-  // if(getCookie("token")){
-  //   const {data:profile , isInitialLoading:loadingProfile} = useQuery({
-  //       queryKey: ["getProfile"],
-  //       queryFn: getProfile,
-  //   })
-  // }
+  if(getCookie("token")){
+    const {data:profile , isInitialLoading:loadingProfile} = useQuery({
+        queryKey: ["getProfile"],
+        queryFn: getProfile,
+    })
+  }
 
   const queryClient = useQueryClient();
   const fetchData = async () => { };
@@ -69,7 +69,9 @@ const Header = () => {
               </div>
               <div className="flex-none">
                 <FaUser className="w-[13px] h-auto text-white me-2" />
-                <Link href={'/auth/login'} className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]">
+                <Link
+                  href={'/auth/login'}
+                  className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]">
                   Login
                 </Link>
                 <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0"></div>
@@ -87,7 +89,7 @@ const Header = () => {
         <div className="container flex items-center justify-between w-full gap-3 max-h-12 sm:max-h-24">
           {/* Logo */}
           <div className="relative h-14 sm:h-20 w-36">
-            <Link href={'/'}>
+            <Link href={"/"}>
               <Image src={Logo} fill quality={100} alt="Logo" />
             </Link>
           </div>
@@ -208,95 +210,102 @@ const Header = () => {
               </div>
             </div>
 
-            {/* Total Price */}
-            <div>
-              <p className="hidden mb-1 text-sm font-bold text-gray-600 text-gray-550 whitespace-nowrap md:block">
-                TOTAL PRICE
-              </p>
-              <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
-                NRP 1500
-              </p>
-            </div>
-            {/* md:drawer */}
-            <Drawer />
-          </div>
-        </div>
-      </div>
-      {/* Category header */}
-      <div className={`border-b-[1px]  md:sticky top-0 md:z-70 z-10 bg-white `}>
-        <div className="container flex items-center justify-between">
-          <div className="flex w-full gap-10 md:w-auto">
-            <div className="dropdown dropdown-hover  md:min-w-[15rem] min-w-full">
-              <label
-                tabIndex={0}
-                className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full"
-              >
-                <BarsIcon />
-                All Categories <CaretDownIcon />
-              </label>
-              <ul
-                tabIndex={0}
-                className="w-full p-0 shadow dropdown-content menu bg-base-100"
-              >
-                {categories?.data
-                  ?.slice(0, 9)
-                  .map((item: any, index: number) => (
-                    <li key={`menu-${index}`}>
-                      <Link href={`/categories/${item.slug}`} className="dropdown-item">{item.title}</Link>
-                    </li>
-                  ))}
-                <li>
-                  <Link href="/categories" className="dropdown-item">+ More categories</Link>
+  {/* Total Price */ }
+  <div>
+    <p className="hidden mb-1 text-sm font-bold text-gray-600 text-gray-550 whitespace-nowrap md:block">
+      TOTAL PRICE
+    </p>
+    <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
+      NRP 1500
+    </p>
+  </div>
+  {/* md:drawer */ }
+  <Drawer />
+          </div >
+        </div >
+      </div >
+  {/* Category header */ }
+  < div className = {`border-b-[1px]  md:sticky top-0 md:z-70 z-10 bg-white `}>
+    <div className="container flex items-center justify-between">
+      <div className="flex w-full gap-10 md:w-auto">
+        <div className="dropdown dropdown-hover  md:min-w-[15rem] min-w-full">
+          <label
+            tabIndex={0}
+            className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full"
+          >
+            <BarsIcon />
+            All Categories <CaretDownIcon />
+          </label>
+          <ul
+            tabIndex={0}
+            className="w-full p-0 shadow dropdown-content menu bg-base-100"
+          >
+            {categories?.data
+              ?.slice(0, 9)
+              .map((item: any, index: number) => (
+                <li key={`menu-${index}`}>
+                  <Link
+                    href={`/categories/${item.slug}`}
+                    className="dropdown-item"
+                  >
+                    {item.title}
+                  </Link>
                 </li>
-              </ul>
-            </div>
-            <div className="items-center hidden gap-2 md:flex">
-              <Button
-                type="ghost"
-                className="!bg-white border-0 text-gray-550 font-bold uppercase"
-              >
-                Home
-              </Button>
-              <Dropdown
-                data={["Plant Consultation ", "Gift a plant "]}
-                toggleClassName="!font-bold btn-ghost text-gray-550"
-              >
-                OUR SERVICE
-              </Dropdown>
-              <Button
-                type="ghost"
-                className="!bg-white border-0 text-gray-550 font-bold"
-              >
-                OUTLET
-              </Button>
-              <Dropdown
-                data={[
-                  "Who We Are",
-                  "Our Story",
-                  "Values That Make Us Who We Are",
-                  "Working At I Am The Gardner",
-                  "Our CSR Project",
-                ]}
-                toggleClassName="!font-bold btn-ghost text-gray-550"
-              >
-                ABOUT US
-              </Dropdown>
-              <Button
-                type="ghost"
-                className="!bg-white border-0 text-gray-550 font-bold uppercase"
-              >
-                BLOGS
-              </Button>
-            </div>
-          </div>
-          <Link href="/offer">
-            <button className="btn btn-ghost !bg-white !border-0 text-gray-550 gap-1 font-bold hidden md:flex">
-              <OfferIcon className="text-accent" />
-              OFFER
-            </button>
-          </Link>
+              ))}
+            <li>
+              <Link href="/categories" className="dropdown-item">
+                + More categories
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div className="items-center hidden gap-2 md:flex">
+          <Button
+            type="ghost"
+            className="!bg-white border-0 text-gray-550 font-bold uppercase"
+          >
+            Home
+          </Button>
+          <Dropdown
+            data={["Plant Consultation ", "Gift a plant "]}
+            toggleClassName="!font-bold btn-ghost text-gray-550"
+          >
+            OUR SERVICE
+          </Dropdown>
+          <Button
+            type="ghost"
+            className="!bg-white border-0 text-gray-550 font-bold"
+          >
+            OUTLET
+          </Button>
+          <Dropdown
+            data={[
+              "Who We Are",
+              "Our Story",
+              "Values That Make Us Who We Are",
+              "Working At I Am The Gardner",
+              "Our CSR Project",
+            ]}
+            toggleClassName="!font-bold btn-ghost text-gray-550"
+          >
+            ABOUT US
+          </Dropdown>
+          <Button
+            type="ghost"
+            className="!bg-white border-0 text-gray-550 font-bold uppercase"
+          >
+            BLOGS
+          </Button>
         </div>
       </div>
+      <Link href="/offer">
+        <button className="btn btn-ghost !bg-white !border-0 text-gray-550 gap-1 font-bold hidden md:flex">
+          <OfferIcon className="text-accent" />
+          OFFER
+        </button>
+      </Link>
+    </div>
+      </div >
     </>
   );
 };

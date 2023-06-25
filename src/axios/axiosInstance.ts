@@ -1,18 +1,16 @@
 import axios from "axios";
 // import { clearLocalStorage } from "../utils/localStorage.util";
 import { config } from "../../config";
+import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 
-const baseURL = config.gateway.baseUrl;
-
+const baseURL = config.gateway.baseURL;
 const axiosInstance = axios.create({
   baseURL: baseURL,
   headers: {
-    accept: "application/json",
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
+    Accept: "application/json",
+    Authorization: `Bearer ${getToken()}`,
     "Api-Key": config.gateway.apiKey,
     "Warehouse-Id": 1,
-    "Authorization": "",
   },
 });
 
@@ -20,56 +18,53 @@ axiosInstance.interceptors.response.use(
   (response: any) => {
     return response;
   },
-  (error) => {
-    if (axios.isCancel(error)) {
-      // trying to catch cancelled state
-      // error.response.status = 'cancelled';
-      return Promise.reject(error);
+  async (error) => {
+    const originalConfig = error.config;
+    if (error.message === "Network Error") {
+      return new Error("Network Error");
     }
-    //Handle refresh token here
-    const originalRequest = error.config;
-    if (
-      error?.response?.status === 401 &&
-      window?.location?.pathname !== "/auth/login"
-    ) {
-      localStorage.setItem("logoutUser", "true");
-      window.location.href = "/auth/login";
-      return Promise.reject(error);
+
+    if (error.response.status === 306 && !originalConfig._retry) {
+      return axiosInstance;
     }
-    if (error.response?.status === 306 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      //do some stuff here........
-      return axiosInstance(originalRequest);
+
+    if (error.response.data.code == 1006) {
+      if (!originalConfig._retry) {
+        originalConfig._retry = true;
+        try {
+          await axiosInstance.post("/refresh", {}, { withCredentials: true });
+          return axiosInstance(originalConfig);
+        } catch (error: any) {
+          if (error.response && error.response.data) {
+            if (window.location.pathname !== "/login") {
+              window.localStorage.setItem(
+                "sessionmessage",
+                JSON.stringify({
+                  message: "Your session has expired!",
+                  type: "error",
+                })
+              );
+              history.pushState(null, "", "/auth/login");
+            }
+            return Promise.reject(error);
+          }
+        }
+      }
+      return {
+        ...originalConfig,
+        cancelToken: new axios.CancelToken((cancel) =>
+          cancel("Cancel repeated request")
+        ),
+      };
     }
-    return Promise.reject(error);
+
+    return Promise.reject({
+      ...error,
+      response: error.response,
+      message: error?.message,
+      status: error.response.status,
+    });
   }
 );
 
 export default axiosInstance;
-
-// import axios from "axios";
-// // import { clearLocalStorage } from "../utils/localStorage.util";
-// import { config } from "../../config";
-
-// const baseURL = config.gateway.baseUrl;
-
-// const client = axios.create({
-//   baseURL: baseURL,
-//   headers: {
-//     accept: "application/json",
-//     "Content-Type": "application/json",
-//     "Access-Control-Allow-Origin": "*",
-//     "Api-Key": config.gateway.apiKey,
-//     "Warehouse-Id": 1,
-//   },
-// });
-
-// export const axiosInstance: any = ({ ...options }) => {
-//   client.defaults.headers.common.Authorization = "Bearea token";
-//   const onSuccess = (response: any) => response;
-//   const onError = (error: any) => {
-//     // optionally atch errors and add addition loggiing here
-//   };
-
-//   return axiosInstance(options).then(onSuccess).catch(onError);
-// };

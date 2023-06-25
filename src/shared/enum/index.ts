@@ -1,5 +1,6 @@
 export enum CookieKeys {
-    ACCESS_TOKEN = 'accessToken',
-    USER = 'user',
-    ACCOUNT = 'account_type',
+  ACCESS_TOKEN = "accessToken",
+  TOKEN = "token",
+  USER = "user",
+  ACCOUNT = "account_type",
 }

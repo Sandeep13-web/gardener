@@ -2,11 +2,9 @@ import axiosInstance from "@/axios/axiosInstance";
 import { config } from "../../config";
 import axios from "axios";
 
-const baseURL = config.gateway.baseUrl;
-
 export const getProductCategory = async () => {
   try {
-    const response = await axiosInstance.get(`${baseURL}/category`);
+    const response = await axiosInstance.get(`/category`);
     return response.data;
   } catch (error) {
     throw error;
@@ -15,7 +13,7 @@ export const getProductCategory = async () => {
 
 export const getHomeData = async () => {
   try {
-    const response = await axiosInstance.get(`${baseURL}/home`);
+    const response = await axiosInstance.get(`/home`);
     return response.data;
   } catch (error) {
     throw error;
@@ -24,11 +22,9 @@ export const getHomeData = async () => {
 
 export const getConfig = async () => {
   try {
-    const response = await axiosInstance.get(`${baseURL}/config`);
+    const response = await axiosInstance.get(`/config`);
     return response.data;
   } catch (error) {
     throw error;
   }
 };
-
-
