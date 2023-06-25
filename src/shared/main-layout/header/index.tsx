@@ -133,6 +133,7 @@ const Header = () => {
                           showModal={showModal}
                           btnFunction={logoutHandler}
                           cancelFuntion = {() => setShowModal(false)}
+                          isLoading = {mutation.isLoading}
                         />
                       }
                     </div>

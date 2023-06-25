@@ -6,4 +6,5 @@ export type Props =  {
     showModal: boolean,
     btnFunction: () => void,
     cancelFuntion: () => void,
+    isLoading: boolean,
 }
