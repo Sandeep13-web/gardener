@@ -20,9 +20,7 @@ import { IAppCategories, IHome } from "@/interface/home.interface";
 import SkeletonLoadingCard from "@/shared/components/skeleton/products";
 
 const Home: NextPageWithLayout = () => {
-
-  const { data, isInitialLoading } = useQuery<IHome>({ queryKey: ['getHomeData'], queryFn: getHomeData });
-
+  const { data: home, isInitialLoading: homeLoading } = useQuery<IHome>({ queryKey: ['getHomeData'] });
   const { data: categories, isInitialLoading: loadingCategories }: any = useQuery({ queryKey: ['getCategories'] });
 
   return (
@@ -88,7 +86,7 @@ const Home: NextPageWithLayout = () => {
           loading={loadingCategories}
           categories={categories?.data.slice(0, 6)}
         />
-        {isInitialLoading ?
+        {homeLoading ?
           <>
             <div className="h-5 bg-gray-300 rounded mb-5 mx-4 w-20 animate-pulse"></div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
@@ -101,7 +99,7 @@ const Home: NextPageWithLayout = () => {
           </>
           :
           <>
-            {data?.data?.appCategories.map((prev: IAppCategories, index: number) => (
+            {home?.data?.appCategories.map((prev: IAppCategories, index: number) => (
               <AppCategories
                 key={`appcatgories-${index}`}
                 prev={prev}
