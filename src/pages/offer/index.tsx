@@ -84,14 +84,10 @@ if (isLoading) {
                   <EmptyPage />
                ) : (
                       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                        {offers.data.map((item: any, index: any) => (
+                        {offers.data.map((product: any, index: any) => (
                           <Card
-                            key={`app-cat-products-${index}`}
-                            link={`/categories/${item.link}`}
-                            type={item?.categoryTitle}
-                            title={item?.title}
-                            price={item?.unitPrice[0].sellingPrice}
-                            image={CardImg}
+                          product = {product}
+                          key={`app-cat-products-${index}`}
                           />
                         ))}
                       </div>
