@@ -36,7 +36,7 @@ const Card: React.FC<Props> = ({ product }) => {
   return (
     <div className="relative card plant-card">
       <Link
-        href={`/${product.link}`}
+        href={`/products/${product.slug}`}
         className="absolute top-0 bottom-0 left-0 right-0 z-[1]"
       />
       <figure>
