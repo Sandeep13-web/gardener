@@ -19,7 +19,7 @@ const Banner = () => {
   return (
     <div>
       {
-        isInitialLoading ?
+        isInitialLoading ? 
           <BannerSkeletonLoader /> :
 
           <>
