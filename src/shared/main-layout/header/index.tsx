@@ -15,7 +15,7 @@ import CartIcon from "@/shared/icons/common/CartIcon";
 import HeartIcon from "@/shared/icons/common/HeartIcon";
 import Link from "next/link";
 import { getProfile } from "@/services/profile.service";
-import { deleteCookie, getCookie } from "cookies-next";
+import { deleteCookie } from "cookies-next";
 import { FaChevronDown, FaUser } from "react-icons/fa";
 import { IHome } from "@/interface/home.interface";
 import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
@@ -26,7 +26,6 @@ import ConfirmationModal from "@/shared/components/confirmation-modal";
 
 const Header = () => {
   const token = getToken();
-  const queryClient = useQueryClient();
   
   const [showModal, setShowModal] = useState<boolean>(false)
   const { data: config, isInitialLoading } = useQuery({
@@ -171,7 +170,7 @@ const Header = () => {
               <input
                 type="text"
                 placeholder="Search product."
-                className="input input-ghost w-full max-w-xs !shadow-none !outline-none max-w-2xl"
+                className="input input-ghost w-full max-w-xs !shadow-none !outline-none md:max-w-2xl"
               />
               <div className="divider divider-horizontal before:bg-[#E4E4E4] before:w-[1px] after:w-[1px] after:bg-[#E4E4E4] m-0 my-2"></div>
               <Dropdown data={["a", "b"]}>All Categories</Dropdown>
@@ -284,7 +283,7 @@ const Header = () => {
 
             {/* Total Price */}
             <div>
-              <p className="hidden mb-1 text-sm font-bold text-gray-600 text-gray-550 whitespace-nowrap md:block">
+              <p className="hidden mb-1 text-sm font-bold text-gray-550 whitespace-nowrap md:block">
                 TOTAL PRICE
               </p>
               <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
