@@ -10,10 +10,9 @@ import { getProductsFromSlug } from '@/services/product.service';
 const ProductSlug = () => {
   const router = useRouter()
   const { slug } = router.query;
-  console.log(slug)
-  const [descriptionContent, setDescriptionContent] = useState('');
-  const[moreInfoContent, setMoreInfoContent] = useState('');
-  const [taxMessage, setTaxMessage] = useState('');
+  const [descriptionContent, setDescriptionContent] = useState<string>('');
+  const[moreInfoContent, setMoreInfoContent] = useState<string>('');
+  const [taxMessage, setTaxMessage] = useState<string>('');
 
 
 const { data, isLoading, error } = useQuery(
@@ -52,10 +51,10 @@ useEffect(() => {
                         />
             </div>
             <div className="col-span-12 md:col-span-7">
-              <h2 className="font-semibold text-2xl text-[#253237] mb-6">
+              <h2 className="font-semibold text-2xl text-darkBlack mb-6">
                {data?.data?.title}
               </h2>
-              <p className="font-bold text-sm color-[#253237] mb-2">
+              <p className="font-bold text-sm color-darkBlack mb-2">
                 Category:
                 <a href="" className="text-primary">
                   <span className="font-normal">{data?.data?.categoryTitle}</span>
@@ -64,7 +63,7 @@ useEffect(() => {
               <ul className="flex my-5">
 
               {!data?.data?.unitPrice[0]?.hasOffer && (
-        <li className="mr-1 text-base text-[#cf2929]">
+        <li className="mr-1 text-base text-red-250">
            NPR
           <span>
             {data?.data?.unitPrice[0]?.sellingPrice}
@@ -74,7 +73,7 @@ useEffect(() => {
 
       {data?.data?.unitPrice[0]?.hasOffer && (
         <>
-          <li  className="text-base text-[#cf2929] mr-1">
+          <li  className="text-base text-red-250 mr-1">
           NPR
             <span>
               {data?.data?.unitPrice[0]?.newPrice}
@@ -97,7 +96,7 @@ useEffect(() => {
               <p dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
 
               <div className="w-100 flex my-[30px]">
-                <div className="h-[48px]  w-[80px] border border-solid border-[#e8e8e8] overflow-hidden relative text-[#8f8f8f]">
+                <div className="h-[48px]  w-[80px] border border-solid border-gray-950 overflow-hidden relative text-gray-250">
                   <button className="text-sm  cursor-pointer font-medium  absolute text-center w-6 h-12 top-0 left-0">
                     -
                   </button>
@@ -112,7 +111,7 @@ useEffect(() => {
                   </button>
                 </div>
                 <div>
-                  <button className="relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-10 text-sm hover:bg-[#e57615] hover:text-base-100">
+                  <button className="relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-10 text-sm hover:bg-orange-250 hover:text-base-100">
                     {" "}
                     + Add To Cart
                   </button>
@@ -125,7 +124,7 @@ useEffect(() => {
 
       <div className="mb-[60px]">
         <div className="container">
-          <a data-toggle="tab" className="active relative flex justify-center uppercase pb-3 text-lg font-bold text-center after:h-[2px] after:absolute after:left-0 after:right-0 after:bottom-[-1px] after:bg-transparent after:transition-all after:duration-300 after:ease-linear after:bg-primary text-[#253237] after:w-[250px] after:text-center after:m-auto">
+          <a data-toggle="tab" className="active relative flex justify-center uppercase pb-3 text-lg font-bold text-center after:h-[2px] after:absolute after:left-0 after:right-0 after:bottom-[-1px] after:bg-transparent after:transition-all after:duration-300 after:ease-linear after:bg-primary text-darkBlack after:w-[250px] after:text-center after:m-auto">
             Product Description
           </a>
           <div className="tab-content overflow-hidden text-base bg-white leading-6 text-left py-10 px-8 border border-gray-200">
