@@ -36,3 +36,14 @@ export const login = async (data: any) => {
     throw error;
   }
 };
+
+export const logout = async() => {
+  try{
+    const response = await axiosInstance.get('/auth/logout')
+    if(response.status === 204){
+      return response
+    }
+  } catch(error){
+    throw error
+  }
+}
