@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import "swiper/css/effect-fade";
 import { useQuery } from "@tanstack/react-query";
 import { IHome } from "@/interface/home.interface";
 import { useRouter } from "next/router";
@@ -34,7 +35,8 @@ const Banner = () => {
               pagination={{
                 clickable: true,
               }}
-              modules={[Autoplay, Pagination]}
+              modules={[Autoplay, Pagination , EffectFade]}
+              effect="fade"
             >
               {data?.data?.adbanners.map((prev, index) => (
                 <SwiperSlide key={`banner-images-${index}`} onClick={() => router.push(`/${prev.websiteUrl}`)}>
