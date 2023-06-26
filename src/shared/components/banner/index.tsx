@@ -10,6 +10,7 @@ import "swiper/css/scrollbar";
 import { useQuery } from "@tanstack/react-query";
 import { IHome } from "@/interface/home.interface";
 import { useRouter } from "next/router";
+import BannerSkeletonLoader from "../skeleton/banner";
 
 const Banner = () => {
   const router = useRouter();
@@ -19,7 +20,7 @@ const Banner = () => {
     <div>
       {
         isInitialLoading ?
-          'loader' :
+          <BannerSkeletonLoader /> :
 
           <>
             {data && data?.data && data?.data?.adbanners && <Swiper
