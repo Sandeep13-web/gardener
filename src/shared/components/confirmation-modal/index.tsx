@@ -24,7 +24,7 @@ const ConfirmationModal: React.FC<Props> = ({
                             className='px-[30px] py-[11px] text-sm bg-primary rounded-[30px] text-white font-semibold flex items-center gap-[0.5rem]'
                             disabled={isLoading}
                         >
-                            <label htmlFor={showModal ? modalType : ''} className='cursor-pointer'>{btnName}</label>
+                            <label htmlFor={showModal ? modalType : isLoading ? '' : ''} className='cursor-pointer'>{btnName}</label>
                             {
                                 isLoading &&
                                 <span

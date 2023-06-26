@@ -25,8 +25,9 @@ import { useState } from "react";
 import ConfirmationModal from "@/shared/components/confirmation-modal";
 
 const Header = () => {
-
   const token = getToken();
+  const queryClient = useQueryClient();
+  
   const [showModal, setShowModal] = useState<boolean>(false)
   const { data: config, isInitialLoading } = useQuery({
     queryKey: ["getConfig"],
@@ -46,8 +47,7 @@ const Header = () => {
     queryFn: getProfile,
     enabled: !!token
   })
-
-  const queryClient = useQueryClient();
+  
   const fetchData = async () => { };
 
   const mutation = useMutation({
@@ -95,7 +95,7 @@ const Header = () => {
               <div className="flex-none">
                 <FaUser className="w-[13px] h-auto text-white me-2" />
                 {
-                  profile ?
+                  token ?
                     <div className="dropdown dropdown-hover dropdown-end">
                       <label tabIndex={0} className="text-xs text-white py-1 m-1 px-0 capitalize bg-transparent border-0 hover:bg-transparent hover:transform hover:scale-[1.1] btn">
                         {profile?.data?.firstName}

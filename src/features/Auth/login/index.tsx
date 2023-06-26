@@ -1,5 +1,5 @@
 import { login } from '@/services/auth.service'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -11,6 +11,8 @@ import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
 
 const LoginForm = () => {
     const router = useRouter()
+    const queryClient = useQueryClient();
+    
     const mutation = useMutation({
         mutationFn: login,
         onSuccess: (data) => {
@@ -21,7 +23,7 @@ const LoginForm = () => {
         onError: (error: any) => {
             const errors = error?.response?.data?.errors
             showToast(TOAST_TYPES.error, errors[0]?.message)
-        }
+        },
     })
     const { register, handleSubmit, formState: { errors }, trigger } = useForm<ILoginProps>()
 
