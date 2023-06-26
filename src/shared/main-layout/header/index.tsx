@@ -21,13 +21,17 @@ import { IHome } from "@/interface/home.interface";
 import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { logout } from "@/services/auth.service";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import ConfirmationModal from "@/shared/components/confirmation-modal";
+import { useRouter } from "next/router";
 
 const Header = () => {
   const token = getToken();
-  
+  const [searchValue, setSearchValue] = useState('');
+  const [selectedType, setSelectedType] = useState('product');
   const [showModal, setShowModal] = useState<boolean>(false)
+  const [selectedOption, setSelectedOption] = useState<string>('');
+  const router = useRouter();
   const { data: config, isInitialLoading } = useQuery({
     queryKey: ["getConfig"],
     queryFn: getConfig,
@@ -61,6 +65,33 @@ const Header = () => {
     mutation.mutate()
     setShowModal(false)
   }
+
+
+
+  const handleTypeChange = (event:any) => {
+    setSelectedType(event.target.value);
+  };
+
+  const handleInputChange = (event:any) => {
+    setSearchValue(event.target.value);
+  };
+
+
+  const handleSearch = () => {
+    const query = {
+      type: selectedType,
+      keyword: searchValue
+    };
+
+    const queryString = new URLSearchParams(query).toString();
+    const apiUrl = selectedType === 'product' ? '/api/products' : '/api/categories';
+    
+    router.push(`/search?${queryString}`);
+    
+    // Perform your API request using the apiUrl
+    // ...
+  };
+
   return (
     <>
       <header>
@@ -171,10 +202,16 @@ const Header = () => {
                 type="text"
                 placeholder="Search product."
                 className="input input-ghost w-full max-w-xs !shadow-none !outline-none md:max-w-2xl"
+                value={searchValue}
+                 onChange={handleInputChange}
               />
               <div className="divider divider-horizontal before:bg-[#E4E4E4] before:w-[1px] after:w-[1px] after:bg-[#E4E4E4] m-0 my-2"></div>
-              <Dropdown data={["a", "b"]}>All Categories</Dropdown>
-              <button className="py-3 rounded-l-none btn btn-primary rounded-r-md">
+              {/* <Dropdown data={["Product", "Category"]}>Type</Dropdown> */}
+              <select value={selectedType} onChange={handleTypeChange}>
+                <option value="product">Product</option>
+                <option value="category">Category</option>
+              </select>
+              <button className="py-3 rounded-l-none btn btn-primary rounded-r-md" onClick={handleSearch}>
                 <SearchIcon />
               </button>
             </div>

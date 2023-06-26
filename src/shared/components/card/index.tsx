@@ -62,7 +62,7 @@ const Card: React.FC<Props> = ({ product }) => {
         </p>
         <h2 className="card-title plant-card-title">{product?.title}</h2>
         <p className="text-sm font-semibold text-primary">
-          NPR {product?.unitPrice[0].sellingPrice}
+          NPR {product?.unitPrice[0]?.sellingPrice}
         </p>
 
         <div className="flex justify-end relative z-[3]">
