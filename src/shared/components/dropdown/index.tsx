@@ -1,6 +1,7 @@
 import React from "react";
 import { DropdownProps } from "./dropdown.props";
 import CaretDownIcon from "@/shared/icons/common/CaretDownIcon";
+import Link from "next/link";
 
 const Dropdown: React.FC<DropdownProps> = ({
   children,
@@ -34,7 +35,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       >
         {data?.map((item, index) => (
           <li key={index}>
-            <a className="dropdown-item">{item}</a>
+            <Link href={'/'} className="dropdown-item">{item}</Link>
           </li>
         ))}
       </ul>
