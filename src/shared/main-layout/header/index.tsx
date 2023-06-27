@@ -8,7 +8,7 @@ import SearchIcon from "@/shared/icons/common/SearchIcon";
 import CaretDownIcon from "@/shared/icons/common/CaretDownIcon";
 import BarsIcon from "@/shared/icons/common/BarsIcon";
 import Drawer from "@/shared/components/drawer";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getConfig, getHomeData, getProductCategory } from "@/services/home.service";
 import OfferIcon from "@/shared/icons/common/OfferIcon";
 import CartIcon from "@/shared/icons/common/CartIcon";
@@ -21,13 +21,18 @@ import { IHome } from "@/interface/home.interface";
 import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { logout } from "@/services/auth.service";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
-import { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import ConfirmationModal from "@/shared/components/confirmation-modal";
+import { useRouter } from "next/router";
+import { getSearchResults } from "@/services/search.service";
 
 const Header = () => {
   const token = getToken();
-  
+  const [searchValue, setSearchValue] = useState('');
+  const [selectedType, setSelectedType] = useState('product');
   const [showModal, setShowModal] = useState<boolean>(false)
+  const [selectedOption, setSelectedOption] = useState<string>('');
+  const router = useRouter();
   const { data: config, isInitialLoading } = useQuery({
     queryKey: ["getConfig"],
     queryFn: getConfig,
@@ -46,7 +51,7 @@ const Header = () => {
     queryFn: getProfile,
     enabled: !!token
   })
-  
+
   const fetchData = async () => { };
 
   const mutation = useMutation({
@@ -61,6 +66,65 @@ const Header = () => {
     mutation.mutate()
     setShowModal(false)
   }
+
+
+  const {
+    data: searchData,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery(
+    ['search', selectedType || '', searchValue || ''],
+    ({ pageParam = 1 }) => getSearchResults(selectedType || '', searchValue || '', pageParam),
+    {
+      enabled: searchValue.length > 0 ? true : false
+    }
+  );
+
+
+  console.log("searchData", searchData)
+
+  const handleLoadMore = () => {
+    fetchNextPage();
+  };
+
+  const handleScroll = (event: any) => {
+    const { scrollTop, clientHeight, scrollHeight } = event.target;
+    const scrolledToBottom = scrollHeight - scrollTop === clientHeight;
+
+    if (scrolledToBottom && hasNextPage && !isFetchingNextPage) {
+      handleLoadMore();
+    }
+  };
+
+
+  const handleTypeChange = (text: string) => {
+    setSelectedType(text);
+  };
+
+  const handleInputChange = (event: any) => {
+    setSearchValue(event.target.value);
+
+  };
+
+
+  const handleSearch = () => {
+    const query = {
+      type: selectedType,
+      keyword: searchValue
+    };
+
+    const queryString = new URLSearchParams(query).toString();
+    const apiUrl = selectedType === 'product' ? '/api/products' : '/api/categories';
+
+    router.push(`/search?${queryString}`);
+
+    // Perform your API request using the apiUrl
+    // ...
+  };
+
   return (
     <>
       <header>
@@ -124,15 +188,15 @@ const Header = () => {
                         </li>
                       </ul>
                       {
-                        showModal && 
+                        showModal &&
                         <ConfirmationModal
                           confirmHeading="Are you sure you want to logout?"
                           modalType="logout_modal"
                           btnName="Logout"
                           showModal={showModal}
                           btnFunction={logoutHandler}
-                          cancelFuntion = {() => setShowModal(false)}
-                          isLoading = {mutation.isLoading}
+                          cancelFuntion={() => setShowModal(false)}
+                          isLoading={mutation.isLoading}
                         />
                       }
                     </div>
@@ -164,25 +228,93 @@ const Header = () => {
               <Image src={Logo} fill quality={100} alt="Logo" />
             </Link>
           </div>
+
           <div className="items-center justify-center flex-grow hidden gap-7 md:flex ms-auto">
             {/* Search */}
+
             <div className="border-[1px] border-[#E4E4E4] rounded-md h-[48px] !outline-offset-0 flex items-center justify-between gap-1 w-[60%]">
-              <input
-                type="text"
-                placeholder="Search product."
-                className="input input-ghost w-full max-w-xs !shadow-none !outline-none md:max-w-2xl"
-              />
-              <div className="divider divider-horizontal before:bg-[#E4E4E4] before:w-[1px] after:w-[1px] after:bg-[#E4E4E4] m-0 my-2"></div>
-              <Dropdown data={["a", "b"]}>All Categories</Dropdown>
-              <button className="py-3 rounded-l-none btn btn-primary rounded-r-md">
+
+              <div className="w-full relative">
+                <div className="flex items-center justify-between gap-1 ">
+                  <input
+                    type="text"
+                    placeholder="Search product."
+                    className="input input-ghost w-full max-w-xs !shadow-none !outline-none md:max-w-2xl"
+                    value={searchValue}
+                    onChange={handleInputChange}
+                  />
+                  <div className="divider divider-horizontal before:bg-[#E4E4E4] before:w-[1px] after:w-[1px] after:bg-[#E4E4E4] m-0 my-2"></div>
+                  <div className={`dropdown`}>
+                    <label
+                      tabIndex={0}
+                      className={` m-1 whitespace-nowrap text-[#555] text-sm font-medium flex gap-1 justify-center items-center`}
+                    >
+                      <span className="capitalize">{selectedType}</span>
+                      <CaretDownIcon />
+                    </label>
+                    <ul
+                      tabIndex={0}
+                      className={`dropdown-content menu shadow p-0 bg-base-100 rounded-sm min-w-[110px] z-[60] `}
+                    >
+                      <li onClick={() => handleTypeChange('product')}>
+                        <span>Product</span>
+                      </li>
+                      <li onClick={() => handleTypeChange('category')}>
+                        <span>Category</span>
+                      </li>
+
+                    </ul>
+                  </div>
+                </div>
+                {searchValue.length > 0 && (
+                  <ul className="absolute top-full z-50 bg-white border border-gray-300 rounded mt-2 w-full" onScroll={handleScroll}>
+                    {searchData && searchData?.pages.map((group, index) => (
+                      <React.Fragment key={index}>
+                        {group?.data?.map((prev: any, _i: number) => (
+                          <li key={_i} className="p-2 hover:bg-gray-100 cursor-pointer">
+                            <div className="flex items-center">
+                              <Image
+                                src={prev?.categoryBackgroundImage}
+                                width={30}
+                                height={20}
+                                alt="image"
+                                className="object-contain aspect-square"
+                              />
+                              <span className="ps-2">
+                                {prev.title}
+                              </span>
+
+                            </div>
+                          </li>
+                        ))}
+                      </React.Fragment>
+                    ))}
+                    {/* {searchHistory.map((item, index) => (
+                  <li
+                    key={index}
+                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => setSearchValue(item)}
+                  >
+                    {item}
+                  </li>
+                ))} */}
+                  </ul>
+                )}
+              </div>
+
+              <button className="py-3 rounded-l-none btn btn-primary rounded-r-md" onClick={handleSearch}>
                 <SearchIcon />
               </button>
             </div>
+
+
             {/* Why Plant Button */}
             <button className="btn btn-primary btn-outline !min-h-12 font-bold text-base gap-0">
               <FlowerIcon /> <p className="hidden lg:block">Why Plant</p>
             </button>
           </div>
+
+
           <div className="flex items-center gap-3">
             {/* Heart Button */}
             <button className="relative hidden py-3 btn btn-circle md:flex">
