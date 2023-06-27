@@ -41,13 +41,11 @@ const Header = () => {
     queryFn: getConfig,
   });
 
-  const { data: home } = useQuery<IHome>({ queryKey: ['getHomeData'], queryFn: getHomeData, enabled: !!ware_id });
+  const { data: home } = useQuery<IHome>({ queryKey: ['getHomeData'], queryFn: getHomeData });
 
   const { data: categories, isInitialLoading: loading } = useQuery({
     queryKey: ["getCategories"],
     queryFn: getProductCategory,
-    enabled: !!ware_id,
-
   });
 
   const { data: profile, isInitialLoading: loadingProfile } = useQuery({
@@ -329,7 +327,7 @@ const Header = () => {
               </Badge>
             </button>
             {/* Cart */}
-            <CartDropdown cart={cart}/>
+            <CartDropdown cart={cart} />
 
             {/* Total Price */}
             <div>

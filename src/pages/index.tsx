@@ -28,9 +28,9 @@ const Home: NextPageWithLayout = () => {
       <Head>
         <title>I am the Gardener</title>
       </Head>
-      <div className="text-lg font-bold min-h-[300vh]">
+      <div className="text-lg font-bold">
         <Banner />
-        <div className="container mt-6">
+        <div className="container my-6">
           <div className="border border-orange-450 rounded rounded-xs px-[20px]">
             <div className="grid grid-cols-1 sm-grid-cols-2 md:grid-cols-3 ">
               <div className="flex items-start px-[20px] py-[20px] md:py-[35px] relative gap-0">
@@ -94,7 +94,7 @@ const Home: NextPageWithLayout = () => {
             <>
               <div className="w-20 h-5 mx-4 mb-5 bg-gray-300 rounded animate-pulse"></div>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                {[1, 2, 3].map((item, index) => (
+                {[1, 2, 3, 4].map((item, index) => (
                   <SkeletonLoadingCard
                     key={`app-skeleton-${index}`}
                   />

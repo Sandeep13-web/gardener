@@ -25,7 +25,7 @@ const CategoriesPage: NextPageWithLayout = () => {
 
 
     return (
-        <div className="text-lg font-bold min-h-[300vh]">
+        <div className="text-lg font-bold ">
             <div className="container mt-6">
                 <Categories
                     loading={isInitialLoading}

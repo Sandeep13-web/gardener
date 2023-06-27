@@ -17,14 +17,15 @@ const Banner = () => {
   const router = useRouter();
   const { data, isInitialLoading } = useQuery<IHome>({ queryKey: ['getHomeData'] });
 
+  console.log("data", data)
   return (
     <div>
       {
-        isInitialLoading ? 
+        isInitialLoading ?
           <BannerSkeletonLoader /> :
 
           <>
-            {data && data?.data && data?.data?.adbanners && <Swiper
+            {data && data?.data && data?.data?.banners && <Swiper
               loop={true}
               className="mySwiper"
               autoplay={{
@@ -35,10 +36,10 @@ const Banner = () => {
               pagination={{
                 clickable: true,
               }}
-              modules={[Autoplay, Pagination , EffectFade]}
+              modules={[Autoplay, Pagination, EffectFade]}
               effect="fade"
             >
-              {data?.data?.adbanners.map((prev, index) => (
+              {data?.data?.banners.map((prev, index) => (
                 <SwiperSlide key={`banner-images-${index}`} onClick={() => router.push(`/${prev.websiteUrl}`)}>
                   <Image
                     src={prev.bannerImage}
