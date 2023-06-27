@@ -25,6 +25,7 @@ import React, { ChangeEvent, useState } from "react";
 import ConfirmationModal from "@/shared/components/confirmation-modal";
 import { useRouter } from "next/router";
 import { getSearchResults } from "@/services/search.service";
+import CartDropdown from "@/shared/components/cartDropdown";
 
 const Header = () => {
   const token = getToken();
@@ -328,90 +329,7 @@ const Header = () => {
               </Badge>
             </button>
             {/* Cart */}
-            <button className="relative py-3 btn btn-circle ">
-              <CartIcon />
-              <Badge className="badge-accent" badgePosition="top-right">
-                0
-              </Badge>
-            </button>
-            <div className="relative z-40 py-3 dropdown dropdown-hover bg-gray-350 btn-circle shrink-0">
-              <CartIcon className="mx-auto" />
-              <Badge className="badge-accent" badgePosition="top-right">
-                0
-              </Badge>
-              {/* dropdown content */}
-              <div
-                tabIndex={0}
-                className="dropdown-content right-0 z-[2] p-4 shadow bg-base-100 w-80"
-              >
-                {/* item list*/}
-                <div className="max-h-42 overflow-auto [&>*:first-child]:pt-0 ">
-                  <div className="relative flex gap-2 pt-4 pb-4 border-b-2 border-solid border-gray-350">
-                    <Link href="" className="absolute w-full h-full " />
-                    <div className="w-[85px] aspect-square border-solid border-2 border-gray-350 relative">
-                      <Image
-                        width={85}
-                        height={85}
-                        src={CardImg}
-                        alt="image"
-                        className="object-contain aspect-square"
-                      />
-                      <Badge
-                        className="badge-accent left-1 top-1"
-                        badgePosition="top-left"
-                      >
-                        2x
-                      </Badge>
-                    </div>
-                    <div className="flex-grow">
-                      <h6 className="text-sm font-semibold ">Baby sun rose </h6>
-                      <p className="text-small">
-                        <span>NPR</span> 450
-                      </p>
-                    </div>
-                    <button className="absolute right-0 w-5 btn-circle btn-error btn aspect-square hover:bg-primary hover:border-primary">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-3 h-3"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-                {/* pricing list */}
-                <div className="py-2 ">
-                  <p className="flex justify-between text-gray-450">
-                    Order Amount : <span>NPR 2700</span>
-                  </p>
-                  <p className="flex justify-between text-gray-450">
-                    Subtotal : <span>NPR 2700</span>
-                  </p>
-                  <p className="flex justify-between text-gray-450">
-                    Delievery charge : <span>NPR 100</span>
-                  </p>
-                  <p className="flex justify-between">
-                    Total : <span>NPR 2800</span>
-                  </p>
-                </div>
-                <div className=" [&>*:first-child]:mb-4">
-                  <button className="py-4 font-normal btn btn-block rounded-3xl hover:bg-primary hover:text-white">
-                    CART
-                  </button>
-                  <button className="py-4 font-normal btn btn-block rounded-3xl hover:bg-primary hover:text-white ">
-                    CHECKOUT
-                  </button>
-                </div>
-              </div>
-            </div>
+            <CartDropdown />
 
             {/* Total Price */}
             <div>
@@ -419,7 +337,7 @@ const Header = () => {
                 TOTAL PRICE
               </p>
               <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
-                NRP 1500
+                NRP 0
               </p>
             </div>
             {/* md:drawer */}

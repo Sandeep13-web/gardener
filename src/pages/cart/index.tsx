@@ -43,7 +43,7 @@ const Cart: NextPageWithLayout = () => {
   const calculateTotal = (): number => {
     let total = 0;
     cartItems.forEach((item) => {
-      total += item.product.unitPrice[0].sellingPrice * item.quantity;
+      total += item?.product?.unitPrice[0]?.sellingPrice * item.quantity;
     });
     return total;
   };
@@ -90,7 +90,7 @@ const Cart: NextPageWithLayout = () => {
             </thead>
             <tbody>
               {cartItems.map((item) => (
-                <tr key={item.product.id} className="border-b-gray-350">
+                <tr key={item?.product?.id} className="border-b-gray-350">
                   <td className="w-[150px] text-gray-650 text-center py-[30px] font-medium">
                     {/* <Link href={item.product.link} className="text-[15px]">
                       <img
@@ -104,17 +104,17 @@ const Cart: NextPageWithLayout = () => {
                       src={"/images/card-img.jpeg"}
                       height={80}
                       width={80}
-                      alt={item.product.title}
+                      alt={item?.product?.title}
                     />
                   </td>
                   <td className="w-[435px] text-gray-650 text-center py-[30px] font-medium">
-                    <Link href={`${item.product.link}`} className="text-[15px]">
-                      {item.product.title}{" "}
+                    <Link href={`${item?.product?.link}`} className="text-[15px]">
+                      {item?.product?.title}{" "}
                       <span className="capitalize">(Indoor)</span>
                     </Link>
                   </td>
                   <td className="w-[435px] text-gray-650 text-center py-[30px] font-medium text-[15px]">
-                    NPR {item.product.unitPrice[0].sellingPrice}
+                    NPR {item?.product?.unitPrice[0]?.sellingPrice}
                   </td>
                   <td className="w-[435px] text-gray-650 text-center py-[30px] font-medium">
                     <div className="flex justify-center m-auto h-[40px] max-w-[115px]">
@@ -122,8 +122,8 @@ const Cart: NextPageWithLayout = () => {
                         className="text-base text-gray-650 p-[5px] border border-gray-350 transition-all delay-100 duration-150 hover:bg-slate-850 hover:text-primary"
                         onClick={() =>
                           handleUpdateQuantity(
-                            item.product.id,
-                            item.quantity - 1
+                            item?.product.id,
+                            item?.quantity - 1
                           )
                         }
                       >
@@ -133,15 +133,15 @@ const Cart: NextPageWithLayout = () => {
                         type="text"
                         className="w-full text-base text-center border-y border-y-gray-350 focus:outline-0"
                         readOnly
-                        value={item.quantity}
+                        value={item?.quantity}
                         maxLength={3}
                       />
                       <button
                         className="text-base text-gray-650 p-[5px] border border-gray-350 transition-all delay-100 duration-150 hover:bg-slate-850 hover:text-primary"
                         onClick={() =>
                           handleUpdateQuantity(
-                            item.product.id,
-                            item.quantity + 1
+                            item?.product?.id,
+                            item?.quantity + 1
                           )
                         }
                       >
@@ -150,12 +150,12 @@ const Cart: NextPageWithLayout = () => {
                     </div>
                   </td>
                   <td className="text-gray-650 text-center py-[30px] font-medium text-[15px]">
-                    NPR {item.product.unitPrice[0].sellingPrice * item.quantity}
+                    NPR {item?.product?.unitPrice[0]?.sellingPrice * item?.quantity}
                   </td>
                   <td className="w-[100px] text-center py-[30px]">
                     <button
                       className="border border-gray-350 flex items-center justify-center m-auto transition-all delay-100 duration-150 w-[40px] h-[36px] hover:bg-slate-850 hover:text-primary"
-                      onClick={() => handleRemoveFromCart(item.product.id)}
+                      onClick={() => handleRemoveFromCart(item?.product?.id)}
                     >
                       <FaTimes className="w-[15px]" />
                     </button>
