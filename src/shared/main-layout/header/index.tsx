@@ -87,9 +87,6 @@ const Header = () => {
     }
   );
 
-
-  console.log("searchData", searchData)
-
   const handleLoadMore = () => {
     fetchNextPage();
   };
@@ -119,14 +116,8 @@ const Header = () => {
       type: selectedType,
       keyword: searchValue
     };
-
     const queryString = new URLSearchParams(query).toString();
-    const apiUrl = selectedType === 'product' ? '/api/products' : '/api/categories';
-
     router.push(`/search?${queryString}`);
-
-    // Perform your API request using the apiUrl
-    // ...
   };
 
   return (
