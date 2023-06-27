@@ -1,15 +1,19 @@
 import axiosInstance from "@/axios/axiosInstance";
 
-export const getSearchResults = async (type: string, query: string, page: number) => {
+export const getSearchResults = async (
+  type?: string,
+  query?: string,
+  page?: number
+) => {
   try {
-    let apiUrl = '';
+    let apiUrl = "";
 
-    if (type === 'category') {
-      apiUrl = '/category';
-    } else if (type === 'product') {
-      apiUrl = '/product';
+    if (type === "category") {
+      apiUrl = "/category";
+    } else if (type === "product") {
+      apiUrl = "/product";
     } else {
-      throw new Error('Invalid search type');
+      throw new Error("Invalid search type");
     }
 
     const response = await axiosInstance.get(apiUrl, {
