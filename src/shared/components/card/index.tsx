@@ -41,7 +41,7 @@ const Card: React.FC<Props> = ({ product }) => {
       />
       <figure>
         <Image
-          src={"/images/card-img.jpeg"}
+          src={product?.images[0]?.imageName}
           alt="Plant"
           className="w-full h-auto"
           width={100}
