@@ -10,6 +10,7 @@ import EmptyPage from "@/components/emptyPage";
 import Breadcrumb from "@/components/Breadcrumb";
 import { ChangeEvent, useState } from "react";
 import Loader from "@/components/Loading";
+import CategoryCard from "@/shared/components/category-card";
 
 const SearchPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -58,7 +59,7 @@ const SearchPage: NextPageWithLayout = () => {
 
   return (
     <div>
-    <Breadcrumb />
+    <Breadcrumb title='Search'/>
     <div className="offer-page">
       <div className="container">
         <div className="category"></div>
@@ -66,7 +67,7 @@ const SearchPage: NextPageWithLayout = () => {
         {/* Show the product data */}
         {type === 'product' && (
         <div>
-          <div className="top-bar flex items-center justify-between bg-gray-250 mt-[60px] my-[20px] p-[10px]">
+          <div className="top-bar flex items-center justify-between bg-slate-150 mt-[60px] my-[20px] p-[10px]">
           <div className="products-count">
               <p className="text-sm font-normal text-gray-750">There are {searchData?.data?.length} products</p>
           </div>
@@ -87,7 +88,7 @@ const SearchPage: NextPageWithLayout = () => {
                 <EmptyPage />
              ) : (
                     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                      {searchData.data.map((product: any, index: any) => (
+                      {searchData?.data.map((product: any, index: any) => (
                         <Card
                         product = {product}
                           key={`app-cat-products-${index}`}
@@ -102,9 +103,19 @@ const SearchPage: NextPageWithLayout = () => {
       )}
  {/* Show the category data */}
       {type === 'category' && (
-        <div>
-         <p>Category data</p>
-        </div>
+        <section className="my-[60px]">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              {searchData?.data.map((item: any, index: number) => (
+                <CategoryCard
+                  key={`categories-${index}`}
+                  title={item?.title}
+                  totalProducts={item?.productCount}
+                  shopLink={`/categories/${item?.slug}`}
+                  image={item.icon}
+                  />
+              ))}
+           </div>
+        </section>
       )}
        
       </div>

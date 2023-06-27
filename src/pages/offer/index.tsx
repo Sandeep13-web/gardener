@@ -60,10 +60,10 @@ if (isLoading) {
  
   return (
     <div>
-      <Breadcrumb />
+      <Breadcrumb title="Offer" />
       <div className="offer-page">
         <div className="container">
-          <div className="top-bar flex items-center justify-between bg-gray-250 mt-[60px] my-[20px] p-[10px]">
+          <div className="top-bar flex items-center justify-between bg-slate-150 mt-[60px] my-[20px] p-[10px]">
             <div className="products-count">
                 <p className="text-sm font-normal text-gray-750">There are {offers?.data?.length} products</p>
             </div>
