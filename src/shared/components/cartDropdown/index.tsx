@@ -6,12 +6,13 @@ import CartIcon from "@/shared/icons/common/CartIcon";
 import { CardImg } from "@/shared/lib/image-config";
 import { useCart } from "@/store/use-cart";
 import { FaTimes } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 const CartDropdown = () => {
   const { cartItems, removeFromCart, calculateTotal } = useCart();
   const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const [isMounted, setIsMounted] = useState(false);
-
+  const router = useRouter();
   const handleRemoveFromCart = (productId: number) => {
     removeFromCart(productId);
   };
@@ -90,7 +91,7 @@ const CartDropdown = () => {
           </p>
         </div>
         <div className=" [&>*:first-child]:mb-4">
-          <button className="py-4 font-normal btn btn-block rounded-3xl hover:bg-primary hover:text-white">
+          <button className="py-4 font-normal btn btn-block rounded-3xl hover:bg-primary hover:text-white" onClick={() => router.push('/cart')}>
             CART
           </button>
           <button className="py-4 font-normal btn btn-block rounded-3xl hover:bg-primary hover:text-white ">

@@ -18,7 +18,7 @@ import { getProfile } from "@/services/profile.service";
 import { deleteCookie } from "cookies-next";
 import { FaChevronDown, FaUser } from "react-icons/fa";
 import { IHome } from "@/interface/home.interface";
-import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
+import { getToken, getWareId } from "@/shared/utils/cookies-utils/cookies.utils";
 import { logout } from "@/services/auth.service";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import React, { ChangeEvent, useState } from "react";
@@ -29,6 +29,7 @@ import CartDropdown from "@/shared/components/cartDropdown";
 
 const Header = () => {
   const token = getToken();
+  const ware_id = getWareId();
   const [searchValue, setSearchValue] = useState('');
   const [selectedType, setSelectedType] = useState('product');
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -39,11 +40,13 @@ const Header = () => {
     queryFn: getConfig,
   });
 
-  const { data: home } = useQuery<IHome>({ queryKey: ['getHomeData'], queryFn: getHomeData });
+  const { data: home } = useQuery<IHome>({ queryKey: ['getHomeData'], queryFn: getHomeData, enabled: !!ware_id });
 
   const { data: categories, isInitialLoading: loading } = useQuery({
     queryKey: ["getCategories"],
     queryFn: getProductCategory,
+    enabled: !!ware_id,
+
   });
 
 
@@ -384,6 +387,7 @@ const Header = () => {
               <Button
                 type="ghost"
                 className="!bg-white border-0 text-gray-550 font-bold uppercase"
+                onClick={() => router.push('/')}
               >
                 Home
               </Button>

@@ -3,4 +3,5 @@ export enum CookieKeys {
   TOKEN = "token",
   USER = "user",
   ACCOUNT = "account_type",
+  WAREHOUSE = "ware_house",
 }

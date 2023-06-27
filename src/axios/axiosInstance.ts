@@ -1,7 +1,10 @@
 import axios from "axios";
 // import { clearLocalStorage } from "../utils/localStorage.util";
 import { config } from "../../config";
-import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
+import {
+  getToken,
+  getWareId,
+} from "@/shared/utils/cookies-utils/cookies.utils";
 
 const baseURL = config.gateway.baseURL;
 const axiosInstance = axios.create({
@@ -10,7 +13,7 @@ const axiosInstance = axios.create({
     Accept: "application/json",
     Authorization: `Bearer ${getToken()}`,
     "Api-Key": config.gateway.apiKey,
-    "Warehouse-Id": 1,
+    "Warehouse-Id": getWareId(),
   },
 });
 

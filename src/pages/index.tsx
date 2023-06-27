@@ -15,7 +15,6 @@ import Categories from "@/features/Home/categories";
 
 import AppCategories from "@/features/Home/app-categories";
 import { useQuery } from "@tanstack/react-query";
-import { getHomeData } from "@/services/home.service";
 import { IAppCategories, IHome } from "@/interface/home.interface";
 import SkeletonLoadingCard from "@/shared/components/skeleton/products";
 import Head from "next/head";
@@ -26,9 +25,9 @@ const Home: NextPageWithLayout = () => {
 
   return (
     <>
-    <Head>
-      <title>I am the Gardener</title>
-    </Head>
+      <Head>
+        <title>I am the Gardener</title>
+      </Head>
       <div className="text-lg font-bold min-h-[300vh]">
         <Banner />
         <div className="container mt-6">
