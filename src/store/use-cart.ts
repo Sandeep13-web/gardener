@@ -88,7 +88,7 @@ export const useCart = create<IStore>((set, get) => ({
   },
   calculateTotal: () => {
     const subtotal = get().cartItems.reduce(
-      (sum, item) => sum + item.product.unitPrice[0].sellingPrice * item.quantity,
+      (sum, item) => sum + item.product?.unitPrice[0].sellingPrice * item.quantity,
       0
     );
     const total = subtotal + 10; // Assume flat rate shipping fee of $10

@@ -6,32 +6,50 @@ import SearchIcon from "@/shared/icons/common/SearchIcon";
 import TrashIcon from "@/shared/icons/common/TrashIcon";
 import { useCart } from "@/store/use-cart";
 import { IProduct } from "@/interface/product.interface";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { addToCart } from "@/services/cart.service";
+import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 
 const Card: React.FC<Props> = ({ product }) => {
-  const { addToCart, cartItems, updateItemQuantity, removeFromCart } =
-    useCart();
+  const token = getToken()
   const [value, setValue] = useState<number>(1);
   const [addItem, setAddItem] = useState<boolean>(false);
 
   const addItemNum = (value: number) => {
     const addedItem = value + 1;
     setValue(addedItem);
-    updateItemQuantity(product.id, addedItem); // Update item quantity in the cart
+    // updateItemQuantity(product.id, addedItem); // Update item quantity in the cart
   };
 
   const subItemNum = (value: number) => {
     if (value === 1) {
       setAddItem(false);
-      removeFromCart(product.id); // Remove item from the cart
+      // removeFromCart(product.id); // Remove item from the cart
     } else {
       const subItem = value - 1;
       setValue(subItem);
-      updateItemQuantity(product.id, subItem); // Update item quantity in the cart
+      // updateItemQuantity(product.id, subItem); // Update item quantity in the cart
     }
   };
+  const cartQuery = useQuery({queryKey:["getCart"] , enabled: !!token})
+  
+  const mutation = useMutation({
+    mutationFn: addToCart,
+    onSuccess: () => {
+      // const {data:cart} = useQuery({queryKey:['getCart']})
+      cartQuery.refetch()
+    }
+  })
+
   const handleAddToCart = () => {
-    addToCart(product);
+    // addToCart(product);
     setAddItem(true);
+    const payload = {
+      productId: product?.id,
+      priceId: product?.id ,
+      quantity: value
+    }
+    mutation.mutate(payload)
   };
   return (
     <div className="relative card plant-card">

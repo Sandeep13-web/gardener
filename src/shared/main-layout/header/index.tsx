@@ -26,6 +26,7 @@ import ConfirmationModal from "@/shared/components/confirmation-modal";
 import { useRouter } from "next/router";
 import { getSearchResults } from "@/services/search.service";
 import CartDropdown from "@/shared/components/cartDropdown";
+import { getCartData } from "@/services/cart.service";
 
 const Header = () => {
   const token = getToken();
@@ -49,11 +50,16 @@ const Header = () => {
 
   });
 
-
   const { data: profile, isInitialLoading: loadingProfile } = useQuery({
     queryKey: ["getProfile"],
     queryFn: getProfile,
-    enabled: !!token
+    enabled: !!token,
+  })
+
+  const { data: cart, isInitialLoading: loadingCart } = useQuery({
+    queryKey: ["getCart"],
+    queryFn: getCartData,
+    enabled: !!token,
   })
 
   const fetchData = async () => { };
@@ -61,8 +67,8 @@ const Header = () => {
   const mutation = useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      showToast(TOAST_TYPES.success, "Logged out successfully")
       deleteCookie("token")
+      showToast(TOAST_TYPES.success, "Logged out successfully")
     }
   })
 
@@ -229,7 +235,7 @@ const Header = () => {
 
             <div className="border-[1px] border-[#E4E4E4] rounded-md h-[48px] !outline-offset-0 flex items-center justify-between gap-1 w-[60%]">
 
-              <div className="w-full relative">
+              <div className="relative w-full">
                 <div className="flex items-center justify-between gap-1 ">
                   <input
                     type="text"
@@ -262,11 +268,11 @@ const Header = () => {
                   </div>
                 </div>
                 {searchValue.length > 0 && (
-                  <ul className="absolute top-full z-50 bg-white border border-gray-300 rounded mt-2 w-full" onScroll={handleScroll}>
+                  <ul className="absolute z-50 w-full mt-2 bg-white border border-gray-300 rounded top-full" onScroll={handleScroll}>
                     {searchData && searchData?.pages.map((group, index) => (
                       <React.Fragment key={index}>
                         {group?.data?.map((prev: any, _i: number) => (
-                          <li key={_i} className="p-2 hover:bg-gray-100 cursor-pointer">
+                          <li key={_i} className="p-2 cursor-pointer hover:bg-gray-100">
                             <div className="flex items-center">
                               <Image
                                 src={prev?.categoryBackgroundImage}
@@ -287,7 +293,7 @@ const Header = () => {
                     {/* {searchHistory.map((item, index) => (
                   <li
                     key={index}
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                    className="p-2 cursor-pointer hover:bg-gray-100"
                     onClick={() => setSearchValue(item)}
                   >
                     {item}
@@ -323,7 +329,7 @@ const Header = () => {
               </Badge>
             </button>
             {/* Cart */}
-            <CartDropdown />
+            <CartDropdown cart={cart}/>
 
             {/* Total Price */}
             <div>
@@ -331,7 +337,7 @@ const Header = () => {
                 TOTAL PRICE
               </p>
               <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
-                NRP 0
+                NPR {cart?.total || 0}
               </p>
             </div>
             {/* md:drawer */}
