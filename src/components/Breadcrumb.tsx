@@ -7,9 +7,7 @@ import { PiCaretRightBold } from 'react-icons/pi';
 const Breadcrumb = ({title}) => {
   const router = useRouter();
   const { pathname } = router;
- 
   const { slug } = router.query;
-  console.log(router, slug)
 
   // Define the breadcrumb items and their respective paths
   const breadcrumbItems = [
