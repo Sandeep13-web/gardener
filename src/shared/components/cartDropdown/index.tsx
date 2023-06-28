@@ -8,28 +8,25 @@ import { useRouter } from "next/router";
 import { Props } from "./cartDropdown.props";
 import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { deleteCartItemById } from "@/services/cart.service";
+import { deleteCartItemById, getCartData } from "@/services/cart.service";
 
-const CartDropdown: React.FC<Props> = ({ cart }) => {
+const CartDropdown = () => {
   const token = getToken()
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
-  const cartQuery = useQuery({queryKey:["getCart"] , enabled: !!token})
+  const { data: cart } = useQuery({ queryKey: ["getCart"], queryFn: getCartData })
 
   const mutation = useMutation({
     mutationFn: deleteCartItemById,
     onSuccess: () => {
-      cartQuery.refetch()
+      // cartQuery.refetch()
     }
   })
-  const handleRemoveFromCart = (id:number) => {
+  const handleRemoveFromCart = (id: number) => {
     mutation.mutate(id)
   };
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-  if (!isMounted) return null;
-  
+
+
   return (
     <div className="relative z-40 py-3 cursor-pointer dropdown dropdown-hover bg-gray-350 btn-circle shrink-0">
       <CartIcon className="mx-auto" />
@@ -42,9 +39,9 @@ const CartDropdown: React.FC<Props> = ({ cart }) => {
         className="dropdown-content min-w-[350px] right-0 z-[2] top-[100%] p-4 shadow bg-base-100"
       >
         {/* item list*/}
-        <div className={`max-h-42 overflow-auto px-[30px] ${cart?.cartProducts?.length ===0 ? '' : 'pb-[30px]'}`}>
+        <div className={`max-h-42 overflow-auto px-[30px] ${cart?.cartProducts?.length === 0 ? '' : 'pb-[30px]'}`}>
           {
-            !cart || cart?.cartProducts?.length ===0 ?
+            !cart || cart?.cartProducts?.length === 0 ?
               <p className="text-sm font-medium text-center text-slate-850">No Products in the cart.</p>
               :
               <>

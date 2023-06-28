@@ -11,7 +11,6 @@ import Drawer from "@/shared/components/drawer";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getConfig, getHomeData, getProductCategory } from "@/services/home.service";
 import OfferIcon from "@/shared/icons/common/OfferIcon";
-import CartIcon from "@/shared/icons/common/CartIcon";
 import HeartIcon from "@/shared/icons/common/HeartIcon";
 import Link from "next/link";
 import { getProfile } from "@/services/profile.service";
@@ -30,7 +29,6 @@ import { getCartData } from "@/services/cart.service";
 
 const Header = () => {
   const token = getToken();
-  const ware_id = getWareId();
   const [searchValue, setSearchValue] = useState('');
   const [selectedType, setSelectedType] = useState('product');
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -41,7 +39,9 @@ const Header = () => {
     queryFn: getConfig,
   });
 
+
   const { data: home } = useQuery<IHome>({ queryKey: ['getHomeData'], queryFn: getHomeData });
+
 
   const { data: categories, isInitialLoading: loading } = useQuery({
     queryKey: ["getCategories"],
@@ -53,14 +53,6 @@ const Header = () => {
     queryFn: getProfile,
     enabled: !!token,
   })
-
-  const { data: cart, isInitialLoading: loadingCart } = useQuery({
-    queryKey: ["getCart"],
-    queryFn: getCartData,
-    enabled: !!token,
-  })
-
-  const fetchData = async () => { };
 
   const mutation = useMutation({
     mutationFn: logout,
@@ -327,7 +319,7 @@ const Header = () => {
               </Badge>
             </button>
             {/* Cart */}
-            <CartDropdown cart={cart} />
+            <CartDropdown />
 
             {/* Total Price */}
             <div>
@@ -335,7 +327,7 @@ const Header = () => {
                 TOTAL PRICE
               </p>
               <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
-                NPR {cart?.total || 0}
+                {/* NPR {cart?.total || 0} */}
               </p>
             </div>
             {/* md:drawer */}

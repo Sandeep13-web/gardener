@@ -31,13 +31,13 @@ const Card: React.FC<Props> = ({ product }) => {
       // updateItemQuantity(product.id, subItem); // Update item quantity in the cart
     }
   };
-  const cartQuery = useQuery({queryKey:["getCart"] , enabled: !!token})
-  
+  const cartQuery = useQuery({ queryKey: ["getCart"] })
+
   const mutation = useMutation({
     mutationFn: addToCart,
     onSuccess: () => {
       // const {data:cart} = useQuery({queryKey:['getCart']})
-      cartQuery.refetch()
+      // cartQuery.refetch()
     }
   })
 
@@ -46,7 +46,7 @@ const Card: React.FC<Props> = ({ product }) => {
     setAddItem(true);
     const payload = {
       productId: product?.id,
-      priceId: product?.id ,
+      priceId: product?.id,
       quantity: value
     }
     mutation.mutate(payload)

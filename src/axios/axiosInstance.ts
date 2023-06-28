@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
   baseURL: baseURL,
   headers: {
     Accept: "application/json",
-    Authorization: `Bearer ${getToken()}`,
+    ...(getToken() && { Authorization: `Bearer ${getToken()}` }),
     "Api-Key": config.gateway.apiKey,
     "Warehouse-Id": getWareId(),
   },
