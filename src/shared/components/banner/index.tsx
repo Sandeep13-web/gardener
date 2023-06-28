@@ -16,8 +16,6 @@ import BannerSkeletonLoader from "../skeleton/banner";
 const Banner = () => {
   const router = useRouter();
   const { data, isInitialLoading } = useQuery<IHome>({ queryKey: ['getHomeData'] });
-
-  console.log("data", data)
   return (
     <div>
       {
