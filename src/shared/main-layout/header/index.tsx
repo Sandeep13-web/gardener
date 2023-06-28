@@ -53,6 +53,8 @@ const Header = () => {
   ];
 
 
+
+
   const { data: home } = useQuery<IHome>({ queryKey: ['getHomeData'], queryFn: getHomeData });
 
 
@@ -394,7 +396,6 @@ const Header = () => {
               <Dropdown
               data={serviceDropdownData.map((item) => item.title)}
               toggleClassName="!font-bold btn-ghost text-gray-550"
-              onItemClick={handleServiceDropdownItemClick}
             >
               OUR SERVICE
             </Dropdown>
@@ -407,7 +408,6 @@ const Header = () => {
               <Dropdown
               data={aboutDropdownData.map((item) => item.title)}
               toggleClassName="!font-bold btn-ghost text-gray-550"
-              onItemClick={handleAboutDropdownItemClick}
             >
               ABOUT US
             </Dropdown>
