@@ -39,6 +39,19 @@ const Header = () => {
     queryFn: getConfig,
   });
 
+  const serviceDropdownData = [
+    { slug: "plant-consultation", title: "Plant Consultation" },
+    { slug: "gift-a-plant", title: "Gift a plant" },
+  ];
+  
+  const aboutDropdownData = [
+    { slug: "who-we-are", title: "Who We Are" },
+    { slug: "our-story", title: "Our Story" },
+    { slug: "values", title: "Values That Make Us Who We Are" },
+    { slug: "working", title: "Working At I Am The Gardner" },
+    { slug: "csr-project", title: "Our CSR Project" },
+  ];
+
 
   const { data: home } = useQuery<IHome>({ queryKey: ['getHomeData'], queryFn: getHomeData });
 
@@ -379,11 +392,12 @@ const Header = () => {
                 Home
               </Button>
               <Dropdown
-                data={["Plant Consultation ", "Gift a plant "]}
-                toggleClassName="!font-bold btn-ghost text-gray-550"
-              >
-                OUR SERVICE
-              </Dropdown>
+              data={serviceDropdownData.map((item) => item.title)}
+              toggleClassName="!font-bold btn-ghost text-gray-550"
+              onItemClick={handleServiceDropdownItemClick}
+            >
+              OUR SERVICE
+            </Dropdown>
               <Button
                 type="ghost"
                 className="!bg-white border-0 text-gray-550 font-bold"
@@ -391,17 +405,18 @@ const Header = () => {
                 OUTLET
               </Button>
               <Dropdown
-                data={[
-                  "Who We Are",
-                  "Our Story",
-                  "Values That Make Us Who We Are",
-                  "Working At I Am The Gardner",
-                  "Our CSR Project",
-                ]}
-                toggleClassName="!font-bold btn-ghost text-gray-550"
-              >
-                ABOUT US
-              </Dropdown>
+              data={aboutDropdownData.map((item) => item.title)}
+              toggleClassName="!font-bold btn-ghost text-gray-550"
+              onItemClick={handleAboutDropdownItemClick}
+            >
+              ABOUT US
+            </Dropdown>
+
+              
+
+            
+
+
               <Button
                 type="ghost"
                 className="!bg-white border-0 text-gray-550 font-bold uppercase"
