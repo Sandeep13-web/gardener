@@ -8,10 +8,11 @@ import { useCart } from "@/store/use-cart";
 import { IProduct } from "@/interface/product.interface";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { addToCart } from "@/services/cart.service";
-import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
+import { getCartNumber } from "@/shared/utils/cookies-utils/cookies.utils";
+import { ICreateCartItem } from "@/interface/cart.interface";
 
 const Card: React.FC<Props> = ({ product }) => {
-  const token = getToken()
+  const cart_number = getCartNumber()
   const [value, setValue] = useState<number>(1);
   const [addItem, setAddItem] = useState<boolean>(false);
 
@@ -31,7 +32,6 @@ const Card: React.FC<Props> = ({ product }) => {
       // updateItemQuantity(product.id, subItem); // Update item quantity in the cart
     }
   };
-  const cartQuery = useQuery({ queryKey: ["getCart"] })
 
   const mutation = useMutation({
     mutationFn: addToCart,
@@ -44,10 +44,11 @@ const Card: React.FC<Props> = ({ product }) => {
   const handleAddToCart = () => {
     // addToCart(product);
     setAddItem(true);
-    const payload = {
+    const payload: ICreateCartItem = {
       productId: product?.id,
       priceId: product?.id,
-      quantity: value
+      quantity: value,
+      cart_id: cart_number,
     }
     mutation.mutate(payload)
   };

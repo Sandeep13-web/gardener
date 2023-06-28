@@ -35,3 +35,8 @@ export const getWareId = (): any => {
   let id = getCookie(CookieKeys.WAREHOUSE);
   return id || "";
 };
+
+export const getCartNumber = (): any => {
+  let number = getCookie(CookieKeys.CARTNUMBER);
+  return number || "";
+};

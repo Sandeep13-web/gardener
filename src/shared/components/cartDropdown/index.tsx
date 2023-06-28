@@ -6,15 +6,18 @@ import CartIcon from "@/shared/icons/common/CartIcon";
 import { FaTimes } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { Props } from "./cartDropdown.props";
-import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
+import { getCartNumber, getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { deleteCartItemById, getCartData } from "@/services/cart.service";
+import { getCookie } from "cookies-next";
 
 const CartDropdown = () => {
   const token = getToken()
-  const [isMounted, setIsMounted] = useState(false);
+  const cart_number = getCartNumber()
   const router = useRouter();
-  const { data: cart } = useQuery({ queryKey: ["getCart"], queryFn: getCartData })
+  // const { data: cart } = useQuery({ queryKey: ["getCart"], queryFn: getCartData, enabled: cart_number.length > 0 ? false : false })
+  // const { data: cart } = useQuery({ queryKey: ["getCart"], queryFn: getCartData })
+
 
   const mutation = useMutation({
     mutationFn: deleteCartItemById,
