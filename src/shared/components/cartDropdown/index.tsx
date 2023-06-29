@@ -9,13 +9,14 @@ import { Props } from "./cartDropdown.props";
 import { getCartNumber, getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteCartItemById, getCartData } from "@/services/cart.service";
+import { ICartItem } from "@/interface/cart.interface";
 
 const CartDropdown = () => {
   const token = getToken()
   const queryClient = useQueryClient();
   const cartId = getCartNumber()
   const router = useRouter();
-  const { data: cart } = useQuery(["getCart"], getCartData, {
+  const { data: cart } = useQuery<ICartItem>(["getCart"], getCartData, {
     enabled: !!cartId
   })
 

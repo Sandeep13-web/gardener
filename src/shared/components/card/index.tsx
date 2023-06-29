@@ -7,17 +7,18 @@ import TrashIcon from "@/shared/icons/common/TrashIcon";
 import { useCart } from "@/store/use-cart";
 import { IProduct } from "@/interface/product.interface";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addToCart } from "@/services/cart.service";
+import { addToCart, updateCart } from "@/services/cart.service";
 import { getCartNumber } from "@/shared/utils/cookies-utils/cookies.utils";
-import { ICreateCartItem } from "@/interface/cart.interface";
+import { ICartItem, ICreateCartItem, IUpdateCartItem } from "@/interface/cart.interface";
 import ButtonLoader from "../btn-loading";
 
 const Card: React.FC<Props> = ({ product }) => {
-  const cart_number = getCartNumber()
+  const { data: cart } = useQuery<ICartItem>(["getCart"]);
   const [value, setValue] = useState<number>(1);
-  const [addItem, setAddItem] = useState<boolean>(false);
+
   const queryClient = useQueryClient();
-  const { data: cart } = useQuery<any>(["getCart"])
+
+
   const addItemNum = (value: number) => {
     const addedItem = value + 1;
     setValue(addedItem);
@@ -26,7 +27,6 @@ const Card: React.FC<Props> = ({ product }) => {
 
   const subItemNum = (value: number) => {
     if (value === 1) {
-      setAddItem(false);
       // removeFromCart(product.id); // Remove item from the cart
     } else {
       const subItem = value - 1;
@@ -38,11 +38,16 @@ const Card: React.FC<Props> = ({ product }) => {
   const mutation = useMutation({
     mutationFn: addToCart,
     onSuccess: () => {
-      setAddItem(true);
       queryClient.invalidateQueries(['getCart'])
     }
   })
 
+  const updateCartMutation = useMutation({
+    mutationFn: updateCart,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getCart'])
+    }
+  })
 
   const handleAddToCart = () => {
     const payload: ICreateCartItem = {
@@ -52,8 +57,16 @@ const Card: React.FC<Props> = ({ product }) => {
     }
     mutation.mutate(payload)
   };
-  console.log("cart", cart)
-  console.log("product", product)
+
+  const handleUpdateCart = (value: number) => {
+    const payload: IUpdateCartItem = {
+      note: '',
+      quantity: value
+    }
+    updateCartMutation.mutate(payload)
+  };
+
+
   return (
     <div className="relative card plant-card">
       <Link
@@ -121,7 +134,7 @@ const Card: React.FC<Props> = ({ product }) => {
               />
               <button
                 className="text-primary py-1 w-[14px]"
-                onClick={() => addItemNum(value)}
+                onClick={() => handleUpdateCart(value)}
               >
                 +
               </button>

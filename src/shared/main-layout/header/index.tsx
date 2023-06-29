@@ -25,7 +25,6 @@ import ConfirmationModal from "@/shared/components/confirmation-modal";
 import { useRouter } from "next/router";
 import { getSearchResults } from "@/services/search.service";
 import CartDropdown from "@/shared/components/cartDropdown";
-import { getCartData } from "@/services/cart.service";
 
 const Header = () => {
   const token = getToken();
@@ -43,7 +42,7 @@ const Header = () => {
     { slug: "plant-consultation", title: "Plant Consultation" },
     { slug: "gift-a-plant", title: "Gift a plant" },
   ];
-  
+
   const aboutDropdownData = [
     { slug: "who-we-are", title: "Who We Are" },
     { slug: "our-story", title: "Our Story" },
@@ -394,11 +393,11 @@ const Header = () => {
                 Home
               </Button>
               <Dropdown
-              data={serviceDropdownData.map((item) => item.title)}
-              toggleClassName="!font-bold btn-ghost text-gray-550"
-            >
-              OUR SERVICE
-            </Dropdown>
+                data={serviceDropdownData.map((item) => item.title)}
+                toggleClassName="!font-bold btn-ghost text-gray-550"
+              >
+                OUR SERVICE
+              </Dropdown>
               <Button
                 type="ghost"
                 className="!bg-white border-0 text-gray-550 font-bold"
@@ -406,15 +405,15 @@ const Header = () => {
                 OUTLET
               </Button>
               <Dropdown
-              data={aboutDropdownData.map((item) => item.title)}
-              toggleClassName="!font-bold btn-ghost text-gray-550"
-            >
-              ABOUT US
-            </Dropdown>
+                data={aboutDropdownData.map((item) => item.title)}
+                toggleClassName="!font-bold btn-ghost text-gray-550"
+              >
+                ABOUT US
+              </Dropdown>
 
-              
 
-            
+
+
 
 
               <Button
