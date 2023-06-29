@@ -12,12 +12,11 @@ import { deleteCartItemById, getCartData } from "@/services/cart.service";
 import { ICartItem } from "@/interface/cart.interface";
 
 const CartDropdown = () => {
-  const token = getToken()
   const queryClient = useQueryClient();
-  const cartId = getCartNumber()
+  const cartNumber = getCartNumber()
   const router = useRouter();
   const { data: cart } = useQuery<ICartItem>(["getCart"], getCartData, {
-    enabled: !!cartId
+    enabled: !!cartNumber
   })
 
   const mutation = useMutation({
