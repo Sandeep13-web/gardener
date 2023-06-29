@@ -19,7 +19,8 @@ import { IAppCategories, IHome } from "@/interface/home.interface";
 import SkeletonLoadingCard from "@/shared/components/skeleton/products";
 import Head from "next/head";
 import { getCookie } from "cookies-next";
-import { getCartData } from "@/services/cart.service";
+import { setCartNumberCookie } from "@/services/cart.service";
+import { CookieKeys } from "@/shared/enum";
 
 const Home: NextPageWithLayout = () => {
   const { data: home, isInitialLoading: homeLoading } = useQuery<IHome>({ queryKey: ['getHomeData'] });
@@ -27,8 +28,8 @@ const Home: NextPageWithLayout = () => {
 
 
   useEffect(() => {
-    if (!getCookie('cartNumber')) {
-      getCartData()
+    if (!getCookie(CookieKeys.CARTNUMBER)) {
+      setCartNumberCookie()
     }
   }, [])
 

@@ -7,22 +7,22 @@ import { FaTimes } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { Props } from "./cartDropdown.props";
 import { getCartNumber, getToken } from "@/shared/utils/cookies-utils/cookies.utils";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteCartItemById, getCartData } from "@/services/cart.service";
-import { getCookie } from "cookies-next";
 
 const CartDropdown = () => {
   const token = getToken()
-  const cart_number = getCartNumber()
+  const queryClient = useQueryClient();
+  const cartId = getCartNumber()
   const router = useRouter();
-  // const { data: cart } = useQuery({ queryKey: ["getCart"], queryFn: getCartData, enabled: cart_number.length > 0 ? false : false })
-  // const { data: cart } = useQuery({ queryKey: ["getCart"], queryFn: getCartData })
-
+  const { data: cart } = useQuery(["getCart"], getCartData, {
+    enabled: !!cartId
+  })
 
   const mutation = useMutation({
     mutationFn: deleteCartItemById,
     onSuccess: () => {
-      // cartQuery.refetch()
+      queryClient.invalidateQueries(['getCart'])
     }
   })
   const handleRemoveFromCart = (id: number) => {
@@ -34,7 +34,7 @@ const CartDropdown = () => {
     <div className="relative z-40 py-3 cursor-pointer dropdown dropdown-hover bg-gray-350 btn-circle shrink-0">
       <CartIcon className="mx-auto" />
       <Badge className="badge-accent" badgePosition="top-right">
-        {cart && token ? cart?.cartProducts?.length : 0}
+        {cart ? cart?.cartProducts?.length : 0}
       </Badge>
       {/* dropdown content */}
       <div
@@ -85,8 +85,16 @@ const CartDropdown = () => {
                       <button
                         className="absolute right-0 w-5 btn-circle btn-error btn aspect-square hover:bg-primary hover:border-primary"
                         onClick={() => handleRemoveFromCart(item?.id)}
+                        disabled={mutation.isLoading}
                       >
-                        <FaTimes className="w-3 h-3" />
+                        {
+                          mutation.isLoading ?
+                            <span
+                              className="w-3 h-3 border-2 border-primary border-dotted rounded-full border-t-transparent animate-spin"></span>
+                            :
+                            <FaTimes className="w-3 h-3" />
+
+                        }
                       </button>
                     </div>
                   ))

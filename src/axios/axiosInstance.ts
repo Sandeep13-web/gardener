@@ -2,6 +2,7 @@ import axios from "axios";
 // import { clearLocalStorage } from "../utils/localStorage.util";
 import { config } from "../../config";
 import {
+  getCartNumber,
   getToken,
   getWareId,
 } from "@/shared/utils/cookies-utils/cookies.utils";
@@ -12,6 +13,7 @@ const axiosInstance = axios.create({
   headers: {
     Accept: "application/json",
     ...(getToken() && { Authorization: `Bearer ${getToken()}` }),
+    ...(getCartNumber() && { "Cart-Number": getCartNumber() }),
     "Api-Key": config.gateway.apiKey,
     "Warehouse-Id": getWareId(),
   },
