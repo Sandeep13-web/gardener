@@ -25,7 +25,6 @@ import ConfirmationModal from "@/shared/components/confirmation-modal";
 import { useRouter } from "next/router";
 import { getSearchResults } from "@/services/search.service";
 import CartDropdown from "@/shared/components/cartDropdown";
-import { getCartData } from "@/services/cart.service";
 
 const Header = () => {
   const token = getToken();

@@ -7,42 +7,29 @@ import TrashIcon from "@/shared/icons/common/TrashIcon";
 import { useCart } from "@/store/use-cart";
 import { IProduct } from "@/interface/product.interface";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addToCart } from "@/services/cart.service";
-import { getCartNumber } from "@/shared/utils/cookies-utils/cookies.utils";
-import { ICreateCartItem } from "@/interface/cart.interface";
+import { addToCart, updateCart } from "@/services/cart.service";
+import { ICartItem, ICreateCartItem, IUpdateCartItem } from "@/interface/cart.interface";
 import ButtonLoader from "../btn-loading";
 
-const Card: React.FC<Props> = ({ product }) => {
-  const cart_number = getCartNumber()
-  const [value, setValue] = useState<number>(1);
-  const [addItem, setAddItem] = useState<boolean>(false);
+const Card: React.FC<Props> = ({ product, cartItem }) => {
+  const { data: cart } = useQuery<ICartItem>(["getCart"]);
+  const [value, setValue] = useState<number>(cartItem?.quantity || 1);
+  const stock: any = cartItem?.selectedUnit?.stock
   const queryClient = useQueryClient();
-  const { data: cart } = useQuery<any>(["getCart"])
-  const addItemNum = (value: number) => {
-    const addedItem = value + 1;
-    setValue(addedItem);
-    // updateItemQuantity(product.id, addedItem); // Update item quantity in the cart
-  };
-
-  const subItemNum = (value: number) => {
-    if (value === 1) {
-      setAddItem(false);
-      // removeFromCart(product.id); // Remove item from the cart
-    } else {
-      const subItem = value - 1;
-      setValue(subItem);
-      // updateItemQuantity(product.id, subItem); // Update item quantity in the cart
-    }
-  };
 
   const mutation = useMutation({
     mutationFn: addToCart,
     onSuccess: () => {
-      setAddItem(true);
       queryClient.invalidateQueries(['getCart'])
     }
   })
 
+  const updateCartMutation = useMutation({
+    mutationFn: updateCart,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getCart'])
+    }
+  })
 
   const handleAddToCart = () => {
     const payload: ICreateCartItem = {
@@ -52,8 +39,25 @@ const Card: React.FC<Props> = ({ product }) => {
     }
     mutation.mutate(payload)
   };
-  console.log("cart", cart)
-  console.log("product", product)
+
+
+
+  const handleUpdateCart = (values: number) => {
+    if (values < stock) {
+      setValue(values)
+      const payload: IUpdateCartItem = {
+        note: '',
+        quantity: values,
+        product_number: cartItem?.id,
+      }
+      updateCartMutation.mutate(payload)
+    } else {
+      console.log("erro", mutation.error)
+    }
+
+  };
+
+
   return (
     <div className="relative card plant-card">
       <Link
@@ -104,7 +108,7 @@ const Card: React.FC<Props> = ({ product }) => {
             <div className="flex items-center gap-3 px-3 border rounded rounded-lg border-primary">
               <button
                 className="text-primary py-1 text-sm w-[14px]"
-                onClick={() => subItemNum(value)}
+                onClick={() => handleUpdateCart(value - 1)}
               >
                 {value === 1 ? (
                   <TrashIcon className="max-w-[14px] h-auto" />
@@ -121,7 +125,8 @@ const Card: React.FC<Props> = ({ product }) => {
               />
               <button
                 className="text-primary py-1 w-[14px]"
-                onClick={() => addItemNum(value)}
+                onClick={() => handleUpdateCart(value + 1)}
+              // disabled={value >= stock ? true : false}
               >
                 +
               </button>
