@@ -24,7 +24,8 @@ module.exports = {
                 "orange-250": '#e57615',
                 "orange-450": '#f58220',
                 "red-250": '#cf2929',
-                "darkBlack": '#253237'
+                "darkBlack": '#253237',
+                "lightGray":'#dee0e4',
             },
             container: {
                 // margin: {
