@@ -45,11 +45,11 @@ export const updateCart = async (data: IUpdateCartItem) => {
   const payload = {
     ...data,
   };
-  delete payload.cart_number;
+  delete payload.product_number;
   try {
-    const response = await axiosInstance.post(
-      `/cart-product/${payload.cart_number}`,
-      data
+    const response = await axiosInstance.patch(
+      `/cart-product/${data.product_number}`,
+      payload
     );
     return response.data;
   } catch (error) {

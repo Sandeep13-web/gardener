@@ -1,4 +1,4 @@
-import { IProduct } from "./product.interface";
+import { ICartProduct, IProduct } from "./product.interface";
 
 export interface ICreateCartItem {
   productId: number | undefined;
@@ -10,7 +10,7 @@ export interface ICreateCartItem {
 export interface IUpdateCartItem {
   note: string;
   quantity: number;
-  cart_number?: string;
+  product_number?: number;
 }
 
 export interface ExtraCharge {
@@ -21,7 +21,7 @@ export interface ExtraCharge {
 export interface ICartItem {
   campaign_message: string;
   cartNumber: string;
-  cartProducts: IProduct[];
+  cartProducts: ICartProduct[];
   categoryId: null | number;
   deliveryCharge: number;
   discount: number;
