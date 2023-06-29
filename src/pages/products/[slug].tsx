@@ -17,7 +17,7 @@ const ProductSlug = () => {
   const[moreInfoContent, setMoreInfoContent] = useState<string>('');
   const [taxMessage, setTaxMessage] = useState<string>('');
 
-
+console.log(slug)
 const { data:productData, isLoading, error } = useQuery(
   ['getProductsFromSlug', slug],
   async () => {

@@ -39,22 +39,6 @@ const Header = () => {
     queryFn: getConfig,
   });
 
-  const serviceDropdownData = [
-    { slug: "plant-consultation", title: "Plant Consultation" },
-    { slug: "gift-a-plant", title: "Gift a plant" },
-  ];
-  
-  const aboutDropdownData = [
-    { slug: "who-we-are", title: "Who We Are" },
-    { slug: "our-story", title: "Our Story" },
-    { slug: "values", title: "Values That Make Us Who We Are" },
-    { slug: "working", title: "Working At I Am The Gardner" },
-    { slug: "csr-project", title: "Our CSR Project" },
-  ];
-
-
-
-
   const { data: home } = useQuery<IHome>({ queryKey: ['getHomeData'], queryFn: getHomeData });
 
 
@@ -393,30 +377,29 @@ const Header = () => {
               >
                 Home
               </Button>
-              <Dropdown
-              data={serviceDropdownData.map((item) => item.title)}
-              toggleClassName="!font-bold btn-ghost text-gray-550"
-            >
-              OUR SERVICE
-            </Dropdown>
+              <div className="dropdown dropdown-hover rounded-none">
+                <label tabIndex={0} className="btn m-1 bg-transparent border-0 text-gray-550 font-bold hover:bg-transparent">OUR SERVICE</label>
+                <ul tabIndex={0} className="dropdown-content z-[1] menu  px-0 pt-2.5 pb-0 shadow bg-base-100 w-[252px]">
+                  <li><Link href="/plant-consultation" className="rounded-none text-gray-750 border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:bg-transparent hover:text-primary">Plant Consultation</Link></li>
+                  <li><Link href="/gift-a-plant" className="rounded-none text-gray-750 text-sm  capitalize font-medium hover:bg-transparent hover:text-primary">Gift a plant</Link></li>
+                </ul>
+              </div>
               <Button
                 type="ghost"
                 className="!bg-white border-0 text-gray-550 font-bold"
               >
                 OUTLET
               </Button>
-              <Dropdown
-              data={aboutDropdownData.map((item) => item.title)}
-              toggleClassName="!font-bold btn-ghost text-gray-550"
-            >
-              ABOUT US
-            </Dropdown>
-
-              
-
-            
-
-
+              <div className="dropdown dropdown-hover">
+                <label tabIndex={0} className="btn m-1  bg-transparent border-0 text-gray-550 font-bold hover:bg-transparent">ABOUT US</label>
+                <ul tabIndex={0} className="dropdown-content z-[1] menu pt-2.5 pb-0 shadow bg-base-100 w-[252px]">
+                  <li><Link href="/tree-installation" className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium">Tree Installation</Link></li>
+                  <li><Link href="about-us"  className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium">Our Story</Link></li>
+                  <li><Link href="/our-values"  className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium">Values That Make Us</Link></li>
+                  <li><Link href="/working-at-i-am-the-gardener"  className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium">Working At I Am The Gardner</Link></li>
+                  <li><Link href="/csr-projects"  className="rounded-none text-gray-750 text-sm  capitalize font-medium hover:bg-transparent hover:text-primary">Our CSR Project</Link></li>
+                </ul>
+              </div>
               <Button
                 type="ghost"
                 className="!bg-white border-0 text-gray-550 font-bold uppercase"
