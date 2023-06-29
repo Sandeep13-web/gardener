@@ -6,13 +6,13 @@ import { useQuery } from "@tanstack/react-query";
 import { getPageData } from "@/services/page.service";
 import Breadcrumb from "@/components/Breadcrumb";
 
-const AboutUs: NextPageWithLayout = () => {
+const Career: NextPageWithLayout = () => {
   const router = useRouter();
   const { asPath } = router;
   const [descriptionContent, setDescriptionContent] = useState<string>('');
   const path = asPath.split('/');
   const slug = path[path.length - 1];
-  const { data: aboutData } = useQuery({
+  const { data: careerData } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
@@ -25,19 +25,19 @@ const AboutUs: NextPageWithLayout = () => {
   });
 
   useEffect(() => {
-    if (aboutData) {
-      setDescriptionContent(aboutData?.data?.description || '');
+    if (careerData) {
+      setDescriptionContent(careerData?.data?.description || '');
      }
-  }, [aboutData]);
+  }, [careerData]);
   return (
     <>
-    <Breadcrumb title={aboutData?.data?.title} />
+    <Breadcrumb title={careerData?.data?.title} />
     <div className="py-7 text-justify" dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
     </>
   );
   
 }
-export default AboutUs;
-AboutUs.getLayout = (page) => {
+export default Career;
+Career.getLayout = (page) => {
   return <MainLayout>{page}</MainLayout>;
 };
