@@ -8,3 +8,12 @@ export const getProductsFromSlug = async (productSlug:any) => {
     throw error;
   }
 };
+
+export const getRelatedProductsFromId = async (productId:any) => {
+  try {
+    const response = await axiosInstance.get(`/product/${productId}/related`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

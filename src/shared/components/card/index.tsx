@@ -6,33 +6,54 @@ import SearchIcon from "@/shared/icons/common/SearchIcon";
 import TrashIcon from "@/shared/icons/common/TrashIcon";
 import { useCart } from "@/store/use-cart";
 import { IProduct } from "@/interface/product.interface";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { addToCart } from "@/services/cart.service";
+import { getCartNumber } from "@/shared/utils/cookies-utils/cookies.utils";
+import { ICreateCartItem } from "@/interface/cart.interface";
+import ButtonLoader from "../btn-loading";
 
 const Card: React.FC<Props> = ({ product }) => {
-  const { addToCart, cartItems, updateItemQuantity, removeFromCart } =
-    useCart();
+  const cart_number = getCartNumber()
   const [value, setValue] = useState<number>(1);
   const [addItem, setAddItem] = useState<boolean>(false);
-
+  const queryClient = useQueryClient();
+  const { data: cart } = useQuery<any>(["getCart"])
   const addItemNum = (value: number) => {
     const addedItem = value + 1;
     setValue(addedItem);
-    updateItemQuantity(product.id, addedItem); // Update item quantity in the cart
+    // updateItemQuantity(product.id, addedItem); // Update item quantity in the cart
   };
 
   const subItemNum = (value: number) => {
     if (value === 1) {
       setAddItem(false);
-      removeFromCart(product.id); // Remove item from the cart
+      // removeFromCart(product.id); // Remove item from the cart
     } else {
       const subItem = value - 1;
       setValue(subItem);
-      updateItemQuantity(product.id, subItem); // Update item quantity in the cart
+      // updateItemQuantity(product.id, subItem); // Update item quantity in the cart
     }
   };
+
+  const mutation = useMutation({
+    mutationFn: addToCart,
+    onSuccess: () => {
+      setAddItem(true);
+      queryClient.invalidateQueries(['getCart'])
+    }
+  })
+
+
   const handleAddToCart = () => {
-    addToCart(product);
-    setAddItem(true);
+    const payload: ICreateCartItem = {
+      productId: product?.id,
+      priceId: product?.id,
+      quantity: value,
+    }
+    mutation.mutate(payload)
   };
+  console.log("cart", cart)
+  console.log("product", product)
   return (
     <div className="relative card plant-card">
       <Link
@@ -41,7 +62,7 @@ const Card: React.FC<Props> = ({ product }) => {
       />
       <figure>
         <Image
-          src={"/images/card-img.jpeg"}
+          src={product?.images[0]?.imageName}
           alt="Plant"
           className="w-full h-auto"
           width={100}
@@ -66,16 +87,20 @@ const Card: React.FC<Props> = ({ product }) => {
         </p>
 
         <div className="flex justify-end relative z-[3]">
-          {!addItem && (
+          {!(cart?.cartProducts?.some((item: any) => item?.product.id === product?.id)) && (
             <button
               className="btn btn-primary btn-outline p-2 h-auto !min-h-0 text-xs leading-auto"
-              //   onClick={() => setAddItem(true)}
               onClick={handleAddToCart}
+              disabled={mutation.isLoading}
             >
               Add to Cart
+              {
+                mutation.isLoading &&
+                <ButtonLoader />
+              }
             </button>
           )}
-          {addItem && (
+          {cart?.cartProducts?.some((item: any) => item.product.id === product.id) && (
             <div className="flex items-center gap-3 px-3 border rounded rounded-lg border-primary">
               <button
                 className="text-primary py-1 text-sm w-[14px]"

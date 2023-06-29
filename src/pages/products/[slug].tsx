@@ -4,7 +4,10 @@ import Image from 'next/image';
 import MainLayout from '@/shared/main-layout';
 import Breadcrumb from '@/components/Breadcrumb';
 import { useQuery } from '@tanstack/react-query';
-import { getProductsFromSlug } from '@/services/product.service';
+import { getProductsFromSlug, getRelatedProductsFromId } from '@/services/product.service';
+import EmptyPage from '@/components/emptyPage';
+import Card from '@/shared/components/card';
+import Title from '@/shared/components/title';
 
 
 const ProductSlug = () => {
@@ -15,36 +18,47 @@ const ProductSlug = () => {
   const [taxMessage, setTaxMessage] = useState<string>('');
 
 
-const { data, isLoading, error } = useQuery(
+const { data:productData, isLoading, error } = useQuery(
   ['getProductsFromSlug', slug],
-  () => {
+  async () => {
     if (slug) {
-      return getProductsFromSlug(slug);
+      const response = await getProductsFromSlug(slug);
+      const productId = response?.data?.id;
+      return { response, productId };
     }
-  },
-  {
-    // Additional options for the useQuery hook
   }
 );
 
-useEffect(() => {
-  if (data) {
-    setDescriptionContent(data?.data?.description || '');
-    setMoreInfoContent(data?.data?.moreInfo || '');
-    const message = data?.data?.taxable ? 'Including Tax' : 'Excluding Tax';
-      setTaxMessage(message);
+const { data:relatedProducts} = useQuery(
+  ['getRelatedProductsFromId', productData?.productId],
+  async () => {
+    if (productData?.productId) {
+      const response = await getRelatedProductsFromId(productData?.productId);
+      return response;
+    }
   }
-}, [data]);
+);
+
+
+
+useEffect(() => {
+  if (productData) {
+    setDescriptionContent(productData?.response?.data?.description || '');
+    setMoreInfoContent(productData?.response?.data?.moreInfo || '');
+    const message = productData?.response?.data?.taxable ? 'Including Tax' : 'Excluding Tax';
+      setTaxMessage(message);
+   }
+}, [productData]);
   
   return (
     <>
-    <Breadcrumb  title={data?.data?.title}/>
+    <Breadcrumb  title={productData?.response?.data?.title}/>
       <section className="my-[60px]">
         <div className="container">
           <div className="grid grid-cols-12">
             <div className="col-span-12 md:col-span-5">
               <Image
-                          src={data?.data?.images[0]?.imageName}
+                          src={productData?.response?.data?.images[0]?.imageName}
                           alt=""
                           className="img-fluid mx-auto flex"
                           width={330} height={330}
@@ -52,38 +66,38 @@ useEffect(() => {
             </div>
             <div className="col-span-12 md:col-span-7">
               <h2 className="font-semibold text-2xl text-darkBlack mb-6">
-               {data?.data?.title}
+               {productData?.response?.data?.title}
               </h2>
               <p className="font-bold text-sm color-darkBlack mb-2">
                 Category:
                 <a href="" className="text-primary">
-                  <span className="font-normal">{data?.data?.categoryTitle}</span>
+                  <span className="font-normal">{productData?.response?.data?.categoryTitle}</span>
                 </a>
               </p>
               <ul className="flex my-5">
 
-              {!data?.data?.unitPrice[0]?.hasOffer && (
+              {!productData?.response?.data?.unitPrice[0]?.hasOffer && (
         <li className="mr-1 text-base text-red-250">
            NPR
           <span>
-            {data?.data?.unitPrice[0]?.sellingPrice}
+            {productData?.response?.data?.unitPrice[0]?.sellingPrice}
           </span>
         </li>
       )}
 
-      {data?.data?.unitPrice[0]?.hasOffer && (
+      {productData?.response?.data?.unitPrice[0]?.hasOffer && (
         <>
           <li  className="text-base text-red-250 mr-1">
           NPR
             <span>
-              {data?.data?.unitPrice[0]?.newPrice}
+              {productData?.response?.data?.unitPrice[0]?.newPrice}
             </span>
           </li>
 
           <li className="text-base text-primary font-semibold line-through mr-1">
           NPR
             <span>
-              {data?.data?.unitPrice[0]?.oldPrice}
+              {productData?.response?.data?.unitPrice[0]?.oldPrice}
             </span>
           </li>
         </>
@@ -138,6 +152,25 @@ useEffect(() => {
           </div>
         </div>
       </div>
+      {/* Related Products */}
+      <section className="my-[60px]">
+          <div className="container">
+          <Title type="title-section" text="You Might Also Like" />
+            {relatedProducts?.data.length === 0 ? (
+                <EmptyPage />
+             ) : (
+                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                      {relatedProducts?.data.map((product: any, index: any) => (
+                        <Card
+                        product = {product}
+                          key={`app-cat-products-${index}`}
+                          
+                        />
+                      ))}
+                    </div>
+             )}
+          </div>
+        </section>
     </>
   );
 }

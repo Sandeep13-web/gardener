@@ -11,14 +11,13 @@ import Drawer from "@/shared/components/drawer";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getConfig, getHomeData, getProductCategory } from "@/services/home.service";
 import OfferIcon from "@/shared/icons/common/OfferIcon";
-import CartIcon from "@/shared/icons/common/CartIcon";
 import HeartIcon from "@/shared/icons/common/HeartIcon";
 import Link from "next/link";
 import { getProfile } from "@/services/profile.service";
 import { deleteCookie } from "cookies-next";
 import { FaChevronDown, FaUser } from "react-icons/fa";
 import { IHome } from "@/interface/home.interface";
-import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
+import { getToken, getWareId } from "@/shared/utils/cookies-utils/cookies.utils";
 import { logout } from "@/services/auth.service";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import React, { ChangeEvent, useState } from "react";
@@ -26,6 +25,7 @@ import ConfirmationModal from "@/shared/components/confirmation-modal";
 import { useRouter } from "next/router";
 import { getSearchResults } from "@/services/search.service";
 import CartDropdown from "@/shared/components/cartDropdown";
+import { getCartData } from "@/services/cart.service";
 
 const Header = () => {
   const token = getToken();
@@ -39,27 +39,41 @@ const Header = () => {
     queryFn: getConfig,
   });
 
+  const serviceDropdownData = [
+    { slug: "plant-consultation", title: "Plant Consultation" },
+    { slug: "gift-a-plant", title: "Gift a plant" },
+  ];
+  
+  const aboutDropdownData = [
+    { slug: "who-we-are", title: "Who We Are" },
+    { slug: "our-story", title: "Our Story" },
+    { slug: "values", title: "Values That Make Us Who We Are" },
+    { slug: "working", title: "Working At I Am The Gardner" },
+    { slug: "csr-project", title: "Our CSR Project" },
+  ];
+
+
+
+
   const { data: home } = useQuery<IHome>({ queryKey: ['getHomeData'], queryFn: getHomeData });
+
 
   const { data: categories, isInitialLoading: loading } = useQuery({
     queryKey: ["getCategories"],
     queryFn: getProductCategory,
   });
 
-
   const { data: profile, isInitialLoading: loadingProfile } = useQuery({
     queryKey: ["getProfile"],
     queryFn: getProfile,
-    enabled: !!token
+    enabled: !!token,
   })
-
-  const fetchData = async () => { };
 
   const mutation = useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      showToast(TOAST_TYPES.success, "Logged out successfully")
       deleteCookie("token")
+      showToast(TOAST_TYPES.success, "Logged out successfully")
     }
   })
 
@@ -83,9 +97,6 @@ const Header = () => {
       enabled: searchValue.length > 0 ? true : false
     }
   );
-
-
-  console.log("searchData", searchData)
 
   const handleLoadMore = () => {
     fetchNextPage();
@@ -116,14 +127,8 @@ const Header = () => {
       type: selectedType,
       keyword: searchValue
     };
-
     const queryString = new URLSearchParams(query).toString();
-    const apiUrl = selectedType === 'product' ? '/api/products' : '/api/categories';
-
     router.push(`/search?${queryString}`);
-
-    // Perform your API request using the apiUrl
-    // ...
   };
 
   return (
@@ -235,7 +240,7 @@ const Header = () => {
 
             <div className="border-[1px] border-[#E4E4E4] rounded-md h-[48px] !outline-offset-0 flex items-center justify-between gap-1 w-[60%]">
 
-              <div className="w-full relative">
+              <div className="relative w-full">
                 <div className="flex items-center justify-between gap-1 ">
                   <input
                     type="text"
@@ -268,11 +273,11 @@ const Header = () => {
                   </div>
                 </div>
                 {searchValue.length > 0 && (
-                  <ul className="absolute top-full z-50 bg-white border border-gray-300 rounded mt-2 w-full" onScroll={handleScroll}>
+                  <ul className="absolute z-50 w-full mt-2 bg-white border border-gray-300 rounded top-full" onScroll={handleScroll}>
                     {searchData && searchData?.pages.map((group, index) => (
                       <React.Fragment key={index}>
                         {group?.data?.map((prev: any, _i: number) => (
-                          <li key={_i} className="p-2 hover:bg-gray-100 cursor-pointer">
+                          <li key={_i} className="p-2 cursor-pointer hover:bg-gray-100">
                             <div className="flex items-center">
                               <Image
                                 src={prev?.categoryBackgroundImage}
@@ -293,7 +298,7 @@ const Header = () => {
                     {/* {searchHistory.map((item, index) => (
                   <li
                     key={index}
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                    className="p-2 cursor-pointer hover:bg-gray-100"
                     onClick={() => setSearchValue(item)}
                   >
                     {item}
@@ -337,7 +342,7 @@ const Header = () => {
                 TOTAL PRICE
               </p>
               <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
-                NRP 0
+                {/* NPR {cart?.total || 0} */}
               </p>
             </div>
             {/* md:drawer */}
@@ -384,15 +389,16 @@ const Header = () => {
               <Button
                 type="ghost"
                 className="!bg-white border-0 text-gray-550 font-bold uppercase"
+                onClick={() => router.push('/')}
               >
                 Home
               </Button>
               <Dropdown
-                data={["Plant Consultation ", "Gift a plant "]}
-                toggleClassName="!font-bold btn-ghost text-gray-550"
-              >
-                OUR SERVICE
-              </Dropdown>
+              data={serviceDropdownData.map((item) => item.title)}
+              toggleClassName="!font-bold btn-ghost text-gray-550"
+            >
+              OUR SERVICE
+            </Dropdown>
               <Button
                 type="ghost"
                 className="!bg-white border-0 text-gray-550 font-bold"
@@ -400,17 +406,17 @@ const Header = () => {
                 OUTLET
               </Button>
               <Dropdown
-                data={[
-                  "Who We Are",
-                  "Our Story",
-                  "Values That Make Us Who We Are",
-                  "Working At I Am The Gardner",
-                  "Our CSR Project",
-                ]}
-                toggleClassName="!font-bold btn-ghost text-gray-550"
-              >
-                ABOUT US
-              </Dropdown>
+              data={aboutDropdownData.map((item) => item.title)}
+              toggleClassName="!font-bold btn-ghost text-gray-550"
+            >
+              ABOUT US
+            </Dropdown>
+
+              
+
+            
+
+
               <Button
                 type="ghost"
                 className="!bg-white border-0 text-gray-550 font-bold uppercase"

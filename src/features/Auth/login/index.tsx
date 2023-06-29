@@ -60,7 +60,7 @@ const LoginForm = () => {
             </div>
             <div className='flex items-center justify-between'>
                 <button
-                    disabled={mutation.isLoading ? true : false}
+                    disabled={mutation.isLoading}
                     type='submit'
                     className='submit-btn'
                 >

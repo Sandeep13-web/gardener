@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NextPageWithLayout } from "./_app";
 import MainLayout from "@/shared/main-layout";
 import Title from "@/shared/components/title";
@@ -15,23 +15,32 @@ import Categories from "@/features/Home/categories";
 
 import AppCategories from "@/features/Home/app-categories";
 import { useQuery } from "@tanstack/react-query";
-import { getHomeData } from "@/services/home.service";
 import { IAppCategories, IHome } from "@/interface/home.interface";
 import SkeletonLoadingCard from "@/shared/components/skeleton/products";
 import Head from "next/head";
+import { getCookie } from "cookies-next";
+import { setCartNumberCookie } from "@/services/cart.service";
+import { CookieKeys } from "@/shared/enum";
 
 const Home: NextPageWithLayout = () => {
   const { data: home, isInitialLoading: homeLoading } = useQuery<IHome>({ queryKey: ['getHomeData'] });
   const { data: categories, isInitialLoading: loadingCategories }: any = useQuery({ queryKey: ['getCategories'] });
 
+
+  useEffect(() => {
+    if (!getCookie(CookieKeys.CARTNUMBER)) {
+      setCartNumberCookie()
+    }
+  }, [])
+
   return (
     <>
-    <Head>
-      <title>I am the Gardener</title>
-    </Head>
-      <div className="text-lg font-bold min-h-[300vh]">
+      <Head>
+        <title>I am the Gardener</title>
+      </Head>
+      <div className="text-lg font-bold">
         <Banner />
-        <div className="container mt-6">
+        <div className="container my-6">
           <div className="border border-orange-450 rounded rounded-xs px-[20px]">
             <div className="grid grid-cols-1 sm-grid-cols-2 md:grid-cols-3 ">
               <div className="flex items-start px-[20px] py-[20px] md:py-[35px] relative gap-0">
@@ -95,7 +104,7 @@ const Home: NextPageWithLayout = () => {
             <>
               <div className="w-20 h-5 mx-4 mb-5 bg-gray-300 rounded animate-pulse"></div>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                {[1, 2, 3].map((item, index) => (
+                {[1, 2, 3, 4].map((item, index) => (
                   <SkeletonLoadingCard
                     key={`app-skeleton-${index}`}
                   />
