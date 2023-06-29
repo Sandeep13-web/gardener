@@ -298,9 +298,11 @@ const Header = () => {
 
 
             {/* Why Plant Button */}
-            <button className="btn btn-primary btn-outline !min-h-12 font-bold text-base gap-0">
-              <FlowerIcon /> <p className="hidden lg:block">Why Plant</p>
-            </button>
+            <Link href="/why-plants">
+              <button className="btn btn-primary btn-outline !min-h-12 font-bold text-base gap-0">
+                <FlowerIcon /> <p className="hidden lg:block">Why Plant</p>
+              </button>
+            </Link>
           </div>
 
 

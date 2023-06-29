@@ -79,10 +79,12 @@ const Drawer = () => {
               <p className="collapse-title">Blog</p>
               <div className="mt-3">
                 <p className="mb-2 text-base font-bold">Our Services</p>
-                <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
-                  <FlowerIcon className="text-primary" />
-                  Why Plants
-                </button>
+                <Link href="/why-plants">
+                  <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
+                    <FlowerIcon className="text-primary" />
+                    Why Plants
+                  </button>
+                </Link>
               </div>
               <div className="mt-6">
                 <p className="mb-2 text-base font-bold">My Account</p>
