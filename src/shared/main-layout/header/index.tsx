@@ -298,9 +298,11 @@ const Header = () => {
 
 
             {/* Why Plant Button */}
-            <button className="btn btn-primary btn-outline !min-h-12 font-bold text-base gap-0">
-              <FlowerIcon /> <p className="hidden lg:block">Why Plant</p>
-            </button>
+            <Link href="/why-plants">
+              <button className="btn btn-primary btn-outline !min-h-12 font-bold text-base gap-0">
+                <FlowerIcon /> <p className="hidden lg:block">Why Plant</p>
+              </button>
+            </Link>
           </div>
 
 
@@ -379,8 +381,8 @@ const Header = () => {
               <div className="dropdown dropdown-hover rounded-none">
                 <label tabIndex={0} className="btn m-1 bg-transparent border-0 text-gray-550 font-bold hover:bg-transparent">OUR SERVICE</label>
                 <ul tabIndex={0} className="dropdown-content z-[1] menu  px-0 pt-2.5 pb-0 shadow bg-base-100 w-[252px]">
-                  <li><Link href="/plant-consultation" className="rounded-none text-gray-750 border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:bg-transparent hover:text-primary">Plant Consultation</Link></li>
-                  <li><Link href="/gift-a-plant" className="rounded-none text-gray-750 text-sm  capitalize font-medium hover:bg-transparent hover:text-primary">Gift a plant</Link></li>
+                  <li><Link href="/plant-consultation" className="rounded-none text-gray-750 border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:bg-transparent hover:text-primary hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Plant Consultation</Link></li>
+                  <li><Link href="/gift-a-plant" className="rounded-none text-gray-750 text-sm  capitalize font-medium hover:bg-transparent hover:text-primary hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Gift a plant</Link></li>
                 </ul>
               </div>
               <Button
@@ -392,11 +394,11 @@ const Header = () => {
               <div className="dropdown dropdown-hover">
                 <label tabIndex={0} className="btn m-1  bg-transparent border-0 text-gray-550 font-bold hover:bg-transparent">ABOUT US</label>
                 <ul tabIndex={0} className="dropdown-content z-[1] menu pt-2.5 pb-0 shadow bg-base-100 w-[252px]">
-                  <li><Link href="/tree-installation" className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium">Tree Installation</Link></li>
-                  <li><Link href="about-us"  className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium">Our Story</Link></li>
-                  <li><Link href="/our-values"  className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium">Values That Make Us</Link></li>
-                  <li><Link href="/working-at-i-am-the-gardener"  className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium">Working At I Am The Gardner</Link></li>
-                  <li><Link href="/csr-projects"  className="rounded-none text-gray-750 text-sm  capitalize font-medium hover:bg-transparent hover:text-primary">Our CSR Project</Link></li>
+                  <li><Link href="/tree-installation" className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Tree Installation</Link></li>
+                  <li><Link href="about-us"  className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Our Story</Link></li>
+                  <li><Link href="/our-values"  className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Values That Make Us</Link></li>
+                  <li><Link href="/working-at-i-am-the-gardener"  className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Working At I Am The Gardner</Link></li>
+                  <li><Link href="/csr-projects"  className="rounded-none text-gray-750 text-sm  capitalize font-medium hover:bg-transparent hover:text-primary hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Our CSR Project</Link></li>
                 </ul>
               </div>
               <Button
