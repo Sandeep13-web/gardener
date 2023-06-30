@@ -10,6 +10,7 @@ import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/re
 import { addToCart, updateCart } from "@/services/cart.service";
 import { ICartItem, ICreateCartItem, IUpdateCartItem } from "@/interface/cart.interface";
 import ButtonLoader from "../btn-loading";
+import { useCarts } from "@/hooks/cart.hooks";
 
 const Card: React.FC<Props> = ({ product, cartItem }) => {
   const { data: cart } = useQuery<ICartItem>(["getCart"]);
@@ -17,30 +18,18 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
   const stock: any = cartItem?.selectedUnit?.stock
   const queryClient = useQueryClient();
 
-  const mutation = useMutation({
-    mutationFn: addToCart,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['getCart'])
-    }
-  })
+  const { updateCartMutation } = useCarts(); //customHook
 
-  const updateCartMutation = useMutation({
-    mutationFn: updateCart,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['getCart'])
-    }
-  })
 
   const handleAddToCart = () => {
     const payload: ICreateCartItem = {
+      note: '',
       productId: product?.id,
       priceId: product?.id,
       quantity: value,
     }
     mutation.mutate(payload)
   };
-
-
 
   const handleUpdateCart = (values: number) => {
     if (values < stock) {
@@ -56,6 +45,15 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
     }
 
   };
+
+  const mutation = useMutation({
+    mutationFn: addToCart,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getCart'])
+    }
+  })
+
+
 
 
   return (

@@ -1,6 +1,7 @@
 import { ICartProduct, IProduct } from "./product.interface";
 
 export interface ICreateCartItem {
+  note: string;
   productId: number | undefined;
   priceId: number | undefined;
   quantity: number;
