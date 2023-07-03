@@ -16,7 +16,7 @@ const Checkout = () => {
             <div className="md:col-span-7 col-span-12">
               {/* Accordion Start */}
               <div>
-                <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-[rgba(0,0,0,.125)] mb-[16px]">
+                <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-borderGray mb-[16px]">
                   <input type="radio" name="address" />
                   <div className="collapse-title text-xl font-medium flex items-center justify-between border-none">
                     <div className="col-10 text-left">
@@ -105,7 +105,7 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-[rgba(0,0,0,.125)] mb-[16px]">
+                <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-borderGray mb-[16px]">
                   <input type="radio" name="address" />
                   <div className="collapse-title text-xl font-medium flex items-center justify-between border-none">
                     <div className="col-10 text-left">
@@ -180,7 +180,7 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-[rgba(0,0,0,.125)] mb-[16px]">
+                <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-borderGray mb-[16px]">
                   <input type="radio" name="payment-method" />
                   <div className="collapse-title text-xl font-medium flex items-center justify-between border-none">
                     <div className="col-10 text-left">
@@ -258,7 +258,7 @@ const Checkout = () => {
 
               <div>
                 <h3 className="mb-4 text-3xl font-bold">Order Note</h3>
-                <textarea className="textarea w-full focus:outline-none border-[1px] border-[rgba(0,0,0,.125)]"></textarea>
+                <textarea className="textarea w-full focus:outline-none border-[1px] border-borderGray"></textarea>
               </div>
             </div>
             <div className="md:col-span-5 col-span-12">

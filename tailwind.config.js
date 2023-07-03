@@ -27,6 +27,7 @@ module.exports = {
                 "red-250": '#cf2929',
                 "darkBlack": '#253237',
                 "lightGray":'#dee0e4',
+                "borderGray": 'rgba(0,0,0,.125)',
             },
             container: {
                 // margin: {
