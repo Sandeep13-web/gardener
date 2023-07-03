@@ -5,7 +5,7 @@ import { BreadCrumbImage } from '@/shared/lib/image-config'
 import { PiCaretRightBold } from 'react-icons/pi';
 
 interface IProps {
-  title: string
+  title?: string | undefined;
 }
 const Breadcrumb: FC<IProps> = ({ title }) => {
   const router = useRouter();
@@ -25,7 +25,7 @@ const Breadcrumb: FC<IProps> = ({ title }) => {
   ];
   const currentBreadcrumbItem = breadcrumbItems.find((item) => item.path === pathname);
 
-  let breadcrumbLabel = "";
+  let breadcrumbLabel: any = "";
 
   if (currentBreadcrumbItem && !slug) {
     breadcrumbLabel = currentBreadcrumbItem.label;
