@@ -32,15 +32,15 @@ const ScrollToTopButton = () => {
   return (
     <button
       type="button"
-      className={`${
-        isVisible ? "opacity-100" : "opacity-0"
-      } fixed bottom-4 right-20 bg-primary text-white rounded-full p-5 transition-opacity duration-300 hover:bg-green-500`}
+      className={`${isVisible ? "opacity-100" : "opacity-0"
+        } fixed bottom-4 right-20 bg-primary text-white rounded-full p-5 transition-opacity duration-300 hover:bg-green-500`}
       onClick={scrollToTop}
     >
       <Image
         src={UpArrow}
         height={20}
         width={20}
+        alt="ssaccroll-to-top"
       />
     </button>
   );
