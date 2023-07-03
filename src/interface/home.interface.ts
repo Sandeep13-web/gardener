@@ -1,4 +1,4 @@
-import { IProduct } from "./product.interfcae";
+import { IProduct } from "./product.interface";
 
 export interface IHome {
   data: IHomeData;

@@ -1,4 +1,4 @@
-
+export const FavIcon = '/favicon.png';
 export const Logo = '/images/logo.svg';
 export const CategoryImg = '/images/categoryImg.png'
 export const CardImg = '/images/card-img.jpeg'
@@ -13,6 +13,8 @@ export const Esewa = '/images/esewa.png';
 export const MasterCard = '/images/master-card.png';
 export const CashOnHand = '/images/cash-on-hand.png';
 export const UnionPay = '/images/union-pay.png';
+export const BreadCrumbImage = '/images/gardener-breadcrumb.png';
+export const UpArrow = '/images/up-arrow-icon.svg';
 
 export const socials = {
     facebook: 'images/facebook.svg',

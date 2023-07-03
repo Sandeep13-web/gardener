@@ -1,7 +1,7 @@
+import { ICartItem } from "@/interface/cart.interface";
+import { ICartProduct, IProduct } from "@/interface/product.interface";
+
 export type Props = {
-    type: string,
-    title: string,
-    price: number,
-    image: string,
-    link: string
-}
+  product: IProduct;
+  cartItem?: ICartProduct;
+};
