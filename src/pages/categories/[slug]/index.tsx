@@ -87,11 +87,11 @@ const CategoryDetail: NextPageWithLayout = () => {
                             <div className='flex-1 flex items-center mb-4 sm:mb-0 gap-[15px]'>
                                 <div className="tabs gap-[15px]">
                                     <button
-                                        className={`tab tab-active p-0 ${grid ? 'text-primary' : 'text-zinc-600' } hover:text-primary`}
+                                        className={`tab tab-active p-0 ${grid ? 'text-primary' : 'text-zinc-600'} hover:text-primary`}
                                         onClick={() => setGrid(true)}
                                     ><BsFillGrid3X3GapFill className='w-[18px] h-auto' /></button>  {/** Active status toggle remain */}
                                     <button
-                                        className={`tab p-0 ${!grid ? 'text-primary' : 'text-zinc-600' } hover:text-primary`}
+                                        className={`tab p-0 ${!grid ? 'text-primary' : 'text-zinc-600'} hover:text-primary`}
                                         onClick={() => setGrid(false)}
                                     ><FaListUl className='w-[18px] h-auto' /></button>
                                 </div>
@@ -102,12 +102,12 @@ const CategoryDetail: NextPageWithLayout = () => {
                                 dropdown/select
                             </div>
                         </div>
-                        {
+                        {/* {
                             grid ?
                                 <div className='grid grid-cols-12 gap-[30px]'>
                                     <div className='col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3'>
                                         <Card
-                                            link="#"
+                                            // link="#"
                                             type="asdas"
                                             title="asdasd"
                                             price={1260}
@@ -116,7 +116,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                                     </div>
                                     <div className='col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3'>
                                         <Card
-                                            link="#"
+                                            // link="#"
                                             type="asdas"
                                             title="asdasd"
                                             price={1260}
@@ -125,7 +125,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                                     </div>
                                     <div className='col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3'>
                                         <Card
-                                            link="#"
+                                            // link="#"
                                             type="asdas"
                                             title="asdasd"
                                             price={1260}
@@ -155,7 +155,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                                         />
                                     </div>
                                 </div>
-                        }
+                        } */}
 
                         <Pagination />
                     </div>
