@@ -279,13 +279,22 @@ const Checkout = () => {
                 <div className="mt-[18px] mb-[33px] py-[18px] border-t-[1px]  border-b-[1px] border-light-gray border-solid">
                   <ul className=" flex justify-between mb-[20px]">
                     <li className="font-bold text-[18px]">Total</li>
-                    <li>NPR 900</li>
+                    <li className="font-bold text-primary">NPR 900</li>
                   </ul>
-                  <ul>
-                    <li className="order-total">Payment method</li>
-                    <li className="payment-info"> Cash On Delivery </li>
+                  <ul className="flex justify-between">
+                    <li className="font-bold text-[18px]">Payment method</li>
+                    <li className="font-bold text-[16px] text-gray-650">
+                      {" "}
+                      Cash On Delivery{" "}
+                    </li>
                   </ul>
                 </div>
+              </div>
+
+              <div className="mt-[25px]">
+                <button className="font-bold text-base-100 py-[18px] px-[20px] uppercase rounded-full cursor-pointer bg-primary w-full hover:bg-darkBlack">
+                  Place Order
+                </button>
               </div>
             </div>
           </div>
