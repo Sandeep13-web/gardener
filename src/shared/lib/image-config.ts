@@ -14,6 +14,7 @@ export const MasterCard = '/images/master-card.png';
 export const CashOnHand = '/images/cash-on-hand.png';
 export const UnionPay = '/images/union-pay.png';
 export const BreadCrumbImage = '/images/gardener-breadcrumb.png';
+export const UpArrow = '/images/up-arrow-icon.svg';
 
 export const socials = {
     facebook: 'images/facebook.svg',

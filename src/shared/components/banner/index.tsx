@@ -25,7 +25,7 @@ const Banner = () => {
           <>
             {data && data?.data && data?.data?.banners && <Swiper
               loop={true}
-              className="mySwiper"
+              className="mySwiper aspect-[640/266]"
               autoplay={{
                 delay: 3000,
                 disableOnInteraction: false,
@@ -43,7 +43,7 @@ const Banner = () => {
                     src={prev.bannerImage}
                     height={100}
                     width={2000}
-                    style={{ maxHeight: "calc(100vh - 200px)", objectFit: "fill" }}
+                    style={{  objectFit: "cover" }}
                     alt={prev.type}
                     priority
                     quality={100}
