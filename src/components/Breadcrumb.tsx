@@ -1,10 +1,13 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
-import React from "react";
+import React, { FC } from "react";
 import { BreadCrumbImage } from '@/shared/lib/image-config'
 import { PiCaretRightBold } from 'react-icons/pi';
 
-const Breadcrumb = ({ title }: any) => {
+interface IProps {
+  title: string
+}
+const Breadcrumb: FC<IProps> = ({ title }) => {
   const router = useRouter();
   const { pathname } = router;
   const { slug } = router.query;
