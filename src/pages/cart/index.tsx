@@ -7,10 +7,16 @@ import Image from "next/image";
 import { FaTimes } from "react-icons/fa";
 import { useState } from "react";
 import { useCart } from "@/store/use-cart";
+import { ICartItem } from "@/interface/cart.interface";
+import { useQuery } from "@tanstack/react-query";
+import { useCarts } from "@/hooks/cart.hooks";
 
 const Cart: NextPageWithLayout = () => {
-  const { cartItems, updateItemQuantity, removeFromCart, clearCart } =
-    useCart();
+  // const { cartItems, updateItemQuantity, removeFromCart, clearCart } =
+  //   useCart();
+  const { data: cart } = useQuery<ICartItem>(["getCart"])
+  const { cartDelete, handleRemoveFromCart, selectedId } = useCarts();
+
   const [value, setValue] = useState<number>(1);
   const [addItem, setAddItem] = useState<boolean>(false);
 
@@ -27,13 +33,14 @@ const Cart: NextPageWithLayout = () => {
     }
   };
 
-  const handleRemoveFromCart = (productId: number) => {
-    removeFromCart(productId);
-  };
+
 
   const handleUpdateQuantity = (itemId: number, quantity: number) => {
-    updateItemQuantity(itemId, quantity);
+    console.log("asas")
+    // updateItemQuantity(itemId, quantity);
   };
+
+
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     setIsMounted(true);
@@ -42,7 +49,7 @@ const Cart: NextPageWithLayout = () => {
 
   const calculateTotal = (): number => {
     let total = 0;
-    cartItems.forEach((item) => {
+    cart?.cartProducts.forEach((item) => {
       total += item?.product?.unitPrice[0]?.sellingPrice * item.quantity;
     });
     return total;
@@ -89,7 +96,7 @@ const Cart: NextPageWithLayout = () => {
               </tr>
             </thead>
             <tbody>
-              {cartItems.map((item) => (
+              {cart?.cartProducts?.map((item) => (
                 <tr key={item?.product?.id} className="border-b-gray-350">
                   <td className="w-[150px] text-gray-650 text-center py-[30px] font-medium">
                     {/* <Link href={item.product.link} className="text-[15px]">
@@ -173,7 +180,7 @@ const Cart: NextPageWithLayout = () => {
             Continue Shopping
           </Link>
           <button
-            onClick={() => clearCart()}
+            // onClick={() => clearCart()}
             className="btn btn-tertiary font-bold px-[63px] py-[17px] rounded-[50px] text-slate-850 text-sm uppercase leading-[1] hover:btn-primary hover:text-white"
           >
             Clear Shopping Cart

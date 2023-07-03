@@ -6,13 +6,13 @@ import { useQuery } from "@tanstack/react-query";
 import { getPageData } from "@/services/page.service";
 import Breadcrumb from "@/components/Breadcrumb";
 
-const AboutUs: NextPageWithLayout = () => {
+const GiftAPlant: NextPageWithLayout = () => {
   const router = useRouter();
   const { asPath } = router;
   const [descriptionContent, setDescriptionContent] = useState<string>('');
   const path = asPath.split('/');
   const slug = path[path.length - 1];
-  const { data: aboutData } = useQuery({
+  const { data: giftPlantData } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
@@ -25,19 +25,19 @@ const AboutUs: NextPageWithLayout = () => {
   });
 
   useEffect(() => {
-    if (aboutData) {
-      setDescriptionContent(aboutData?.data?.description || '');
+    if (giftPlantData) {
+      setDescriptionContent(giftPlantData?.data?.description || '');
      }
-  }, [aboutData]);
+  }, [giftPlantData]);
   return (
     <>
-    <Breadcrumb title={aboutData?.data?.title} />
+    <Breadcrumb title={giftPlantData?.data?.title} />
     <div className="py-7 text-justify" dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
     </>
   );
   
 }
-export default AboutUs;
-AboutUs.getLayout = (page) => {
+export default GiftAPlant;
+GiftAPlant.getLayout = (page) => {
   return <MainLayout>{page}</MainLayout>;
 };

@@ -19,13 +19,14 @@ import { IAppCategories, IHome } from "@/interface/home.interface";
 import SkeletonLoadingCard from "@/shared/components/skeleton/products";
 import Head from "next/head";
 import { getCookie } from "cookies-next";
-import { setCartNumberCookie } from "@/services/cart.service";
+import { getCartData, setCartNumberCookie } from "@/services/cart.service";
 import { CookieKeys } from "@/shared/enum";
+import { ICartItem } from "@/interface/cart.interface";
+import { getCartNumber } from "@/shared/utils/cookies-utils/cookies.utils";
 
 const Home: NextPageWithLayout = () => {
   const { data: home, isInitialLoading: homeLoading } = useQuery<IHome>({ queryKey: ['getHomeData'] });
   const { data: categories, isInitialLoading: loadingCategories }: any = useQuery({ queryKey: ['getCategories'] });
-
 
   useEffect(() => {
     if (!getCookie(CookieKeys.CARTNUMBER)) {

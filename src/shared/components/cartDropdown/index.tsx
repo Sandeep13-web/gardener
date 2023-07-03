@@ -9,32 +9,20 @@ import { Props } from "./cartDropdown.props";
 import { getCartNumber, getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteCartItemById, getCartData } from "@/services/cart.service";
+import { ICartItem } from "@/interface/cart.interface";
+import { useCarts } from "@/hooks/cart.hooks";
 
 const CartDropdown = () => {
-  const token = getToken()
-  const queryClient = useQueryClient();
-  const cartId = getCartNumber()
   const router = useRouter();
-  const { data: cart } = useQuery(["getCart"], getCartData, {
-    enabled: !!cartId
-  })
 
-  const mutation = useMutation({
-    mutationFn: deleteCartItemById,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['getCart'])
-    }
-  })
-  const handleRemoveFromCart = (id: number) => {
-    mutation.mutate(id)
-  };
-
+  const { data: cart } = useQuery<ICartItem>(["getCart"], getCartData)
+  const { cartDelete, handleRemoveFromCart, selectedId } = useCarts();
 
   return (
     <div className="relative z-40 py-3 cursor-pointer dropdown dropdown-hover bg-gray-350 btn-circle shrink-0">
       <CartIcon className="mx-auto" />
       <Badge className="badge-accent" badgePosition="top-right">
-        {cart ? cart?.cartProducts?.length : 0}
+        {cart?.cartProducts?.length || 0}
       </Badge>
       {/* dropdown content */}
       <div
@@ -85,14 +73,14 @@ const CartDropdown = () => {
                       <button
                         className="absolute right-0 w-5 btn-circle btn-error btn aspect-square hover:bg-primary hover:border-primary"
                         onClick={() => handleRemoveFromCart(item?.id)}
-                        disabled={mutation.isLoading}
+                        disabled={selectedId === item?.id && cartDelete.isLoading}
                       >
-                        {
-                          mutation.isLoading ?
-                            <span
-                              className="w-3 h-3 border-2 border-primary border-dotted rounded-full border-t-transparent animate-spin"></span>
-                            :
-                            <FaTimes className="w-3 h-3" />
+                        {(selectedId === item?.id &&
+                          cartDelete.isLoading) ?
+                          <span
+                            className="w-3 h-3 border-2 border-primary border-dotted rounded-full border-t-transparent animate-spin"></span>
+                          :
+                          <FaTimes className="w-3 h-3" />
 
                         }
                       </button>
