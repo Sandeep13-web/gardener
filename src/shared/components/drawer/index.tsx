@@ -4,6 +4,7 @@ import LocationIcon from "@/shared/icons/common/LocationIcon";
 import SearchIcon from "@/shared/icons/common/SearchIcon";
 import TagIcon from "@/shared/icons/common/TagIcon";
 import UserIcon from "@/shared/icons/common/UserIcon";
+import Link from "next/link";
 import React from "react";
 
 const Drawer = () => {
@@ -54,8 +55,8 @@ const Drawer = () => {
                   Our Services
                 </div>
                 <div className="collapse-content">
-                  <p className="collapse-text">Plant Consultant</p>
-                  <p className="collapse-text">Gift a Plant</p>
+                  <p className="collapse-text"><Link href="/plant-consultation">Plant Consultant</Link></p>
+                  <p className="collapse-text"><Link href="/gift-a-plant">Gift a Plant</Link></p>
                 </div>
               </div>
               <p className="collapse-title">Out Outlets</p>
@@ -65,32 +66,51 @@ const Drawer = () => {
                   About Us
                 </div>
                 <div className="collapse-content">
-                  <p className="collapse-text">Who are we</p>
-                  <p className="collapse-text">Our Story</p>
+                  <p className="collapse-text"><Link href="/tree-installation">Tree Installation</Link></p>
+                  <p className="collapse-text"><Link href="/about-us">Our Story</Link></p>
                   <p className="collapse-text">
+                    <Link href="/our-values">
                     Values that make us who we are{" "}
+                    </Link>
                   </p>
-                  <p className="collapse-text">Our CSR Projects </p>
+                  <p className="collapse-text"><Link href="/csr-projects">Our CSR Projects</Link> </p>
                 </div>
               </div>
               <p className="collapse-title">Blog</p>
               <div className="mt-3">
                 <p className="mb-2 text-base font-bold">Our Services</p>
-                <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
-                  <FlowerIcon className="text-primary" />
-                  Why Plants
-                </button>
+                <Link href="/why-plants">
+                  <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
+                    <FlowerIcon className="text-primary" />
+                    Why Plants
+                  </button>
+                </Link>
               </div>
               <div className="mt-6">
                 <p className="mb-2 text-base font-bold">My Account</p>
-                <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
-                  <UserIcon className="text-black" />
-                  Login / Sign Up
-                </button>
+                
+                <div className="flex">
+                  <Link href="/login">
+                    <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
+                      <UserIcon className="text-black" />
+                      Login
+                    </button>
+                  </Link>
+                  <span>/</span>
+                  <Link href="/login">
+                    <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
+                      Sign Up
+                    </button>
+                  </Link>
+                </div>
+                
+                <Link href="/offer">
                 <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
                   <TagIcon className="text-black" />
                   Offer
                 </button>
+                </Link>
+                
               </div>
             </div>
           </li>

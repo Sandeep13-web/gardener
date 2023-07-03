@@ -34,7 +34,7 @@ const Categories: React.FC<IProps> = ({ loading, categories }) => {
                                 key={`categories-${index}`}
                                 title={item?.title}
                                 totalProducts={item?.productCount}
-                                shopLink={`/categories/${item?.link}`}
+                                shopLink={`/categories/${item?.slug}`}
                                 image={item.icon}
                             />
                         ))}

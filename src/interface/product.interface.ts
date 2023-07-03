@@ -1,5 +1,29 @@
 import { IWareHouse, UnitPrice } from "./home.interface";
 
+export interface ICartProduct {
+  id: number;
+  note: string;
+  price: number;
+  product: IProduct;
+  quantity: number;
+  selectedUnit: ISelectedUnit;
+}
+
+export interface ISelectedUnit {
+  alwaysAvailable: boolean;
+  barcode: string;
+  hasOffer: boolean;
+  id: string;
+  markedPrice: number;
+  newPrice: number;
+  oldPrice: number;
+  sellingPrice: number;
+  size: string;
+  sku: string;
+  stock: number;
+  title: string;
+}
+
 export interface IProduct {
   brand: string | null;
   categoryBackgroundImage: string;

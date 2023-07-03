@@ -26,4 +26,5 @@ export type DropdownProps = {
     loading?: boolean;
     dropdownIcon?: boolean;
     data?: any[];
+    onItemClick?: (item: any, index: number) => void;
 }
