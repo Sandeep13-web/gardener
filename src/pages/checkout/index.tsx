@@ -258,7 +258,7 @@ const Checkout = () => {
 
               <div>
                 <h3 className="mb-4 text-3xl font-bold">Order Note</h3>
-                <textarea className="textarea textarea-primary w-full focus:outline-none border-[rgba(0,0,0,.125)]"></textarea>
+                <textarea className="textarea w-full focus:outline-none border-[1px] border-[rgba(0,0,0,.125)]"></textarea>
               </div>
             </div>
             <div className="md:col-span-5 col-span-12">
