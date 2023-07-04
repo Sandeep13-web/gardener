@@ -25,6 +25,7 @@ import ConfirmationModal from "@/shared/components/confirmation-modal";
 import { useRouter } from "next/router";
 import { getSearchResults } from "@/services/search.service";
 import CartDropdown from "@/shared/components/cartDropdown";
+import { BsCaretDownFill } from "react-icons/bs";
 
 const Header = () => {
   const token = getToken();
@@ -379,7 +380,7 @@ const Header = () => {
                 Home
               </Button>
               <div className="dropdown dropdown-hover rounded-none">
-                <label tabIndex={0} className="btn m-1 bg-transparent border-0 text-gray-550 font-bold hover:bg-transparent">OUR SERVICE</label>
+                <label tabIndex={0} className="btn m-1 bg-transparent border-0 text-gray-550 font-bold hover:bg-transparent cursor-pointer hover:text-primary">OUR SERVICE <span><BsCaretDownFill/></span></label>
                 <ul tabIndex={0} className="dropdown-content z-[1] menu  px-0 pt-2.5 pb-0 shadow bg-base-100 w-[252px]">
                   <li><Link href="/plant-consultation" className="rounded-none text-gray-750 border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:bg-transparent hover:text-primary hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Plant Consultation</Link></li>
                   <li><Link href="/gift-a-plant" className="rounded-none text-gray-750 text-sm  capitalize font-medium hover:bg-transparent hover:text-primary hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Gift a plant</Link></li>
@@ -392,7 +393,7 @@ const Header = () => {
                 OUTLET
               </Button>
               <div className="dropdown dropdown-hover">
-                <label tabIndex={0} className="btn m-1  bg-transparent border-0 text-gray-550 font-bold hover:bg-transparent">ABOUT US</label>
+                <label tabIndex={0} className="btn m-1  bg-transparent border-0 text-gray-550 font-bold hover:bg-transparent hover:text-primary cursor-pointer">ABOUT US <span><BsCaretDownFill/></span></label>
                 <ul tabIndex={0} className="dropdown-content z-[1] menu pt-2.5 pb-0 shadow bg-base-100 w-[252px]">
                   <li><Link href="/tree-installation" className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Tree Installation</Link></li>
                   <li><Link href="about-us"  className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Our Story</Link></li>

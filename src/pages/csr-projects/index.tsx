@@ -32,7 +32,7 @@ const CSRProjects: NextPageWithLayout = () => {
   return (
     <>
     <Breadcrumb title={csrProjectData?.data?.title} />
-    <div className="py-7 text-justify" dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
+    <div className="main-wrapper-block"  dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
     </>
   );
   
