@@ -50,3 +50,7 @@ body {
     }
   }
 }
+
+.collapse-arrow .collapse-title:after {
+  opacity: 0;
+}

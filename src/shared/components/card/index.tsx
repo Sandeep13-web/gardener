@@ -11,6 +11,7 @@ import { addToCart, updateCart } from "@/services/cart.service";
 import { ICartItem, ICreateCartItem, IUpdateCartItem } from "@/interface/cart.interface";
 import ButtonLoader from "../btn-loading";
 import { useCarts } from "@/hooks/cart.hooks";
+import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 
 const Card: React.FC<Props> = ({ product, cartItem }) => {
   const { data: cart } = useQuery<ICartItem>(["getCart"]);
@@ -49,6 +50,7 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
   const mutation = useMutation({
     mutationFn: addToCart,
     onSuccess: () => {
+      showToast(TOAST_TYPES.success, 'Item Added To Cart Successfully');
       queryClient.invalidateQueries(['getCart'])
     }
   })
@@ -63,12 +65,18 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
         className="absolute top-0 bottom-0 left-0 right-0 z-[1]"
       />
       <figure>
+
         <Image
           src={product?.images[0]?.imageName}
           alt="Plant"
           className="w-full h-auto"
-          width={100}
-          height={0}
+          width={216}
+          height={270}
+          quality={100}
+          style={{
+            maxWidth: '100%',
+            height: 'auto',
+          }}
         />
       </figure>
       <div className="plant-card_preview-icon">
