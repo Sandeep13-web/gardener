@@ -32,7 +32,7 @@ const TreeInstallation: NextPageWithLayout = () => {
   return (
     <>
     <Breadcrumb title={treeInstallationData?.data?.title} />
-    <div className="py-7 text-justify" dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
+    <div className="main-wrapper-block"  dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
     </>
   );
   

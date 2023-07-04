@@ -1,0 +1,64 @@
+.main-wrapper-block {
+    .page__wrapper {
+        @apply relative;
+        .banner {
+            &.sub__banner {
+                @apply relative;
+                .sub__banner__title {
+                    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center;
+                    h4 {
+                        @apply text-base-100 text-xl leading-7;
+                        &.underline__wrapper {
+                            @apply relative;
+                            span {
+                                @apply absolute bottom-20 left-1/2 transform -translate-x-1/2 h-2 bg-black inline-block w-80;
+                            }
+                            &:after {
+                                @apply border-b-2 border-white w-[4em] max-w-[50%] mx-auto mt-5;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .new__section {
+            .new__row {
+                @apply flex items-center py-12;
+                .image__section {
+                    @apply w-full mr-5;
+                }
+                .info__section {
+                    .section__header {
+                        @apply font-normal leading-3;
+                        &.black__header {
+                            @apply text-2xl mb-5 text-gray-50;
+                        }
+                    }
+                }
+            }
+        }
+        .page__section {
+            &.project__section {
+                h3 {
+                    @apply text-base-100 text-xl leading-7;
+                    &.underline__wrapper {
+                        @apply relative text-gray-50 font-bold text-2xl;
+                    }
+                }
+            }
+            &.gift__section {
+                @apply py-10;
+            }
+            &.service__section {
+                .service__section__col {
+                    @apply py-[25px] px-[35px] h-full shadow-md ease-in duration-300;
+                }
+                .section__header {
+                    .row {
+                        @apply grid grid-cols-4 gap-4;
+                    }
+                }
+            }
+        }
+    }
+}
