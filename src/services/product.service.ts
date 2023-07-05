@@ -17,3 +17,13 @@ export const getRelatedProductsFromId = async (productId:any) => {
     throw error;
   }
 };
+
+
+export const getProductByCategoryId = async (query:any, page:any,categoryId:any) => {
+  try {
+    const response = await axiosInstance.get(`product?query=${query}&page=${page}&categoryId=${categoryId}&allProduct=1`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -17,7 +17,6 @@ const GiftAPlant: NextPageWithLayout = () => {
     queryFn: async () => {
       if (slug) {
         const response = await getPageData(slug);
-        console.log(response);
         return response;
       }
     },

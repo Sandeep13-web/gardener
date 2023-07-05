@@ -12,31 +12,32 @@ import Pagination from '@/shared/components/pagination';
 import { CardImg } from '@/shared/lib/image-config'
 import CardLg from '@/shared/components/card-lg';
 import { useState } from 'react';
+import { getProductByCategoryId } from '@/services/product.service';
+import EmptyPage from '@/components/emptyPage';
+import Breadcrumb from '@/components/Breadcrumb';
 
 
 const CategoryDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const { slug } = router.query
     const [grid, setGrid] = useState<boolean>(true)
-
+    const [query, setQuery] = useState<string>('');
+    const [pageNumber, setPageNumber] = useState<number>(1);
     const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
-
+    // const { data: productData, isInitialLoading: loadingData }: any = useQuery({ queryKey: ['getProductByCategoryId',query, pageNumber,slug] });
+   
+    const { data:productData, isLoading, error } = useQuery(
+        ['getProductByCategoryId',query, pageNumber,slug],
+        async () => {
+          if (slug) {
+            const response = await getProductByCategoryId(query, pageNumber,slug);
+            return response;
+          }
+        }
+      );
     return (
         <>
-            <div className='product-page-banner'>
-                <div className="container">
-                    <h2 className='text-slate-850 text-[30px] capitalize font-semibold'>Plant With Pot</h2>
-                    <div className="text-base breadcrumbs">
-                        <ul className='justify-center'>
-                            <li>
-                                <Link href="/" className='text-slate-850 transition-all delay-150 duration-300 hover:!no-underline hover:text-primary'>Home</Link>
-                            </li>
-                            {/* <li><Link href={'#'}>Documents</Link></li> */}
-                            <li className='text-slate-850'>Plant With Pot</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+          <Breadcrumb  title={productData?.data[0]?.categoryTitle}/>
             <div className='container my-[60px]'>
                 <div className="grid grid-cols-12 md:gap-[30px]">
                     <div className='order-last md:order-first col-span-12 md:col-span-3 right-sidebar'>
@@ -95,7 +96,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                                         onClick={() => setGrid(false)}
                                     ><FaListUl className='w-[18px] h-auto' /></button>
                                 </div>
-                                <p className='text-gray-750 text-sm leading-[20px] p-2'>There Are 20 Products.</p>
+                                <p className='text-gray-750 text-sm leading-[20px] p-2'>There Are {productData?.data.length} Products.</p>
                             </div>
                             <div className='flex items-center gap-[10px]'>
                                 <p className='text-gray-750 text-sm leading-[20px] p-2'>Sort By:</p>
@@ -104,44 +105,21 @@ const CategoryDetail: NextPageWithLayout = () => {
                         </div>
                         {
                             grid ?
-                                <div className='grid grid-cols-12 gap-[30px]'>
-                                    <div className='col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3'>
+                            <div>
+                            {productData?.data.length === 0 ? (
+                                <EmptyPage />
+                             ) : (
+                                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                                      {productData?.data.map((product: any, index: any) => (
                                         <Card
-                                            link="#"
-                                            type="asdas"
-                                            title="asdasd"
-                                            price={1260}
-                                            image={CardImg}
+                                        product = {product}
+                                        key={`app-cat-products-${index}`}
                                         />
+                                      ))}
                                     </div>
-                                    <div className='col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3'>
-                                        <Card
-                                            link="#"
-                                            type="asdas"
-                                            title="asdasd"
-                                            price={1260}
-                                            image={CardImg}
-                                        />
-                                    </div>
-                                    <div className='col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3'>
-                                        <Card
-                                            link="#"
-                                            type="asdas"
-                                            title="asdasd"
-                                            price={1260}
-                                            image={CardImg}
-                                        />
-                                    </div>
-                                    <div className='col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3'>
-                                        <Card
-                                            link="#"
-                                            type="asdas"
-                                            title="asdasd"
-                                            price={1260}
-                                            image={CardImg}
-                                        />
-                                    </div>
-                                </div> :
+                             )}
+                          </div>:
+                          
                                 <div className='grid grid-cols-12 gap-[30px]'>
                                     <div className='col-span-12'>
                                         <CardLg
