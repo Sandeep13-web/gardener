@@ -34,7 +34,6 @@ const OurValues: NextPageWithLayout = () => {
     <div className="main-wrapper-block"  dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
     </>
   );
-  
 }
 export default OurValues;
 OurValues.getLayout = (page) => {
