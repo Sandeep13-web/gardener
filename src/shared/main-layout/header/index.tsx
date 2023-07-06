@@ -309,6 +309,7 @@ const Header = () => {
 
           <div className="flex items-center gap-3">
             {/* Heart Button */}
+            <Link href="/wishlist">
             <button className="relative hidden py-3 btn btn-circle md:flex">
               <HeartIcon className="text-black" />
               <Badge
@@ -319,6 +320,7 @@ const Header = () => {
                 0
               </Badge>
             </button>
+            </Link>
             {/* Cart */}
             <CartDropdown />
 
