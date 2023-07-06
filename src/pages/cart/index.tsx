@@ -36,7 +36,6 @@ const Cart: NextPageWithLayout = () => {
 
 
   const handleUpdateQuantity = (itemId: number, quantity: number) => {
-    console.log("asas")
     // updateItemQuantity(itemId, quantity);
   };
 

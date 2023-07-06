@@ -16,6 +16,7 @@ const Breadcrumb = ({title}) => {
     { label: "Offer", path: "/offer" },
     { label: "Blogs", path: "/blogs" },
     { label: "Products", path: "/products" },
+    { label: "Categories", path: "/categories" },
     { label: "Search", path: "/search" },
     { label: "About Us", path: "/about-us" },
   ];
