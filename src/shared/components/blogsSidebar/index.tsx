@@ -1,5 +1,4 @@
 import SearchIcon from "@/shared/icons/common/SearchIcon";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 

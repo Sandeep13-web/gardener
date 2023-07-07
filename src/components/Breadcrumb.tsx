@@ -4,7 +4,7 @@ import React from "react";
 import {  BreadCrumbImage } from '@/shared/lib/image-config'
 import { PiCaretRightBold } from 'react-icons/pi';
 
-const Breadcrumb = ({title}) => {
+const Breadcrumb = ({title}:any) => {
   const router = useRouter();
   const { pathname } = router;
   const { slug } = router.query;
