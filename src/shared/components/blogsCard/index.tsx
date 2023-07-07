@@ -11,28 +11,29 @@ import React from "react";
 function BlogsCard() {
   return (
     <div className="card w-full bg-base-100 ">
-        <Link href={``}>
-      <figure>
-        <Image
-          src={CardImg}
-          alt="Plant"
-          className="w-full h-auto aspect-[420/300]"
-          width={216}
-          height={270}
-          quality={100}
-          style={{
-            maxWidth: "100%",
-            height: "auto",
-            objectFit: "cover",
-          }}
-        />
-      </figure></Link>
+      <Link href={``}>
+        <figure>
+          <Image
+            src={CardImg}
+            alt="Plant"
+            className="w-full h-auto aspect-[420/300]"
+            width={216}
+            height={270}
+            quality={100}
+            style={{
+              maxWidth: "100%",
+              height: "auto",
+              objectFit: "cover",
+            }}
+          />
+        </figure>
+      </Link>
       <div className="card-body">
         <Link
           href={``}
           className="block card-title mb-2 font-semibold text-2xl truncate hover:text-primary"
         >
-          Basic Care Tips for Succulents: Do’s and Don’ts
+          Basic Care Tips for Succulents: Do `&apos;`s and Don `&apos;`ts
         </Link>
         <div className="flex gap-2 items-center mb-4">
           <Link
@@ -51,8 +52,8 @@ function BlogsCard() {
           </Link>
         </div>
         <p className="text-sm mb-4 line-clamp-2">
-          Who doesn't love succulents? Certainly, we all do! Today let's learn
-          the Do's and Don’ts of caring for succul..
+          Who doesnt love succulents? Certainly, we all do! Today lets learn
+          the Dos and Don `&apos;`ts of caring for succul..
         </p>
         <div className="card-actions">
           <Link
