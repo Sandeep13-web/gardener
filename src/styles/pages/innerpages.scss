@@ -107,25 +107,33 @@
           content: "";
           @apply absolute left-[-20px] top-[4px] bg-transparent bg-no-repeat bg-contain bg-center h-[18px] w-[18px] bg-[url('https://uat.ordering-iamthegardener-v4.ekbana.net/assets/images/frontend/list-flower.png')];
         }
-        h6{
-            @apply text-gray-550 text-[20px] font-bold;
+        h6 {
+          @apply text-gray-550 text-[20px] font-bold;
         }
       }
     }
   }
 }
 
-.occassion__bottom{
-    @apply bg-lightOrange pt-[50px] pb-[70px] font-medium;
-    p{
-        @apply text-orange-500 max-w-[950px] mx-auto text-xl relative;
-        &:before{
-            content:"";
-            @apply bg-orange-500 absolute bottom-[-20px] left-1/2 transform translate-x-[-50%] h-[3px] w-[180px];
-          
-        }
-      
+.occassion__bottom {
+  @apply bg-lightOrange pt-[50px] pb-[70px] font-medium;
+  p {
+    @apply text-orange-500 max-w-[950px] mx-auto text-xl relative;
+    &:before {
+      content: "";
+      @apply bg-orange-500 absolute bottom-[-20px] left-1/2 transform translate-x-[-50%] h-[3px] w-[180px];
     }
+  }
+}
+
+.page__wrapper {
+  .page__section {
+    .section__header {
+      &.orange__header {
+        @apply text-[24px] mb-[20px];
+      }
+    }
+  }
 }
 
 .row {

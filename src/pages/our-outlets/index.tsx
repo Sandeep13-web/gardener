@@ -6,13 +6,13 @@ import { useQuery } from "@tanstack/react-query";
 import { getPageData } from "@/services/page.service";
 import Breadcrumb from "@/components/Breadcrumb";
 
-const PlantConsultation: NextPageWithLayout = () => {
+const OurOutlets: NextPageWithLayout = () => {
   const router = useRouter();
   const { asPath } = router;
-  const [descriptionContent, setDescriptionContent] = useState<string>("");
-  const path = asPath.split("/");
+  const [descriptionContent, setDescriptionContent] = useState<string>('');
+  const path = asPath.split('/');
   const slug = path[path.length - 1];
-  const { data: plantConsultationData } = useQuery({
+  const { data: valuesData } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
@@ -24,21 +24,18 @@ const PlantConsultation: NextPageWithLayout = () => {
   });
 
   useEffect(() => {
-    if (plantConsultationData) {
-      setDescriptionContent(plantConsultationData?.data?.description || "");
-    }
-  }, [plantConsultationData]);
+    if (valuesData) {
+      setDescriptionContent(valuesData?.data?.description || '');
+     }
+  }, [valuesData]);
   return (
     <>
-      <Breadcrumb title={plantConsultationData?.data?.title} />
-      <div
-        className="main-wrapper-block"
-        dangerouslySetInnerHTML={{ __html: descriptionContent }}
-      />
+    <Breadcrumb title={valuesData?.data?.title} />
+    <div className="main-wrapper-block"  dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
     </>
   );
-};
-export default PlantConsultation;
-PlantConsultation.getLayout = (page) => {
+}
+export default OurOutlets;
+OurOutlets.getLayout = (page) => {
   return <MainLayout>{page}</MainLayout>;
 };
