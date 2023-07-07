@@ -41,7 +41,7 @@ const ScrollToTopButton = () => {
         src={UpArrow}
         height={20}
         width={20}
-        alt="up arrow"
+        alt="scroll"
       />
     </button>
   );

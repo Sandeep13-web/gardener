@@ -54,12 +54,12 @@ const BlogDetails: NextPageWithLayout = () => {
               </div>
               <div className="blog-content">
                 <p>
-                  Who doesn't love succulents? Certainly, we all do! Today let's
-                  learn the Do's and Don’ts of caring for succulents in order to
-                  keep them happy and healthy.{" "}
+                  Who doesn `&apos;`t love succulents? Certainly, we all do!
+                  Today let `&apos;`s learn the Do `&apos;`s and Donts of caring
+                  for succulents in order to keep them happy and healthy.
                 </p>
                 <h4>Sunlight</h4>
-                <h5>DO's:</h5>
+                <h5>DO `&apos;`s:</h5>
                 <ol>
                   <li>
                     Succulents are happy when they receive 4 to 6 hours of
@@ -71,7 +71,7 @@ const BlogDetails: NextPageWithLayout = () => {
                   </li>
                   <li>
                     Newly planted succulents should be kept in a shaded spot and
-                    gradually introduced to direct sunlight.{" "}
+                    gradually introduced to direct sunlight.
                   </li>
                   <li>
                     Expose sun-loving succulents like Jade plant, Moonstone, and
@@ -79,16 +79,16 @@ const BlogDetails: NextPageWithLayout = () => {
                     red-pink.
                   </li>
                 </ol>
-                <h5>Don'ts:</h5>
+                <h5>Don `&apos;`ts:</h5>
                 <ul>
                   <li>
-                    Don’t expose your succulents to the sun all day, avoid the
+                    Dont expose your succulents to the sun all day, avoid the
                     scorching sun. Too much heat can burn succulent leaves and
                     cause pale patches. In this case, shift your succulent to a
-                    less hot and shaded spot.{" "}
+                    less hot and shaded spot.
                   </li>
                   <li>
-                    Don’t keep succulents in a dark space. Lack of sunlight can
+                    Dont keep succulents in a dark space. Lack of sunlight can
                     make your succulent lanky and spread out, widening the gap
                     between the leaves.
                   </li>
