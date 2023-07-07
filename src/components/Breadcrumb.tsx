@@ -4,7 +4,11 @@ import React from "react";
 import { BreadCrumbImage } from "@/shared/lib/image-config";
 import { PiCaretRightBold } from "react-icons/pi";
 
+<<<<<<< HEAD
 const Breadcrumb = ({ title }) => {
+=======
+const Breadcrumb = ({title}:any) => {
+>>>>>>> design/gardener
   const router = useRouter();
   const { pathname } = router;
   const { slug } = router.query;

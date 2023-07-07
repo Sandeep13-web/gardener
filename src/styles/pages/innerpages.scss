@@ -144,12 +144,15 @@
   @apply md:w-1/3 sm:w-1/2 w-full px-[15px];
 }
 
+.col-sm-4{
+  @apply w-full xxs:w-1/3  px-[15px];
+}
 .col-lg-6,
 .col-md-6 {
   @apply w-full md:w-1/2 px-[15px];
 }
 
-.col-12 {
+.col-12, .col-md-12 {
   @apply w-full px-[15px];
 }
 
