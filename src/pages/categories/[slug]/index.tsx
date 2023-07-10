@@ -27,68 +27,77 @@ const CategoryDetail: NextPageWithLayout = () => {
     const [query, setQuery] = useState<string>('');
     const queryClient = useQueryClient();
     const [pageNumber, setPageNumber] = useState<number>(1);
-    const [filteredProductData, setFilteredProductData] = useState(null);
+    const [setFiltered, setSetFiltered] = useState(false);
     const [productData, setProductData] = useState(null);
     const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
     const { data: config, isInitialLoading } = useQuery({
         queryKey: ["getConfig"],
         queryFn: getConfig,
       });
-      const minimumPrice = Number(config?.data?.minimumPrice);
-      const maximumPrice = Number(config?.data?.pageData['max-price']);
-      const isMinimumValid = !isNaN(minimumPrice) && isFinite(minimumPrice);
-      const isMaximumValid = !isNaN(maximumPrice) && isFinite(maximumPrice);
-    
-    const [value, setValue] = useState([
-      isMinimumValid ? minimumPrice : 0,
-      isMaximumValid ? maximumPrice : 3000
-    ]);
-    console.log(slug,'currentslug')
+    const minimumPrice = Number(config?.data?.minimumPrice);
+    const maximumPrice = Number(config?.data?.pageData['max-price']);
+    const isMinimumValid = !isNaN(minimumPrice) && isFinite(minimumPrice);
+    const isMaximumValid = !isNaN(maximumPrice) && isFinite(maximumPrice);
+    const initialValue = [
+        isMinimumValid ? minimumPrice : 0,
+        isMaximumValid ? maximumPrice : 3000
+      ];
+    const [value, setValue] = useState(initialValue);  
 
-   //On first page load and categories clicked
+    // Filter button clicked
 
-    const { data:initialProductData, isLoading, error } = useQuery(
-        ['getProductByCategoryId',slug, '', ''],
+    const handleFilterButtonClick = async () => {
+    setSetFiltered(true); // Toggle the value of setFiltered
+    };
+
+    // Handle categories link click
+    const handleCategoriesClick = () => {
+        setValue(initialValue); // Reset value to initial values
+      };
+
+    //Fetch Category Data
+
+    const { data: initialProductData, isLoading, error } = useQuery(
+        ['getProductByCategoryId', slug, '', ''],
         async () => {
-        const response = await getProductByCategory(query, pageNumber,slug, '', '');
+        let response;
+        console.log('setFiltered', setFiltered); // Check setFiltered value
+        if (setFiltered) {
+            response = await getProductByCategory(query, pageNumber, slug, value[0], value[1]);
+            console.log('filtered');
+            console.log(response, 'filteredData');
+        } else {
+            response = await getProductByCategory(query, pageNumber, slug, '', '');
+        }
         return response;
         },
-      );
+    );
 
-      // On a filter button clicked
-
-      const handleFilterButtonClick = async () => {
-        if(slug) {
-            const response = await getProductByCategory(query, pageNumber, slug, value[0], value[1]);
-            console.log('filtered')
-            console.log(response,'filteredData');
-            setFilteredProductData(response);
+    useEffect(() => {
+        if (initialProductData) {
+        setProductData(initialProductData);
         }
-         
-        
-      };
-      useEffect(() => {
-        if (filteredProductData) {
-          setProductData(filteredProductData);
-        } else {
-          setProductData(initialProductData);
+    }, [initialProductData]);
+  
+    // Reset productData when setFiltered changes
+    useEffect(() => {
+        if (!setFiltered) {
+        setProductData(initialProductData);
         }
-      }, [filteredProductData, initialProductData]);
+    }, [setFiltered, initialProductData]);
 
-      if (isLoading) {
-        return <p>Loading...</p>; // Render a loading indicator
-      }
+    //   if (isLoading) {
+    //     return <p>Loading...</p>; // Render a loading indicator
+    //   }
       
       if (!productData) {
         return null; // or render a placeholder if productData is still undefined
       }
 
-      
-      
-     
+
     return (
         <>
-          <Breadcrumb  title={(filteredProductData || initialProductData)?.data[0]?.categoryTitle}/>
+          <Breadcrumb  title={initialProductData?.data[0]?.categoryTitle}/>
             <div className='container my-[60px]'>
                 <div className="grid grid-cols-12 md:gap-[30px]">
                     <div className='order-last md:order-first col-span-12 md:col-span-3 right-sidebar'>
@@ -104,6 +113,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                                             <li key={`categories-${index}`} className='pb-2'>
                                                 <Link href={`/categories/${item?.slug}`}
                                                     className={`block text-gray-550 font-semibold text-[15px] leading-[22px] transition-all delay-100 duration-300 hover:text-primary pb-2 capitalize ${item?.slug == slug && 'text-primary'}`}
+                                                    onClick={handleCategoriesClick}
                                                 >
                                                     {item?.title}
                                                 </Link>
@@ -167,7 +177,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                                         onClick={() => setGrid(false)}
                                     ><FaListUl className='w-[18px] h-auto' /></button>
                                 </div>
-                                <p className='text-gray-750 text-sm leading-[20px] p-2'>There Are {(filteredProductData || initialProductData)?.data.length} Products.</p>
+                                <p className='text-gray-750 text-sm leading-[20px] p-2'>There Are {initialProductData?.data.length} Products.</p>
                             </div>
                             <div className='flex items-center gap-[10px]'>
                                 <p className='text-gray-750 text-sm leading-[20px] p-2'>Sort By:</p>
@@ -177,11 +187,11 @@ const CategoryDetail: NextPageWithLayout = () => {
                         {
                             grid ?
                             <div>
-                            {(filteredProductData || initialProductData)?.data.length === 0 ? (
+                            {initialProductData?.data.length === 0 ? (
                                 <EmptyPage />
                              ) : (
                                     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                                      {(filteredProductData ||initialProductData)?.data.map((product: any, index: any) => (
+                                      {initialProductData?.data.map((product: any, index: any) => (
                                         <Card
                                         product = {product}
                                         key={`app-cat-products-${index}`}
