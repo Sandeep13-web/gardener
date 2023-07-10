@@ -1,10 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BsFillGrid3X3GapFill } from 'react-icons/bs'
-import { FaListUl } from 'react-icons/fa'
-
+import { FaListUl } from 'react-icons/fa';
+import Slider from 'react-slider'
+import 'react-range-slider-input/dist/style.css';
 import { NextPageWithLayout } from '@/pages/_app';
 import MainLayout from '@/shared/main-layout';
 import Card from '@/shared/components/card';
@@ -12,9 +13,11 @@ import Pagination from '@/shared/components/pagination';
 import { CardImg } from '@/shared/lib/image-config'
 import CardLg from '@/shared/components/card-lg';
 import { useState } from 'react';
-import { getProductByCategoryId } from '@/services/product.service';
+import { getProductByCategory } from '@/services/product.service';
 import EmptyPage from '@/components/emptyPage';
 import Breadcrumb from '@/components/Breadcrumb';
+import ReactSlider from 'react-slider';
+import { getConfig } from '@/services/home.service';
 
 
 const CategoryDetail: NextPageWithLayout = () => {
@@ -22,22 +25,70 @@ const CategoryDetail: NextPageWithLayout = () => {
     const { slug } = router.query
     const [grid, setGrid] = useState<boolean>(true)
     const [query, setQuery] = useState<string>('');
+    const queryClient = useQueryClient();
     const [pageNumber, setPageNumber] = useState<number>(1);
+    const [filteredProductData, setFilteredProductData] = useState(null);
+    const [productData, setProductData] = useState(null);
     const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
-    // const { data: productData, isInitialLoading: loadingData }: any = useQuery({ queryKey: ['getProductByCategoryId',query, pageNumber,slug] });
-   
-    const { data:productData, isLoading, error } = useQuery(
-        ['getProductByCategoryId',query, pageNumber,slug],
+    const { data: config, isInitialLoading } = useQuery({
+        queryKey: ["getConfig"],
+        queryFn: getConfig,
+      });
+      const minimumPrice = Number(config?.data?.minimumPrice);
+      const maximumPrice = Number(config?.data?.pageData['max-price']);
+      const isMinimumValid = !isNaN(minimumPrice) && isFinite(minimumPrice);
+      const isMaximumValid = !isNaN(maximumPrice) && isFinite(maximumPrice);
+    
+    const [value, setValue] = useState([
+      isMinimumValid ? minimumPrice : 0,
+      isMaximumValid ? maximumPrice : 3000
+    ]);
+    console.log(slug,'currentslug')
+
+   //On first page load and categories clicked
+
+    const { data:initialProductData, isLoading, error } = useQuery(
+        ['getProductByCategoryId',slug, '', ''],
         async () => {
-          if (slug) {
-            const response = await getProductByCategoryId(query, pageNumber,slug);
-            return response;
-          }
-        }
+        const response = await getProductByCategory(query, pageNumber,slug, '', '');
+        return response;
+        },
       );
+
+      // On a filter button clicked
+
+      const handleFilterButtonClick = async () => {
+        if(slug) {
+            const response = await getProductByCategory(query, pageNumber, slug, value[0], value[1]);
+            console.log('filtered')
+            console.log(response,'filteredData');
+            setFilteredProductData(response);
+        }
+         
+        
+      };
+      useEffect(() => {
+        if (filteredProductData) {
+          setProductData(filteredProductData);
+        } else {
+          setProductData(initialProductData);
+        }
+      }, [filteredProductData, initialProductData]);
+
+      if (isLoading) {
+        return <p>Loading...</p>; // Render a loading indicator
+      }
+      
+      if (!productData) {
+        return null; // or render a placeholder if productData is still undefined
+      }
+
+      
+      
+     
     return (
         <>
-          <Breadcrumb  title={productData?.data[0]?.categoryTitle}/>
+          <Breadcrumb  title={(filteredProductData || initialProductData)?.data[0]?.categoryTitle}/>
             <div className='container my-[60px]'>
                 <div className="grid grid-cols-12 md:gap-[30px]">
                     <div className='order-last md:order-first col-span-12 md:col-span-3 right-sidebar'>
@@ -62,13 +113,33 @@ const CategoryDetail: NextPageWithLayout = () => {
                                 </ul>
                             </div>
                             <div className='mt-3.5'>
-                                <h4 className='text-slate-850 font-semibold font-base mb-3.5'>Price</h4>
+                                <h4 className='text-slate-850 font-semibold font-base mb-[40px]'>Price</h4>
                                 <div>
-                                    <span className='text-sm'>NPR 0 - NPR 3000</span>
-                                    <div className='mt-[20px] mb-3'>
-                                        <input type="range" min={0} max="100" value="40" className="range range-primary h-[4px]" />
-                                    </div>
-                                    <button className='btn btn-primary w-full font-bold px-[22px] py-[13px] rounded-[50px] text-white text-lg uppercase tracking-[1px] leading-[1]'>Filter</button>
+                                   <div className="mb-2">
+                                   <ReactSlider
+                                        className="horizontal-slider"
+                                        thumbClassName="example-thumb"
+                                        trackClassName="example-track"
+                                        value={value}
+                                        onChange={setValue}
+                                        ariaLabel={['Lower thumb', 'Upper thumb']}
+                                        ariaValuetext={state => `Thumb value ${state.valueNow}`}
+                                        max={maximumPrice}
+                                        min={minimumPrice}
+                                        renderThumb={(props, state) => (
+                                        <div {...props}  className="focus:outline-none absolute top-[-5px] h-[15px] w-[15px] rounded-full bg-primary" style={{...props.style, }}>
+                                            {/* <div className="focus:outline-none relative top-[-180px] text-white rounded-full text-[12px]">{state.valueNow}</div> */}
+                                            <p className='font-normal absolute top-[-20px] text-[14px]'>{config?.data?.currency}{state.valueNow}</p>
+                                        </div>
+                                        )}
+                                        renderTrack={(props, state) => <div {...props} style={{...props.style, height: '5px', backgroundColor:
+                                        state.index === 0 ? '#f0f0f0' : state.index === 2 ? '#f0f0f0' : '#07a04b' }} />}
+                                        pearling
+                                        minDistance={10}
+                                    />
+                                   </div>
+                                
+                                    <button className='btn btn-primary w-full font-bold px-[22px] py-[13px] rounded-[50px] text-white text-lg uppercase tracking-[1px] leading-[1] mt-[30px]' onClick={handleFilterButtonClick}>Filter</button>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +167,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                                         onClick={() => setGrid(false)}
                                     ><FaListUl className='w-[18px] h-auto' /></button>
                                 </div>
-                                <p className='text-gray-750 text-sm leading-[20px] p-2'>There Are {productData?.data.length} Products.</p>
+                                <p className='text-gray-750 text-sm leading-[20px] p-2'>There Are {(filteredProductData || initialProductData)?.data.length} Products.</p>
                             </div>
                             <div className='flex items-center gap-[10px]'>
                                 <p className='text-gray-750 text-sm leading-[20px] p-2'>Sort By:</p>
@@ -106,11 +177,11 @@ const CategoryDetail: NextPageWithLayout = () => {
                         {
                             grid ?
                             <div>
-                            {productData?.data.length === 0 ? (
+                            {(filteredProductData || initialProductData)?.data.length === 0 ? (
                                 <EmptyPage />
                              ) : (
                                     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                                      {productData?.data.map((product: any, index: any) => (
+                                      {(filteredProductData ||initialProductData)?.data.map((product: any, index: any) => (
                                         <Card
                                         product = {product}
                                         key={`app-cat-products-${index}`}
