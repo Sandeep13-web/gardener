@@ -54,3 +54,25 @@ body {
 .collapse-arrow .collapse-title:after {
   opacity: 0;
 }
+
+.blog-content{
+  @apply text-sm;
+  p{
+    @apply mb-5;
+  }
+
+  h4{
+    @apply font-bold text-xl md:text-2xl  mb-4;
+  }
+
+  h5{
+    @apply font-bold text-base md:text-lg mb-1;
+  }
+
+  ol{
+    @apply list-decimal pl-6 mb-5;
+  }
+  ul{
+    @apply list-disc pl-6 mb-5;
+  }
+}
