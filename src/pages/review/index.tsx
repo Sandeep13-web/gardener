@@ -33,9 +33,7 @@ const Review = () => {
           <div className="max-w-[520px] mx-auto text-center mt-[20px]">
             <img className="mx-auto" src="images/payment-failed.png" />
             <div>
-              <h2 className="font-medium my-[30px] mb-[19px] text-[26px]">
-              Payment Failed
-              </h2>
+              <h2 className="font-medium my-[30px] mb-[19px] text-[26px]">  Payment Failed </h2>
               <p className="text-black text-[18px]">
               Your order has been placed but payment has been failed due to some error. Please contact I am the Gardener for more details.
               </p>
