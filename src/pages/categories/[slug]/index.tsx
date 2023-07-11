@@ -18,6 +18,9 @@ import EmptyPage from '@/components/emptyPage';
 import Breadcrumb from '@/components/Breadcrumb';
 import ReactSlider from 'react-slider';
 import { getConfig } from '@/services/home.service';
+import { ITag } from '@/interface/tag.interface';
+import { getTagList } from '@/services/tag.service';
+import Loader from '@/components/Loading';
 
 
 const CategoryDetail: NextPageWithLayout = () => {
@@ -30,6 +33,10 @@ const CategoryDetail: NextPageWithLayout = () => {
     const [setFiltered, setSetFiltered] = useState(false);
     const [productData, setProductData] = useState(null);
     const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
+    const { data: tags } = useQuery({
+        queryKey: ["getTagList"],
+        queryFn: getTagList,
+      });
     const { data: config, isInitialLoading } = useQuery({
         queryKey: ["getConfig"],
         queryFn: getConfig,
@@ -61,11 +68,8 @@ const CategoryDetail: NextPageWithLayout = () => {
         ['getProductByCategoryId', slug, '', ''],
         async () => {
         let response;
-        console.log('setFiltered', setFiltered); // Check setFiltered value
         if (setFiltered) {
             response = await getProductByCategory(query, pageNumber, slug, value[0], value[1]);
-            console.log('filtered');
-            console.log(response, 'filteredData');
         } else {
             response = await getProductByCategory(query, pageNumber, slug, '', '');
         }
@@ -86,9 +90,11 @@ const CategoryDetail: NextPageWithLayout = () => {
         }
     }, [setFiltered, initialProductData]);
 
-    //   if (isLoading) {
-    //     return <p>Loading...</p>; // Render a loading indicator
-    //   }
+    
+      if (isLoading) {
+        // Show loader while data is being fetched
+        return <Loader />;
+      }
       
       if (!productData) {
         return null; // or render a placeholder if productData is still undefined
@@ -158,9 +164,19 @@ const CategoryDetail: NextPageWithLayout = () => {
                                 Tag
                             </h3>
                             <div className='flex flex-wrap'>
-                                <Link href={`/tag?id=[id]`}
-                                    className='border border-gray-350 px-[25px] py-[10px] rounded-[30px] bg-white capitalize m-1 text-gray-550 text-sm leading-[20px] transition-all delay-100 duration-300 hover:bg-primary hover:text-white hover:border-primary'
-                                >Birthdays</Link>
+                                {
+                                       tags?.data?.map((item: any, index: number) => (
+                                            <div key={`categories-${index}`} className='mb-[20px]'>
+                                                <Link href={{ pathname: '/tag',query: { id: item?.slug }}}
+                                                    className={`border border-gray-350 px-[25px] py-[10px] rounded-[30px] bg-white capitalize m-1 text-gray-550 text-sm leading-[20px] transition-all delay-100 duration-300 hover:bg-primary hover:text-white hover:border-primary`}
+                                                    onClick={handleCategoriesClick}
+                                                >
+                                                    {item?.title}
+                                                </Link>
+                                            </div>
+                                        ))
+                                    }
+                                
                             </div>
                         </div>
                     </div>

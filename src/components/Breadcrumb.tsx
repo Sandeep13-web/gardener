@@ -8,6 +8,7 @@ const Breadcrumb = ({title}:any) => {
   const router = useRouter();
   const { pathname } = router;
   const { slug } = router.query;
+  const { id } = router.query;
 
   // Define the breadcrumb items and their respective paths
   const breadcrumbItems = [
@@ -28,7 +29,7 @@ const Breadcrumb = ({title}:any) => {
 
   if (currentBreadcrumbItem && !slug) {
     breadcrumbLabel = currentBreadcrumbItem.label;
-  } else if (slug) {
+  } else if (slug || id) {
     breadcrumbLabel = title;
   } else {
     return null; // No breadcrumb for the current route
