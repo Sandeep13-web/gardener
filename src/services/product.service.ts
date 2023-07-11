@@ -18,10 +18,15 @@ export const getRelatedProductsFromId = async (productId:any) => {
   }
 };
 
-
-export const getProductByCategoryId = async (query:any, page:any,categoryId:any) => {
+export const getProductByCategory = async (query:any, page:any, categoryId:any, minPrice:any, maxPrice:any) => {
   try {
-    const response = await axiosInstance.get(`product?query=${query}&page=${page}&categoryId=${categoryId}&allProduct=1`);
+    let url = `product?query=${query}&page=${page}&categoryId=${categoryId}&allProduct=1`;
+    
+    if (minPrice !== '' && maxPrice !== '') {
+      url += `&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+    }
+    
+    const response = await axiosInstance.get(url);
     return response.data;
   } catch (error) {
     throw error;
