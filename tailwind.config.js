@@ -30,6 +30,8 @@ module.exports = {
                 "lightBlack": '#484848',
                 "lightGray":'#dee0e4',
                 "superLightGray": '#fafafa',
+                "superLightGray-250": '#767676',
+                "superLightGray-350": '#2e323e',
                 "borderGray": 'rgba(0,0,0,.125)',
                 "lightWhite": '#e6f5ee',
                 "lightGreen":'#80bb01',
