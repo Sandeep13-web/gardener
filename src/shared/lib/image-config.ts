@@ -16,6 +16,7 @@ export const UnionPay = '/images/union-pay.png';
 export const BreadCrumbImage = '/images/gardener-breadcrumb.png';
 export const UpArrow = '/images/up-arrow-icon.svg';
 export const fourzerofour = '/images/404.png';
+export const CartEmpty = '/images/cart-empty.svg';
 
 export const socials = {
     facebook: 'images/facebook.svg',
