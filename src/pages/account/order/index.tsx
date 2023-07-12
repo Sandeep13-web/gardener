@@ -13,10 +13,10 @@ const Order = () => {
       <Breadcrumb />
       <div className="container py-14">
         <div className="grid grid-cols-12 gap-3">
-          <div className="col-span-12 md:col-span-4 bg-white h-max">
+          <div className="col-span-12 md:col-span-3 bg-white h-max">
             <AccountSidebar />
           </div>
-          <div className="col-span-12 md:col-span-8 bg-white">
+          <div className="col-span-12 md:col-span-9 bg-white">
             <h5 className="px-6 py-4 text-[15px] border-b border-gray-350 border-solid uppercase font-bold">
               My Account Information
             </h5>
@@ -167,27 +167,27 @@ const Order = () => {
                                         </div>
                                         <div className="col-span-12 md:col-span-6">
                                           <div className="sm:py-0 py-[20px]">
-                                            <h3>Customer Detail</h3>
+                                            <h3 className="text-left font-normal text-[20px] mb-2">Customer Detail</h3>
                                             <ul className="flex flex-col">
-                                              <li>
+                                              <li className="flex">
                                                 <strong className="data-title">
                                                   Name :
                                                 </strong>
                                                 <span>Nilam Shrestha</span>
                                               </li>
-                                              <li>
+                                              <li className="flex"> 
                                                 <strong className="data-title">
                                                   Phone Number :
                                                 </strong>
-                                                <span className="data-desc">
+                                                <span>
                                                   9869856688
                                                 </span>
                                               </li>
-                                              <li>
+                                              <li className="flex">
                                                 <strong className="data-title">
                                                   Address :
                                                 </strong>
-                                                <span className="data-desc">
+                                                <span>
                                                   Kupandol-10, Lalitpur, Nepal
                                                 </span>
                                               </li>

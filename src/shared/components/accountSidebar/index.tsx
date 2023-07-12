@@ -24,7 +24,7 @@ const AccountSidebar = () => {
             />
           </div>
         </li>
-        <li className=" group text-gray-400 relative p-4 flex gap-2 items-center border-b border-gray-350 border-solid">
+        <li className=" group text-gray-400 relative p-4 flex gap-2 items-center border-b border-gray-350 border-solid  text-[14px]">
           <Link
             href={`/account/profile`}
             className="absolute w-full h-full left-0 top-0 "
@@ -34,15 +34,15 @@ const AccountSidebar = () => {
             ACCOUNT DETAILS
           </span>
         </li>
-        <li className=" group text-gray-400 relative p-4 flex gap-2 items-center border-b border-gray-350 border-solid">
+        <li className=" group text-gray-400 relative p-4 flex gap-2 items-center border-b border-gray-350 border-solid  text-[14px]">
           <Link
-            href={`/account/orders`}
+            href={`/account/order`}
             className="absolute w-full h-full left-0 top-0 "
           ></Link>
           <FaShoppingBag className="group-hover:text-primary-focus" />
           <span className=" group-hover:text-primary-focus">ORDER HISTORY</span>
         </li>
-        <li className=" group text-gray-400 relative p-4 flex gap-2 items-center border-b border-gray-350 border-solid">
+        <li className=" group text-gray-400 relative p-4 flex gap-2 items-center border-b border-gray-350 border-solid  text-[14px]">
           <Link
             href={`/account/change-password`}
             className="absolute w-full h-full left-0 top-0 "
@@ -52,7 +52,7 @@ const AccountSidebar = () => {
             CHANGE PASSWORD
           </span>
         </li>
-        <li className=" group relative text-gray-400 p-4 flex gap-2 items-center border-b border-gray-350 border-solid">
+        <li className=" group text-gray-400 relative p-4 flex gap-2 items-center border-b border-gray-350 border-solid  text-[14px]">
           <Link
             href={`/account/addresses`}
             className="absolute w-full h-full left-0 top-0 "
@@ -60,7 +60,7 @@ const AccountSidebar = () => {
           <FaShoppingBag className=" group-hover:text-primary-focus" />
           <span className=" group-hover:text-primary-focus">MY ADDRESS</span>
         </li>
-        <li className=" group relative text-gray-400 p-4 flex gap-2 items-center border-b border-gray-350 border-solid">
+        <li className=" group text-gray-400 relative p-4 flex gap-2 items-center border-b border-gray-350 border-solid  text-[14px]">
           <Link
             href={`/account/change-password`}
             className="absolute w-full h-full left-0 top-0 "
@@ -68,7 +68,7 @@ const AccountSidebar = () => {
           <FaSignOutAlt className=" group-hover:text-primary-focus" />
           <span className=" group-hover:text-primary-focus">LOGOUT</span>
         </li>
-        <li className=" group relative text-gray-400 p-4 flex gap-2 items-center border-b border-gray-350 border-solid">
+        <li className=" group text-gray-400 relative p-4 flex gap-2 items-center  text-[14px]">
           <Link
             href={`/account/change-password`}
             className="absolute w-full h-full left-0 top-0 "
