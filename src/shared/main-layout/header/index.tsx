@@ -26,6 +26,7 @@ import { useRouter } from "next/router";
 import { getSearchResults } from "@/services/search.service";
 import CartDropdown from "@/shared/components/cartDropdown";
 import { BsCaretDownFill } from "react-icons/bs";
+import { getAllWishlistProducts } from "@/services/wishlist.service";
 
 const Header = () => {
   const token = getToken();
@@ -50,6 +51,12 @@ const Header = () => {
   const { data: profile, isInitialLoading: loadingProfile } = useQuery({
     queryKey: ["getProfile"],
     queryFn: getProfile,
+    enabled: !!token,
+  })
+
+  const { data: favouriteList, isInitialLoading: loadingFavourite } = useQuery({
+    queryKey: ["getAllWishlistProducts"],
+    queryFn: getAllWishlistProducts,
     enabled: !!token,
   })
 
@@ -317,7 +324,7 @@ const Header = () => {
                 type="primary"
                 badgePosition="top-right"
               >
-                0
+                {favouriteList ? favouriteList.data?.length : 0}
               </Badge>
             </button>
             </Link>
