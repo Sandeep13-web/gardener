@@ -38,6 +38,7 @@ import { useRouter } from "next/router";
 import { getSearchResults } from "@/services/search.service";
 import CartDropdown from "@/shared/components/cartDropdown";
 import { BsCaretDownFill } from "react-icons/bs";
+import { getAllWishlistProducts } from "@/services/wishlist.service";
 
 const Header = () => {
   const token = getToken();
@@ -66,6 +67,12 @@ const Header = () => {
     queryFn: getProfile,
     enabled: !!token,
   });
+
+  const { data: favouriteList, isInitialLoading: loadingFavourite } = useQuery({
+    queryKey: ["getAllWishlistProducts"],
+    queryFn: getAllWishlistProducts,
+    enabled: !!token,
+  })
 
   const mutation = useMutation({
     mutationFn: logout,
@@ -334,6 +341,7 @@ const Header = () => {
 
           <div className="flex items-center gap-3">
             {/* Heart Button */}
+            <Link href="/wishlist">
             <button className="relative hidden py-3 btn btn-circle md:flex">
               <HeartIcon className="text-black" />
               <Badge
@@ -341,9 +349,10 @@ const Header = () => {
                 type="primary"
                 badgePosition="top-right"
               >
-                0
+                {favouriteList ? favouriteList.data?.length : 0}
               </Badge>
             </button>
+            </Link>
             {/* Cart */}
             <CartDropdown />
 

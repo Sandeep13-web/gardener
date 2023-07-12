@@ -20,6 +20,7 @@ const Breadcrumb = ({title}:any) => {
     { label: "Categories", path: "/categories" },
     { label: "Search", path: "/search" },
     { label: "About Us", path: "/about-us" },
+    { label: "Wishlist", path: "/wishlist" },
   ];
   const currentBreadcrumbItem = breadcrumbItems.find(
     (item) => item.path === pathname

@@ -53,49 +53,51 @@ const { data: offers, isLoading, error } = useQuery(
       })
 );
 
-if (isLoading) {
-  // Show loader while data is being fetched
-  return <Loader />;
-}
+// if (isLoading) {
+//   // Show loader while data is being fetched
+//   return <Loader />;
+// }
  
   return (
     <div>
       <Breadcrumb title="Offer" />
-      <div className="offer-page">
-        <div className="container">
-          <div className="top-bar flex items-center justify-between bg-slate-150 mt-[60px] my-[20px] p-[10px]">
-            <div className="products-count">
-                <p className="text-sm font-normal text-gray-750">There are {offers?.data?.length} products</p>
+      { isLoading ? <Loader /> : (
+        <div className="offer-page">
+          <div className="container">
+            <div className="top-bar flex items-center justify-between bg-slate-150 mt-[60px] my-[20px] p-[10px]">
+              <div className="products-count">
+                  <p className="text-sm font-normal text-gray-750">There are {offers?.data?.length} products</p>
+              </div>
+              <div className="flex items-center sorting">
+                <p className="pr-3 text-sm font-normal text-gray-750">Sort By:</p>
+                <select defaultValue ={selectedOption} onChange={handleSelectChange}>
+                  <option value="">Please Select</option>
+                  <option value="ascending">A to Z</option>
+                  <option value="descending">Z to A</option>
+                  <option value="low">Price(Low &gt; High)</option>
+                  <option value="high">Price(High &lt; Low)</option>
+                </select>
+              </div> 
             </div>
-            <div className="flex items-center sorting">
-              <p className="pr-3 text-sm font-normal text-gray-750">Sort By:</p>
-              <select defaultValue ={selectedOption} onChange={handleSelectChange}>
-                <option value="">Please Select</option>
-                <option value="ascending">A to Z</option>
-                <option value="descending">Z to A</option>
-                <option value="low">Price(Low &gt; High)</option>
-                <option value="high">Price(High &lt; Low)</option>
-              </select>
-            </div> 
+            <section className="my-[60px]">
+              <div>
+                {offers?.data.length === 0 ? (
+                    <EmptyPage />
+                ) : (
+                        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                          {offers.data.map((product: any, index: any) => (
+                            <Card
+                            product = {product}
+                            key={`app-cat-products-${index}`}
+                            />
+                          ))}
+                        </div>
+                )}
+              </div>
+            </section>
           </div>
-          <section className="my-[60px]">
-            <div>
-              {offers?.data.length === 0 ? (
-                  <EmptyPage />
-               ) : (
-                      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                        {offers.data.map((product: any, index: any) => (
-                          <Card
-                          product = {product}
-                          key={`app-cat-products-${index}`}
-                          />
-                        ))}
-                      </div>
-               )}
-            </div>
-          </section>
         </div>
-      </div>
+      ) }
     </div>
   );
 };
