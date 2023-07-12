@@ -17,6 +17,7 @@ const LoginForm = () => {
         mutationFn: login,
         onSuccess: (data) => {
             setCookie('token', data?.access_token);
+            setCookie('isLoggedIn' , true)
             showToast(TOAST_TYPES.success, 'You have been successfully logged in.');
             router.push('/');
         },
