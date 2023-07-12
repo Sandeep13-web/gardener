@@ -19,33 +19,35 @@ const Wishlist: NextPageWithLayout = () => {
                     return response
                 })
     )
-    if (isLoading) {
-        return <Loader />
-    }
+    // if (isLoading) {
+    //     return <Loader />
+    // }
 
     return (
         <div>
             <Breadcrumb title="Wishlist" />
-            <div className="wishlist-page">
-                <div className="container">
-                    <section className="my-[60px]">
-                        <div>
-                            {wishlist?.data.length === 0 ? (
-                                <EmptyPage />
-                            ) : (
-                                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                                    {wishlist?.data.map((favProduct: any, index: any) => 
-                                        <Card
-                                            product={favProduct.product}
-                                            key={`app-cat-products-${index}`}
-                                        />
-                                    )}
-                                </div>
-                            )}
-                        </div>
-                    </section>
+            { isLoading ? <Loader /> : (
+                <div className="wishlist-page">
+                    <div className="container">
+                        <section className="my-[60px]">
+                            <div>
+                                {wishlist?.data.length === 0 ? (
+                                    <EmptyPage />
+                                ) : (
+                                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                                        {wishlist?.data.map((favProduct: any, index: any) => 
+                                            <Card
+                                                product={favProduct.product}
+                                                key={`app-cat-products-${index}`}
+                                            />
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        </section>
+                    </div>
                 </div>
-            </div>
+            ) }
         </div>
     )
 }
