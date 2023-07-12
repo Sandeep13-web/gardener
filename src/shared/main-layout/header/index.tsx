@@ -78,6 +78,7 @@ const Header = () => {
     mutationFn: logout,
     onSuccess: () => {
       deleteCookie("token");
+      deleteCookie("isLoggedIn")
       showToast(TOAST_TYPES.success, "Logged out successfully");
     },
   });
@@ -341,18 +342,19 @@ const Header = () => {
 
           <div className="flex items-center gap-3">
             {/* Heart Button */}
-            <Link href="/wishlist">
-            <button className="relative hidden py-3 btn btn-circle md:flex">
-              <HeartIcon className="text-black" />
-              <Badge
-                className="badge-accent "
-                type="primary"
-                badgePosition="top-right"
-              >
-                {favouriteList ? favouriteList.data?.length : 0}
-              </Badge>
-            </button>
-            </Link>
+            {
+              token && 
+              <Link href="/wishlist" className="relative hidden py-3 btn btn-circle md:flex">
+                  <HeartIcon className="text-black" />
+                  <Badge
+                    className="badge-accent "
+                    type="primary"
+                    badgePosition="top-right"
+                  >
+                    {favouriteList ? favouriteList.data?.length : 0}
+                  </Badge>
+              </Link>
+            }
             {/* Cart */}
             <CartDropdown />
 
@@ -445,7 +447,7 @@ const Header = () => {
                   </li>
                 </ul>
               </div>
-              <Link href="/our-outlets" className="!bg-white border-0 text-gray-550 font-bold">  OUTLET</Link>
+              <Link href="/our-outlets" className="!bg-white border-0 text-gray-550 font-bold text-sm">  OUTLET</Link>
                 {/* <Button
                   type="ghost"
                   className="!bg-white border-0 text-gray-550 font-bold"
