@@ -58,13 +58,14 @@ body {
 
 .active-location {
   position: relative;
+  @apply border-primary;
   &::after {
     content: "";
-    border-color: #00AD4E transparent transparent transparent;
+    border-color: #00ad4e transparent transparent transparent;
     border-width: 50px 0 0 50px;
     right: 0;
     top: 0;
-    position:absolute;
+    position: absolute;
   }
 }
 
@@ -87,5 +88,14 @@ body {
   }
   ul {
     @apply list-disc pl-6 mb-5;
+  }
+}
+
+@layer base {
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"] {
+    -webkit-appearance: none;
+    -moz-appearance: textfield !important;
   }
 }

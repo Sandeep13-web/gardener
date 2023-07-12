@@ -61,11 +61,6 @@ const NewAddressIcon: React.FC<Props> = ({ ...rest }) => {
           fill="#75B527"
         />
       </g>
-      <defs>
-        <clipPath id="clip0_514_1794">
-          <rect width="80" height="80.092" fill="white" />
-        </clipPath>
-      </defs>
     </svg>
   );
 };
