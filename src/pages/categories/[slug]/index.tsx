@@ -1,10 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BsFillGrid3X3GapFill } from 'react-icons/bs'
-import { FaListUl } from 'react-icons/fa'
-
+import { FaListUl } from 'react-icons/fa';
+import Slider from 'react-slider'
+import 'react-range-slider-input/dist/style.css';
 import { NextPageWithLayout } from '@/pages/_app';
 import MainLayout from '@/shared/main-layout';
 import Card from '@/shared/components/card';
@@ -12,31 +13,97 @@ import Pagination from '@/shared/components/pagination';
 import { CardImg } from '@/shared/lib/image-config'
 import CardLg from '@/shared/components/card-lg';
 import { useState } from 'react';
+import { getProductByCategory } from '@/services/product.service';
+import EmptyPage from '@/components/emptyPage';
+import Breadcrumb from '@/components/Breadcrumb';
+import ReactSlider from 'react-slider';
+import { getConfig } from '@/services/home.service';
+import { ITag } from '@/interface/tag.interface';
+import { getTagList } from '@/services/tag.service';
+import Loader from '@/components/Loading';
 
 
 const CategoryDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const { slug } = router.query
     const [grid, setGrid] = useState<boolean>(true)
-
+    const [query, setQuery] = useState<string>('');
+    const queryClient = useQueryClient();
+    const [pageNumber, setPageNumber] = useState<number>(1);
+    const [setFiltered, setSetFiltered] = useState(false);
+    const [productData, setProductData] = useState(null);
     const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
+    const { data: tags } = useQuery({
+        queryKey: ["getTagList"],
+        queryFn: getTagList,
+      });
+    const { data: config, isInitialLoading } = useQuery({
+        queryKey: ["getConfig"],
+        queryFn: getConfig,
+      });
+    const minimumPrice = Number(config?.data?.minimumPrice);
+    const maximumPrice = Number(config?.data?.pageData['max-price']);
+    const isMinimumValid = !isNaN(minimumPrice) && isFinite(minimumPrice);
+    const isMaximumValid = !isNaN(maximumPrice) && isFinite(maximumPrice);
+    const initialValue = [
+        isMinimumValid ? minimumPrice : 0,
+        isMaximumValid ? maximumPrice : 3000
+      ];
+    const [value, setValue] = useState(initialValue);  
+
+    // Filter button clicked
+
+    const handleFilterButtonClick = async () => {
+    setSetFiltered(true); // Toggle the value of setFiltered
+    };
+
+    // Handle categories link click
+    const handleCategoriesClick = () => {
+        setValue(initialValue); // Reset value to initial values
+      };
+
+    //Fetch Category Data
+
+    const { data: initialProductData, isLoading, error } = useQuery(
+        ['getProductByCategoryId', slug, '', ''],
+        async () => {
+        let response;
+        if (setFiltered) {
+            response = await getProductByCategory(query, pageNumber, slug, value[0], value[1]);
+        } else {
+            response = await getProductByCategory(query, pageNumber, slug, '', '');
+        }
+        return response;
+        },
+    );
+
+    useEffect(() => {
+        if (initialProductData) {
+        setProductData(initialProductData);
+        }
+    }, [initialProductData]);
+  
+    // Reset productData when setFiltered changes
+    useEffect(() => {
+        if (!setFiltered) {
+        setProductData(initialProductData);
+        }
+    }, [setFiltered, initialProductData]);
+
+    
+      if (isLoading) {
+        // Show loader while data is being fetched
+        return <Loader />;
+      }
+      
+      if (!productData) {
+        return null; // or render a placeholder if productData is still undefined
+      }
+
 
     return (
         <>
-            <div className='product-page-banner'>
-                <div className="container">
-                    <h2 className='text-slate-850 text-[30px] capitalize font-semibold'>Plant With Pot</h2>
-                    <div className="text-base breadcrumbs">
-                        <ul className='justify-center'>
-                            <li>
-                                <Link href="/" className='text-slate-850 transition-all delay-150 duration-300 hover:!no-underline hover:text-primary'>Home</Link>
-                            </li>
-                            {/* <li><Link href={'#'}>Documents</Link></li> */}
-                            <li className='text-slate-850'>Plant With Pot</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+          <Breadcrumb  title={initialProductData?.data[0]?.categoryTitle}/>
             <div className='container my-[60px]'>
                 <div className="grid grid-cols-12 md:gap-[30px]">
                     <div className='order-last md:order-first col-span-12 md:col-span-3 right-sidebar'>
@@ -52,6 +119,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                                             <li key={`categories-${index}`} className='pb-2'>
                                                 <Link href={`/categories/${item?.slug}`}
                                                     className={`block text-gray-550 font-semibold text-[15px] leading-[22px] transition-all delay-100 duration-300 hover:text-primary pb-2 capitalize ${item?.slug == slug && 'text-primary'}`}
+                                                    onClick={handleCategoriesClick}
                                                 >
                                                     {item?.title}
                                                 </Link>
@@ -61,13 +129,33 @@ const CategoryDetail: NextPageWithLayout = () => {
                                 </ul>
                             </div>
                             <div className='mt-3.5'>
-                                <h4 className='text-slate-850 font-semibold font-base mb-3.5'>Price</h4>
+                                <h4 className='text-slate-850 font-semibold font-base mb-[40px]'>Price</h4>
                                 <div>
-                                    <span className='text-sm'>NPR 0 - NPR 3000</span>
-                                    <div className='mt-[20px] mb-3'>
-                                        <input type="range" min={0} max="100" value="40" className="range range-primary h-[4px]" />
-                                    </div>
-                                    <button className='btn btn-primary w-full font-bold px-[22px] py-[13px] rounded-[50px] text-white text-lg uppercase tracking-[1px] leading-[1]'>Filter</button>
+                                   <div className="mb-2">
+                                   <ReactSlider
+                                        className="horizontal-slider"
+                                        thumbClassName="example-thumb"
+                                        trackClassName="example-track"
+                                        value={value}
+                                        onChange={setValue}
+                                        ariaLabel={['Lower thumb', 'Upper thumb']}
+                                        ariaValuetext={state => `Thumb value ${state.valueNow}`}
+                                        max={maximumPrice}
+                                        min={minimumPrice}
+                                        renderThumb={(props, state) => (
+                                        <div {...props}  className="focus:outline-none absolute top-[-5px] h-[15px] w-[15px] rounded-full bg-primary" style={{...props.style, }}>
+                                            {/* <div className="focus:outline-none relative top-[-180px] text-white rounded-full text-[12px]">{state.valueNow}</div> */}
+                                            <p className='font-normal absolute top-[-20px] text-[14px]'>{config?.data?.currency}{state.valueNow}</p>
+                                        </div>
+                                        )}
+                                        renderTrack={(props, state) => <div {...props} style={{...props.style, height: '5px', backgroundColor:
+                                        state.index === 0 ? '#f0f0f0' : state.index === 2 ? '#f0f0f0' : '#07a04b' }} />}
+                                        pearling
+                                        minDistance={10}
+                                    />
+                                   </div>
+                                
+                                    <button className='btn btn-primary w-full font-bold px-[22px] py-[13px] rounded-[50px] text-white text-lg uppercase tracking-[1px] leading-[1] mt-[30px]' onClick={handleFilterButtonClick}>Filter</button>
                                 </div>
                             </div>
                         </div>
@@ -76,9 +164,19 @@ const CategoryDetail: NextPageWithLayout = () => {
                                 Tag
                             </h3>
                             <div className='flex flex-wrap'>
-                                <Link href={`/tag?id=[id]`}
-                                    className='border border-gray-350 px-[25px] py-[10px] rounded-[30px] bg-white capitalize m-1 text-gray-550 text-sm leading-[20px] transition-all delay-100 duration-300 hover:bg-primary hover:text-white hover:border-primary'
-                                >Birthdays</Link>
+                                {
+                                       tags?.data?.map((item: any, index: number) => (
+                                            <div key={`categories-${index}`} className='mb-[20px]'>
+                                                <Link href={{ pathname: '/tag',query: { id: item?.slug }}}
+                                                    className={`border border-gray-350 px-[25px] py-[10px] rounded-[30px] bg-white capitalize m-1 text-gray-550 text-sm leading-[20px] transition-all delay-100 duration-300 hover:bg-primary hover:text-white hover:border-primary`}
+                                                    onClick={handleCategoriesClick}
+                                                >
+                                                    {item?.title}
+                                                </Link>
+                                            </div>
+                                        ))
+                                    }
+                                
                             </div>
                         </div>
                     </div>
@@ -95,7 +193,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                                         onClick={() => setGrid(false)}
                                     ><FaListUl className='w-[18px] h-auto' /></button>
                                 </div>
-                                <p className='text-gray-750 text-sm leading-[20px] p-2'>There Are 20 Products.</p>
+                                <p className='text-gray-750 text-sm leading-[20px] p-2'>There Are {initialProductData?.data.length} Products.</p>
                             </div>
                             <div className='flex items-center gap-[10px]'>
                                 <p className='text-gray-750 text-sm leading-[20px] p-2'>Sort By:</p>
@@ -104,44 +202,21 @@ const CategoryDetail: NextPageWithLayout = () => {
                         </div>
                         {
                             grid ?
-                                <div className='grid grid-cols-12 gap-[30px]'>
-                                    <div className='col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3'>
+                            <div>
+                            {initialProductData?.data.length === 0 ? (
+                                <EmptyPage />
+                             ) : (
+                                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                                      {initialProductData?.data.map((product: any, index: any) => (
                                         <Card
-                                            link="#"
-                                            type="asdas"
-                                            title="asdasd"
-                                            price={1260}
-                                            image={CardImg}
+                                        product = {product}
+                                        key={`app-cat-products-${index}`}
                                         />
+                                      ))}
                                     </div>
-                                    <div className='col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3'>
-                                        <Card
-                                            link="#"
-                                            type="asdas"
-                                            title="asdasd"
-                                            price={1260}
-                                            image={CardImg}
-                                        />
-                                    </div>
-                                    <div className='col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3'>
-                                        <Card
-                                            link="#"
-                                            type="asdas"
-                                            title="asdasd"
-                                            price={1260}
-                                            image={CardImg}
-                                        />
-                                    </div>
-                                    <div className='col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3'>
-                                        <Card
-                                            link="#"
-                                            type="asdas"
-                                            title="asdasd"
-                                            price={1260}
-                                            image={CardImg}
-                                        />
-                                    </div>
-                                </div> :
+                             )}
+                          </div>:
+                          
                                 <div className='grid grid-cols-12 gap-[30px]'>
                                     <div className='col-span-12'>
                                         <CardLg

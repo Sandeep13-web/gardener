@@ -17,7 +17,6 @@ const OurValues: NextPageWithLayout = () => {
     queryFn: async () => {
       if (slug) {
         const response = await getPageData(slug);
-        console.log(response);
         return response;
       }
     },
@@ -35,7 +34,6 @@ const OurValues: NextPageWithLayout = () => {
     <div className="main-wrapper-block"  dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
     </>
   );
-  
 }
 export default OurValues;
 OurValues.getLayout = (page) => {

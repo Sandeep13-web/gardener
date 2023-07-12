@@ -27,8 +27,15 @@ module.exports = {
                 "orange-450": '#f58220',
                 "red-250": '#cf2929',
                 "darkBlack": '#253237',
+                "lightBlack": '#484848',
                 "lightGray":'#dee0e4',
+                "superLightGray": '#fafafa',
+                "superLightGray-250": '#767676',
+                "superLightGray-350": '#2e323e',
                 "borderGray": 'rgba(0,0,0,.125)',
+                "lightWhite": '#e6f5ee',
+                "lightGreen":'#80bb01',
+                "lightOrange":'rgba(245,130,31,.1)',
             },
             container: {
                 // margin: {

@@ -17,7 +17,6 @@ const Career: NextPageWithLayout = () => {
     queryFn: async () => {
       if (slug) {
         const response = await getPageData(slug);
-        console.log(response);
         return response;
       }
     },
@@ -32,7 +31,7 @@ const Career: NextPageWithLayout = () => {
   return (
     <>
     <Breadcrumb title={careerData?.data?.title} />
-    <div className="main-wrapper-block"  dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
+    <div className="main-wrapper-block working-at-block"  dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
     </>
   );
   

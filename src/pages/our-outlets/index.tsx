@@ -6,13 +6,13 @@ import { useQuery } from "@tanstack/react-query";
 import { getPageData } from "@/services/page.service";
 import Breadcrumb from "@/components/Breadcrumb";
 
-const AboutUs: NextPageWithLayout = () => {
+const OurOutlets: NextPageWithLayout = () => {
   const router = useRouter();
   const { asPath } = router;
   const [descriptionContent, setDescriptionContent] = useState<string>('');
   const path = asPath.split('/');
   const slug = path[path.length - 1];
-  const { data: aboutData } = useQuery({
+  const { data: valuesData } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
@@ -24,19 +24,18 @@ const AboutUs: NextPageWithLayout = () => {
   });
 
   useEffect(() => {
-    if (aboutData) {
-      setDescriptionContent(aboutData?.data?.description || '');
+    if (valuesData) {
+      setDescriptionContent(valuesData?.data?.description || '');
      }
-  }, [aboutData]);
+  }, [valuesData]);
   return (
     <>
-    <Breadcrumb title={aboutData?.data?.title} />
-    <div className="main-wrapper-block aboutus-wrapper"  dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
+    <Breadcrumb title={valuesData?.data?.title} />
+    <div className="main-wrapper-block"  dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
     </>
   );
-  
 }
-export default AboutUs;
-AboutUs.getLayout = (page) => {
+export default OurOutlets;
+OurOutlets.getLayout = (page) => {
   return <MainLayout>{page}</MainLayout>;
 };
