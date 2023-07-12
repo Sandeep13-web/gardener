@@ -1,0 +1,15 @@
+.table-header {
+  @apply uppercase font-bold text-gray-50 text-[14px] bg-superLightGray;
+}
+
+.data-title {
+  @apply leading-5 float-left tracking-normal text-gray-600 text-[12px] uppercase font-normal mr-4;
+}
+
+.data-desc {
+  @apply text-base leading-5 pl-0 float-left block text-gray-900;
+}
+
+.data-desc-2{
+  @apply text-[12px] font-normal text-superLightGray-250;
+}
