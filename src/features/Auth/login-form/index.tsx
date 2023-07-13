@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { ILoginProps } from './login.interface'
+import { ILogin } from '../../../interface/login.interface'
 import { setCookie } from 'cookies-next'
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
 
@@ -26,9 +26,9 @@ const LoginForm = () => {
             showToast(TOAST_TYPES.error, errors[0]?.message)
         },
     })
-    const { register, handleSubmit, formState: { errors }, trigger } = useForm<ILoginProps>()
+    const { register, handleSubmit, formState: { errors }, trigger } = useForm<ILogin>()
 
-    const loginSubmit: SubmitHandler<ILoginProps> = (data) => {
+    const loginSubmit: SubmitHandler<ILogin> = (data) => {
         mutation.mutate(data)
     }
 

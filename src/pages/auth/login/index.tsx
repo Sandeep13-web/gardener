@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from '@/pages/_app';
-import AuthBody from '@/shared/components/authBody';
+import AuthBody from '@/shared/components/auth-body';
 import Breadcrumb from '@/shared/components/breadcrumb';
 import MainLayout from '@/shared/main-layout';
 import Head from 'next/head';

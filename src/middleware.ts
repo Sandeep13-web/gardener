@@ -6,7 +6,7 @@ export async function middleware(req: NextRequest) {
   const url = req.nextUrl.pathname;
   
   const redirectToLogin = NextResponse.redirect(new URL("/auth/login", req.url));
-  if (!verify && url == "/wishlist") {
+  if (!verify && url == "/wishlist" && url.startsWith('/account')) {
     return redirectToLogin;
   } 
   if (verify && url.startsWith("/auth")) {
@@ -19,5 +19,5 @@ export async function middleware(req: NextRequest) {
  * Add all the protected routes here in the matcher.
  */
 export const config = {
-  matcher: ["/wishlist", "/auth/:path*"],
+  matcher: ["/wishlist",'/account/:path*', "/auth/:path*"],
 };
