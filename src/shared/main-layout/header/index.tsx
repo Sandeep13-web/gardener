@@ -181,7 +181,7 @@ const Header = () => {
                     >
                       <li className="mx-5">
                         <Link
-                          href={"/"}
+                          href={"/account/profile"}
                           className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.1] hover:px-0"
                         >
                           My Account
@@ -415,10 +415,10 @@ const Header = () => {
               >
                 Home
               </Button>
-              <div className="dropdown dropdown-hover rounded-none">
+              <div className="rounded-none dropdown dropdown-hover">
                 <label
                   tabIndex={0}
-                  className="btn m-1 bg-transparent border-0 text-gray-550 font-bold hover:bg-transparent cursor-pointer hover:text-primary"
+                  className="m-1 font-bold bg-transparent border-0 cursor-pointer btn text-gray-550 hover:bg-transparent hover:text-primary"
                 >
                   OUR SERVICE{" "}
                   <span>
@@ -458,7 +458,7 @@ const Header = () => {
               <div className="dropdown dropdown-hover">
                 <label
                   tabIndex={0}
-                  className="btn m-1  bg-transparent border-0 text-gray-550 font-bold hover:bg-transparent hover:text-primary cursor-pointer"
+                  className="m-1 font-bold bg-transparent border-0 cursor-pointer btn text-gray-550 hover:bg-transparent hover:text-primary"
                 >
                   ABOUT US{" "}
                   <span>
