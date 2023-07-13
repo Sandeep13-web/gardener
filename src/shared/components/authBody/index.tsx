@@ -1,5 +1,5 @@
 import ForgotPasswordForm from '@/features/Auth/forgot-password'
-import LoginForm from '@/features/Auth/login'
+import LoginForm from '@/features/Auth/login-form'
 import RegisterForm from '@/features/Auth/register'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
