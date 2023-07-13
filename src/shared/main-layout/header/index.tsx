@@ -511,12 +511,14 @@ const Header = () => {
                   </li>
                 </ul>
               </div>
+              <Link href="/blogs">
               <Button
                 type="ghost"
                 className="!bg-white border-0 text-gray-550 font-bold uppercase"
               >
                 BLOGS
               </Button>
+              </Link>
             </div>
           </div>
           <Link href="/offer">
