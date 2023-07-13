@@ -49,7 +49,7 @@ const Breadcrumb = ({title}:any) => {
         <h1 className="mb-6 text-3xl font-semibold leading-none text-black capitalize breadcrumb-heading">
           {breadcrumbLabel}
         </h1>
-        <ul className="flex justify-center breadcrumb-links">
+        <ul className="flex justify-center breadcrumb-links items-center">
           <li>
             <Link
               href="/"
