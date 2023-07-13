@@ -10,6 +10,7 @@ import EmptyPage from "@/components/emptyPage";
 import Card from "@/shared/components/card";
 import Link from "next/link";
 import { ITag } from "@/interface/tag.interface";
+import TagSidebar from "@/shared/components/tagSidebar";
 
 
 const Tag: NextPageWithLayout = () => {
@@ -89,7 +90,8 @@ if (isLoading) {
                     Tag
                 </h3>
               <div>
-                <div className='flex flex-wrap'>
+                <TagSidebar />
+                {/* <div className='flex flex-wrap'>
                   {
                     tags?.data?.map((item: any, index: number) => (
                         <div key={`categories-${index}`} className='mb-[20px]'>
@@ -101,7 +103,7 @@ if (isLoading) {
                         </div>
                     ))
                   }    
-                </div>
+                </div> */}
               </div>   
             </div>
           </div>
