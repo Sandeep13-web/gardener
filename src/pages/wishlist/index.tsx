@@ -1,12 +1,12 @@
 import MainLayout from "@/shared/main-layout";
 import { NextPageWithLayout } from "../_app";
-import Breadcrumb from "@/components/Breadcrumb";
 import { useQuery } from "@tanstack/react-query";
 import { getWishlists } from "@/services/wishlist.service";
 import Loader from "@/components/Loading";
 import EmptyPage from "@/components/emptyPage";
 import Card from "@/shared/components/card";
 import { useState } from "react";
+import Breadcrumb from "@/shared/components/breadcrumb";
 
 const Wishlist: NextPageWithLayout = () => {
     const [pageNumber, setPageNumber] = useState(1);
