@@ -342,7 +342,7 @@ const Header = () => {
 
           <div className="flex items-center gap-3">
             {/* Heart Button */}
-            {/* {
+            {
               token && 
               <Link href="/wishlist" className="relative hidden py-3 btn btn-circle md:flex">
                   <HeartIcon className="text-black" />
@@ -354,7 +354,7 @@ const Header = () => {
                     {favouriteList ? favouriteList.data?.length : 0}
                   </Badge>
               </Link>
-            } */}
+            }
             {/* Cart */}
             <CartDropdown />
 
