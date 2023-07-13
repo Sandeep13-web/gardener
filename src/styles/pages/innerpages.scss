@@ -78,7 +78,7 @@
 
 .gift__section {
     .row {
-        @apply flex flex-wrap sm: flex-row;
+        @apply flex flex-wrap sm:flex-row;
     }
 }
 
@@ -182,7 +182,7 @@
 }
 
 .col-md-4 {
-    @apply md: w-1/3 sm:w-1/2 w-full px-[15px];
+    @apply md:w-1/3 sm:w-1/2 w-full px-[15px];
 }
 
 .col-sm-4 {
