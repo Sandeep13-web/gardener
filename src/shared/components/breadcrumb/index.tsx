@@ -13,7 +13,9 @@ const Breadcrumb = ({title}:any) => {
   // Define the breadcrumb items and their respective paths
   const breadcrumbItems = [
     { label: "Home", path: "/" },
-    { label: "Login", path: "/login" },
+    { label: "Login", path: "/auth/login" },
+    { label: "Sign Up", path: "/auth/register" },
+    { label: "Forgot Password", path: "/auth/forgot-password" },
     { label: "Offer", path: "/offer" },
     { label: "Blogs", path: "/blogs" },
     { label: "Products", path: "/products" },
@@ -21,6 +23,7 @@ const Breadcrumb = ({title}:any) => {
     { label: "Search", path: "/search" },
     { label: "About Us", path: "/about-us" },
     { label: "Wishlist", path: "/wishlist" },
+    { label: "Account Profile" , path: '/account/profile'}
   ];
   const currentBreadcrumbItem = breadcrumbItems.find(
     (item) => item.path === pathname
@@ -39,18 +42,18 @@ const Breadcrumb = ({title}:any) => {
   // Render the breadcrumb with dynamic text
   return (
     <nav
-      className="text-center py-10 bg-center bg-cover bg-no-repeat"
+      className="py-10 text-center bg-center bg-no-repeat bg-cover"
       style={{ backgroundImage: `url(${BreadCrumbImage})` }}
     >
       <div className="breadcrumb-content">
-        <h1 className="breadcrumb-heading text-black font-semibold text-3xl leading-none capitalize mb-6">
+        <h1 className="mb-6 text-3xl font-semibold leading-none text-black capitalize breadcrumb-heading">
           {breadcrumbLabel}
         </h1>
-        <ul className="breadcrumb-links flex justify-center items-center">
+        <ul className="flex justify-center breadcrumb-links items-center">
           <li>
             <Link
               href="/"
-              className="inline-block relative text-black leading-5 text-base"
+              className="relative inline-block text-base leading-5 text-black transition-all duration-200 delay-100 hover:text-primary"
             >
               Home
             </Link>
