@@ -15,7 +15,6 @@ import CardLg from '@/shared/components/card-lg';
 import { useState } from 'react';
 import { getProductByCategory } from '@/services/product.service';
 import EmptyPage from '@/components/emptyPage';
-import Breadcrumb from '@/components/Breadcrumb';
 import ReactSlider from 'react-slider';
 import { getConfig } from '@/services/home.service';
 import { ITag } from '@/interface/tag.interface';
@@ -23,6 +22,7 @@ import { getTagList } from '@/services/tag.service';
 import Loader from '@/components/Loading';
 import CategorySidebar from '@/shared/components/categorySidebar';
 import TagSidebar from '@/shared/components/tagSidebar';
+import Breadcrumb from '@/shared/components/breadcrumb';
 
 
 const CategoryDetail: NextPageWithLayout = () => {
@@ -42,7 +42,7 @@ const CategoryDetail: NextPageWithLayout = () => {
     const { data: config, isInitialLoading } = useQuery({
         queryKey: ["getConfig"],
         queryFn: getConfig,
-      });
+    });
     const minimumPrice = Number(config?.data?.minimumPrice);
     const maximumPrice = Number(config?.data?.pageData['max-price']);
     const isMinimumValid = !isNaN(minimumPrice) && isFinite(minimumPrice);
@@ -50,65 +50,69 @@ const CategoryDetail: NextPageWithLayout = () => {
     const initialValue = [
         isMinimumValid ? minimumPrice : 0,
         isMaximumValid ? maximumPrice : 3000
-      ];
-    const [value, setValue] = useState(initialValue);  
+    ];
+    const [value, setValue] = useState(initialValue);
 
     // Filter button clicked
 
     const handleFilterButtonClick = async () => {
-    setSetFiltered(true); // Toggle the value of setFiltered
+        setSetFiltered(true); // Toggle the value of setFiltered
     };
 
     // Handle categories link click
     const handleCategoriesClick = () => {
         setValue(initialValue); // Reset value to initial values
-      };
+    };
 
     //Fetch Category Data
 
     const { data: initialProductData, isLoading, error } = useQuery(
-        ['getProductByCategoryId', slug, '', ''],
+        ['getProductByCategoryId', slug, pageNumber],
         async () => {
-        let response;
-        if (setFiltered) {
-            response = await getProductByCategory(query, pageNumber, slug, value[0], value[1]);
-        } else {
-            response = await getProductByCategory(query, pageNumber, slug, '', '');
-        }
-        return response;
+            let response;
+            if (setFiltered) {
+                response = await getProductByCategory(query, pageNumber, slug, value[0], value[1]);
+            } else {
+                response = await getProductByCategory(query, pageNumber, slug, '', '');
+            }
+            return response;
         },
     );
 
+    const handlePageChange = (value:number) => {
+        setPageNumber(value)
+    }
+
     useEffect(() => {
         if (initialProductData) {
-        setProductData(initialProductData);
+            setProductData(initialProductData);
         }
     }, [initialProductData]);
-  
+
     // Reset productData when setFiltered changes
     useEffect(() => {
         if (!setFiltered) {
-        setProductData(initialProductData);
+            setProductData(initialProductData);
         }
     }, [setFiltered, initialProductData]);
 
-    
-      if (isLoading) {
+
+    if (isLoading) {
         // Show loader while data is being fetched
         return <Loader />;
-      }
-      
-      if (!productData) {
+    }
+
+    if (!productData) {
         return null; // or render a placeholder if productData is still undefined
-      }
+    }
 
 
     return (
         <>
-          <Breadcrumb  title={initialProductData?.data[0]?.categoryTitle}/>
+            <Breadcrumb title={initialProductData?.data[0]?.categoryTitle} />
             <div className='container my-[60px]'>
                 <div className="grid grid-cols-12 md:gap-[30px]">
-                    <div className='order-last md:order-first col-span-12 md:col-span-3 right-sidebar'>
+                    <div className='order-last col-span-12 md:order-first md:col-span-3 right-sidebar'>
                         <div className='mb-[20px]'>
                             <h3 className='right-sidebar-head'>
                                 Filter By
@@ -134,30 +138,32 @@ const CategoryDetail: NextPageWithLayout = () => {
                             <div className='mt-3.5'>
                                 <h4 className='text-slate-850 font-semibold font-base mb-[40px]'>Price</h4>
                                 <div>
-                                   <div className="mb-2">
-                                   <ReactSlider
-                                        className="horizontal-slider"
-                                        thumbClassName="example-thumb"
-                                        trackClassName="example-track"
-                                        value={value}
-                                        onChange={setValue}
-                                        ariaLabel={['Lower thumb', 'Upper thumb']}
-                                        ariaValuetext={state => `Thumb value ${state.valueNow}`}
-                                        max={maximumPrice}
-                                        min={minimumPrice}
-                                        renderThumb={(props, state) => (
-                                        <div {...props}  className="focus:outline-none absolute top-[-5px] h-[15px] w-[15px] rounded-full bg-primary" style={{...props.style, }}>
-                                            {/* <div className="focus:outline-none relative top-[-180px] text-white rounded-full text-[12px]">{state.valueNow}</div> */}
-                                            <p className='font-normal absolute top-[-20px] text-[14px]'>{config?.data?.currency}{state.valueNow}</p>
-                                        </div>
-                                        )}
-                                        renderTrack={(props, state) => <div {...props} style={{...props.style, height: '5px', backgroundColor:
-                                        state.index === 0 ? '#f0f0f0' : state.index === 2 ? '#f0f0f0' : '#07a04b' }} />}
-                                        pearling
-                                        minDistance={10}
-                                    />
-                                   </div>
-                                
+                                    <div className="mb-2">
+                                        <ReactSlider
+                                            className="horizontal-slider"
+                                            thumbClassName="example-thumb"
+                                            trackClassName="example-track"
+                                            value={value}
+                                            onChange={setValue}
+                                            ariaLabel={['Lower thumb', 'Upper thumb']}
+                                            ariaValuetext={state => `Thumb value ${state.valueNow}`}
+                                            max={maximumPrice}
+                                            min={minimumPrice}
+                                            renderThumb={(props, state) => (
+                                                <div {...props} className="focus:outline-none absolute top-[-5px] h-[15px] w-[15px] rounded-full bg-primary" style={{ ...props.style, }}>
+                                                    {/* <div className="focus:outline-none relative top-[-180px] text-white rounded-full text-[12px]">{state.valueNow}</div> */}
+                                                    <p className='font-normal absolute top-[-20px] text-[14px]'>{config?.data?.currency}{state.valueNow}</p>
+                                                </div>
+                                            )}
+                                            renderTrack={(props, state) => <div {...props} style={{
+                                                ...props.style, height: '5px', backgroundColor:
+                                                    state.index === 0 ? '#f0f0f0' : state.index === 2 ? '#f0f0f0' : '#07a04b'
+                                            }} />}
+                                            pearling
+                                            minDistance={10}
+                                        />
+                                    </div>
+
                                     <button className='btn btn-primary w-full font-bold px-[22px] py-[13px] rounded-[50px] text-white text-lg uppercase tracking-[1px] leading-[1] mt-[30px]' onClick={handleFilterButtonClick}>Filter</button>
                                 </div>
                             </div>
@@ -189,11 +195,11 @@ const CategoryDetail: NextPageWithLayout = () => {
                             <div className='flex-1 flex items-center mb-4 sm:mb-0 gap-[15px]'>
                                 <div className="tabs gap-[15px]">
                                     <button
-                                        className={`tab tab-active p-0 ${grid ? 'text-primary' : 'text-zinc-600' } hover:text-primary`}
+                                        className={`tab tab-active p-0 ${grid ? 'text-primary' : 'text-zinc-600'} hover:text-primary`}
                                         onClick={() => setGrid(true)}
                                     ><BsFillGrid3X3GapFill className='w-[18px] h-auto' /></button>  {/** Active status toggle remain */}
                                     <button
-                                        className={`tab p-0 ${!grid ? 'text-primary' : 'text-zinc-600' } hover:text-primary`}
+                                        className={`tab p-0 ${!grid ? 'text-primary' : 'text-zinc-600'} hover:text-primary`}
                                         onClick={() => setGrid(false)}
                                     ><FaListUl className='w-[18px] h-auto' /></button>
                                 </div>
@@ -206,21 +212,21 @@ const CategoryDetail: NextPageWithLayout = () => {
                         </div>
                         {
                             grid ?
-                            <div>
-                            {initialProductData?.data.length === 0 ? (
-                                <EmptyPage />
-                             ) : (
-                                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                                      {initialProductData?.data.map((product: any, index: any) => (
-                                        <Card
-                                        product = {product}
-                                        key={`app-cat-products-${index}`}
-                                        />
-                                      ))}
-                                    </div>
-                             )}
-                          </div>:
-                          
+                                <div>
+                                    {initialProductData?.data.length === 0 ? (
+                                        <EmptyPage />
+                                    ) : (
+                                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 xxs:grid-cols-2 lg:grid-cols-4">
+                                            {initialProductData?.data.map((product: any, index: any) => (
+                                                <Card
+                                                    product={product}
+                                                    key={`app-cat-products-${index}`}
+                                                />
+                                            ))}
+                                        </div>
+                                    )}
+                                </div> :
+
                                 <div className='grid grid-cols-12 gap-[30px]'>
                                     <div className='col-span-12'>
                                         <CardLg
@@ -236,7 +242,11 @@ const CategoryDetail: NextPageWithLayout = () => {
                                 </div>
                         }
 
-                        <Pagination />
+                        <Pagination
+                            totalPages={initialProductData.meta?.pagination?.total_pages}
+                            currentPage={initialProductData.meta?.pagination?.current_page}
+                            pageChange={handlePageChange}
+                        />
                     </div>
                 </div>
             </div>

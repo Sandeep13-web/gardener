@@ -1,5 +1,5 @@
-import Breadcrumb from "@/components/Breadcrumb";
 import AccountSidebar from "@/shared/components/accountSidebar";
+import Breadcrumb from "@/shared/components/breadcrumb";
 import Button from "@/shared/components/button";
 import MainLayout from "@/shared/main-layout";
 import React from "react";
@@ -10,11 +10,11 @@ const ChangePassword = () => {
       <Breadcrumb />
       <div className="container py-14">
         <div className="grid grid-cols-12 gap-3">
-          <div className="col-span-12 md:col-span-4 bg-white h-max">
+          <div className="col-span-12 bg-white md:col-span-4 h-max">
             <AccountSidebar />
           </div>
-          <div className="col-span-12 md:col-span-8 bg-white">
-            <h5 className="px-6 py-4 text-xl border-b border-gray-350 border-solid">
+          <div className="col-span-12 bg-white md:col-span-8">
+            <h5 className="px-6 py-4 text-xl border-b border-solid border-gray-350">
               Change Password
             </h5>
             <form action="" className="px-6 py-6">
@@ -23,24 +23,24 @@ const ChangePassword = () => {
                   <input
                     type="text"
                     placeholder="OLD PASSWORD"
-                    className="input input-bordered w-full h-10 "
+                    className="w-full h-10 input input-bordered "
                   />
                 </div>
                 <div className="col-span-12">
                   <input
                     type="text"
                     placeholder="NEW PASSWORD"
-                    className="input input-bordered w-full h-10 "
+                    className="w-full h-10 input input-bordered "
                   />
                 </div>
                 <div className="col-span-12">
                   <input
                     type="text"
                     placeholder="CONFIRM PASSWORD"
-                    className="input input-bordered w-full h-10 "
+                    className="w-full h-10 input input-bordered "
                   />
                 </div>
-                <div className="col-span-12 flex justify-between">
+                <div className="flex justify-between col-span-12">
                   <Button className="primary-btn py-4 w-[50%]">Save</Button>
                 </div>
               </div>

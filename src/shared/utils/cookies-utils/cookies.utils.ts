@@ -4,7 +4,7 @@ import { CookieKeys } from "@/shared/enum";
 import {
   ILoginProps,
   IWareHouseProps,
-} from "@/features/Auth/login/login.interface";
+} from "@/interface/login.interface";
 
 export const getUserFromStorage = (): any => {
   let token = getCookie(CookieKeys.TOKEN);
