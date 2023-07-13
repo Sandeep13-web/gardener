@@ -21,6 +21,8 @@ import { getConfig } from '@/services/home.service';
 import { ITag } from '@/interface/tag.interface';
 import { getTagList } from '@/services/tag.service';
 import Loader from '@/components/Loading';
+import CategorySidebar from '@/shared/components/categorySidebar';
+import TagSidebar from '@/shared/components/tagSidebar';
 
 
 const CategoryDetail: NextPageWithLayout = () => {
@@ -32,11 +34,11 @@ const CategoryDetail: NextPageWithLayout = () => {
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [setFiltered, setSetFiltered] = useState(false);
     const [productData, setProductData] = useState(null);
-    const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
-    const { data: tags } = useQuery({
-        queryKey: ["getTagList"],
-        queryFn: getTagList,
-      });
+    // const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
+    // const { data: tags } = useQuery({
+    //     queryKey: ["getTagList"],
+    //     queryFn: getTagList,
+    //   });
     const { data: config, isInitialLoading } = useQuery({
         queryKey: ["getConfig"],
         queryFn: getConfig,
@@ -113,7 +115,8 @@ const CategoryDetail: NextPageWithLayout = () => {
                             </h3>
                             <div>
                                 <h4 className='text-slate-850 font-semibold font-base mb-3.5'>Categories</h4>
-                                <ul className='pl-4'>
+                                <CategorySidebar />
+                                {/* <ul className='pl-4'>
                                     {
                                         categories?.data?.map((item: any, index: number) => (
                                             <li key={`categories-${index}`} className='pb-2'>
@@ -126,7 +129,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                                             </li>
                                         ))
                                     }
-                                </ul>
+                                </ul> */}
                             </div>
                             <div className='mt-3.5'>
                                 <h4 className='text-slate-850 font-semibold font-base mb-[40px]'>Price</h4>
@@ -163,7 +166,8 @@ const CategoryDetail: NextPageWithLayout = () => {
                             <h3 className='right-sidebar-head'>
                                 Tag
                             </h3>
-                            <div className='flex flex-wrap'>
+                            <TagSidebar />
+                            {/* <div className='flex flex-wrap'>
                                 {
                                        tags?.data?.map((item: any, index: number) => (
                                             <div key={`categories-${index}`} className='mb-[20px]'>
@@ -177,7 +181,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                                         ))
                                     }
                                 
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <div className='col-span-12 md:col-span-9'>
