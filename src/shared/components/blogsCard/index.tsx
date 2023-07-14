@@ -1,5 +1,5 @@
 import Home from "@/pages";
-import { Props } from "@/pages/blogs/blog.props";
+import { Props } from "@/shared/components/blogsCard/blog.props";
 import CalendarIcon from "@/shared/icons/common/CalendarIcon";
 import CaretDownIcon from "@/shared/icons/common/CaretDownIcon";
 import UserIcon from "@/shared/icons/common/UserIcon";
@@ -18,7 +18,7 @@ import { parseISO, format } from "date-fns";
   } 
 
   return (
-    <div className="card w-full bg-base-100 ">
+    <div className="w-full card bg-base-100 ">
       <Link href={`/blogs/${blog.slug}`}>
         <figure>
           <Image
@@ -39,27 +39,27 @@ import { parseISO, format } from "date-fns";
       <div className="card-body">
         <Link
           href={`/blogs/${blog.slug}`}
-          className="block card-title mb-2 font-semibold text-2xl truncate hover:text-primary"
+          className="block mb-2 text-2xl font-semibold truncate card-title hover:text-primary"
         >
           { blog.title }
         </Link>
-        <div className="flex gap-2 items-center mb-4">
+        <div className="flex items-center gap-2 mb-4">
           <Link
             href={`/blogs/${blog.slug}`}
-            className="group flex gap-1 items-center pr-2 border-r border-solid border-black text-sm hover:text-primary "
+            className="flex items-center gap-1 pr-2 text-sm border-r border-black border-solid group hover:text-primary "
           >
             <Usersvg className="text-black hover:fill-blue-500" />
             { blog.author }
           </Link>
           <Link
             href={`/blogs/${blog.slug}`}
-            className="group flex gap-1 items-center text-sm hover:text-primary"
+            className="flex items-center gap-1 text-sm group hover:text-primary"
           >
             <CalendarIcon className="text-black hover:fill-blue-500" />
             { changeDateFormat(blog.created_date.date) }
           </Link>
         </div>
-        <p className="text-sm mb-4 line-clamp-2"
+        <p className="mb-4 text-sm line-clamp-2"
           dangerouslySetInnerHTML={{ __html: blog.description }}
         >
         </p>

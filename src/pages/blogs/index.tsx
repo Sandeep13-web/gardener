@@ -1,7 +1,6 @@
 import MainLayout from "@/shared/main-layout";
 import React, { useState } from "react";
 import { NextPageWithLayout } from "../_app";
-import Breadcrumb from "@/components/Breadcrumb";
 import BlogsCard from "@/shared/components/blogsCard";
 import Pagination from "@/shared/components/pagination";
 import BlogSidebar from "@/shared/components/blogsSidebar";
@@ -10,6 +9,7 @@ import { getBlogs } from "@/services/blog.service";
 import { IBlogItem } from "@/interface/blog.interface";
 import Loader from "@/components/Loading";
 import EmptyPage from "@/components/emptyPage";
+import Breadcrumb from "@/shared/components/breadcrumb";
 
 const Blogs: NextPageWithLayout = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -28,12 +28,12 @@ const Blogs: NextPageWithLayout = () => {
       <Breadcrumb />
       <div className="container  my-[60px]">
         <div className="grid grid-cols-12 md:gap-[30px]">
-          <div className="order-last md:order-first col-span-12 md:col-span-3 right-sidebar">
+          <div className="order-last col-span-12 md:order-first md:col-span-3 right-sidebar">
             <BlogSidebar />
           </div>
           {
             isLoading && (
-              <div className="col-span-12 md:col-span-9 text-center">
+              <div className="col-span-12 text-center md:col-span-9">
                 <Loader />
               </div>
             )
@@ -47,7 +47,7 @@ const Blogs: NextPageWithLayout = () => {
                   <BlogsCard blog={blog} key={`app-blog-${index}`} />
                 )) }
               </div>
-              <Pagination />
+              {/* <Pagination /> */}
             </div>
           ) }
         </div>

@@ -2,12 +2,12 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import MainLayout from '@/shared/main-layout';
-import Breadcrumb from '@/components/Breadcrumb';
 import { useQuery } from '@tanstack/react-query';
 import { getProductsFromSlug, getRelatedProductsFromId } from '@/services/product.service';
 import EmptyPage from '@/components/emptyPage';
 import Card from '@/shared/components/card';
 import Title from '@/shared/components/title';
+import Breadcrumb from '@/shared/components/breadcrumb';
 
 
 const ProductSlug = () => {
@@ -58,15 +58,15 @@ useEffect(() => {
               <Image
                           src={productData?.response?.data?.images[0]?.imageName}
                           alt=""
-                          className="img-fluid mx-auto flex"
+                          className="flex mx-auto img-fluid"
                           width={330} height={330}
                         />
             </div>
             <div className="col-span-12 md:col-span-7">
-              <h2 className="font-semibold text-2xl text-darkBlack mb-6">
+              <h2 className="mb-6 text-2xl font-semibold text-darkBlack">
                {productData?.response?.data?.title}
               </h2>
-              <p className="font-bold text-sm color-darkBlack mb-2">
+              <p className="mb-2 text-sm font-bold color-darkBlack">
                 Category:
                 <a href="" className="text-primary">
                   <span className="font-normal">{productData?.response?.data?.categoryTitle}</span>
@@ -85,14 +85,14 @@ useEffect(() => {
 
       {productData?.response?.data?.unitPrice[0]?.hasOffer && (
         <>
-          <li  className="text-base text-red-250 mr-1">
+          <li  className="mr-1 text-base text-red-250">
           NPR
             <span>
               {productData?.response?.data?.unitPrice[0]?.newPrice}
             </span>
           </li>
 
-          <li className="text-base text-primary font-semibold line-through mr-1">
+          <li className="mr-1 text-base font-semibold line-through text-primary">
           NPR
             <span>
               {productData?.response?.data?.unitPrice[0]?.oldPrice}
@@ -100,7 +100,7 @@ useEffect(() => {
           </li>
         </>
       )}
-                <li className="text-base text-primary font-semibold ">
+                <li className="text-base font-semibold text-primary ">
                   ( <span dangerouslySetInnerHTML={{ __html: taxMessage }} />)
                 </li>
               </ul>
@@ -109,7 +109,7 @@ useEffect(() => {
 
               <div className="w-100 flex my-[30px]">
                 <div className="h-[48px]  w-[80px] border border-solid border-gray-950 overflow-hidden relative text-gray-250">
-                  <button className="text-sm  cursor-pointer font-medium  absolute text-center w-6 h-12 top-0 left-0">
+                  <button className="absolute top-0 left-0 w-6 h-12 text-sm font-medium text-center cursor-pointer">
                     -
                   </button>
                   <input
@@ -118,7 +118,7 @@ useEffect(() => {
                     className="overflow-visible w-[80px] text-sm text-center h-[48px]"
                     value={1}
                   />
-                  <button className="text-sm cursor-pointer font-medium  absolute text-center w-6 h-12 top-0 right-0">
+                  <button className="absolute top-0 right-0 w-6 h-12 text-sm font-medium text-center cursor-pointer">
                     +
                   </button>
                 </div>
@@ -139,7 +139,7 @@ useEffect(() => {
           <a data-toggle="tab" className="active relative flex justify-center uppercase pb-3 text-lg font-bold text-center after:h-[2px] after:absolute after:left-0 after:right-0 after:bottom-[-1px] after:bg-transparent after:transition-all after:duration-300 after:ease-linear after:bg-primary text-darkBlack after:w-[250px] after:text-center after:m-auto">
             Product Description
           </a>
-          <div className="tab-content overflow-hidden text-base bg-white leading-6 text-left py-10 px-8 border border-gray-200">
+          <div className="px-8 py-10 overflow-hidden text-base leading-6 text-left bg-white border border-gray-200 tab-content">
             <div id="productDetail" className="tab-pane active">
               <div className="product-anotherinfo-wrapper">
                 <div className="text-justify description__text">

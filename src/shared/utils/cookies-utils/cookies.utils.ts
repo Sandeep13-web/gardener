@@ -2,7 +2,7 @@ import { deleteCookie, getCookie, setCookie } from "cookies-next";
 
 import { CookieKeys } from "@/shared/enum";
 import {
-  ILoginProps,
+  ILogin,
   IWareHouseProps,
 } from "@/interface/login.interface";
 
@@ -11,7 +11,7 @@ export const getUserFromStorage = (): any => {
   return token || "";
 };
 
-export const addAuthToStorage = (user: ILoginProps) => {
+export const addAuthToStorage = (user: ILogin) => {
   setCookie(CookieKeys.TOKEN, user);
 };
 
