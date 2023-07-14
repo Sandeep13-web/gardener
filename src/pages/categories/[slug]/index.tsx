@@ -211,9 +211,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                             </div>
                         </div>
                         <div>
-                            {initialProductData?.data.length === 0 ? (
-                                <EmptyPage />
-                            ) : (
+                        {
                                 isLoading ?
                                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                                         {[1, 2, 3, 4].map((index) => (
@@ -221,24 +219,27 @@ const CategoryDetail: NextPageWithLayout = () => {
                                                 key={`app-skeleton-${index}`}
                                             />
                                         ))}
-                                    </div>
-                                    :
-                                    <>
-                                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 xxs:grid-cols-2 lg:grid-cols-4">
-                                            { initialProductData && initialProductData?.data.map((product: any, index: any) => (
-                                                <Card
-                                                    product={product}
-                                                    key={`app-cat-products-${index}`}
-                                                />
-                                            ))}
-                                        </div>
-                                        <Pagination
-                                            totalPages={initialProductData?.meta?.pagination?.total_pages}
-                                            currentPage={initialProductData?.meta?.pagination?.current_page}
-                                            pageChange={handlePageChange}
-                                        />
-                                    </>
-                            )}
+                                    </div> :
+                                    initialProductData.data?.length === 0 ? (
+                                        <EmptyPage />
+                                    ) : (
+                                        <>
+                                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 xxs:grid-cols-2 lg:grid-cols-4">
+                                                {initialProductData.data?.map((product: any, index: any) => (
+                                                    <Card
+                                                        product={product}
+                                                        key={`app-cat-products-${index}`}
+                                                    />
+                                                ))}
+                                            </div>
+                                            <Pagination
+                                                totalPages={initialProductData?.meta?.pagination?.total_pages}
+                                                currentPage={initialProductData?.meta?.pagination?.current_page}
+                                                pageChange={handlePageChange}
+                                            />
+                                        </>
+                                    )
+                            }
                         </div>
 
                     </div>
