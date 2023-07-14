@@ -218,7 +218,7 @@ const Order = () => {
                             { orderDetails?.orderProducts.map((product: IOrderProduct) => (
                               <tr>
                                 <td className="text-[14px] text-light-black">
-                                  { product?.productName } X {product.quantity}
+                                  { product?.productName } X {product?.quantity}
                                 </td>
                                 <td className="whitespace-nowrap">
                                   NRS { product?.price }
