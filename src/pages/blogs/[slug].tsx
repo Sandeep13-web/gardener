@@ -1,4 +1,4 @@
-import Breadcrumb from "@/components/Breadcrumb";
+
 import Loader from "@/components/Loading";
 import EmptyPage from "@/components/emptyPage";
 import { NextPageWithLayout } from "@/pages/_app";
@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { parseISO, format } from "date-fns";
+import Breadcrumb from "@/shared/components/breadcrumb";
 
 const BlogDetails: NextPageWithLayout = () => {
     const router = useRouter();
@@ -40,7 +41,7 @@ const BlogDetails: NextPageWithLayout = () => {
         <Breadcrumb title={slug} />
         <div className="container  my-[60px]">
             <div className="grid grid-cols-12 md:gap-[30px]">
-            <div className="order-last md:order-first col-span-12 md:col-span-3 right-sidebar">
+            <div className="order-last col-span-12 md:order-first md:col-span-3 right-sidebar">
                 <BlogSidebar />
             </div>
             {
@@ -62,21 +63,21 @@ const BlogDetails: NextPageWithLayout = () => {
                         <p className="mb-3">{ blogDetails.subTitle }</p>
                         <Link
                             href={``}
-                            className="block card-title mb-3 font-semibold text-2xl truncate hover:text-primary"
+                            className="block mb-3 text-2xl font-semibold truncate card-title hover:text-primary"
                         >
                             { blogDetails.title }
                         </Link>
-                        <div className="flex gap-2 items-center mb-8">
+                        <div className="flex items-center gap-2 mb-8">
                             <Link
                             href={``}
-                            className="group flex gap-1 items-center pr-2 border-r border-solid border-black text-sm hover:text-primary "
+                            className="flex items-center gap-1 pr-2 text-sm border-r border-black border-solid group hover:text-primary "
                             >
                             <Usersvg className="text-black hover:fill-blue-500" />
                             { blogDetails.author }
                             </Link>
                             <Link
                             href={``}
-                            className="group flex gap-1 items-center text-sm hover:text-primary"
+                            className="flex items-center gap-1 text-sm group hover:text-primary"
                             >
                             <CalendarIcon className="text-black hover:fill-blue-500" />
                             { changeDateFormat(blogDetails.created_date.date) }

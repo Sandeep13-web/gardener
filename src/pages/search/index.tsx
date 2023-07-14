@@ -7,10 +7,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import Card from "@/shared/components/card";
 import EmptyPage from "@/components/emptyPage";
-import Breadcrumb from "@/components/Breadcrumb";
 import { ChangeEvent, useState } from "react";
 import Loader from "@/components/Loading";
 import CategoryCard from "@/shared/components/category-card";
+import Breadcrumb from "@/shared/components/breadcrumb";
 
 const SearchPage: NextPageWithLayout = () => {
   const router = useRouter();
