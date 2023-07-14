@@ -4,13 +4,13 @@ import MainLayout from "@/shared/main-layout";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getProductByTagId, getTagList } from "@/services/tag.service";
-import Breadcrumb from "@/components/Breadcrumb";
 import Loader from "@/components/Loading";
 import EmptyPage from "@/components/emptyPage";
 import Card from "@/shared/components/card";
 import Link from "next/link";
 import { ITag } from "@/interface/tag.interface";
 import TagSidebar from "@/shared/components/tagSidebar";
+import Breadcrumb from "@/shared/components/breadcrumb";
 
 
 const Tag: NextPageWithLayout = () => {
@@ -84,7 +84,7 @@ if (isLoading) {
       <Breadcrumb title={title} />
       <div className='container my-[60px]'>
         <div className="grid grid-cols-12 md:gap-[30px]">
-          <div className='order-last md:order-first col-span-12 md:col-span-3 right-sidebar'>
+          <div className='order-last col-span-12 md:order-first md:col-span-3 right-sidebar'>
             <div className='mb-[20px]'>
                 <h3 className='right-sidebar-head'>
                     Tag

@@ -18,9 +18,9 @@ export const getRelatedProductsFromId = async (productId:any) => {
   }
 };
 
-export const getProductByCategory = async (query:any, page:any, categoryId:any, minPrice:any, maxPrice:any) => {
+export const getProductByCategory = async (query:any, page:any, categoryId:any, minPrice:any, maxPrice:any, sortBy:string) => {
   try {
-    let url = `product?query=${query}&page=${page}&categoryId=${categoryId}&allProduct=1`;
+    let url = `product?query=${query}&page=${page}&categoryId=${categoryId}&sortBy=${sortBy}&allProduct=1`;
     
     if (minPrice !== '' && maxPrice !== '') {
       url += `&minPrice=${minPrice}&maxPrice=${maxPrice}`;
