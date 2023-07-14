@@ -10,8 +10,8 @@ const SortingDropdown:React.FC<ISortDropdown> = ({sortChange}) => {
     const options = [
         { label: 'A to Z', value: 'asc' },
         { label: 'Z to A', value: 'desc' },
-        { label: 'Price (Low > High)', value: 'low' },
-        { label: 'Price (High > Low)', value: 'high' }
+        // { label: 'Price (Low > High)', value: 'low' },
+        // { label: 'Price (High > Low)', value: 'high' }
     ];
 
     const [selectedType, setSelectedType] = useState("Please Select");
