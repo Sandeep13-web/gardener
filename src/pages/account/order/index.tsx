@@ -137,7 +137,7 @@ const Order = () => {
                               Order Date:
                             </strong>
                             <span className="data-desc">
-                              { orderDetails && changeDateFormat(orderDetails.orderDate) }
+                              { orderDetails && changeDateFormat(orderDetails?.orderDate) }
                             </span>
                           </li>
                           <li>
@@ -218,13 +218,13 @@ const Order = () => {
                             { orderDetails?.orderProducts.map((product: IOrderProduct) => (
                               <tr>
                                 <td className="text-[14px] text-light-black">
-                                  { product.productName } X {product.quantity}
+                                  { product?.productName } X {product.quantity}
                                 </td>
                                 <td className="whitespace-nowrap">
-                                  NRS { product.price }
+                                  NRS { product?.price }
                                 </td>
                                 <td className="text-right whitespace-nowrap">
-                                  NRS { product.quantity * product.price }
+                                  NRS { product?.quantity * product?.price }
                                 </td>
                               </tr>
                             )) }
