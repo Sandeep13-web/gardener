@@ -22,7 +22,7 @@ const Pagination: React.FC<IPagination> = ({ pageChange, currentPage, totalPages
             const isPageNumberFirst = pageNumber === 1;
             const isPageNumberLast = pageNumber === totalPages;
             const isCurrentPageWithinTwoPageNumbers = Math.abs(pageNumber - currentPage) <= 2;
-
+            console.log('pageNumber === currentPage', pageNumber === currentPage , currentPage)
             const handleEllipsisClick = () => {
                 if (pageNumber > 0) pageChange(pageNumber);
             };
@@ -44,7 +44,8 @@ const Pagination: React.FC<IPagination> = ({ pageChange, currentPage, totalPages
     }
     useEffect(() => {
         handlePaginationEllipsis()
-    }, [totalPages])
+    }, [totalPages, currentPage])
+    
     return (
         <div className='pagination_content'>
             <button className={currentPage === 1 ? 'disabled' : ''}

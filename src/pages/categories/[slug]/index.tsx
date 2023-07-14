@@ -23,6 +23,8 @@ import Loader from '@/components/Loading';
 import CategorySidebar from '@/shared/components/categorySidebar';
 import TagSidebar from '@/shared/components/tagSidebar';
 import Breadcrumb from '@/shared/components/breadcrumb';
+import SortingDropdown from '@/shared/components/sorting-dropdown';
+import SkeletonLoadingCard from '@/shared/components/skeleton/products';
 
 
 const CategoryDetail: NextPageWithLayout = () => {
@@ -34,11 +36,12 @@ const CategoryDetail: NextPageWithLayout = () => {
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [setFiltered, setSetFiltered] = useState(false);
     const [productData, setProductData] = useState(null);
-    // const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
-    // const { data: tags } = useQuery({
-    //     queryKey: ["getTagList"],
-    //     queryFn: getTagList,
-    //   });
+    const [selectedValue , setSelectedValue] = useState<string>('')
+    const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
+    const { data: tags } = useQuery({
+        queryKey: ["getTagList"],
+        queryFn: getTagList,
+    });
     const { data: config, isInitialLoading } = useQuery({
         queryKey: ["getConfig"],
         queryFn: getConfig,
@@ -65,23 +68,27 @@ const CategoryDetail: NextPageWithLayout = () => {
     };
 
     //Fetch Category Data
-
+    const handleSortingChange = (value:string) => {
+        setSelectedValue(value)
+    }
+    
     const { data: initialProductData, isLoading, error } = useQuery(
-        ['getProductByCategoryId', slug, pageNumber],
+        ['getProductByCategoryId', slug, pageNumber, selectedValue],
         async () => {
             let response;
             if (setFiltered) {
-                response = await getProductByCategory(query, pageNumber, slug, value[0], value[1]);
+                response = await getProductByCategory(query, pageNumber, slug, value[0], value[1] , selectedValue);
             } else {
-                response = await getProductByCategory(query, pageNumber, slug, '', '');
+                response = await getProductByCategory(query, pageNumber, slug, '', '' , selectedValue);
             }
             return response;
         },
     );
 
-    const handlePageChange = (value:number) => {
+    const handlePageChange = (value: number) => {
         setPageNumber(value)
     }
+    
 
     useEffect(() => {
         if (initialProductData) {
@@ -96,16 +103,9 @@ const CategoryDetail: NextPageWithLayout = () => {
         }
     }, [setFiltered, initialProductData]);
 
-
-    if (isLoading) {
-        // Show loader while data is being fetched
-        return <Loader />;
-    }
-
-    if (!productData) {
-        return null; // or render a placeholder if productData is still undefined
-    }
-
+    // if (!productData) {
+    //     return null; // or render a placeholder if productData is still undefined
+    // }
 
     return (
         <>
@@ -207,46 +207,40 @@ const CategoryDetail: NextPageWithLayout = () => {
                             </div>
                             <div className='flex items-center gap-[10px]'>
                                 <p className='text-gray-750 text-sm leading-[20px] p-2'>Sort By:</p>
-                                dropdown/select
+                                <SortingDropdown sortChange={handleSortingChange} />
                             </div>
                         </div>
-                        {
-                            grid ?
-                                <div>
-                                    {initialProductData?.data.length === 0 ? (
-                                        <EmptyPage />
-                                    ) : (
+                        <div>
+                            {initialProductData?.data.length === 0 ? (
+                                <EmptyPage />
+                            ) : (
+                                isLoading ?
+                                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                                        {[1, 2, 3, 4].map((index) => (
+                                            <SkeletonLoadingCard
+                                                key={`app-skeleton-${index}`}
+                                            />
+                                        ))}
+                                    </div>
+                                    :
+                                    <>
                                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 xxs:grid-cols-2 lg:grid-cols-4">
-                                            {initialProductData?.data.map((product: any, index: any) => (
+                                            { initialProductData && initialProductData?.data.map((product: any, index: any) => (
                                                 <Card
                                                     product={product}
                                                     key={`app-cat-products-${index}`}
                                                 />
                                             ))}
                                         </div>
-                                    )}
-                                </div> :
-
-                                <div className='grid grid-cols-12 gap-[30px]'>
-                                    <div className='col-span-12'>
-                                        <CardLg
-                                            link="#"
-                                            type="asdas"
-                                            title="asdasd"
-                                            price={1260}
-                                            image={CardImg}
-                                            availability='In stock'
-                                            desc="asdasdasdsdsa"
+                                        <Pagination
+                                            totalPages={initialProductData?.meta?.pagination?.total_pages}
+                                            currentPage={initialProductData?.meta?.pagination?.current_page}
+                                            pageChange={handlePageChange}
                                         />
-                                    </div>
-                                </div>
-                        }
+                                    </>
+                            )}
+                        </div>
 
-                        <Pagination
-                            totalPages={initialProductData.meta?.pagination?.total_pages}
-                            currentPage={initialProductData.meta?.pagination?.current_page}
-                            pageChange={handlePageChange}
-                        />
                     </div>
                 </div>
             </div>
