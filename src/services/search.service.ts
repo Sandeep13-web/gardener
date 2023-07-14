@@ -28,3 +28,22 @@ export const getSearchResults = async (
     throw error;
   }
 };
+
+
+//suggestion
+export const getSuggestionResults = async (
+  type?:string,
+  query?:string,
+) => {
+  try {
+    const response = await axiosInstance.get('/suggest', {
+      params :{
+        type,
+        query,
+      }
+    })
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}

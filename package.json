@@ -23,6 +23,7 @@
         "eslint": "8.42.0",
         "eslint-config-next": "13.4.5",
         "framer-motion": "^10.12.16",
+        "lodash": "^4.17.21",
         "next": "13.4.5",
         "pnpm": "^8.6.3",
         "postcss": "8.4.24",
@@ -40,6 +41,7 @@
         "zustand": "^4.3.8"
     },
     "devDependencies": {
+        "@types/lodash": "^4.14.195",
         "daisyui": "^3.1.0",
         "sass": "^1.63.3"
     }
