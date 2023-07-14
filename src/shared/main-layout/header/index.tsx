@@ -40,11 +40,12 @@ import { useDebounce } from "@/hooks/useDebounce.hooks";
 
 const Header = () => {
   const token = getToken();
-  const [searchValue, setSearchValue] = useState("");
-  const [selectedType, setSelectedType] = useState("product");
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [selectedType, setSelectedType] = useState<string>("product");
   const [showModal, setShowModal] = useState<boolean>(false);
   const router = useRouter();
-  const debounceSearch = useDebounce(searchValue, 500) //Pass search value here and then this variable to the dependency below
+  const {pathname} = router
+  const debounceSearch = useDebounce(searchValue, 300) //Pass search value here and then this variable to the dependency below
   const [dropdownOpen , setDropdownOpen] = useState<boolean>(false)
   const { data: config, isInitialLoading } = useQuery({
     queryKey: ["getConfig"],
@@ -143,6 +144,13 @@ const Header = () => {
     const queryString = new URLSearchParams(query).toString();
     router.push(`/search?${queryString}`);
   }
+
+  //setting input value to empty when page changed
+  useEffect(() => {
+    if(!pathname.includes('/search')){
+      setSearchValue('')
+    }
+  }, [pathname])
   
   return (
     <>
