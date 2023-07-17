@@ -1,5 +1,5 @@
-import Breadcrumb from "@/components/Breadcrumb";
 import AccountSidebar from "@/shared/components/accountSidebar";
+import Breadcrumb from "@/shared/components/breadcrumb";
 import Button from "@/shared/components/button";
 import MainLayout from "@/shared/main-layout";
 import Link from "next/link";

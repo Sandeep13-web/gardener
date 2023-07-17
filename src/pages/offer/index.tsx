@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
 import { NextPageWithLayout } from "../_app";
 import MainLayout from "@/shared/main-layout";
-import Breadcrumb from "@/components/Breadcrumb";
 import Card from "@/shared/components/card";
 import { CardImg } from "@/shared/lib/image-config";
 import { useQuery } from "@tanstack/react-query";
@@ -9,6 +8,7 @@ import { getOffers } from "@/services/offer.service";
 import Link from "next/link";
 import Loader from "@/components/Loading";
 import EmptyPage from "@/components/emptyPage";
+import Breadcrumb from "@/shared/components/breadcrumb";
 
 const Offer: NextPageWithLayout = () => {
 
