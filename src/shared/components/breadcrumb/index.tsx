@@ -23,6 +23,7 @@ const Breadcrumb = ({title}:any) => {
     { label: "Search", path: "/search" },
     { label: "About Us", path: "/about-us" },
     { label: "Wishlist", path: "/wishlist" },
+    { label: "Blogs", path: "/blogs" },
     { label: "Account Profile" , path: '/account/profile'}
   ];
   const currentBreadcrumbItem = breadcrumbItems.find(

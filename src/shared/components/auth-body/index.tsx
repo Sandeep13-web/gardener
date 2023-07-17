@@ -1,8 +1,6 @@
-// import ForgotPasswordForm from '@/features/Auth/forgot-password'
 import ForgotPasswordForm from '@/features/Auth/forgot-password-form'
 import LoginForm from '@/features/Auth/login-form'
 import RegisterForm from '@/features/Auth/register-form'
-// import RegisterForm from '@/features/Auth/register'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'

@@ -13,10 +13,10 @@ const Order = () => {
       <Breadcrumb />
       <div className="container py-14">
         <div className="grid grid-cols-12 gap-3">
-          <div className="col-span-12 md:col-span-3 bg-white h-max">
+          <div className="col-span-12 bg-white md:col-span-3 h-max">
             <AccountSidebar />
           </div>
-          <div className="col-span-12 md:col-span-9 bg-white">
+          <div className="col-span-12 bg-white md:col-span-9">
             <h5 className="px-6 py-4 text-[15px] border-b border-gray-350 border-solid uppercase font-bold">
               My Account Information
             </h5>
@@ -28,10 +28,10 @@ const Order = () => {
                     <thead>
                       <tr>
                         <th className="table-header">Orders</th>
-                        <th className="table-header text-center">Date</th>
-                        <th className="table-header text-center">Status</th>
-                        <th className="table-header text-center">Total</th>
-                        <th className="table-header text-center">Actions</th>
+                        <th className="text-center table-header">Date</th>
+                        <th className="text-center table-header">Status</th>
+                        <th className="text-center table-header">Total</th>
+                        <th className="text-center table-header">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -39,13 +39,13 @@ const Order = () => {
                         <td className="text-[14px] text-light-black">
                           #168474288LBFH
                         </td>
-                        <td className="whitespace-nowrap text-center">
+                        <td className="text-center whitespace-nowrap">
                           2023 May 22 01:53 Pm
                         </td>
                         <td className="text-center">
                           <span className="">Pending</span>
                         </td>
-                        <td className="whitespace-nowrap text-center">
+                        <td className="text-center whitespace-nowrap">
                           NRS 190
                         </td>
                         <td className="text-center">
@@ -60,13 +60,13 @@ const Order = () => {
                         <td className="text-[14px] text-light-black">
                           #168474288LBFH
                         </td>
-                        <td className="whitespace-nowrap text-center">
+                        <td className="text-center whitespace-nowrap">
                           2023 May 22 01:53 Pm
                         </td>
                         <td className="text-center">
                           <span className="">Pending</span>
                         </td>
-                        <td className="whitespace-nowrap text-center">
+                        <td className="text-center whitespace-nowrap">
                           NRS 190
                         </td>
                         <td className="text-center">
@@ -81,13 +81,13 @@ const Order = () => {
                         <td className="text-[14px] text-light-black">
                           #168474288LBFH
                         </td>
-                        <td className="whitespace-nowrap text-center">
+                        <td className="text-center whitespace-nowrap">
                           2023 May 22 01:53 Pm
                         </td>
                         <td className="text-center">
                           <span className="">Pending</span>
                         </td>
-                        <td className="whitespace-nowrap text-center">
+                        <td className="text-center whitespace-nowrap">
                           NRS 190
                         </td>
                         <td className="text-center">
@@ -207,7 +207,7 @@ const Order = () => {
                                                   <th className="table-header">
                                                     Unit Price
                                                   </th>
-                                                  <th className="table-header text-right">
+                                                  <th className="text-right table-header">
                                                     Total Price
                                                   </th>
                                                 </tr>
@@ -221,7 +221,7 @@ const Order = () => {
                                                   <td className="whitespace-nowrap">
                                                     NRS 160
                                                   </td>
-                                                  <td className="whitespace-nowrap text-right">
+                                                  <td className="text-right whitespace-nowrap">
                                                     NRS 160
                                                   </td>
                                                 </tr>

@@ -1,4 +1,5 @@
 import Home from "@/pages";
+import { Props } from "@/shared/components/blogsCard/blog.props";
 import CalendarIcon from "@/shared/icons/common/CalendarIcon";
 import CaretDownIcon from "@/shared/icons/common/CaretDownIcon";
 import UserIcon from "@/shared/icons/common/UserIcon";
@@ -7,14 +8,21 @@ import { CardImg } from "@/shared/lib/image-config";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { parseISO, format } from "date-fns";
 
-function BlogsCard() {
+ const BlogsCard: React.FC<Props> = ({ blog }) => {
+
+  const changeDateFormat = (dateString: string) => {
+    const date = parseISO(dateString);
+    return <span>{ format(date, 'd LLLL yyyy') }</span>
+  } 
+
   return (
-    <div className="card w-full bg-base-100 ">
-      <Link href={``}>
+    <div className="w-full card bg-base-100 ">
+      <Link href={`/blogs/${blog.slug}`}>
         <figure>
           <Image
-            src={CardImg}
+            src={blog.thumbImage}
             alt="Plant"
             className="w-full h-auto aspect-[420/300]"
             width={216}
@@ -30,34 +38,34 @@ function BlogsCard() {
       </Link>
       <div className="card-body">
         <Link
-          href={``}
-          className="block card-title mb-2 font-semibold text-2xl truncate hover:text-primary"
+          href={`/blogs/${blog.slug}`}
+          className="block mb-2 text-2xl font-semibold truncate card-title hover:text-primary"
         >
-          Basic Care Tips for Succulents: Do `&apos;`s and Don `&apos;`ts
+          { blog.title }
         </Link>
-        <div className="flex gap-2 items-center mb-4">
+        <div className="flex items-center gap-2 mb-4">
           <Link
-            href={``}
-            className="group flex gap-1 items-center pr-2 border-r border-solid border-black text-sm hover:text-primary "
+            href={`/blogs/${blog.slug}`}
+            className="flex items-center gap-1 pr-2 text-sm border-r border-black border-solid group hover:text-primary "
           >
             <Usersvg className="text-black hover:fill-blue-500" />
-            Usha Tamang
+            { blog.author }
           </Link>
           <Link
-            href={``}
-            className="group flex gap-1 items-center text-sm hover:text-primary"
+            href={`/blogs/${blog.slug}`}
+            className="flex items-center gap-1 text-sm group hover:text-primary"
           >
             <CalendarIcon className="text-black hover:fill-blue-500" />
-            22 June, 2023
+            { changeDateFormat(blog.created_date.date) }
           </Link>
         </div>
-        <p className="text-sm mb-4 line-clamp-2">
-          Who doesnt love succulents? Certainly, we all do! Today lets learn
-          the Dos and Don `&apos;`ts of caring for succul..
+        <p className="mb-4 text-sm line-clamp-2"
+          dangerouslySetInnerHTML={{ __html: blog.description }}
+        >
         </p>
         <div className="card-actions">
           <Link
-            href={``}
+            href={`/blogs/${blog.slug}`}
             className="text-slate-850 transition-all delay-100 text-sm hover:text-primary hover:ml-[10px] flex items-center gap-1 font-normal"
           >
             Shop Now

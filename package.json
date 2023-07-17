@@ -20,12 +20,14 @@
         "axios": "^1.4.0",
         "classnames": "^2.3.2",
         "cookies-next": "^2.1.2",
+        "date-fns": "^2.30.0",
         "eslint": "8.42.0",
         "eslint-config-next": "13.4.5",
         "framer-motion": "^10.12.16",
         "leaflet": "^1.9.4",
         "leaflet-defaulticon-compatibility": "^0.1.1",
         "leaflet-geosearch": "^3.8.0",
+        "lodash": "^4.17.21",
         "next": "13.4.5",
         "pnpm": "^8.6.3",
         "postcss": "8.4.24",
@@ -44,6 +46,7 @@
         "zustand": "^4.3.8"
     },
     "devDependencies": {
+        "@types/lodash": "^4.14.195",
         "daisyui": "^3.1.0",
         "sass": "^1.63.3"
     }

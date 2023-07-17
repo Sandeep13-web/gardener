@@ -1,7 +1,6 @@
 import Badge from "@/shared/components/badge";
 import Button from "@/shared/components/button";
-import Dropdown from "@/shared/components/dropdown";
-import { CardImg, Logo } from "@/shared/lib/image-config";
+import { Logo } from "@/shared/lib/image-config";
 import Image from "next/image";
 import FlowerIcon from "@/shared/icons/common/FlowerIcon";
 import SearchIcon from "@/shared/icons/common/SearchIcon";
@@ -12,7 +11,6 @@ import {
   useInfiniteQuery,
   useMutation,
   useQuery,
-  useQueryClient,
 } from "@tanstack/react-query";
 import {
   getConfig,
@@ -28,25 +26,26 @@ import { FaChevronDown, FaUser } from "react-icons/fa";
 import { IHome } from "@/interface/home.interface";
 import {
   getToken,
-  getWareId,
 } from "@/shared/utils/cookies-utils/cookies.utils";
 import { logout } from "@/services/auth.service";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
-import React, { ChangeEvent, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ConfirmationModal from "@/shared/components/confirmation-modal";
 import { useRouter } from "next/router";
-import { getSearchResults } from "@/services/search.service";
+import { getSuggestionResults } from "@/services/search.service";
 import CartDropdown from "@/shared/components/cartDropdown";
 import { BsCaretDownFill } from "react-icons/bs";
 import { getAllWishlistProducts } from "@/services/wishlist.service";
+import { useDebounce } from "@/hooks/useDebounce.hooks";
 
 const Header = () => {
   const token = getToken();
   const [searchValue, setSearchValue] = useState("");
   const [selectedType, setSelectedType] = useState("product");
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<string>("");
   const router = useRouter();
+  const debounceSearch = useDebounce(searchValue, 500) //Pass search value here and then this variable to the dependency below
+  const [dropdownOpen , setDropdownOpen] = useState<boolean>(false)
   const { data: config, isInitialLoading } = useQuery({
     queryKey: ["getConfig"],
     queryFn: getConfig,
@@ -88,21 +87,19 @@ const Header = () => {
     setShowModal(false);
   };
 
+  //suggestion
   const {
-    data: searchData,
-    error,
+    data: suggestData,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    status,
-  } = useInfiniteQuery(
-    ["search", selectedType || "", searchValue || ""],
-    ({ pageParam = 1 }) =>
-      getSearchResults(selectedType || "", searchValue || "", pageParam),
+  } = useInfiniteQuery(["suggest", selectedType || "", debounceSearch],
+    () =>
+      getSuggestionResults(selectedType || "", searchValue || ""),
     {
       enabled: searchValue.length > 0 ? true : false,
     }
-  );
+  )
 
   const handleLoadMore = () => {
     fetchNextPage();
@@ -122,6 +119,7 @@ const Header = () => {
   };
 
   const handleInputChange = (event: any) => {
+    setDropdownOpen(true)
     setSearchValue(event.target.value);
   };
 
@@ -130,10 +128,22 @@ const Header = () => {
       type: selectedType,
       keyword: searchValue,
     };
+    setDropdownOpen(false)
     const queryString = new URLSearchParams(query).toString();
     router.push(`/search?${queryString}`);
   };
 
+  const redirectDetailPage = (title: string) => {
+    const query = {
+      type: selectedType,
+      keyword: title,
+    };
+    setSearchValue(title)
+    setDropdownOpen(false)
+    const queryString = new URLSearchParams(query).toString();
+    router.push(`/search?${queryString}`);
+  }
+  
   return (
     <>
       <header>
@@ -284,25 +294,25 @@ const Header = () => {
                     </ul>
                   </div>
                 </div>
-                {searchValue.length > 0 && (
+                {dropdownOpen && searchValue.length > 0 && (
                   <ul
-                    className="absolute z-50 w-full mt-2 bg-white border border-gray-300 rounded top-full"
+                    className="absolute z-50 w-full mt-2 bg-white border border-gray-300 rounded top-full max-h-[335px] overflow-y-auto"
                     onScroll={handleScroll}
                   >
-                    {searchData &&
-                      searchData?.pages.map((group, index) => (
+                    {suggestData &&
+                      suggestData.pages?.map((group: any, index: number) => (
                         <React.Fragment key={index}>
                           {group?.data?.map((prev: any, _i: number) => (
                             <li
                               key={_i}
                               className="p-2 cursor-pointer hover:bg-gray-100"
                             >
-                              <div className="flex items-center">
+                              <div className="flex items-center cursor-pointer" onClick={() => redirectDetailPage(prev?.title)}>
                                 <Image
-                                  src={prev?.categoryBackgroundImage}
+                                  src={prev?.img}
                                   width={30}
                                   height={20}
-                                  alt="image"
+                                  alt={`image-${_i}`}
                                   className="object-contain aspect-square"
                                 />
                                 <span className="ps-2">{prev.title}</span>
@@ -311,15 +321,6 @@ const Header = () => {
                           ))}
                         </React.Fragment>
                       ))}
-                    {/* {searchHistory.map((item, index) => (
-                  <li
-                    key={index}
-                    className="p-2 cursor-pointer hover:bg-gray-100"
-                    onClick={() => setSearchValue(item)}
-                  >
-                    {item}
-                  </li>
-                ))} */}
                   </ul>
                 )}
               </div>
@@ -343,16 +344,16 @@ const Header = () => {
           <div className="flex items-center gap-3">
             {/* Heart Button */}
             {
-              token && 
+              token &&
               <Link href="/wishlist" className="relative hidden py-3 btn btn-circle md:flex">
-                  <HeartIcon className="text-black" />
-                  <Badge
-                    className="badge-accent "
-                    type="primary"
-                    badgePosition="top-right"
-                  >
-                    {favouriteList ? favouriteList.data?.length : 0}
-                  </Badge>
+                <HeartIcon className="text-black" />
+                <Badge
+                  className="badge-accent "
+                  type="primary"
+                  badgePosition="top-right"
+                >
+                  {favouriteList ? favouriteList.data?.length : 0}
+                </Badge>
               </Link>
             }
             {/* Cart */}
@@ -448,7 +449,7 @@ const Header = () => {
                 </ul>
               </div>
               <Link href="/our-outlets" className="!bg-white border-0 text-gray-550 font-bold text-sm">  OUTLET</Link>
-                {/* <Button
+              {/* <Button
                   type="ghost"
                   className="!bg-white border-0 text-gray-550 font-bold"
                 >
@@ -511,12 +512,14 @@ const Header = () => {
                   </li>
                 </ul>
               </div>
-              <Button
-                type="ghost"
-                className="!bg-white border-0 text-gray-550 font-bold uppercase"
-              >
-                BLOGS
-              </Button>
+              <Link href="/blogs">
+                <Button
+                  type="ghost"
+                  className="!bg-white border-0 text-gray-550 font-bold uppercase"
+                >
+                  BLOGS
+                </Button>
+              </Link>
             </div>
           </div>
           <Link href="/offer">

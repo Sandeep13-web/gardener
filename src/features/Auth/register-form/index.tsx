@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { IRegisterProps } from './register.interface'
+import { IRegister } from '../../../interface/register.interface'
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
 
 const RegisterForm = () => {
@@ -23,7 +23,7 @@ const RegisterForm = () => {
         }
     })
 
-    const { register, handleSubmit, watch, formState: { errors }, trigger } = useForm<IRegisterProps>()
+    const { register, handleSubmit, watch, formState: { errors }, trigger } = useForm<IRegister>()
 
     const registerSubmit = (data: any) => {
         mutation.mutate(data)

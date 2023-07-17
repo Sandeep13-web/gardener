@@ -285,12 +285,12 @@ const DelieveryAddress = () => {
                       defaultChecked
                     />
                     <div className="modal">
-                      <div className="rounded-lg modal-box p-4">
+                      <div className="p-4 rounded-lg modal-box">
                         <div className="pb-2 border-b border-gray-300 ">
                           <h3 className="text-lg font-medium">
                             SET DELIEVERY LOCATION
                           </h3>
-                          <p className="text-primary text-sm">
+                          <p className="text-sm text-primary">
                             {" "}
                             Drag the map to pin point your delievery lcoation{" "}
                           </p>
