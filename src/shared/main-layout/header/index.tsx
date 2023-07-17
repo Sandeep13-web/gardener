@@ -37,6 +37,7 @@ import CartDropdown from "@/shared/components/cartDropdown";
 import { BsCaretDownFill } from "react-icons/bs";
 import { getAllWishlistProducts } from "@/services/wishlist.service";
 import { useDebounce } from "@/hooks/useDebounce.hooks";
+import { ICartItem } from "@/interface/cart.interface";
 
 const Header = () => {
   const token = getToken();
@@ -63,16 +64,18 @@ const Header = () => {
   });
 
   const { data: profile, isInitialLoading: loadingProfile } = useQuery({
-    queryKey: ["getProfile"],
+    queryKey: ["getProfile" , token],
     queryFn: getProfile,
     enabled: !!token,
   });
 
   const { data: favouriteList, isInitialLoading: loadingFavourite } = useQuery({
-    queryKey: ["getAllWishlistProducts"],
+    queryKey: ["getAllWishlistProducts",token],
     queryFn: getAllWishlistProducts,
     enabled: !!token,
   })
+
+  const { data: cart } = useQuery<ICartItem>(["getCart"])
 
   const mutation = useMutation({
     mutationFn: logout,
@@ -373,7 +376,7 @@ const Header = () => {
                 TOTAL PRICE
               </p>
               <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
-                {/* NPR {cart?.total || 0} */}
+                NPR {cart?.total || 0}
               </p>
             </div>
             {/* md:drawer */}

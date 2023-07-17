@@ -27,6 +27,7 @@ export interface ICartItem {
   deliveryCharge: number;
   discount: number;
   extra: ExtraCharge[];
+  couponDiscount:number,
   id: number;
   message: string;
   orderAmount: number;
@@ -35,4 +36,8 @@ export interface ICartItem {
   subTotal: number;
   total: number;
   warehouseId: number;
+}
+
+export interface ICartTable {
+  cartItem?: ICartProduct;
 }

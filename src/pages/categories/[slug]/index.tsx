@@ -25,6 +25,8 @@ import TagSidebar from '@/shared/components/tagSidebar';
 import Breadcrumb from '@/shared/components/breadcrumb';
 import SortingDropdown from '@/shared/components/sorting-dropdown';
 import SkeletonLoadingCard from '@/shared/components/skeleton/products';
+import { ICartItem } from '@/interface/cart.interface';
+import Head from 'next/head';
 
 
 const CategoryDetail: NextPageWithLayout = () => {
@@ -38,6 +40,7 @@ const CategoryDetail: NextPageWithLayout = () => {
     const [productData, setProductData] = useState(null);
     const [selectedValue , setSelectedValue] = useState<string>('')
     const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
+    const { data: cart } = useQuery<ICartItem>(["getCart"]);
     const { data: tags } = useQuery({
         queryKey: ["getTagList"],
         queryFn: getTagList,
@@ -103,12 +106,11 @@ const CategoryDetail: NextPageWithLayout = () => {
         }
     }, [setFiltered, initialProductData]);
 
-    // if (!productData) {
-    //     return null; // or render a placeholder if productData is still undefined
-    // }
-
     return (
         <>
+        <Head>
+            <title>{initialProductData?.data[0]?.categoryTitle || 'I am the Gardener'}</title>
+        </Head>
             <Breadcrumb title={initialProductData?.data[0]?.categoryTitle} />
             <div className='container my-[60px]'>
                 <div className="grid grid-cols-12 md:gap-[30px]">
@@ -229,6 +231,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                                                     <Card
                                                         product={product}
                                                         key={`app-cat-products-${index}`}
+                                                        cartItem={cart?.cartProducts.find((item) => item?.product?.id === product?.id)}
                                                     />
                                                 ))}
                                             </div>

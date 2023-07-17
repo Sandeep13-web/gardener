@@ -4,10 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import SearchIcon from "@/shared/icons/common/SearchIcon";
 import TrashIcon from "@/shared/icons/common/TrashIcon";
-import { useCart } from "@/store/use-cart";
-import { IProduct } from "@/interface/product.interface";
-import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addToCart, updateCart } from "@/services/cart.service";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { addToCart } from "@/services/cart.service";
 import { ICartItem, ICreateCartItem, IUpdateCartItem } from "@/interface/cart.interface";
 import ButtonLoader from "../btn-loading";
 import { useCarts } from "@/hooks/cart.hooks";
@@ -27,7 +25,7 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
     const payload: ICreateCartItem = {
       note: '',
       productId: product?.id,
-      priceId: product?.id,
+      priceId: product?.unitPrice[0]?.id,
       quantity: value,
     }
     mutation.mutate(payload)
@@ -38,19 +36,20 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
     onSuccess: () => {
       showToast(TOAST_TYPES.success, 'Item Added To Cart Successfully');
       queryClient.invalidateQueries(['getCart'])
+    },
+    onError: (error:any) => {
+      showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message)
     }
   })
   const handleUpdateCart = (values: number) => {
-    if (values < stock) {
+    if (values <= stock) {
       const payload: IUpdateCartItem = {
         note: '',
         quantity: debounceSearchValue,
         product_number: cartItem?.id,
       }
       updateCartMutation.mutate(payload)
-    } else {
-      console.log("erro", mutation.error)
-    }
+    } 
 
   };
 
@@ -81,7 +80,7 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
       </figure>
       <div className="plant-card_preview-icon">
         <Link
-          href={`/${product?.slug}`}
+          href={`/products/${product?.slug}`}
           className="flex items-center justify-center"
         >
           <SearchIcon className="max-w-[15px] h-auto" />
