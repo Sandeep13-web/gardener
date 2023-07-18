@@ -4,7 +4,7 @@ specifiers:
   '@tanstack/react-form': ^0.0.11
   '@tanstack/react-query': ^4.29.13
   '@types/leaflet': ^1.9.3
-    '@types/lodash': ^4.14.195
+  '@types/lodash': ^4.14.195
   '@types/node': 20.3.1
   '@types/react': 18.2.12
   '@types/react-dom': 18.2.5
@@ -57,9 +57,9 @@ dependencies:
   eslint-config-next: 13.4.5_tizxnkcvjrb4cldxgwq5h3lj5u
   framer-motion: 10.12.18_biqbaboplfbrettd7655fr4n2y
   leaflet: 1.9.4
-  leaflet-defaulticon-compatibility: 0.1.1
+  leaflet-defaulticon-compatibility: 0.1.2
   leaflet-geosearch: 3.8.0
-    lodash: 4.17.21
+  lodash: 4.17.21
   next: 13.4.5_63tktvor3xwbblcac5shyx4aca
   pnpm: 8.6.7
   postcss: 8.4.24
@@ -432,8 +432,8 @@ packages:
     dependencies:
       '@types/geojson': 7946.0.10
     dev: false
-  
-    /@types/lodash/4.14.195:
+
+  /@types/lodash/4.14.195:
     resolution: {integrity: sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==}
     dev: true
 
@@ -1956,8 +1956,8 @@ packages:
       language-subtag-registry: 0.3.22
     dev: false
 
-  /leaflet-defaulticon-compatibility/0.1.1:
-    resolution: {integrity: sha512-vDBFdlUAwjSEGep9ih8kfJilf6yN8V9zTbF5NC/1ZwLeGko3RUQepspPnGCRMFV51dY3Lb3hziboicrFz+rxQA==}
+  /leaflet-defaulticon-compatibility/0.1.2:
+    resolution: {integrity: sha512-IrKagWxkTwzxUkFIumy/Zmo3ksjuAu3zEadtOuJcKzuXaD76Gwvg2Z1mLyx7y52ykOzM8rAH5ChBs4DnfdGa6Q==}
     dev: false
 
   /leaflet-geosearch/3.8.0:
