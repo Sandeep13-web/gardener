@@ -43,7 +43,6 @@ const DelieveryAddress = () => {
   // Inside your component or a function
   const handleEdit = (addressId:any) => {
     // Find the address object with the specified ID
-    console.log(deliveryAddressData,'de');
     const addressData = deliveryAddressData.find((address:any) => address.id === addressId);
     if (addressData) {
       // Set the initial form data based on the addressData
