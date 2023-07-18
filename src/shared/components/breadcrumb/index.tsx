@@ -16,6 +16,7 @@ const Breadcrumb = ({title}:any) => {
     { label: "Login", path: "/auth/login" },
     { label: "Sign Up", path: "/auth/register" },
     { label: "Forgot Password", path: "/auth/forgot-password" },
+    { label: "Reset Password", path: "/auth/reset-password" },
     { label: "Offer", path: "/offer" },
     { label: "Blogs", path: "/blogs" },
     { label: "Products", path: "/products" },
