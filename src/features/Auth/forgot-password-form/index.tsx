@@ -47,7 +47,7 @@ const ForgotPasswordForm = () => {
                     <p className='text-error text-xs leading-[24px] mt-1'>{errors.email.message}</p>
                 }
             </div>
-            <div className='flex justify-between items-center'>
+            <div className='flex items-center justify-between'>
                 <button
                     className='btn btn-tertiary text-slate-850 text-sm font-bold uppercase px-[30px] py-[11px] rounded-[30px] hover:bg-primary hover:text-white hover:border-primary'
                     disabled={mutation.isLoading ? true : false}

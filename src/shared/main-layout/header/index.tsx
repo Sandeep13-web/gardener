@@ -45,9 +45,9 @@ const Header = () => {
   const [selectedType, setSelectedType] = useState<string>("product");
   const [showModal, setShowModal] = useState<boolean>(false);
   const router = useRouter();
-  const {pathname} = router
+  const { pathname } = router
   const debounceSearch = useDebounce(searchValue, 300) //Pass search value here and then this variable to the dependency below
-  const [dropdownOpen , setDropdownOpen] = useState<boolean>(false)
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
   const { data: config, isInitialLoading } = useQuery({
     queryKey: ["getConfig"],
     queryFn: getConfig,
@@ -64,13 +64,13 @@ const Header = () => {
   });
 
   const { data: profile, isInitialLoading: loadingProfile } = useQuery({
-    queryKey: ["getProfile" , token],
+    queryKey: ["getProfile", token],
     queryFn: getProfile,
     enabled: !!token,
   });
 
   const { data: favouriteList, isInitialLoading: loadingFavourite } = useQuery({
-    queryKey: ["getAllWishlistProducts",token],
+    queryKey: ["getAllWishlistProducts", token],
     queryFn: getAllWishlistProducts,
     enabled: !!token,
   })
@@ -150,11 +150,11 @@ const Header = () => {
 
   //setting input value to empty when page changed
   useEffect(() => {
-    if(!pathname.includes('/search')){
+    if (!pathname.includes('/search')) {
       setSearchValue('')
     }
   }, [pathname])
-  
+
   return (
     <>
       <header>

@@ -5,10 +5,8 @@ import Badge from "../badge";
 import CartIcon from "@/shared/icons/common/CartIcon";
 import { FaTimes } from "react-icons/fa";
 import { useRouter } from "next/router";
-import { Props } from "./cartDropdown.props";
-import { getCartNumber, getToken } from "@/shared/utils/cookies-utils/cookies.utils";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteCartItemById, getCartData } from "@/services/cart.service";
+import { useQuery } from "@tanstack/react-query";
+import { getCartData } from "@/services/cart.service";
 import { ICartItem } from "@/interface/cart.interface";
 import { useCarts } from "@/hooks/cart.hooks";
 
@@ -78,7 +76,7 @@ const CartDropdown = () => {
                         {(selectedId === item?.id &&
                           cartDelete.isLoading) ?
                           <span
-                            className="w-3 h-3 border-2 border-primary border-dotted rounded-full border-t-transparent animate-spin"></span>
+                            className="w-3 h-3 border-2 border-dotted rounded-full border-primary border-t-transparent animate-spin"></span>
                           :
                           <FaTimes className="w-3 h-3" />
 

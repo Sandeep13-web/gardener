@@ -29,7 +29,6 @@ const Tag: NextPageWithLayout = () => {
   const [title, setTitle] = useState('');
 
   useEffect(() => {
-    debugger;
     if (tags && typeof id === 'string') {
       const tag = tags?.data?.find((tag: ITag) => tag.slug === id);
       if (tag) {

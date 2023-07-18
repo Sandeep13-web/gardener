@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@tanstack/react-form': ^0.0.11
   '@tanstack/react-query': ^4.29.13
+  '@types/leaflet': ^1.9.3
   '@types/lodash': ^4.14.195
   '@types/node': 20.3.1
   '@types/react': 18.2.12
@@ -17,6 +18,9 @@ specifiers:
   eslint: 8.42.0
   eslint-config-next: 13.4.5
   framer-motion: ^10.12.16
+  leaflet: ^1.9.4
+  leaflet-defaulticon-compatibility: ^0.1.1
+  leaflet-geosearch: ^3.8.0
   lodash: ^4.17.21
   next: 13.4.5
   pnpm: ^8.6.3
@@ -25,6 +29,7 @@ specifiers:
   react-dom: 18.2.0
   react-hook-form: ^7.44.3
   react-icons: ^4.10.1
+  react-leaflet: ^4.2.1
   react-range-slider-input: ^3.0.7
   react-slider: ^2.0.6
   react-toastify: ^9.1.3
@@ -38,6 +43,7 @@ specifiers:
 dependencies:
   '@tanstack/react-form': 0.0.11_biqbaboplfbrettd7655fr4n2y
   '@tanstack/react-query': 4.29.19_biqbaboplfbrettd7655fr4n2y
+  '@types/leaflet': 1.9.3
   '@types/node': 20.3.1
   '@types/react': 18.2.12
   '@types/react-dom': 18.2.5
@@ -50,6 +56,9 @@ dependencies:
   eslint: 8.42.0
   eslint-config-next: 13.4.5_tizxnkcvjrb4cldxgwq5h3lj5u
   framer-motion: 10.12.18_biqbaboplfbrettd7655fr4n2y
+  leaflet: 1.9.4
+  leaflet-defaulticon-compatibility: 0.1.2
+  leaflet-geosearch: 3.8.0
   lodash: 4.17.21
   next: 13.4.5_63tktvor3xwbblcac5shyx4aca
   pnpm: 8.6.7
@@ -58,6 +67,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.45.1_react@18.2.0
   react-icons: 4.10.1_react@18.2.0
+  react-leaflet: 4.2.1_p7e52lah55xmyywv7f3e7owrmy
   react-range-slider-input: 3.0.7
   react-slider: 2.0.6_react@18.2.0
   react-toastify: 9.1.3_biqbaboplfbrettd7655fr4n2y
@@ -139,6 +149,14 @@ packages:
     resolution: {integrity: sha512-6SWlXpWU5AvId8Ac7zjzmIOqMOba/JWY8XZ4A7q7Gn1Vlfg/SFFIlrtHXt9nPn4op9ZPAkl91Jao+QQv3r/ukw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: false
+
+  /@googlemaps/js-api-loader/1.16.2:
+    resolution: {integrity: sha512-psGw5u0QM6humao48Hn4lrChOM2/rA43ZCm3tKK9qQsEj1/VzqkCqnvGfEOshDbBQflydfaRovbKwZMF4AyqbA==}
+    requiresBuild: true
+    dependencies:
+      fast-deep-equal: 3.1.3
+    dev: false
+    optional: true
 
   /@humanwhocodes/config-array/0.11.10:
     resolution: {integrity: sha512-KVVjQmNUepDVGXNuoRRdmmEjruj0KfiGSbS8LVc12LMsWDQzRXJ0qdhN8L8uUigKpfEHRhlaQFY0ib1tnUbNeQ==}
@@ -306,6 +324,18 @@ packages:
       tslib: 2.6.0
     dev: false
 
+  /@react-leaflet/core/2.1.0_p7e52lah55xmyywv7f3e7owrmy:
+    resolution: {integrity: sha512-Qk7Pfu8BSarKGqILj4x7bCSZ1pjuAPZ+qmRwH5S7mDS91VSbVVsJSrW4qA+GPrro8t69gFYVMWb1Zc4yFmPiVg==}
+    peerDependencies:
+      leaflet: ^1.9.0
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      leaflet: 1.9.4
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /@rushstack/eslint-patch/1.3.2:
     resolution: {integrity: sha512-V+MvGwaHH03hYhY+k6Ef/xKd6RYlc4q8WBx+2ANmipHJcKuktNcI/NgEsJgdSUF6Lw32njT6OnrRsKYCdgHjYw==}
     dev: false
@@ -389,8 +419,18 @@ packages:
     resolution: {integrity: sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==}
     dev: false
 
+  /@types/geojson/7946.0.10:
+    resolution: {integrity: sha512-Nmh0K3iWQJzniTuPRcJn5hxXkfB1T1pgB89SBig5PlJQU5yocazeu4jATJlaA0GYFKWMqDdvYemoSnF2pXgLVA==}
+    dev: false
+
   /@types/json5/0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: false
+
+  /@types/leaflet/1.9.3:
+    resolution: {integrity: sha512-Caa1lYOgKVqDkDZVWkto2Z5JtVo09spEaUt2S69LiugbBpoqQu92HYFMGUbYezZbnBkyOxMNPXHSgRrRY5UyIA==}
+    dependencies:
+      '@types/geojson': 7946.0.10
     dev: false
 
   /@types/lodash/4.14.195:
@@ -1916,6 +1956,21 @@ packages:
       language-subtag-registry: 0.3.22
     dev: false
 
+  /leaflet-defaulticon-compatibility/0.1.2:
+    resolution: {integrity: sha512-IrKagWxkTwzxUkFIumy/Zmo3ksjuAu3zEadtOuJcKzuXaD76Gwvg2Z1mLyx7y52ykOzM8rAH5ChBs4DnfdGa6Q==}
+    dev: false
+
+  /leaflet-geosearch/3.8.0:
+    resolution: {integrity: sha512-YYFigq2JkqaZrgEjxWyvyQy4seh0Il9xPlG+IP2Z3+K7DrQ+bYc7qDizmxKbAn2jSNUCvokz75gXj7wXcFDB9A==}
+    optionalDependencies:
+      '@googlemaps/js-api-loader': 1.16.2
+      leaflet: 1.9.4
+    dev: false
+
+  /leaflet/1.9.4:
+    resolution: {integrity: sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==}
+    dev: false
+
   /levn/0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
@@ -2398,6 +2453,19 @@ packages:
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+    dev: false
+
+  /react-leaflet/4.2.1_p7e52lah55xmyywv7f3e7owrmy:
+    resolution: {integrity: sha512-p9chkvhcKrWn/H/1FFeVSqLdReGwn2qmiobOQGO3BifX+/vV/39qhY8dGqbdcPh1e6jxh/QHriLXr7a4eLFK4Q==}
+    peerDependencies:
+      leaflet: ^1.9.0
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      '@react-leaflet/core': 2.1.0_p7e52lah55xmyywv7f3e7owrmy
+      leaflet: 1.9.4
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-range-slider-input/3.0.7:
