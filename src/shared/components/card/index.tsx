@@ -14,7 +14,7 @@ import { useDebounce } from "@/hooks/useDebounce.hooks";
 
 const Card: React.FC<Props> = ({ product, cartItem }) => {
   const { data: cart } = useQuery<ICartItem>(["getCart"]);
-  const [value, setValue] = useState<number>(cartItem?.quantity || 1);
+  const [value, setValue] = useState<number>(1);
   const stock: any = cartItem?.selectedUnit?.stock
   const queryClient = useQueryClient();
   const debounceSearchValue:any = useDebounce(value, 300)
@@ -54,8 +54,17 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
   };
 
   useEffect(() => {
-    handleUpdateCart(debounceSearchValue);
+    if(debounceSearchValue){
+      handleUpdateCart(debounceSearchValue);
+    }
   }, [debounceSearchValue])
+
+  useEffect(() => {
+    if(cartItem?.quantity){
+      setValue(cartItem?.quantity)
+    }
+  }, [])
+  
 
   return (
     <div className="relative card plant-card">

@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa';
 
 const CartTableRow = ({item}:any) => {
-    const [value, setValue] = useState<number>(item?.quantity | 1);
+    const [value, setValue] = useState<number>(item?.quantity || 1);
     const stock: any = item?.selectedUnit?.stock
     const [productId , setProductId] = useState<number>();
     const debounceSearchValue: any = useDebounce(value, 300)

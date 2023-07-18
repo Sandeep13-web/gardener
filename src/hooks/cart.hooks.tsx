@@ -1,6 +1,7 @@
 import { bulkDeleteCart, deleteCartItemById, updateCart } from "@/services/cart.service";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteCookie } from "cookies-next";
 import { useState } from "react";
 
 export const useCarts = () => {
@@ -32,6 +33,7 @@ export const useCarts = () => {
         mutationFn: bulkDeleteCart,
         onSuccess: () => {
             showToast(TOAST_TYPES.success, 'Item Deleted From Cart Successfully');
+            deleteCookie('cart_number')
             queryClient.invalidateQueries(['getCart'])
         }
     })
