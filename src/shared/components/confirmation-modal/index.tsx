@@ -18,7 +18,7 @@ const ConfirmationModal: React.FC<Props> = ({
                 <div className="rounded-lg modal-box">
                     <h3 className="text-lg font-bold">{confirmHeading}</h3>
                     {children}
-                    <div className="modal-action gap-[10px]">
+                    <div className="modal-action justify-center md:justify-end gap-[10px]">
                         <button
                             onClick={btnFunction}
                             className='px-[30px] py-[11px] text-sm bg-primary rounded-[30px] text-white font-semibold flex items-center gap-[0.5rem]'
