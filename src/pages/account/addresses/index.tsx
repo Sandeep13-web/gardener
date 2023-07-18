@@ -265,7 +265,7 @@ const DelieveryAddress = () => {
         Select Delivery Address
       </h5>
       <div className="grid grid-cols-12 p-4 gap-5">
-      {deliveryAddressData?.length < 5 ? (
+      {deliveryAddressData?.length < 3 ? (
 
         <div className="col-span-12 sm:col-span-6 lg:col-span-4 border boder-solid boder-grey-500 min-h-[170px]">
           <button
