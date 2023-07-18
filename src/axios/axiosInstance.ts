@@ -6,6 +6,7 @@ import {
   getToken,
   getWareId,
 } from "@/shared/utils/cookies-utils/cookies.utils";
+// import { getCoupon } from "@/shared/utils/local-storage-utils/local-storage.utils";
 
 const baseURL = config.gateway.baseURL;
 const axiosInstance = axios.create({
@@ -14,6 +15,7 @@ const axiosInstance = axios.create({
     Accept: "application/json",
     ...(getToken() && { Authorization: `Bearer ${getToken()}` }),
     ...(getCartNumber() && { "Cart-Number": getCartNumber() }),
+    // ...(getCoupon() && { Coupon: getCoupon() }),
     "Api-Key": config.gateway.apiKey,
     "Warehouse-Id": getWareId(),
   },

@@ -37,14 +37,16 @@ import CartDropdown from "@/shared/components/cartDropdown";
 import { BsCaretDownFill } from "react-icons/bs";
 import { getAllWishlistProducts } from "@/services/wishlist.service";
 import { useDebounce } from "@/hooks/useDebounce.hooks";
+import { ICartItem } from "@/interface/cart.interface";
 
 const Header = () => {
   const token = getToken();
-  const [searchValue, setSearchValue] = useState("");
-  const [selectedType, setSelectedType] = useState("product");
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [selectedType, setSelectedType] = useState<string>("product");
   const [showModal, setShowModal] = useState<boolean>(false);
   const router = useRouter();
-  const debounceSearch = useDebounce(searchValue, 500) //Pass search value here and then this variable to the dependency below
+  const {pathname} = router
+  const debounceSearch = useDebounce(searchValue, 300) //Pass search value here and then this variable to the dependency below
   const [dropdownOpen , setDropdownOpen] = useState<boolean>(false)
   const { data: config, isInitialLoading } = useQuery({
     queryKey: ["getConfig"],
@@ -62,16 +64,18 @@ const Header = () => {
   });
 
   const { data: profile, isInitialLoading: loadingProfile } = useQuery({
-    queryKey: ["getProfile"],
+    queryKey: ["getProfile" , token],
     queryFn: getProfile,
     enabled: !!token,
   });
 
   const { data: favouriteList, isInitialLoading: loadingFavourite } = useQuery({
-    queryKey: ["getAllWishlistProducts"],
+    queryKey: ["getAllWishlistProducts",token],
     queryFn: getAllWishlistProducts,
     enabled: !!token,
   })
+
+  const { data: cart } = useQuery<ICartItem>(["getCart"])
 
   const mutation = useMutation({
     mutationFn: logout,
@@ -143,6 +147,13 @@ const Header = () => {
     const queryString = new URLSearchParams(query).toString();
     router.push(`/search?${queryString}`);
   }
+
+  //setting input value to empty when page changed
+  useEffect(() => {
+    if(!pathname.includes('/search')){
+      setSearchValue('')
+    }
+  }, [pathname])
   
   return (
     <>
@@ -365,7 +376,7 @@ const Header = () => {
                 TOTAL PRICE
               </p>
               <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
-                {/* NPR {cart?.total || 0} */}
+                NPR {cart?.total || 0}
               </p>
             </div>
             {/* md:drawer */}

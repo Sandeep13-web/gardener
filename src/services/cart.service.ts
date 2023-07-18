@@ -56,3 +56,13 @@ export const updateCart = async (data: IUpdateCartItem) => {
     throw error;
   }
 };
+
+
+export const bulkDeleteCart = async() => {
+  try {
+    const response = await axiosInstance.delete('/cart');
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
