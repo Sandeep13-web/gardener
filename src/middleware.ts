@@ -6,7 +6,7 @@ export async function middleware(req: NextRequest) {
   const url = req.nextUrl.pathname;
   
   const redirectToLogin = NextResponse.redirect(new URL("/auth/login", req.url));
-  if (!verify && url == "/wishlist" && url.startsWith('/account')) {
+  if (!verify && (url == "/wishlist" || url.startsWith('/account'))) {
     return redirectToLogin;
   } 
   if (verify && url.startsWith("/auth")) {
