@@ -27,7 +27,7 @@ const ProductSlug = () => {
   const [taxMessage, setTaxMessage] = useState<string>('');
 
   const [itemCartDetail, setItemCartDetail] = useState<ICartProduct>()
-  const [value, setValue] = useState<number>(itemCartDetail?.quantity! | 1);
+  const [value, setValue] = useState<number>(1);
   const { updateCartMutation, updateCartLoading } = useCarts()
 
   const { data: cartData } = useQuery<ICartItem>(['getCart'])
@@ -90,6 +90,7 @@ const ProductSlug = () => {
     cartData?.cartProducts?.map((item: any) => {
       if (slug === item?.product?.slug) {
         setItemCartDetail(item)
+        setValue(item?.quantity)
       }
     })
   }, [slug])
