@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IChangePassword } from '@/interface/password.interface';
 import { changePassword, logout } from '@/services/auth.service';
+import ButtonLoader from '@/shared/components/btn-loading';
 const ChangePasswordForm = () => {
     const router = useRouter();
     const { register, handleSubmit, watch, formState: { errors }, trigger } = useForm<IChangePassword>();
@@ -96,7 +97,7 @@ const ChangePasswordForm = () => {
                         Save
                         {
                             mutation.isLoading &&
-                            <span className="w-5 h-5 border-4 border-white border-dotted rounded-full border-t-transparent animate-spin"></span>
+                            <ButtonLoader />
                         }
                     </button>
                 </div>

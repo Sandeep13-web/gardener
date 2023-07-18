@@ -2,8 +2,7 @@ import React from 'react'
 
 const ButtonLoader = () => {
     return (
-        <span
-            className="w-3 h-3 border-2 border-primary border-dotted rounded-full border-t-transparent animate-spin"></span>
+        <span className="w-5 h-5 border-4 border-white border-dotted rounded-full border-t-transparent animate-spin"></span>
     )
 }
 
