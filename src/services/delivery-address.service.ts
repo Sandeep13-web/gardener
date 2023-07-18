@@ -50,7 +50,6 @@ export const deleteDeliverAddressById = async (id: number) => {
 };
 
 export const updateDeliveryAddressByAddressId = async (deliveryAddress: IDeliveryAddress) => {
-  console.log(deliveryAddress, 'delivery')
   const payload = {
     customer: deliveryAddress.customer,
     contact_no: deliveryAddress.contact_no,
