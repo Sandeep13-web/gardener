@@ -45,11 +45,11 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
 /*
 ** provides payload to the update api when the value is being increased or decreased.
 */
-  const handleUpdateCart = (newValue: number) => {
-    if (newValue <= stock) {
+  const handleUpdateCart = (newQuantity: number) => {
+    if (newQuantity <= stock) {
       const payload: IUpdateCartItem = {
         note: '',
-        quantity: newValue,
+        quantity: newQuantity,
         product_number: cartItem?.id,
       }
       updateCartMutation.mutate(payload)
@@ -60,17 +60,17 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
    * Used in order to debounce the value(quantity) that is being updated.
    */
   const debouncedHandleUpdateCart = useCallback( //debounce callback to call when value changes
-    debounce((newValue) => {
-      handleUpdateCart(newValue)
+    debounce((newQuantity) => {
+      handleUpdateCart(newQuantity)
     }, 300), []
   )
 
   /**
    * for btn onClick function to pass the new value either being increased or decreased.
    */
-  const updateCartCall = (newValue: number) => { //getNewValue from below
-    setQuantity(newValue) //set the updated value
-    debouncedHandleUpdateCart(newValue) //debounce callback added the updated value
+  const updateCartCall = (newQuantity: number) => {
+    setQuantity(newQuantity) //set the updated value
+    debouncedHandleUpdateCart(newQuantity) //debounce callback added the updated value
   }
 
   useEffect(() => {
