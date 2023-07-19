@@ -75,3 +75,12 @@ export const changePassword = async (changePasswordBody: IChangePassword) => {
     throw error;
   }
 }
+
+export const deleteAccount = async () => {
+  try {
+    const response = await axiosInstance.post('/request-account-delete');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
