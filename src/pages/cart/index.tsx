@@ -7,7 +7,7 @@ import { ICartItem } from "@/interface/cart.interface";
 import { useQuery, } from "@tanstack/react-query";
 import Head from "next/head";
 import CartTableRow from "@/features/Cart/cart-table-row";
-import EmptyCart from "../empty-cart";
+import EmptyCart from "../../shared/components/empty-content/empty-cart";
 import { useCarts } from "@/hooks/cart.hooks";
 import ButtonLoader from "@/shared/components/btn-loading";
 
