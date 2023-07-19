@@ -1,6 +1,5 @@
 import ProfileForm from "@/features/My-Account/profile-form";
 import AccountSidebarLayout from "@/shared/account-sidebar-layout";
-import Button from "@/shared/components/button";
 import MainLayout from "@/shared/main-layout";
 import Head from "next/head";
 import React from "react";
