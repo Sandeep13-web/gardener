@@ -16,7 +16,7 @@ const Checkout = () => {
             <div className="md:col-span-7 col-span-12">
               {/* Accordion Start */}
               <div>
-                <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-borderGray mb-[16px]">
+                <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-orange-550 mb-[16px]">
                   <input type="radio" name="address" />
                   <div className="collapse-title text-xl font-medium flex items-center justify-between border-none">
                     <div className="col-10 text-left">
@@ -105,7 +105,7 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-borderGray mb-[16px]">
+                <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-orange-550 mb-[16px]">
                   <input type="radio" name="address" />
                   <div className="collapse-title text-xl font-medium flex items-center justify-between border-none">
                     <div className="col-10 text-left">
@@ -180,7 +180,7 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-borderGray mb-[16px]">
+                <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-orange-550 mb-[16px]">
                   <input type="radio" name="payment-method" />
                   <div className="collapse-title text-xl font-medium flex items-center justify-between border-none">
                     <div className="col-10 text-left">
@@ -258,12 +258,12 @@ const Checkout = () => {
 
               <div>
                 <h3 className="mb-4 text-3xl font-bold">Order Note</h3>
-                <textarea className="textarea w-full focus:outline-none border-[1px] border-borderGray"></textarea>
+                <textarea className="textarea w-full focus:outline-none border-[1px] border-orange-550"></textarea>
               </div>
             </div>
             <div className="md:col-span-5 col-span-12">
               <div className="py-[38px] px-[45px] bg-slate-150">
-                <ul className="flex justify-between font-bold text-[16px] text-darkBlack">
+                <ul className="flex justify-between font-bold text-[16px] text-slate-850">
                   <li>Product</li>
                   <li>Total</li>
                 </ul>
@@ -278,19 +278,19 @@ const Checkout = () => {
                   </ul>
                 </div>
                 <ul className="flex justify-between">
-                  <li className="font-semibold text-[16px] text-darkBlack">
+                  <li className="font-semibold text-[16px] text-slate-850">
                     Order Amount
                   </li>
                   <li className="text-[14px]">NPR 750</li>
                 </ul>
                 <ul className="flex justify-between">
-                  <li className="font-semibold text-[16px] text-darkBlack">
+                  <li className="font-semibold text-[16px] text-slate-850">
                     Cart Subtotal
                   </li>
                   <li className="text-[14px]">NPR 750</li>
                 </ul>
                 <ul className="flex justify-between">
-                  <li className="font-semibold text-[16px] text-darkBlack">
+                  <li className="font-semibold text-[16px] text-slate-850">
                     Delivery Charge
                   </li>
                   <li className="text-[14px]">NPR 150</li>
@@ -311,7 +311,7 @@ const Checkout = () => {
               </div>
 
               <div className="mt-[25px]">
-                <button className="font-bold text-base-100 py-[18px] px-[20px] uppercase rounded-full cursor-pointer bg-primary w-full hover:bg-darkBlack">
+                <button className="font-bold text-base-100 py-[18px] px-[20px] uppercase rounded-full cursor-pointer bg-primary w-full hover:bg-slate-850">
                   Place Order
                 </button>
               </div>

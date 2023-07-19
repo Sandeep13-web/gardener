@@ -1,5 +1,5 @@
 .table-header {
-    @apply uppercase font-bold text-gray-50 text-sm bg-superLightGray;
+    @apply uppercase font-bold text-gray-50 text-sm bg-white-50;
 }
 
 .data-title {
@@ -11,5 +11,5 @@
 }
 
 .data-desc-2 {
-    @apply text-[12px] font-normal text-superLightGray-250;
+    @apply text-[12px] font-normal text-white-250;
 }

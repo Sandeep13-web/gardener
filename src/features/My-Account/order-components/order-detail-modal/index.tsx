@@ -30,7 +30,7 @@ const OrderDetailModal = ({
                     method="dialog"
                     className="modal-box md:min-w-[800px] rounded-lg"
                 >
-                    <h3 className="mb-[24px] pb-[24px] border-solid border-b-[1px] border-borderGray text-center text-[20px]">
+                    <h3 className="mb-[24px] pb-[24px] border-solid border-b-[1px] border-orange-550 text-center text-[20px]">
                         Order Detail
                     </h3>
                     <label
@@ -163,13 +163,13 @@ const OrderDetailModal = ({
                                         <div className="col-span-12">
                                             <div className="grid grid-cols-12 pt-[10px]">
                                                 <div className="col-span-12 md:col-span-6">
-                                                    <h3 className="pb-[6px] font-semibold text-superLightGray-350">
+                                                    <h3 className="pb-[6px] font-semibold text-supergray-1100-350">
                                                         Order Total
                                                     </h3>
                                                 </div>
                                                 <div className="col-span-12 md:col-span-6">
                                                     <ul className="flex flex-col pr-[15px] ">
-                                                        <li className="flex justify-between pb-[6px] mb-[6px] border-solid border-b-[1px] border-borderGray">
+                                                        <li className="flex justify-between pb-[6px] mb-[6px] border-solid border-b-[1px] border-orange-550">
                                                             <strong className="data-title">
                                                                 Order Amount:
                                                             </strong>
@@ -177,7 +177,7 @@ const OrderDetailModal = ({
                                                                 NRS {orderDetails?.orderAmount}
                                                             </span>
                                                         </li>
-                                                        <li className="flex justify-between pb-[6px] mb-[6px] border-solid border-b-[1px] border-borderGray">
+                                                        <li className="flex justify-between pb-[6px] mb-[6px] border-solid border-b-[1px] border-orange-550">
                                                             <strong className="data-title">
                                                                 Discount:
                                                             </strong>
@@ -185,7 +185,7 @@ const OrderDetailModal = ({
                                                                 NRS {orderDetails?.discount}
                                                             </span>
                                                         </li>
-                                                        <li className="flex justify-between pb-[6px] mb-[6px] border-solid border-b-[1px] border-borderGray">
+                                                        <li className="flex justify-between pb-[6px] mb-[6px] border-solid border-b-[1px] border-orange-550">
                                                             <strong className="data-title">
                                                                 Subtotal:
                                                             </strong>
@@ -193,7 +193,7 @@ const OrderDetailModal = ({
                                                                 NRS {orderDetails?.subTotal}
                                                             </span>
                                                         </li>
-                                                        <li className="flex justify-between pb-[6px] mb-[6px] border-solid border-b-[1px] border-borderGray">
+                                                        <li className="flex justify-between pb-[6px] mb-[6px] border-solid border-b-[1px] border-orange-550">
                                                             <strong className="data-title">
                                                                 Delivery Charge:
                                                             </strong>
@@ -201,7 +201,7 @@ const OrderDetailModal = ({
                                                                 NRS {orderDetails?.deliveryCharge}
                                                             </span>
                                                         </li>
-                                                        <li className="flex justify-between pb-[6px] mb-[6px] border-solid border-b-[1px] border-borderGray">
+                                                        <li className="flex justify-between pb-[6px] mb-[6px] border-solid border-b-[1px] border-orange-550">
                                                             <strong className="!font-bold !text-gray-50 data-title">
                                                                 Total Amount:
                                                             </strong>
