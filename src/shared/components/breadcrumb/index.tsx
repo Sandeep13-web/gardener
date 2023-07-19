@@ -25,7 +25,10 @@ const Breadcrumb = ({title}:any) => {
     { label: "About Us", path: "/about-us" },
     { label: "Wishlist", path: "/wishlist" },
     { label: "Blogs", path: "/blogs" },
-    { label: "Account Profile" , path: '/account/profile'}
+    { label: "Account Profile" , path: '/account/profile'},
+    {label: "Order" , path:'/account/order'},
+    {label:'Change Password' , path:"/account/change-password"},
+    {label: "Your Address" , path: '/account/addresses'}
   ];
   const currentBreadcrumbItem = breadcrumbItems.find(
     (item) => item.path === pathname
@@ -51,7 +54,7 @@ const Breadcrumb = ({title}:any) => {
         <h1 className="mb-6 text-3xl font-semibold leading-none text-black capitalize breadcrumb-heading">
           {breadcrumbLabel}
         </h1>
-        <ul className="flex justify-center breadcrumb-links items-center">
+        <ul className="flex items-center justify-center breadcrumb-links">
           <li>
             <Link
               href="/"
