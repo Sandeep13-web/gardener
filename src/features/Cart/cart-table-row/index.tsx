@@ -30,7 +30,7 @@ const CartTableRow = ({item}:any) => {
     }, [debounceSearchValue])
 
     return (
-        <tr key={item?.product?.id} className="border-b-gray-350">
+        <tr className="border-b-gray-350">
             <td className="w-[150px] text-gray-650 text-center py-[30px] font-medium">
                 <Image
                     src={"/images/card-img.jpeg"}
