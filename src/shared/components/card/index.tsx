@@ -17,7 +17,6 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
   const [quantity, setQuantity] = useState<number>(1);
   const stock: any = cartItem?.selectedUnit?.stock
   const queryClient = useQueryClient();
-  // const debounceSearchValue:any = useDebounce(value, 300)
 
   const { updateCartMutation, handleRemoveFromCart } = useCarts(); //customHook
 
