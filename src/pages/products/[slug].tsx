@@ -121,10 +121,10 @@ const ProductSlug = () => {
               />
             </div>
             <div className="col-span-12 md:col-span-7">
-              <h2 className="mb-6 text-2xl font-semibold text-darkBlack">
+              <h2 className="mb-6 text-2xl font-semibold text-slate-850">
                 {productData?.response?.data?.title}
               </h2>
-              <p className="flex items-center gap-3 mb-2 text-sm font-bold color-darkBlack">
+              <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
                 Category:
                 <Link href={`/category/${productData?.response?.data?.categorySlug}`} className="mb-0 text-primary">
                   <span className="font-normal">{productData?.response?.data?.categoryTitle}</span>
@@ -225,7 +225,7 @@ const ProductSlug = () => {
 
       <div className="mb-[60px]">
         <div className="container">
-          <a data-toggle="tab" className="active relative flex justify-center uppercase pb-3 text-lg font-bold text-center after:h-[2px] after:absolute after:left-0 after:right-0 after:bottom-[-1px] after:bg-transparent after:transition-all after:duration-300 after:ease-linear after:bg-primary text-darkBlack after:w-[250px] after:text-center after:m-auto">
+          <a data-toggle="tab" className="active relative flex justify-center uppercase pb-3 text-lg font-bold text-center after:h-[2px] after:absolute after:left-0 after:right-0 after:bottom-[-1px] after:bg-transparent after:transition-all after:duration-300 after:ease-linear after:bg-primary text-slate-850 after:w-[250px] after:text-center after:m-auto">
             Product Description
           </a>
           <div className="px-8 py-10 overflow-hidden text-base leading-6 text-left bg-white border border-gray-200 tab-content">
