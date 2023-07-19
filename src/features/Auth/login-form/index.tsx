@@ -7,17 +7,18 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { ILogin } from '../../../interface/login.interface'
 import { setCookie } from 'cookies-next'
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
+import ButtonLoader from '@/shared/components/btn-loading'
 
 
 const LoginForm = () => {
     const router = useRouter()
     const queryClient = useQueryClient();
-    
+
     const mutation = useMutation({
         mutationFn: login,
         onSuccess: (data) => {
             setCookie('token', data?.access_token);
-            setCookie('isLoggedIn' , true)
+            setCookie('isLoggedIn', true)
             showToast(TOAST_TYPES.success, 'You have been successfully logged in.');
             router.push('/');
         },
@@ -68,8 +69,7 @@ const LoginForm = () => {
                     Login
                     {
                         mutation.isLoading &&
-                        <span
-                            className="w-5 h-5 border-4 border-white border-dotted rounded-full border-t-transparent animate-spin"></span>
+                        <ButtonLoader />
                     }
                 </button>
                 <Link href='/auth/forgot-password' className='text-sm transition-all duration-150 delay-100 text-slate-850 hover:text-primary'>Forgot Password?</Link>

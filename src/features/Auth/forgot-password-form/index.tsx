@@ -1,5 +1,6 @@
 import { IForgotPassword } from '@/interface/password.interface';
 import { forgotPassword } from '@/services/auth.service'
+import ButtonLoader from '@/shared/components/btn-loading';
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
@@ -55,7 +56,7 @@ const ForgotPasswordForm = () => {
                     Reset Password
                     {
                         mutation.isLoading &&
-                        <span className="w-5 h-5 border-4 border-white border-dotted rounded-full border-t-transparent animate-spin"></span>
+                        <ButtonLoader />
                     }
                 </button >
             </div>
