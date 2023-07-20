@@ -222,7 +222,7 @@
     }
     .collapse-content{
         p{
-            @apply bg-white border border-gray-1200;
+            @apply bg-white border border-gray-1200 text-sm;
             padding: 15px !important;
         }
     }
