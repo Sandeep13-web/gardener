@@ -34,58 +34,60 @@ const CartDropdown = () => {
               <p className="text-sm font-medium text-center text-slate-850">No Products in the cart.</p>
               :
               <>
-                {
-                  cart?.cartProducts?.map((item: any) => (
-                    <div
-                      key={item.product?.id}
-                      className="relative flex gap-4 py-[30px] border-b-2 border-solid border-gray-350"
-                    >
-                      <div className="min-w-[85px] min-h-[100px] aspect-auto border-solid border-2 border-gray-350 relative">
-                        <Link
-                          href={`/products/${item.product?.slug}`}
-                          className="absolute w-full h-full"
-                        />
-                        <Image
-                          width={85}
-                          height={100}
-                          src={item?.product?.images[0]?.imageName}
-                          alt="image"
-                          className="object-contain aspect-auto"
-                          crossOrigin="anonymous"
-                        />
-                        <Badge
-                          className="badge-primary left-1 top-1"
-                          badgePosition="top-left"
-                        >
-                          <span className="text-xs">{item.quantity}x</span>
-                        </Badge>
-                      </div>
-                      <div className="flex-grow">
-                        <Link href={`/products/${item.product?.slug}`}
-                          className="overflow-hidden text-sm font-semibold transition-all delay-150 duration-150 block text-ellipsis whitespace-nowrap max-w-[90%] hover:text-primary ">{item.product?.title}</Link>
-                        <p className="mt-1 text-sm gray-550">
-                          <span>NPR</span>{" "}
-                          {item.product?.unitPrice[0].sellingPrice * item.quantity}
-                        </p>
-                      </div>
-                      <button
-                        className="absolute right-0 w-5 btn-circle btn-error btn aspect-square hover:bg-primary hover:border-primary"
-                        onClick={() => handleRemoveFromCart(item?.id)}
-                        disabled={selectedId === item?.id && cartDelete.isLoading}
+                <div className="overflow-y-scroll max-h-[350px] pr-[20px]">
+                  {
+                    cart?.cartProducts?.map((item: any) => (
+                      <div
+                        key={item.product?.id}
+                        className="relative flex gap-4 py-[30px] border-b-2 border-solid border-gray-350"
                       >
-                        {(selectedId === item?.id &&
-                          cartDelete.isLoading) ?
-                          <span
-                            className="w-3 h-3 border-2 border-dotted rounded-full border-primary border-t-transparent animate-spin"></span>
-                          :
-                          <FaTimes className="w-3 h-3" />
+                        <div className="min-w-[85px] min-h-[100px] aspect-auto border-solid border-2 border-gray-350 relative">
+                          <Link
+                            href={`/products/${item.product?.slug}`}
+                            className="absolute w-full h-full"
+                          />
+                          <Image
+                            width={85}
+                            height={100}
+                            src={item?.product?.images[0]?.imageName}
+                            alt="image"
+                            className="object-contain aspect-auto"
+                            crossOrigin="anonymous"
+                          />
+                          <Badge
+                            className="badge-primary left-1 top-1"
+                            badgePosition="top-left"
+                          >
+                            <span className="text-xs">{item.quantity}x</span>
+                          </Badge>
+                        </div>
+                        <div className="flex-grow">
+                          <Link href={`/products/${item.product?.slug}`}
+                            className="overflow-hidden text-sm font-semibold transition-all delay-150 duration-150 block text-ellipsis whitespace-nowrap max-w-[90%] hover:text-primary ">{item.product?.title}</Link>
+                          <p className="mt-1 text-sm gray-550">
+                            <span>NPR</span>{" "}
+                            {item.product?.unitPrice[0].sellingPrice * item.quantity}
+                          </p>
+                        </div>
+                        <button
+                          className="absolute right-0 w-5 btn-circle btn-error btn aspect-square hover:bg-primary hover:border-primary"
+                          onClick={() => handleRemoveFromCart(item?.id)}
+                          disabled={selectedId === item?.id && cartDelete.isLoading}
+                        >
+                          {(selectedId === item?.id &&
+                            cartDelete.isLoading) ?
+                            <span
+                              className="w-3 h-3 border-2 border-dotted rounded-full border-primary border-t-transparent animate-spin"></span>
+                            :
+                            <FaTimes className="w-3 h-3" />
 
-                        }
-                      </button>
-                    </div>
-                  ))
+                          }
+                        </button>
+                      </div>
+                    ))
 
-                }
+                  }
+                </div>
                 {/* pricing list */}
                 <div className="my-[25px]">
                   <p className="flex justify-between mb-1 font-medium text-gray-450">

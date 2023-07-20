@@ -1,4 +1,5 @@
 .main-wrapper-block {
+    @apply py-8;
     .page__wrapper {
         @apply relative;
         .banner {
@@ -202,5 +203,30 @@
 @media (min-width: 768px) {
     .new__section .new__row:nth-child(2n) .image__section {
         @apply order-2;
+    }
+}
+.about-welcome-text ol{
+    list-style:auto;
+    padding-left: 40px;
+    margin: 10px 0;
+}
+
+
+.faq-accordion{
+    @apply bg-white;
+    input{
+        @apply h-[52px] absolute;
+    }
+    .collapse-title{
+        @apply h-[52px] font-normal py-[14px] pl-[20px] pr-[40px] border-0 text-base bg-gray-1150;
+    }
+    .collapse-content{
+        p{
+            @apply bg-white border border-gray-1200 text-sm;
+            padding: 15px !important;
+        }
+    }
+    input:checked + div{
+        @apply bg-primary text-white rounded-t-md;
     }
 }

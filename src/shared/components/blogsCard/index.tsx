@@ -36,7 +36,7 @@ import { parseISO, format } from "date-fns";
           />
         </figure>
       </Link>
-      <div className="card-body">
+      <div className="px-0 card-body">
         <Link
           href={`/blogs/${blog.slug}`}
           className="block mb-2 text-2xl font-semibold truncate card-title hover:text-primary"
@@ -68,7 +68,7 @@ import { parseISO, format } from "date-fns";
             href={`/blogs/${blog.slug}`}
             className="text-slate-850 transition-all delay-100 text-sm hover:text-primary hover:ml-[10px] flex items-center gap-1 font-normal"
           >
-            Shop Now
+            Read More
             <span className="bg-primary  rounded-full flex items-center justify-center w-[12px] h-[12px] p-[2px]">
               <CaretDownIcon className="transform rotate-[270deg] text-white max-w-full h-auto" />
             </span>

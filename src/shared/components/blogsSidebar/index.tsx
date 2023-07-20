@@ -37,18 +37,18 @@ const BlogSidebar = () => {
   }
 
   return (
-    <div className="order-last md:order-first col-span-12 md:col-span-3 right-sidebar">
+    <div className="order-last col-span-12 md:order-first md:col-span-3 right-sidebar">
       <div className="mb-[20px]">
         <h3 className="right-sidebar-head">Search</h3>
-        <div className="border-solid border-2 border-primary flex items-center rounded-3xl overflow-hidden mb-10 ">
+        <div className="flex items-center mb-10 overflow-hidden border-2 border-solid border-primary rounded-3xl ">
           <input
             type="text"
             placeholder="Search Products"
-            className="input input-ghost w-full"
+            className="w-full input input-ghost"
             value={searchQuery}
             onChange={handleInputChange}
           />
-          <button className="py-2 rounded-l-none btn btn-primary rounded-r-lg mb"
+          <button className="py-2 rounded-l-none rounded-r-lg btn btn-primary mb"
             onClick={handleSearch}
           >
             <SearchIcon />
@@ -62,19 +62,19 @@ const BlogSidebar = () => {
           {
             featuredBlog && featuredBlog?.data.slice(0,4).map((blog: IBlogItem, index: number) => (
               <div className="relative flex items-center mb-5" key={`featured-blogs-${index}`}>
-                <Link href={``} className=" absolute w-full h-full" />
+                <Link href={`/blogs/${blog?.slug}`} className="absolute w-full h-full " />
                 <div className="aspect-square w-[90px] shrink-0">
                   <img
-                    src={blog.thumbImage}
+                    src={blog?.thumbImage}
                     alt=""
                   />
                 </div>
                 <div className="p-2 overflow-hidden">
-                  <h5 className="truncate text-sm font-bold mb-1">
+                  <Link href={`/blogs//${blog?.slug}`} className="mb-1 text-sm font-bold truncate transition-all delay-100 duration-150 relative z-[1] hover:text-primary">
                     {" "}
-                    { blog.title }
-                  </h5>
-                  <p className="text-sm">{ changeDateFormat(blog.created_date.date ) }</p>
+                    { blog?.title }
+                  </Link>
+                  <p className="text-sm">{ changeDateFormat(blog?.created_date.date ) }</p>
                 </div>
               </div>
             ))

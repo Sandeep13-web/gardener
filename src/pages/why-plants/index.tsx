@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getPageData } from "@/services/page.service";
 import Breadcrumb from "@/shared/components/breadcrumb";
+import Loader from "@/components/Loading";
 
 
 const WhyPlant: NextPageWithLayout = () => {
@@ -13,7 +14,7 @@ const WhyPlant: NextPageWithLayout = () => {
   const [descriptionContent, setDescriptionContent] = useState<string>('');
   const path = asPath.split('/');
   const slug = path[path.length - 1];
-  const { data: whyPlantData } = useQuery({
+  const { data: whyPlantData, isInitialLoading: fetchLoading } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
@@ -27,15 +28,24 @@ const WhyPlant: NextPageWithLayout = () => {
   useEffect(() => {
     if (whyPlantData) {
       setDescriptionContent(whyPlantData?.data?.description || '');
-     }
+    }
   }, [whyPlantData]);
   return (
     <>
-    <Breadcrumb title={whyPlantData?.data?.title} />
-    <div className="py-7 text-justify" dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
+      {
+        fetchLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <Breadcrumb title={whyPlantData?.data?.title} />
+            <div className="text-justify py-7" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
+          </>
+        )
+      }
+
     </>
   );
-  
+
 }
 export default WhyPlant;
 WhyPlant.getLayout = (page) => {

@@ -11,31 +11,38 @@ import EmptyCart from "../../shared/components/empty-content/empty-cart";
 import { useCarts } from "@/hooks/cart.hooks";
 import ButtonLoader from "@/shared/components/btn-loading";
 
+enum COUPON_METHODS {
+  ADD_COUPON = 'Apply Coupon',
+  DELETE_COUPON = 'Remove Coupon'
+}
+
 const Cart: NextPageWithLayout = () => {
-  // const localCoupon = localStorage.getItem("coupon")
-  const [coupon , setCoupon] = useState('')
-  const [couponText, setCouponText] = useState<any>('Apply Coupon')
+  const [coupon, setCoupon] = useState('')
+  const [couponText, setCouponText] = useState<COUPON_METHODS>(COUPON_METHODS.ADD_COUPON)
   const { data: cart } = useQuery<ICartItem>(["getCart"])
   const { bulkCartDelete, bulkDeleteLoading } = useCarts()
   const clearCart = () => {
     bulkCartDelete.mutate()
   }
-
-  // const couponHandler = () => {
-  //   if (localCoupon) {
-  //     localStorage.removeItem("coupon")
-  //   } else{
-  //     localStorage.setItem("coupon" , coupon)
-  //   }
-  // }
-  
-  // useEffect(() => {
-  //   if (localCoupon) {
-  //     setCouponText("Remove Coupon")
-  //   } else {
-  //     setCouponText("Apply Coupon")
-  //   }
-  // }, [localCoupon])
+  const handleApplyCoupon = () => {
+    localStorage.setItem('coupon', coupon)
+    setCouponText(COUPON_METHODS.DELETE_COUPON)
+  }
+  const handleRemoveCoupon = () => {
+    if (localStorage.getItem("coupon")) {
+      localStorage.removeItem("coupon")
+      setCouponText(COUPON_METHODS.ADD_COUPON)
+      setCoupon('')
+    }
+  }
+  useEffect(() => {
+    if (window && localStorage) {
+      setCoupon(localStorage.getItem('coupon') as any)
+    }
+    if (localStorage.getItem("coupon")) {
+      setCouponText(COUPON_METHODS.DELETE_COUPON)
+    }
+  }, [localStorage, window])
 
   return (
     <>
@@ -86,7 +93,7 @@ const Cart: NextPageWithLayout = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {cart?.cartProducts?.map((item: any , index:number) => (
+                      {cart?.cartProducts?.map((item: any, index: number) => (
                         <CartTableRow item={item} key={index} />
                       ))}
                     </tbody>
@@ -129,12 +136,19 @@ const Cart: NextPageWithLayout = () => {
                           onChange={(e) => setCoupon(e.target.value)}
                           className="bg-white border border-gray-350 h-[45px] mb-[30px] pl-2.5 w-full focus:outline-0"
                         />
-                        <button
-                          // onClick={() => couponHandler()}
-                          type="button"
-                          className="btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white">
-                          {couponText}
-                        </button>
+                        {
+                          couponText === COUPON_METHODS.ADD_COUPON ? <button
+                            onClick={handleApplyCoupon}
+                            type="button"
+                            className="btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white">
+                            {couponText}
+                          </button> : <button
+                            onClick={handleRemoveCoupon}
+                            type="button"
+                            className="btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white">
+                            {couponText}
+                          </button>
+                        }
                       </form>
                     </div>
                   </div>
@@ -176,7 +190,7 @@ const Cart: NextPageWithLayout = () => {
                       </p>
                     </div>
                     <Link
-                      href={"/"}
+                      href={"/checkout"}
                       className="btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white w-full"
                     >
                       Proceed To Checkout
