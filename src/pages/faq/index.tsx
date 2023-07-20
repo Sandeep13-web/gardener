@@ -8,6 +8,12 @@ import { useRouter } from 'next/router'
 import { useQuery } from '@tanstack/react-query'
 import { getFaqData, getPageData } from '@/services/page.service'
 
+export interface IFaq {
+    question: string,
+    answer: string,
+    id: number,
+}
+
 const Faq: NextPageWithLayout = () => {
     const router = useRouter();
     const { asPath } = router;
@@ -33,7 +39,7 @@ const Faq: NextPageWithLayout = () => {
                             <div className='py-[60px]'>
                                 <h5 className='text-[32px] text-slate-850 capitalize font-semibold mb-7 text-center'>Frequently Asked Questions</h5>
                                 {
-                                    faqData && faqData?.data.map((faq: any, index: number) => (
+                                    faqData && faqData?.data.map((faq: IFaq, index: number) => (
                                         <div className="mb-3.5 collapse bg-base-200 faq-accordion" key={index}>
                                             <input type="radio" name="my-accordion-1" />
                                             <div className="collapse-title">
