@@ -1,5 +1,5 @@
 import { login } from '@/services/auth.service'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -8,11 +8,18 @@ import { ILogin } from '../../../interface/login.interface'
 import { setCookie } from 'cookies-next'
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
 import ButtonLoader from '@/shared/components/btn-loading'
+import { ICartItem } from '@/interface/cart.interface'
+import { associateCart, getCartData } from '@/services/cart.service'
 
+interface LoginFormProps {
+    closeModal?: () => void;
+  }
 
-const LoginForm = () => {
+const LoginForm:React.FC<LoginFormProps> = ({ closeModal }) => {
     const router = useRouter()
     const queryClient = useQueryClient();
+    const { data: cart } = useQuery<ICartItem>(["getCart"], getCartData)
+    console.log(cart);
 
     const mutation = useMutation({
         mutationFn: login,
@@ -20,7 +27,14 @@ const LoginForm = () => {
             setCookie('token', data?.access_token);
             setCookie('isLoggedIn', true)
             showToast(TOAST_TYPES.success, 'You have been successfully logged in.');
-            router.push('/');
+            if (cart && cart.cartProducts?.length > 0) {
+                associateCart(data?.access_token);
+                router.push('/checkout');
+                closeModal && closeModal();
+            } else {
+                router.push('/');
+            }
+            // router.push('/');
         },
         onError: (error: any) => {
             const errors = error?.response?.data?.errors
