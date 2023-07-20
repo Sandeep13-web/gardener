@@ -1,15 +1,22 @@
 import MainLayout from "@/shared/main-layout";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
+import { OrderSuccess } from "@/shared/lib/image-config";
+import { OrderFailure } from "@/shared/lib/image-config";
 
 const Review = () => {
+  const router = useRouter();
+  const { success } = router.query;
   return (
     <>
       <div className="pb-[80px]">
         <div className="container">
-          {/* Order Success */}
-          <div className="max-w-[520px] mx-auto text-center mt-[20px]">
-            <img className="mx-auto" src="images/order-success.svg" />
+        {success === 'true' ? (
+        <div>
+           {/* Order Success */}
+           <div className="max-w-[520px] mx-auto text-center mt-[20px]">
+            <img className="mx-auto" src={OrderSuccess} />
             <div>
               <h2 className="font-medium my-[30px] mb-[19px] text-[26px]">
                 Order Has Been Placed Successfully
@@ -28,10 +35,12 @@ const Review = () => {
               </Link>
             </div>
           </div>
-
-          {/* Order Fail */}
-          <div className="max-w-[520px] mx-auto text-center mt-[20px]">
-            <img className="mx-auto" src="images/payment-failed.png" />
+        </div>
+      ) : (
+        <div>
+             {/* Order Fail */}
+             <div className="max-w-[520px] mx-auto text-center mt-[20px]">
+            <img className="mx-auto" src={OrderFailure} />
             <div>
               <h2 className="font-medium my-[30px] mb-[19px] text-[26px]">  Payment Failed </h2>
               <p className="text-black text-[18px]">
@@ -47,6 +56,11 @@ const Review = () => {
               </Link>
             </div>
           </div>
+        </div>
+      )}
+         
+
+       
         </div>
       </div>
     </>
