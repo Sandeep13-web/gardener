@@ -5,6 +5,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { IRegister } from '../../../interface/register.interface'
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
+import ButtonLoader from '@/shared/components/btn-loading'
 
 const RegisterForm = () => {
     const router = useRouter()
@@ -139,8 +140,7 @@ const RegisterForm = () => {
                     Sign Up
                     {
                         mutation.isLoading &&
-                        <span
-                            className="w-5 h-5 border-4 border-white border-dotted rounded-full border-t-transparent animate-spin"></span>
+                        <ButtonLoader />
                     }
                 </button>
             </div>

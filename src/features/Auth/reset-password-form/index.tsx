@@ -1,5 +1,6 @@
 import { IResetPassword } from "@/interface/password.interface";
 import { resetPassword } from "@/services/auth.service";
+import ButtonLoader from "@/shared/components/btn-loading";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -78,14 +79,14 @@ const ResetPasswordForm = () => {
                     <p className="text-error text-xs leading-[24px] mt-1">{errors['new-password']?.message}</p>
                 }
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
                 <button
                     className="btn btn-tertiary text-slate-850 text-sm font-bold uppercase px-[30px] py-[11px] rounded-[30px] hover:bg-primary hover:text-white hover:border-primary"
                 >
                     Change Password
                     {
                         mutation.isLoading && 
-                        <span className="w-5 h-5 border-4 border-white border-dotted rounded-full border-t-transparent animate-spin"></span>
+                        <ButtonLoader />
                     }
                 </button>
             </div>

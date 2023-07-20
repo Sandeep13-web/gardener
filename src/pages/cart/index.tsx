@@ -86,8 +86,8 @@ const Cart: NextPageWithLayout = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {cart?.cartProducts?.map((item: any) => (
-                        <CartTableRow item={item} />
+                      {cart?.cartProducts?.map((item: any , index:number) => (
+                        <CartTableRow item={item} key={index} />
                       ))}
                     </tbody>
                   </table>

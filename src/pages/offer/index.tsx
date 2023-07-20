@@ -9,10 +9,7 @@ import Link from "next/link";
 import Loader from "@/components/Loading";
 import EmptyPage from "@/components/emptyPage";
 import Breadcrumb from "@/shared/components/breadcrumb";
-<<<<<<< HEAD
-=======
 import Head from "next/head";
->>>>>>> dev
 
 const Offer: NextPageWithLayout = () => {
 
