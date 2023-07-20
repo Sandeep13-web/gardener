@@ -22,7 +22,6 @@ export const checkout = async (deliveryId: any, paymentMethodId: any, note:any) 
   try {
     const response = await axios.delete(`${checkoutUrl}?note=${note}`, { headers });
     // Handle successful response
-    console.log(response);
   } catch (error) {
     // Handle error
     console.error(error);

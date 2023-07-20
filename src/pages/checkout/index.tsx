@@ -42,13 +42,11 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
 
   const handlePaymentChange = (payment: IPaymentMethod) => {
     setSelectedPayment(payment);
-    console.log(payment)
   };
 
   // Selected Delivery Address by id
   const handleSelectDeliveryAddress = (defaultAddressvalue:any) => {
     setSelectedDeliveryAddress(defaultAddressvalue);
-    console.log(defaultAddressvalue);
   };
 
   const [position, setPosition] = useState<[number, number]>([28.3949, 84.1240]); // Coordinates for Nepal
@@ -139,8 +137,6 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
     event.preventDefault();
 
     if (formData.latitude === 0 || formData.longitude === 0) {
-      // Show an error message for location selection
-      console.error('Please select a location');
       showToast(TOAST_TYPES.error, 'Please select a location');
       return;
     }
@@ -154,11 +150,10 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
         getDeliveryAddress();
         setShowModal(false); // Close the modal after successful update
       } catch (error) {
-        // Handle error during update
         console.error('Error occurred during update:', error);
       }
     } else {
-      // Call the add API for saving a new address
+      // API Call  for saving a new address
       try {
         await addDeliverAddress(formData);
         // Call getDeliveryAddress function immediately after adding the new address
