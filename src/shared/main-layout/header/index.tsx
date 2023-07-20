@@ -210,7 +210,7 @@ const Header = () => {
                       </li>
                       <li className="mx-5 ">
                         <Link
-                          href={"/"}
+                          href={"/checkout"}
                           className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.1] hover:px-0"
                         >
                           Checkout

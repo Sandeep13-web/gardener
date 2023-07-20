@@ -1,5 +1,5 @@
 import { CartEmpty } from "@/shared/lib/image-config";
-import MainLayout from "@/shared/main-layout";
+
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -36,7 +36,3 @@ const EmptyCart = () => {
 };
 
 export default EmptyCart;
-
-EmptyCart.getLayout = (page: any) => {
-  return <MainLayout>{page}</MainLayout>;
-};

@@ -383,7 +383,7 @@ const DelieveryAddress = () => {
           </>
         )}
         {deliveryAddressData?.map((deliveryAddressContent: any, index: any) => (
-              <div className={`col-span-12 sm:col-span-6 lg:col-span-4 border boder-solid boder-grey-500 min-h-[170px] p-4 ${deliveryAddressContent.isDefault ? 'border-lightGreen' : ''}`} key={deliveryAddressContent.id}>
+              <div className={`col-span-12 sm:col-span-6 lg:col-span-4 border boder-solid boder-grey-500 min-h-[170px] p-4 ${deliveryAddressContent.isDefault ? 'border-green-50' : ''}`} key={deliveryAddressContent.id}>
               <h5 className="mb-2">{deliveryAddressContent?.customer}</h5>
               <p className="text-sm mb-1">{deliveryAddressContent?.title}</p>
               <p className="text-sm mb-1">{deliveryAddressContent?.detail?.formatted_address}</p>

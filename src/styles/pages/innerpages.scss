@@ -68,7 +68,7 @@
     .collapse__btn__wrapper {
         @apply flex transition-all duration-300 ease-in-out;
         .collapse__btn {
-            @apply w-full text-lightGreen border-solid border-[1px] border-lightGreen p-[13px] text-[20px] uppercase bg-lightWhite max-w-[540px] rounded-none;
+            @apply w-full text-green-50 border-solid border-[1px] border-green-50 p-[13px] text-[20px] uppercase bg-white-150 max-w-[540px] rounded-none;
             img {
                 @apply w-[50px];
             }
@@ -114,7 +114,7 @@
 }
 
 .occassion__bottom {
-    @apply bg-lightOrange pt-[50px] pb-[70px] font-medium;
+    @apply bg-orange-150 pt-[50px] pb-[70px] font-medium;
     p {
         @apply text-orange-500 max-w-[950px] mx-auto text-xl relative;
         &:before {

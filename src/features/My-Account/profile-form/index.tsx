@@ -1,5 +1,6 @@
 import { IProfile } from '@/interface/profile.interface'
 import { getProfileShow, updateProfile } from '@/services/profile.service'
+import SkeletonInput from '@/shared/components/skeleton/input'
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import React, { useEffect } from 'react'
@@ -7,7 +8,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 const ProfileForm = () => {
     const queryClient = useQueryClient();
-    const { data: profile }: any = useQuery(['getProfileShow'], getProfileShow)
+    const { data: profile, initialLoading: profileLoading }: any = useQuery(['getProfileShow'], getProfileShow)
 
     const { register, handleSubmit, formState: { errors }, trigger, reset } = useForm<IProfile>({
         defaultValues: {
@@ -54,66 +55,103 @@ const ProfileForm = () => {
                     <label className="block mb-2" htmlFor="firstname">
                         First Name
                     </label>
-                    <input
-                        type="text"
-                        placeholder="Type here"
-                        {...register('first_name', { required: 'FirstName is required' })}
-                        onBlur={() => trigger('first_name')}
-                        className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.first_name ? 'border-error' : 'border-gray-350'} `}
-                    />
                     {
-                        errors.first_name &&
-                        <p className='text-error text-xs leading-[24px] mt-1'>{errors.first_name.message}</p>
+                        profileLoading ? (
+                            <SkeletonInput />
+                        ) :
+                            (
+                                <>
+                                    <input
+                                        type="text"
+                                        placeholder="First Name"
+                                        {...register('first_name', { required: 'FirstName is required' })}
+                                        onBlur={() => trigger('first_name')}
+                                        className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.first_name ? 'border-error' : 'border-gray-350'} `}
+                                    />
+                                    {
+                                        errors.first_name &&
+                                        <p className='text-error text-xs leading-[24px] mt-1'>{errors.first_name.message}</p>
+                                    }
+                                </>
+                            )
                     }
+
                 </div>
                 <div className="col-span-12">
                     <label className="block mb-2" htmlFor="firstname">
                         Last Name
                     </label>
-                    <input
-                        type="text"
-                        placeholder="Type here"
-                        {...register("last_name", { required: "LastName is required" })}
-                        onBlur={() => trigger('last_name')}
-                        className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.last_name ? 'border-error' : 'border-gray-350'}`}
-                    />
                     {
-                        errors.last_name &&
-                        <p className='text-error text-xs leading-[24px] mt-1'>{errors.last_name.message}</p>
+                        profileLoading ? (
+                            <SkeletonInput />
+                        ) :
+                            (
+                                <>
+                                    <input
+                                        type="text"
+                                        placeholder="Last Name"
+                                        {...register("last_name", { required: "LastName is required" })}
+                                        onBlur={() => trigger('last_name')}
+                                        className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.last_name ? 'border-error' : 'border-gray-350'}`}
+                                    />
+                                    {
+                                        errors.last_name &&
+                                        <p className='text-error text-xs leading-[24px] mt-1'>{errors.last_name.message}</p>
+                                    }
+                                </>
+                            )
                     }
                 </div>
                 <div className="col-span-12">
                     <label className="block mb-2" htmlFor="firstname">
                         Email Address
                     </label>
-                    <input
-                        type="text"
-                        readOnly
-                        placeholder="Type here"
-                        defaultValue={profile?.data?.email}
-                        className="px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350 read-only:bg-gray-350 "
-                    />
+                    {
+                        profileLoading ? (
+                            <SkeletonInput />
+                        ) :
+                            (
+                                <>
+                                    <input
+                                        type="text"
+                                        readOnly
+                                        placeholder="Email Address"
+                                        defaultValue={profile?.data?.email}
+                                        className="px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border border-gray-350 read-only:bg-gray-350 "
+                                    />
+                                </>
+                            )
+                    }
                 </div>
                 <div className="col-span-12">
                     <label className="block mb-2" htmlFor="firstname">
                         Phone number
                     </label>
-                    <input
-                        type="text"
-                        placeholder="Type here"
-                        {...register('mobile_number', {
-                            required: 'Phone number is required.',
-                            pattern: {
-                                value: /^[9]\d{9}$/,
-                                message: "Phone number must start with 9 and have 10 digits.",
-                            }
-                        })}
-                        onBlur={() => trigger('mobile_number')}
-                        className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.mobile_number ? 'border-error' : 'border-gray-350'}`}
-                    />
                     {
-                        errors.mobile_number &&
-                        <p className='text-error text-xs leading-[24px] mt-1'>{errors.mobile_number.message}</p>
+                        profileLoading ? (
+                            <SkeletonInput />
+                        ) :
+                            (
+                                <>
+                                    <input
+                                        type="text"
+                                        placeholder="Phone Number"
+                                        {...register('mobile_number', {
+                                            required: 'Phone number is required.',
+                                            pattern: {
+                                                value: /^[9]\d{9}$/,
+                                                message: "Phone number must start with 9 and have 10 digits.",
+                                            }
+                                        })}
+                                        onBlur={() => trigger('mobile_number')}
+                                        className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.mobile_number ? 'border-error' : 'border-gray-350'}`}
+                                    />
+                                    {
+                                        errors.mobile_number &&
+                                        <p className='text-error text-xs leading-[24px] mt-1'>{errors.mobile_number.message}</p>
+                                    }
+                                </>
+                            )
                     }
                 </div>
                 <div className="flex justify-between col-span-12">
