@@ -86,3 +86,14 @@ export interface IWareHouse {
   id: number;
   title: string;
 }
+
+export interface IPaymentMethod {
+  id: number;
+  title: string;
+  icon: string;
+  default: boolean;
+}
+
+export interface PaymentFormProps {
+  paymentMethods: IPaymentMethod[];
+}
