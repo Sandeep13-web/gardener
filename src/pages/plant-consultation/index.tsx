@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getPageData } from "@/services/page.service";
 import Breadcrumb from "@/shared/components/breadcrumb";
+import Loader from "@/components/Loading";
 
 const PlantConsultation: NextPageWithLayout = () => {
   const router = useRouter();
@@ -12,7 +13,7 @@ const PlantConsultation: NextPageWithLayout = () => {
   const [descriptionContent, setDescriptionContent] = useState<string>("");
   const path = asPath.split("/");
   const slug = path[path.length - 1];
-  const { data: plantConsultationData } = useQuery({
+  const { data: plantConsultationData, isInitialLoading: fetchLoading } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
@@ -28,13 +29,23 @@ const PlantConsultation: NextPageWithLayout = () => {
       setDescriptionContent(plantConsultationData?.data?.description || "");
     }
   }, [plantConsultationData]);
+
   return (
     <>
-      <Breadcrumb title={plantConsultationData?.data?.title} />
-      <div
-        className="main-wrapper-block"
-        dangerouslySetInnerHTML={{ __html: descriptionContent }}
-      />
+      {
+        fetchLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <Breadcrumb title={plantConsultationData?.data?.title} />
+            <div
+              className="main-wrapper-block"
+              dangerouslySetInnerHTML={{ __html: descriptionContent }}
+            />
+          </>
+        )
+      }
+
     </>
   );
 };

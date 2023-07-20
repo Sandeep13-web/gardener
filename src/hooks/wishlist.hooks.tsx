@@ -43,5 +43,13 @@ export const useWishlists = () => {
         }
     })
 
-    return { handleAddToFav, handleRemoveFromFav, favouriteList, addFavMutation, removeFavMutation }
+    return {
+        handleAddToFav,
+        handleRemoveFromFav,
+        favouriteList,
+        addFavMutation,
+        removeFavMutation,
+        addLoading: addFavMutation.isLoading,
+        removeLoading: removeFavMutation.isLoading
+    }
 }

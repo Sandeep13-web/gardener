@@ -10,6 +10,7 @@ import { IBlogItem } from "@/interface/blog.interface";
 import Loader from "@/components/Loading";
 import EmptyPage from "@/components/emptyPage";
 import Breadcrumb from "@/shared/components/breadcrumb";
+import Head from "next/head";
 
 const Blogs: NextPageWithLayout = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -25,6 +26,9 @@ const Blogs: NextPageWithLayout = () => {
 
   return (
     <div>
+      <Head>
+        <title>Blogs</title>
+      </Head>
       <Breadcrumb />
       <div className="container  my-[60px]">
         <div className="grid grid-cols-12 md:gap-[30px]">
