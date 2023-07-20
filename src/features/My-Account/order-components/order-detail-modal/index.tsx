@@ -143,8 +143,8 @@ const OrderDetailModal = ({
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {orderDetails?.orderProducts.map((product: IOrderProduct) => (
-                                                            <tr>
+                                                        {orderDetails?.orderProducts.map((product: IOrderProduct , index:number) => (
+                                                            <tr key={index}>
                                                                 <td className="text-sm leading-4 text-light-black">
                                                                     {product?.productName} X {product?.quantity}
                                                                 </td>
