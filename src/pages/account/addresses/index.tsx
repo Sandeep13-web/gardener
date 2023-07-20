@@ -110,8 +110,6 @@ const DelieveryAddress = () => {
     event.preventDefault();
 
     if (formData.latitude === 0 || formData.longitude === 0) {
-      // Show an error message for location selection
-      console.error('Please select a location');
       showToast(TOAST_TYPES.error, 'Please select a location');
       return;
     }
