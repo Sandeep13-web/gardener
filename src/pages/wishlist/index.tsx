@@ -31,13 +31,13 @@ const Wishlist: NextPageWithLayout = () => {
                     <div className="container">
                         <section className="my-[60px]">
                             <div>
-                                {wishlist?.data.length === 0 ? (
+                                {wishlist?.data?.length === 0 ? (
                                     <EmptyPage />
                                 ) : (
                                     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                                        {wishlist?.data.map((favProduct: any, index: any) => 
+                                        {wishlist?.data?.map((favProduct: any, index: any) => 
                                             <Card
-                                                product={favProduct.product}
+                                                product={favProduct?.product}
                                                 key={`app-cat-products-${index}`}
                                             />
                                         )}

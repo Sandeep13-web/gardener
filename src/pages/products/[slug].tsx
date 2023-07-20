@@ -16,6 +16,7 @@ import ButtonLoader from '@/shared/components/btn-loading';
 import Head from 'next/head';
 import { addToCart } from '@/services/cart.service';
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils';
+import SkeletonImage from '@/shared/components/skeleton/image';
 
 
 const ProductSlug = () => {
@@ -113,12 +114,19 @@ const ProductSlug = () => {
         <div className="container">
           <div className="grid grid-cols-12">
             <div className="col-span-12 md:col-span-5">
-              <Image
-                src={productData?.response?.data?.images[0]?.imageName}
-                alt=""
-                className="flex mx-auto img-fluid"
-                width={330} height={330}
-              />
+              {
+                isLoading ?
+                  <SkeletonImage />
+                  : (
+                    <Image
+                      src={productData?.response?.data?.images[0]?.imageName}
+                      alt="Product image"
+                      className="flex mx-auto img-fluid"
+                      width={330} height={330}
+                    />
+                  )
+              }
+
             </div>
             <div className="col-span-12 md:col-span-7">
               <h2 className="mb-6 text-2xl font-semibold text-slate-850">

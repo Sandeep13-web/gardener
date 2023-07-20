@@ -8,7 +8,7 @@ import { NextPage } from "next";
 import type { AppProps } from "next/app";
 
 import { Inter } from "next/font/google";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,7 +23,12 @@ type AppPropsWithLayout = AppProps & {
 
 const queryClient = new QueryClient()
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const [isClient, setIsClient] = useState(false)
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
   const getLayout = Component.getLayout ?? ((page) => page);
+  if (!isClient) return null;
   return (
     <QueryClientProvider client={queryClient}>
       <ToastContainer />

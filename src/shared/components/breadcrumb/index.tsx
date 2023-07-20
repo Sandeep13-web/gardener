@@ -4,7 +4,7 @@ import React from "react";
 import { BreadCrumbImage } from "@/shared/lib/image-config";
 import { PiCaretRightBold } from "react-icons/pi";
 
-const Breadcrumb = ({title}:any) => {
+const Breadcrumb = ({ title }: any) => {
   const router = useRouter();
   const { pathname } = router;
   const { slug } = router.query;
@@ -25,10 +25,14 @@ const Breadcrumb = ({title}:any) => {
     { label: "About Us", path: "/about-us" },
     { label: "Wishlist", path: "/wishlist" },
     { label: "Blogs", path: "/blogs" },
-    { label: "Account Profile" , path: '/account/profile'},
-    {label: "Order" , path:'/account/order'},
-    {label:'Change Password' , path:"/account/change-password"},
-    {label: "Your Address" , path: '/account/addresses'}
+    { label: "Account Profile", path: '/account/profile' },
+    { label: "Order", path: '/account/order' },
+    { label: 'Change Password', path: "/account/change-password" },
+    { label: "Your Address", path: '/account/addresses' },
+    { label: 'Privacy Policy', path: '/privacy-policy' },
+    { label: 'Terms and Conditions', path: '/terms-and-conditions' },
+    { label: 'Faq', path: '/faq' },
+    { label: 'Contact Us', path: '/contact-us' },
   ];
   const currentBreadcrumbItem = breadcrumbItems.find(
     (item) => item.path === pathname

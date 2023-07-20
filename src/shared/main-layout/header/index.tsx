@@ -74,6 +74,7 @@ const Header = () => {
     queryFn: getAllWishlistProducts,
     enabled: !!token,
   })
+  console.log('favList' , favouriteList)
 
   const { data: cart } = useQuery<ICartItem>(["getCart"])
 
