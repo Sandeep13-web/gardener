@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getPageData } from "@/services/page.service";
 import Breadcrumb from "@/shared/components/breadcrumb";
 import Loader from "@/components/Loading";
+import Head from "next/head";
 
 const GiftAPlant: NextPageWithLayout = () => {
   const router = useRouter();
@@ -31,6 +32,9 @@ const GiftAPlant: NextPageWithLayout = () => {
   }, [giftPlantData]);
   return (
     <>
+      <Head>
+        <title>{giftPlantData?.data?.title || 'I am the Gardener'}</title>
+      </Head>
       {
         fetchLoading ? (
           <Loader />

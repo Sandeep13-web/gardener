@@ -9,3 +9,12 @@ export const sendFeedback = async (payload: IContactUs) => {
     throw error;
   }
 };
+
+export const feedBackOption = async () => {
+  try {
+    const response = await axiosInstance.get("/feedback-section");
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
