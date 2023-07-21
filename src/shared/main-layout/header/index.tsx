@@ -96,7 +96,6 @@ const Header = () => {
   //   },
   //   enabled: !!token
   // })
-  // console.log('favList', favouriteList)
 
   const { data: cart } = useQuery<ICartItem>(["getCart"])
 
