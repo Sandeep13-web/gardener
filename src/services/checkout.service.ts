@@ -1,5 +1,5 @@
 import { CookieKeys } from '@/shared/enum';
-import { getUserFromStorage, getWareId } from '@/shared/utils/cookies-utils/cookies.utils';
+import { getToken, getWareId } from '@/shared/utils/cookies-utils/cookies.utils';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import { config } from '../../config';
@@ -25,13 +25,6 @@ export const checkout = async (deliveryId: any, paymentMethodId: any, note:any) 
   } catch (error) {
     // Handle error
     console.error(error);
-  }
-};
-
-export const getToken = () => {
-  if (getUserFromStorage()) {
-    const token = getUserFromStorage();
-    return token;
   }
 };
 
