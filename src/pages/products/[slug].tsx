@@ -173,7 +173,7 @@ const ProductSlug = () => {
                       <div className="w-full carousel">
                         {
                           productData?.response?.data?.images?.map((img: any, index: number) => (
-                            <div id={`item-${index}`} className="w-full carousel-item">
+                            <div key={index} id={`item-${index}`} className="w-full carousel-item">
                               <Image
                                 alt='Product Image'
                                 src={img?.imageName}
@@ -186,7 +186,7 @@ const ProductSlug = () => {
                       <div className="flex justify-start w-full gap-2 py-2">
                         {
                           productData?.response?.data?.images?.map((img: any, index: number) => (
-                            <a href={`#item-${index}`}>
+                            <a href={`#item-${index}`} key={index}>
                               <Image
                                 alt='Product Image'
                                 src={img?.imageName}
