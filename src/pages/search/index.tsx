@@ -12,50 +12,49 @@ import Loader from "@/components/Loading";
 import CategoryCard from "@/shared/components/category-card";
 import Breadcrumb from "@/shared/components/breadcrumb";
 import Head from "next/head";
+import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
+import SortingDropdown from "@/shared/components/sorting-dropdown";
+import SkeletonLoadingCard from "@/shared/components/skeleton/products";
+import Pagination from "@/shared/components/pagination";
 
 const SearchPage: NextPageWithLayout = () => {
   const router = useRouter();
-  const page = 1
+  const token = getToken()
   const { type, keyword } = router.query;
   const [selectedOption, setSelectedOption] = useState('');
-  
+  const [selectedValue, setSelectedValue] = useState<string>('')
+  const [pageNumber, setPageNumber] = useState<number>(1)
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);
   };
 
 
-  const { data: searchData, isLoading, error } = useQuery(['searchResults', type?.toString() || '', keyword?.toString() || ''], () =>
-    getSearchResults(type?.toString() || '', keyword?.toString() || '', page)
-      .then((response) => {
-        if (selectedOption === "ascending") {
-          if (response.data) {
-            response.data.sort((firstProduct: any, secondProduct: any) => firstProduct.title.localeCompare(secondProduct.title));
-          }
-        } else if (selectedOption === "high") {
-          if (response.data) {
-            response.data.sort((firstProduct: any, secondProduct: any) =>
-              secondProduct.unitPrice[0].sellingPrice - firstProduct.unitPrice[0].sellingPrice
-            );
-          }
-        } else if (selectedOption === "low") {
-          if (response.data) {
-            response.data.sort((firstProduct: any, secondProduct: any) =>
-              firstProduct.unitPrice[0].sellingPrice - secondProduct.unitPrice[0].sellingPrice
-            );
-          }
-        } else if (selectedOption === "descending") {
-          if (response.data) {
-            response.data.sort((firstProduct: any, secondProduct: any) => secondProduct.title.localeCompare(firstProduct.title));
-          }
-        }
-        return response;
-      })
+  const { data: searchData, isLoading, error } = useQuery(['searchResults', type?.toString() || '', keyword?.toString() || '', selectedValue, pageNumber], () =>
+    getSearchResults(type?.toString() || '', keyword?.toString() || '', pageNumber, selectedValue)
   );
-  if (isLoading) {
-    // Show loader while data is being fetched
-    return <Loader />;
+
+  const { data: favList }: any = useQuery<any>(["wishlistProducts", token], { enabled: !!token });
+
+  /**
+   * Updates the search data and shows all items as well as fav products as well
+   */
+  const updatedData = searchData?.data?.map((item: any) => ({
+    ...item,
+    isFav: favList && favList?.data?.length > 0 ? favList?.data?.some((favItem: any) => favItem?.product_id === item?.id) : false,
+    favId: favList && favList.data.length > 0 ? favList?.data.find((favItem: any) => favItem.product_id === item.id)?.id : 0
+  }));
+
+  const handleSortingChange = (value: string) => {
+    setSelectedValue(value)
   }
-  
+
+  /**
+     * For page num change
+     */
+  const handlePageChange = (value: number) => {
+    setPageNumber(value)
+  }
+
   return (
     <div>
       <Head>
@@ -71,8 +70,6 @@ const SearchPage: NextPageWithLayout = () => {
             <Breadcrumb title='Search' />
             <div className="offer-page">
               <div className="container">
-                <div className="category"></div>
-                <div className="product"></div>
                 {/* Show the product data */}
                 {type === 'product' && (
                   <div>
@@ -82,52 +79,83 @@ const SearchPage: NextPageWithLayout = () => {
                       </div>
                       <div className="flex items-center sorting">
                         <p className="pr-3 text-sm font-normal text-gray-750">Sort By:</p>
-                        <select defaultValue={selectedOption} onChange={handleSelectChange}>
-                          <option value="">Please Select</option>
-                          <option value="ascending">A to Z</option>
-                          <option value="descending">Z to A</option>
-                          <option value="low">Price(Low &gt; High)</option>
-                          <option value="high">Price(High &lt; Low)</option>
-                        </select>
+                        <SortingDropdown sortChange={handleSortingChange} />
+                        {/* <select defaultValue={selectedOption} onChange={handleSelectChange}>
+                              <option value="">Please Select</option>
+                              <option value="ascending">A to Z</option>
+                              <option value="descending">Z to A</option>
+                              <option value="low">Price(Low &gt; High)</option>
+                              <option value="high">Price(High &lt; Low)</option>
+                            </select> */}
                       </div>
                     </div>
                     <section className="my-[60px]">
-                      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                        {searchData?.data.map((product: any, index: any) => (
-                          <Card
-                            product={product}
-                            key={`app-cat-products-${index}`}
+                      {
+                        isLoading ? (
+                          <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                            {[1, 2, 3, 4].map((index) => (
+                              <SkeletonLoadingCard
+                                key={`app-skeleton-${index}`}
+                              />
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                            {updatedData.map((product: any, index: any) => (
+                              <Card
+                                product={product}
+                                key={`app-cat-products-${index}`}
 
-                          />
-                        ))}
-                      </div>
+                              />
+                            ))}
+                          </div>
+                        )
+                      }
                     </section>
                   </div>
                 )}
                 {/* Show the category data */}
                 {type === 'category' && (
                   <section className="my-[60px]">
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                      {searchData?.data.map((item: any, index: number) => (
-                        <CategoryCard
-                          key={`categories-${index}`}
-                          title={item?.title}
-                          totalProducts={item?.productCount}
-                          shopLink={`/categories/${item?.slug}`}
-                          image={item.icon}
-                        />
-                      ))}
-                    </div>
+                    {
+                      isLoading ? (
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                          {[1, 2, 3, 4].map((index) => (
+                            <SkeletonLoadingCard
+                              key={`app-skeleton-${index}`}
+                            />
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                          {updatedData.map((item: any, index: number) => (
+                            <CategoryCard
+                              key={`categories-${index}`}
+                              title={item?.title}
+                              totalProducts={item?.productCount}
+                              shopLink={`/categories/${item?.slug}`}
+                              image={item.icon}
+                            />
+                          ))}
+                        </div>
+                      )
+                    }
                   </section>
                 )}
 
               </div>
-            </div>
+              <Pagination
+                currentPage={searchData?.meta?.pagination?.current_page}
+                totalPages={searchData?.meta?.pagination?.total_pages}
+                pageChange={handlePageChange}
+              />
+            </div >
+
           </>
         )
       }
 
-    </div>
+    </div >
   );
 };
 

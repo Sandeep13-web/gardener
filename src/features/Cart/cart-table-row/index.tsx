@@ -6,10 +6,10 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa';
 
-const CartTableRow = ({item}:any) => {
+const CartTableRow = ({ item }: any) => {
     const [value, setValue] = useState<number>(item?.quantity || 1);
     const stock: any = item?.selectedUnit?.stock
-    const [productId , setProductId] = useState<number>();
+    const [productId, setProductId] = useState<number>();
     const debounceSearchValue: any = useDebounce(value, 300)
 
     const { updateCartMutation, handleRemoveFromCart } = useCarts(); //customHook
@@ -28,7 +28,6 @@ const CartTableRow = ({item}:any) => {
     useEffect(() => {
         handleUpdateCart(debounceSearchValue);
     }, [debounceSearchValue])
-
     return (
         <tr className="border-b-gray-350">
             <td className="w-[150px] text-gray-650 text-center py-[30px] font-medium">

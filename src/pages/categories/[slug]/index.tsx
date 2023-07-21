@@ -27,18 +27,20 @@ import SortingDropdown from '@/shared/components/sorting-dropdown';
 import SkeletonLoadingCard from '@/shared/components/skeleton/products';
 import { ICartItem } from '@/interface/cart.interface';
 import Head from 'next/head';
+import { getToken } from '@/shared/utils/cookies-utils/cookies.utils';
 
 
 const CategoryDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const { slug } = router.query
+    const token = getToken()
     const [grid, setGrid] = useState<boolean>(true)
     const [query, setQuery] = useState<string>('');
     const queryClient = useQueryClient();
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [setFiltered, setSetFiltered] = useState(false);
     const [productData, setProductData] = useState(null);
-    const [selectedValue , setSelectedValue] = useState<string>('')
+    const [selectedValue, setSelectedValue] = useState<string>('')
     const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
     const { data: cart } = useQuery<ICartItem>(["getCart"]);
     const { data: tags } = useQuery({
@@ -49,6 +51,9 @@ const CategoryDetail: NextPageWithLayout = () => {
         queryKey: ["getConfig"],
         queryFn: getConfig,
     });
+    //For favourite map
+    const { data: favList }: any = useQuery<any>(["wishlistProducts", token], { enabled: !!token });
+
     const minimumPrice = Number(config?.data?.minimumPrice);
     const maximumPrice = Number(config?.data?.pageData['max-price']);
     const isMinimumValid = !isNaN(minimumPrice) && isFinite(minimumPrice);
@@ -71,27 +76,35 @@ const CategoryDetail: NextPageWithLayout = () => {
     };
 
     //Fetch Category Data
-    const handleSortingChange = (value:string) => {
+    const handleSortingChange = (value: string) => {
         setSelectedValue(value)
     }
-    
+
     const { data: initialProductData, isLoading, error } = useQuery(
         ['getProductByCategoryId', slug, pageNumber, selectedValue],
         async () => {
             let response;
             if (setFiltered) {
-                response = await getProductByCategory(query, pageNumber, slug, value[0], value[1] , selectedValue);
+                response = await getProductByCategory(query, pageNumber, slug, value[0], value[1], selectedValue);
             } else {
-                response = await getProductByCategory(query, pageNumber, slug, '', '' , selectedValue);
+                response = await getProductByCategory(query, pageNumber, slug, '', '', selectedValue);
             }
             return response;
         },
     );
+    const updatedData = initialProductData?.data?.map((item: any) => ({
+        ...item,
+        // product: {
+        //     ...item.product,
+        // }
+        isFav: favList && favList?.data?.length > 0 ? favList?.data?.some((favItem: any) => favItem?.product_id === item?.id) : false,
+        favId: favList && favList.data.length > 0 ? favList?.data.find((favItem: any) => favItem.product_id === item?.id)?.id : 0
+    }));
 
     const handlePageChange = (value: number) => {
         setPageNumber(value)
     }
-    
+
 
     useEffect(() => {
         if (initialProductData) {
@@ -108,9 +121,9 @@ const CategoryDetail: NextPageWithLayout = () => {
 
     return (
         <>
-        <Head>
-            <title>{initialProductData?.data[0]?.categoryTitle || 'I am the Gardener'}</title>
-        </Head>
+            <Head>
+                <title>{initialProductData?.data[0]?.categoryTitle || 'I am the Gardener'}</title>
+            </Head>
             <Breadcrumb title={initialProductData?.data[0]?.categoryTitle} />
             <div className='container my-[60px]'>
                 <div className="grid grid-cols-12 md:gap-[30px]">
@@ -213,7 +226,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                             </div>
                         </div>
                         <div>
-                        {
+                            {
                                 isLoading ?
                                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                                         {[1, 2, 3, 4].map((index) => (
@@ -227,7 +240,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                                     ) : (
                                         <>
                                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 xxs:grid-cols-2 lg:grid-cols-4">
-                                                {initialProductData.data?.map((product: any, index: any) => (
+                                                {updatedData?.map((product: any, index: any) => (
                                                     <Card
                                                         product={product}
                                                         key={`app-cat-products-${index}`}

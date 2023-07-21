@@ -6,7 +6,7 @@ export interface ISortDropdown {
 
 }
 
-const SortingDropdown:React.FC<ISortDropdown> = ({sortChange}) => {
+const SortingDropdown: React.FC<ISortDropdown> = ({ sortChange }) => {
     const options = [
         { label: 'A to Z', value: 'asc' },
         { label: 'Z to A', value: 'desc' },
@@ -37,7 +37,7 @@ const SortingDropdown:React.FC<ISortDropdown> = ({sortChange}) => {
                     <span className='border-0 rounded-none bg-none hover:!bg-none opacity-25'>Please Select</span>
                 </li>
                 {options.map((option) => (
-                    <li key={option.value} onClick={() => {handleTypeChange(option.label); sortChange(option.value)}} className={`hover:!bg-[#ebf5ff] ${option.label === selectedType ? 'bg-[#ebf5ff]' : ''}`}>
+                    <li key={option.value} onClick={() => { handleTypeChange(option.label); sortChange(option.value) }} className={`hover:!bg-[#ebf5ff] ${option.label === selectedType ? 'bg-[#ebf5ff]' : ''}`}>
                         <span className='border-0 rounded-none bg-none hover:!bg-none'>{option.label}</span>
                     </li>
                 ))}

@@ -6,6 +6,7 @@ import {
   getToken,
   getWareId,
 } from "@/shared/utils/cookies-utils/cookies.utils";
+import { getCookie } from "cookies-next";
 // import { getCoupon } from "@/shared/utils/local-storage-utils/local-storage.utils";
 
 const baseURL = config.gateway.baseURL;
@@ -32,6 +33,16 @@ export const setAuthorizationHeader = () => {
 
 // Call the function initially to set the Authorization header if the token is available.
 setAuthorizationHeader();
+
+export const setCouponHeader = () => {
+  const coupon = getCookie("coupon");
+  if (coupon) {
+    axiosInstance.defaults.headers.common["Coupon"] = coupon;
+  } else {
+    delete axiosInstance.defaults.headers.common["Coupon"];
+  }
+};
+setCouponHeader();
 
 axiosInstance.interceptors.response.use(
   (response: any) => {

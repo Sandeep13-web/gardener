@@ -10,101 +10,92 @@ import Loader from "@/components/Loading";
 import EmptyPage from "@/components/emptyPage";
 import Breadcrumb from "@/shared/components/breadcrumb";
 import Head from "next/head";
+import Pagination from "@/shared/components/pagination";
+import SortingDropdown from "@/shared/components/sorting-dropdown";
+import SkeletonLoadingCard from "@/shared/components/skeleton/products";
 
 const Offer: NextPageWithLayout = () => {
 
   const [query, setQuery] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
+  const [selectedValue, setSelectedValue] = useState<string>('')
   const offer = 1
-  const maxPrice = null
-  const minPrice = null
-
-  const [selectedOption, setSelectedOption] = useState('');
-
-  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
-  };
 
   const { data: offers, isLoading, error } = useQuery(
-    ['getOffers', query, pageNumber, offer, maxPrice, minPrice, selectedOption], () =>
-    getOffers(query, pageNumber, offer, maxPrice, minPrice)
-      .then((response) => {
-        if (selectedOption === "ascending") {
-          if (response.data) {
-            response.data.sort((firstProduct: any, secondProduct: any) => firstProduct.title.localeCompare(secondProduct.title));
-          }
-        } else if (selectedOption === "high") {
-          if (response.data) {
-            response.data.sort((firstProduct: any, secondProduct: any) =>
-              secondProduct.unitPrice[0].sellingPrice - firstProduct.unitPrice[0].sellingPrice
-            );
-          }
-        } else if (selectedOption === "low") {
-          if (response.data) {
-            response.data.sort((firstProduct: any, secondProduct: any) =>
-              firstProduct.unitPrice[0].sellingPrice - secondProduct.unitPrice[0].sellingPrice
-            );
-          }
-        } else if (selectedOption === "descending") {
-          if (response.data) {
-            response.data.sort((firstProduct: any, secondProduct: any) => secondProduct.title.localeCompare(firstProduct.title));
-          }
-        }
-        return response;
-      })
+    ['getOffers', query, pageNumber, offer, selectedValue], () =>
+    getOffers(query, pageNumber, offer, selectedValue)
   );
 
-  // if (isLoading) {
-  //   // Show loader while data is being fetched
-  //   return <Loader />;
-  // }
+  const handlePageChange = (value: number) => {
+    setPageNumber(value)
+  }
 
+  //Fetch Product Data
+  const handleSortingChange = (value: string) => {
+    setSelectedValue(value)
+  }
   return (
     <>
       <Head>
         <title>Offers</title>
       </Head>
       <Breadcrumb title="Offer" />
-      {isLoading ? <Loader /> : (
-        <div className="offer-page">
-          <div className="container">
 
-            {offers?.data?.length > 0 && (
-              <div className="top-bar flex items-center justify-between bg-slate-150 mt-[60px] my-[20px] p-[10px]">
-                <div className="products-count">
-                  <p className="text-sm font-normal text-gray-750">There are {offers?.data?.length} products</p>
-                </div>
-                <div className="flex items-center sorting">
-                  <p className="pr-3 text-sm font-normal text-gray-750">Sort By:</p>
-                  <select defaultValue={selectedOption} onChange={handleSelectChange}>
-                    <option value="">Please Select</option>
-                    <option value="ascending">A to Z</option>
-                    <option value="descending">Z to A</option>
-                    <option value="low">Price(Low &gt; High)</option>
-                    <option value="high">Price(High &lt; Low)</option>
-                  </select>
-                </div>
-              </div>
-            )}
-            <section className="my-[60px]">
-              <div>
-                {offers?.data.length === 0 ? (
-                  <EmptyPage />
-                ) : (
-                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                    {offers.data.map((product: any, index: any) => (
-                      <Card
-                        product={product}
-                        key={`app-cat-products-${index}`}
-                      />
-                    ))}
+      <div className="offer-page">
+        <div className="container">
+          <section className="my-[60px]">
+            <div>
+              {offers?.data.length === 0 ? (
+                <EmptyPage />
+              ) : (
+                <>
+
+                  <div className="top-bar flex items-center justify-between bg-slate-150 mt-[60px] my-[20px] p-[10px]">
+                    <div className="products-count">
+                      <p className="text-sm font-normal text-gray-750">There are {offers?.data?.length} products</p>
+                    </div>
+                    <div className="flex items-center sorting">
+                      <p className="pr-3 text-sm font-normal text-gray-750">Sort By:</p>
+                      <SortingDropdown sortChange={handleSortingChange} />
+                    </div>
                   </div>
-                )}
-              </div>
-            </section>
-          </div>
-        </div>
-      )}
+                  {
+                    isLoading ? (
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
+                        {[1, 2, 3, 4, 5].map((index) => (
+                          <SkeletonLoadingCard
+                            key={`app-skeleton-${index}`}
+                          />
+                        ))}
+                      </div>
+                    )
+                      :
+                      (
+                        <>
+                          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                            {offers.data.map((product: any, index: any) => (
+                              <Card
+                                product={product}
+                                key={`app-cat-products-${index}`}
+                              />
+                            ))}
+                          </div>
+                          <Pagination
+                            totalPages={offers?.meta?.pagination?.total_pages}
+                            currentPage={offers?.meta?.pagination?.current_page}
+                            pageChange={handlePageChange}
+                          />
+                        </>
+                      )
+                  }
+
+                </>
+
+              )}
+            </div>
+          </section>
+        </div >
+      </div >
     </>
   );
 };
