@@ -26,7 +26,7 @@ const Footer = () => {
       <footer className="relative block p-4 !pb-0 sm:p-10 footer text-base-content">
         <div className="container flex flex-wrap items-start justify-between gap-2 footer">
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
-            <Image src={Logo} height={69} width={128} alt="footer-logo" />
+            <Image src={Logo} height={69} width={128} alt="footer-logo" priority />
             <p className="text-[12px]">
               A contemporary garden center to meet all of your plant needs.
               Whether you’re looking to purchase indoor plants, outdoor plants,
@@ -62,7 +62,9 @@ const Footer = () => {
               </div>
             </div>
             <div className="ps-4">
-              <Image src={QR} alt="QR" width={150} height={200} />
+              <Image src={QR} alt="QR" width={150} height={200}
+                style={{ width: "auto", height: "auto" }}
+              />
             </div>
           </div>
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
@@ -161,19 +163,31 @@ const Footer = () => {
             </div>
             <div className="flex flex-wrap justify-center mx-auto">
               <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
-                <Image src={Esewa} fill alt="esewa" />
+                <Image src={Esewa}
+                  height={56}
+                  width={56}
+                  alt="esewa" />
               </button>
               <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
               <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
-                <Image src={MasterCard} fill alt="master-card" />
+                <Image src={MasterCard}
+                  height={56}
+                  width={56}
+                  alt="master-card" />
               </button>
               <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
               <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
-                <Image src={CashOnHand} fill alt="cash on hand" />
+                <Image src={CashOnHand}
+                  height={56}
+                  width={56}
+                  alt="cash on hand" />
               </button>
               <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
               <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
-                <Image src={UnionPay} fill alt="union pay" />
+                <Image src={UnionPay}
+                  height={56}
+                  width={56}
+                  alt="union pay" />
               </button>
             </div>
           </div>

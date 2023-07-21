@@ -18,6 +18,7 @@ const CategoryCard: React.FC<Props> = ({ title, totalProducts, shopLink, image }
           style={{
             maxWidth: '100%',
             height: 'auto',
+            width: "auto"
           }}
         />
       </div>

@@ -155,6 +155,7 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
           style={{
             maxWidth: '100%',
             height: 'auto',
+            width: 'auto',
           }}
         />
       </figure>

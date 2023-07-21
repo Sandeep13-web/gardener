@@ -8,7 +8,6 @@ import "@/styles/components/card.scss";
 import "@/styles/components/pageBanner.scss";
 import "@/styles/components/pagination.scss";
 import "@/styles/components/auth.scss";
-import "@/styles/components/btn.scss";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NextPage } from "next";

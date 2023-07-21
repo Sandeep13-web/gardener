@@ -16,6 +16,10 @@ import BannerSkeletonLoader from "../skeleton/banner";
 const Banner = () => {
   const router = useRouter();
   const { data, isInitialLoading } = useQuery<IHome>({ queryKey: ['getHomeData'] });
+  const handleOpenNewTab = (value: any) => {
+    // Open the URL in a new tab
+    window.open(value, '_blank');
+  };
   return (
     <div>
       {
@@ -38,12 +42,12 @@ const Banner = () => {
               effect="fade"
             >
               {data?.data?.banners.map((prev, index) => (
-                <SwiperSlide key={`banner-images-${index}`} onClick={() => router.push(`/${prev.websiteUrl}`)}>
+                <SwiperSlide key={`banner-images-${index}`} onClick={() => handleOpenNewTab(`${prev.websiteUrl}`)}>
                   <Image
                     src={prev.bannerImage}
                     height={100}
                     width={2000}
-                    style={{  objectFit: "cover" }}
+                    style={{ objectFit: "cover" }}
                     alt={prev.type}
                     priority
                     quality={100}

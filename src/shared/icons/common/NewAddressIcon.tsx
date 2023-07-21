@@ -1,6 +1,6 @@
 import React, { HTMLAttributes } from "react";
 
-interface Props extends HTMLAttributes<SVGSVGElement> {}
+interface Props extends HTMLAttributes<SVGSVGElement> { }
 
 const NewAddressIcon: React.FC<Props> = ({ ...rest }) => {
   return (
@@ -11,7 +11,7 @@ const NewAddressIcon: React.FC<Props> = ({ ...rest }) => {
       viewBox="0 0 80 81"
       fill="none"
     >
-      <g clip-path="url(#clip0_514_1794)">
+      <g clipPath="url(#clip0_514_1794)">
         <path
           d="M40 80C62.0914 80 80 62.0914 80 40C80 17.9086 62.0914 0 40 0C17.9086 0 0 17.9086 0 40C0 62.0914 17.9086 80 40 80Z"
           fill="#EBEDF3"
