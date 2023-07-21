@@ -134,7 +134,7 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
               }
             </button>
             :
-            <button onClick={() => removeFromFav(product?.id)} className="absolute top-3 right-3 z-[2]">
+            <button onClick={() => removeFromFav(product?.favId!)} className="absolute top-3 right-3 z-[2]">
               {
                 removeLoading ?
                   <ButtonLoader className="!border-primary !block" /> :

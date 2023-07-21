@@ -1,7 +1,10 @@
-import axiosInstance from "@/axios/axiosInstance";
+import axiosInstance, {
+  setAuthorizationHeader,
+  setCouponHeader,
+} from "@/axios/axiosInstance";
 import { ICreateCartItem, IUpdateCartItem } from "@/interface/cart.interface";
 import { CookieKeys } from "@/shared/enum";
-import { setCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 
 export const setCartNumberCookie = async () => {
   try {
@@ -16,6 +19,7 @@ export const setCartNumberCookie = async () => {
 };
 export const getCartData = async () => {
   try {
+    setCouponHeader();
     const response = await axiosInstance.get(`/cart`);
     return response.data.data;
   } catch (error) {
@@ -57,12 +61,11 @@ export const updateCart = async (data: IUpdateCartItem) => {
   }
 };
 
-
-export const bulkDeleteCart = async() => {
+export const bulkDeleteCart = async () => {
   try {
-    const response = await axiosInstance.delete('/cart');
+    const response = await axiosInstance.delete("/cart");
     return response;
   } catch (error) {
     throw error;
   }
-}
+};

@@ -19,8 +19,10 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
 
   const updatedData = prev?.products?.map(item => ({
     ...item,
-    isFav: favList && favList.data.length > 0 ? favList?.data.some((favItem: any) => favItem.product_id === item.id) : false
-  }));
+    isFav: favList && favList.data.length > 0 ? favList?.data.some((favItem: any) => favItem.product_id === item.id) : false,
+    favId: favList && favList.data.length > 0 ? favList?.data.find((favItem: any) => favItem.product_id === item.id)?.id : 0
+  }
+  ));
 
   return (
     <section className="my-[60px]">

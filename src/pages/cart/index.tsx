@@ -10,6 +10,7 @@ import CartTableRow from "@/features/Cart/cart-table-row";
 import EmptyCart from "../../shared/components/empty-content/empty-cart";
 import { useCarts } from "@/hooks/cart.hooks";
 import ButtonLoader from "@/shared/components/btn-loading";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 
 enum COUPON_METHODS {
   ADD_COUPON = 'Apply Coupon',
@@ -18,31 +19,33 @@ enum COUPON_METHODS {
 
 const Cart: NextPageWithLayout = () => {
   const [coupon, setCoupon] = useState('')
+  const cookieCoupon = getCookie("coupon")
   const [couponText, setCouponText] = useState<COUPON_METHODS>(COUPON_METHODS.ADD_COUPON)
   const { data: cart } = useQuery<ICartItem>(["getCart"])
   const { bulkCartDelete, bulkDeleteLoading } = useCarts()
+
   const clearCart = () => {
     bulkCartDelete.mutate()
   }
   const handleApplyCoupon = () => {
-    localStorage.setItem('coupon', coupon)
+    setCookie("coupon", coupon)
+    // localStorage.setItem('coupon', coupon)
     setCouponText(COUPON_METHODS.DELETE_COUPON)
   }
   const handleRemoveCoupon = () => {
-    if (localStorage.getItem("coupon")) {
-      localStorage.removeItem("coupon")
+    if (getCookie("coupon")) {
+      // localStorage.removeItem("coupon")
+      deleteCookie("coupon")
       setCouponText(COUPON_METHODS.ADD_COUPON)
       setCoupon('')
     }
   }
   useEffect(() => {
-    if (window && localStorage) {
-      setCoupon(localStorage.getItem('coupon') as any)
-    }
-    if (localStorage.getItem("coupon")) {
+    if (getCookie("coupon")) {
       setCouponText(COUPON_METHODS.DELETE_COUPON)
+      setCoupon(getCookie("coupon") as any)
     }
-  }, [localStorage, window])
+  }, [getCookie("coupon")])
 
   return (
     <>
@@ -137,17 +140,19 @@ const Cart: NextPageWithLayout = () => {
                           className="bg-white border border-gray-350 h-[45px] mb-[30px] pl-2.5 w-full focus:outline-0"
                         />
                         {
-                          couponText === COUPON_METHODS.ADD_COUPON ? <button
-                            onClick={handleApplyCoupon}
-                            type="button"
-                            className="btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white">
-                            {couponText}
-                          </button> : <button
-                            onClick={handleRemoveCoupon}
-                            type="button"
-                            className="btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white">
-                            {couponText}
-                          </button>
+                          couponText === COUPON_METHODS.ADD_COUPON ?
+                            <button
+                              onClick={handleApplyCoupon}
+                              type="button"
+                              disabled={coupon === ''}
+                              className="btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white">
+                              {couponText}
+                            </button> : <button
+                              onClick={handleRemoveCoupon}
+                              type="button"
+                              className="btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white">
+                              {couponText}
+                            </button>
                         }
                       </form>
                     </div>
