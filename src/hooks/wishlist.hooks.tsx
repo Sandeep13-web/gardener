@@ -19,6 +19,7 @@ export const useWishlists = () => {
         onSuccess: () => {
             showToast(TOAST_TYPES.success, 'Item Removed From Favourite Successfully');
             queryClient.invalidateQueries(['wishlistProducts'])
+            queryClient.invalidateQueries(['getWishlists'])
         }
     })
 

@@ -4,8 +4,7 @@ export const getOffers = async (
   query: any,
   page: any,
   offer: any,
-  maxPrice: any,
-  minPrice: any
+  sortBy: string
 ) => {
   try {
     const response = await axiosInstance.get(`/product`, {
@@ -13,8 +12,7 @@ export const getOffers = async (
         query,
         page,
         offer,
-        maxPrice,
-        minPrice,
+        sortBy,
       },
     });
     return response.data;

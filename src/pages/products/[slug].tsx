@@ -17,11 +17,16 @@ import Head from 'next/head';
 import { addToCart } from '@/services/cart.service';
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils';
 import SkeletonImage from '@/shared/components/skeleton/image';
+import CardHeartIcon from '@/shared/icons/common/CardHeartIcon';
+import { getToken } from '@/shared/utils/cookies-utils/cookies.utils';
+import { useWishlists } from '@/hooks/wishlist.hooks';
+import SkeletonDescription from '@/shared/components/skeleton/description';
 
 
 const ProductSlug = () => {
   const router = useRouter()
   const { slug } = router.query;
+  const token = getToken()
   const queryClient = useQueryClient();
   const [descriptionContent, setDescriptionContent] = useState<string>('');
   const [moreInfoContent, setMoreInfoContent] = useState<string>('');
@@ -54,6 +59,7 @@ const ProductSlug = () => {
       }
     }
   );
+
   const handleAddToCart = () => {
     const payload: ICreateCartItem = {
       note: '',
@@ -87,6 +93,49 @@ const ProductSlug = () => {
     }
   }
 
+  const { addFavMutation, removeFavMutation, addLoading, removeLoading } = useWishlists() //for adding products for wishlist ->hook
+  //getFavlist items
+  const { data: favList }: any = useQuery<any>(["wishlistProducts", token], { enabled: !!token });
+
+  /*
+   ** Add product in favourite list
+  */
+  const addToFav = (id: number) => {
+    addFavMutation.mutate(id)
+  }
+
+  /*
+ ** Remove product from favourite list
+*/
+  const removeFromFav = (id: number) => {
+    removeFavMutation.mutate(id)
+  }
+
+  /**
+   * to check if the product is in fav list or not
+   */
+  const isFavGen = () => {
+    if (favList && favList?.data?.length > 0) {
+      const isfavResult = favList?.data?.some((favItem: any) => (
+        (favItem?.product_id === productData?.productId))
+      );
+      return isfavResult;
+    }
+  }
+
+  /**
+   * To generate the fav id in order to implement remove from fav
+   */
+  const genFavId = () => {
+    if (favList && favList?.data?.length > 0) {
+      const favId = favList?.data.find((favItem: any) => (
+        favItem.product_id === productData?.productId));
+      return favId?.id || 0;
+    }
+
+  }
+  const favId = genFavId() //setting generated fav id.
+
   useEffect(() => {
     cartData?.cartProducts?.map((item: any) => {
       if (slug === item?.product?.slug) {
@@ -95,6 +144,7 @@ const ProductSlug = () => {
       }
     })
   }, [slug])
+
   useEffect(() => {
     if (productData) {
       setDescriptionContent(productData?.response?.data?.description || '');
@@ -103,6 +153,7 @@ const ProductSlug = () => {
       setTaxMessage(message);
     }
   }, [productData]);
+
 
   return (
     <>
@@ -118,118 +169,183 @@ const ProductSlug = () => {
                 isLoading ?
                   <SkeletonImage />
                   : (
-                    <Image
-                      src={productData?.response?.data?.images[0]?.imageName}
-                      alt="Product image"
-                      className="flex mx-auto img-fluid"
-                      width={330} height={330}
-                    />
+                    <>
+                      <div className="w-full carousel">
+                        {
+                          productData?.response?.data?.images?.map((img: any, index: number) => (
+                            <div key={index} id={`item-${index}`} className="w-full carousel-item">
+                              <Image
+                                alt='Product Image'
+                                src={img?.imageName}
+                                width={330} height={330}
+                              />
+                            </div>
+                          ))
+                        }
+                      </div>
+                      <div className="flex justify-start w-full gap-2 py-2">
+                        {
+                          productData?.response?.data?.images?.map((img: any, index: number) => (
+                            <a href={`#item-${index}`} key={index}>
+                              <Image
+                                alt='Product Image'
+                                src={img?.imageName}
+                                width={90} height={90}
+                              />
+                            </a>
+                          ))
+                        }
+                      </div>
+                    </>
+                    // <Image
+                    //   src={productData?.response?.data?.images[0]?.imageName}
+                    //   alt="Product image"
+                    //   className="flex mx-auto img-fluid"
+                    // />
                   )
               }
 
             </div>
             <div className="col-span-12 md:col-span-7">
-              <h2 className="mb-6 text-2xl font-semibold text-slate-850">
-                {productData?.response?.data?.title}
-              </h2>
-              <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
-                Category:
-                <Link href={`/category/${productData?.response?.data?.categorySlug}`} className="mb-0 text-primary">
-                  <span className="font-normal">{productData?.response?.data?.categoryTitle}</span>
-                </Link>
-              </p>
-              <ul className="flex my-5">
-
-                {!productData?.response?.data?.unitPrice[0]?.hasOffer && (
-                  <li className="mr-1 text-base text-red-250">
-                    NPR
-                    <span>
-                      {productData?.response?.data?.unitPrice[0]?.sellingPrice}
-                    </span>
-                  </li>
-                )}
-
-                {productData?.response?.data?.unitPrice[0]?.hasOffer && (
+              {
+                isLoading ? (
+                  <SkeletonDescription />
+                ) : (
                   <>
-                    <li className="mr-1 text-base text-red-250">
-                      NPR
-                      <span>
-                        {productData?.response?.data?.unitPrice[0]?.newPrice}
-                      </span>
-                    </li>
+                    <h2 className="mb-6 text-2xl font-semibold text-slate-850">
+                      {productData?.response?.data?.title}
+                    </h2>
+                    <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
+                      Category:
+                      <Link href={`/category/${productData?.response?.data?.categorySlug}`} className="mb-0 text-primary">
+                        <span className="font-normal">{productData?.response?.data?.categoryTitle}</span>
+                      </Link>
+                    </p>
+                    <ul className="flex my-5">
 
-                    <li className="mr-1 text-base font-semibold line-through text-primary">
-                      NPR
-                      <span>
-                        {productData?.response?.data?.unitPrice[0]?.oldPrice}
-                      </span>
-                    </li>
+                      {!productData?.response?.data?.unitPrice[0]?.hasOffer && (
+                        <li className="mr-1 text-base text-red-250">
+                          NPR
+                          <span>
+                            {productData?.response?.data?.unitPrice[0]?.sellingPrice}
+                          </span>
+                        </li>
+                      )}
+
+                      {productData?.response?.data?.unitPrice[0]?.hasOffer && (
+                        <>
+                          <li className="mr-1 text-base text-red-250">
+                            NPR
+                            <span>
+                              {productData?.response?.data?.unitPrice[0]?.newPrice}
+                            </span>
+                          </li>
+
+                          <li className="mr-1 text-base font-semibold line-through text-primary">
+                            NPR
+                            <span>
+                              {productData?.response?.data?.unitPrice[0]?.oldPrice}
+                            </span>
+                          </li>
+                        </>
+                      )}
+                      <li className="text-base font-semibold text-primary ">
+                        ( <span dangerouslySetInnerHTML={{ __html: taxMessage }} />)
+                      </li>
+                    </ul>
+
+                    <p dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
+
+                    <div className="w-100 flex my-[30px]">
+                      <div className="h-[48px] flex items-center border border-solid border-gray-950 overflow-hidden relative text-gray-250">
+                        <button
+                          onClick={() => { setValue(value - 1) }}
+                          disabled={value === 1 ? true : false}
+                          className="w-6 h-12 text-sm font-medium text-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                          -
+                        </button>
+                        <input
+                          type="text"
+                          name="qtybutton"
+                          className="flex-grow w-[30px] text-sm text-center h-[48px] focus-visible:border-none focus-visible:outline focus:outline-none"
+                          readOnly
+                          value={value}
+                        />
+                        <button
+                          onClick={() => { setValue(value + 1) }}
+                          disabled={value === stock ? true : false}
+                          className="w-6 h-12 text-sm font-medium text-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                          +
+                        </button>
+                      </div>
+                      <div>
+                        {
+                          itemCartDetail ?
+                            <button
+                              type='button'
+                              onClick={updateCartHandler}
+                              disabled={updateCartLoading}
+                              className={`${updateCartLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
+
+                              + Update To Cart
+                              {
+                                updateCartLoading &&
+                                <ButtonLoader />
+                              }
+                            </button>
+                            :
+                            <button
+                              type='button'
+                              onClick={handleAddToCart}
+                              disabled={mutation.isLoading}
+                              className={`${mutation.isLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
+
+                              + Add To Cart
+                              {
+                                mutation.isLoading &&
+                                <ButtonLoader />
+                              }
+                            </button>
+                        }
+                      </div>
+                    </div>
+                    {
+                      token && (
+                        isFavGen() ?
+                          <button onClick={() => removeFromFav(favId)} className='flex items-center gap-3'>
+                            {
+                              removeLoading ? (
+                                <ButtonLoader className='!border-primary' />
+                              ) : (
+                                <>
+                                  <CardHeartIcon className="stroke-[#E5002B] fill-[#E5002B]" />
+                                  Remove from wishlist
+                                </>
+                              )
+                            }
+                          </button> :
+                          <button onClick={() => addToFav(productData?.productId)} className='flex items-center gap-3'>
+                            {
+                              addLoading ? (
+                                <ButtonLoader className='!border-primary' />
+                              ) : (
+                                <>
+                                  <CardHeartIcon />
+                                  Add to wishlist
+                                </>
+                              )
+                            }
+                          </button>
+                      )
+                    }
                   </>
-                )}
-                <li className="text-base font-semibold text-primary ">
-                  ( <span dangerouslySetInnerHTML={{ __html: taxMessage }} />)
-                </li>
-              </ul>
+                )
+              }
 
-              <p dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
-
-              <div className="w-100 flex my-[30px]">
-                <div className="h-[48px] flex items-center border border-solid border-gray-950 overflow-hidden relative text-gray-250">
-                  <button
-                    onClick={() => { setValue(value - 1) }}
-                    disabled={value === 1 ? true : false}
-                    className="w-6 h-12 text-sm font-medium text-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                    -
-                  </button>
-                  <input
-                    type="text"
-                    name="qtybutton"
-                    className="flex-grow w-[30px] text-sm text-center h-[48px] focus-visible:border-none focus-visible:outline focus:outline-none"
-                    readOnly
-                    value={value}
-                  />
-                  <button
-                    onClick={() => { setValue(value + 1) }}
-                    disabled={value === stock ? true : false}
-                    className="w-6 h-12 text-sm font-medium text-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                    +
-                  </button>
-                </div>
-                <div>
-                  {
-                    itemCartDetail ?
-                      <button
-                        type='button'
-                        onClick={updateCartHandler}
-                        disabled={updateCartLoading}
-                        className={`${updateCartLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
-
-                        + Update To Cart
-                        {
-                          updateCartLoading &&
-                          <ButtonLoader />
-                        }
-                      </button>
-                      :
-                      <button
-                        type='button'
-                        onClick={handleAddToCart}
-                        disabled={mutation.isLoading}
-                        className={`${mutation.isLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
-
-                        + Add To Cart
-                        {
-                          mutation.isLoading &&
-                          <ButtonLoader />
-                        }
-                      </button>
-                  }
-                </div>
-              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </div >
+      </section >
 
       <div className="mb-[60px]">
         <div className="container">
