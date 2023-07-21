@@ -99,3 +99,11 @@ body {
     -moz-appearance: textfield !important;
   }
 }
+
+.remove-focus {
+  &:active {
+    &:focus {
+      @apply transform-none;
+    }
+  }
+}
