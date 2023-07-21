@@ -4,21 +4,22 @@ import MainLayout from "@/shared/main-layout";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
-import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from "react-leaflet";
-import 'leaflet/dist/leaflet.css';
-import L, { LatLngExpression } from "leaflet";
-import 'leaflet-defaulticon-compatibility';
-import { MarkerIcon } from "@/shared/lib/image-config";
-import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
-import 'leaflet-geosearch/assets/css/leaflet.css';
+
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { useForm } from "react-hook-form";
 import { IDeliveryAddress } from "@/interface/delivery-address.interface";
 import { addDeliverAddress, deleteDeliverAddressById, getDeliverAddress, updateDeliveryAddressByAddressId } from "@/services/delivery-address.service";
+import dynamic from "next/dynamic";
+
+const LeafletMap = dynamic(() => import('@/shared/components/leaflet'), {
+  ssr: false,
+});
 
 const DelieveryAddress = () => {
+
+ 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [position, setPosition] = useState<[number, number]>([28.3949, 84.1240]); // Coordinates for Nepal
   const [isEditing, setIsEditing] = useState(false);
@@ -27,10 +28,11 @@ const DelieveryAddress = () => {
     contact_no: '',
     customer: '',
     isDefault: false,
-    latitude:0,
-    longitude:0,
+    latitude:27.7172,
+    longitude:85.3240,
     title: ''
   });
+
 
   //Edit the delivery address list
   const handleEdit = (addressId:any) => {
@@ -81,30 +83,7 @@ const DelieveryAddress = () => {
     position: number[]; // Add the position prop to the interface
   }
 
-  const Markers: React.FC<MarkersProps> = ({ onMarkerClick, position }) => {
-    const [markerKey, setMarkerKey] = useState(0);
-    const markerPosition: LatLngExpression = [position[0], position[1]];
 
-    const customIcon = new L.Icon({
-      iconUrl: MarkerIcon,
-      iconSize: [50, 50],
-    });
-
-    const map = useMapEvents({
-      click: (e) => {
-        const lat = e.latlng.lat;
-        const lng = e.latlng.lng;
-        onMarkerClick(lat, lng);
-        setMarkerKey((prevKey) => prevKey + 1);
-      },
-    });
-
-    useEffect(() => {
-      setMarkerKey((prevKey) => prevKey + 1);
-    }, [position]);
-
-    return <Marker key={markerKey} position={markerPosition} icon={customIcon} />;
-  };
   const phoneNumberRegex = /^(97|98)\d{8}$/;
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -134,6 +113,7 @@ const DelieveryAddress = () => {
         getDeliveryAddress();
         setShowModal(false); // Close the modal after successful save
       } catch (error) {
+        // showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message);
         // Handle error during save
         console.error('Error occurred during save:', error);
       }
@@ -171,60 +151,10 @@ const DelieveryAddress = () => {
   };
 
 
-  // Leaflet Geosearch
-    const GeoSearch = () => {
-      const map = useMap();
-      useEffect(() => {
-        const provider = new OpenStreetMapProvider();
+ 
 
-        const searchControl = GeoSearchControl({
-          provider: provider,
-          showMarker: true,
-          showPopup: false,
-          marker: {
-            icon: new L.Icon.Default(),
-            draggable: false,
-          },
-          popupFormat: ({ query, result }: { query: any, result: any }) => result.label,
-          maxMarkers: 1,
-          retainZoomLevel: false,
-          animateZoom: true,
-          autoClose: false,
-          searchLabel: 'Enter address',
-          keepResult: true
-        });
-
-        map.addControl(searchControl);
-        // Cleanup function
-        return () => {
-          map.removeControl(searchControl);
-        };
-      }, []);
-      return null;
-    };
-
-    // Change cursor Drag
-
-    const ChangeCursorOnDrag = () => {
-      const map = useMap();
-
-      useMapEvents({
-        mouseover: () => {
-          map.getContainer().style.cursor = 'pointer';
-        },
-        mouseout: () => {
-          map.getContainer().style.cursor = '';
-        },
-        dragstart: () => {
-          map.getContainer().style.cursor = 'grabbing';
-        },
-        dragend: () => {
-          map.getContainer().style.cursor = 'pointer';
-        },
-      });
-
-      return null;
-    };
+  
+    
   
   return (
     <>
@@ -269,15 +199,11 @@ const DelieveryAddress = () => {
 
                 <form action="" className="py-4" onSubmit={handleSubmit}>
                   <div className="h-[280px] mb-3">
-                  <MapContainer center={position} zoom={13} style={{ height: "280px", width: "100%" }}>
-                    <TileLayer
-                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                      attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    />
-                    <Markers position={[formData.latitude, formData.longitude]} onMarkerClick={handleMarkerClick} />
-                    <ChangeCursorOnDrag />
-                    <GeoSearch />
-                  </MapContainer>
+                   <LeafletMap
+                    lat={formData.latitude || 27.7172}
+                    long={formData.longitude || 85.3240}
+                    onChange={handleMarkerClick}
+                  />
                   </div>
 
                   <label

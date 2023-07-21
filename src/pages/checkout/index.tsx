@@ -5,14 +5,9 @@ import MainLayout from "@/shared/main-layout";
 import { generatePassword, getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 import { useQuery } from "@tanstack/react-query";
-import { MarkerIcon } from "@/shared/lib/image-config";
-import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import React, { useEffect, useState } from "react";
 import { TiTick } from "react-icons/ti";
-import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from "react-leaflet";
-import L, { LatLngExpression } from "leaflet";
-import 'leaflet-geosearch/assets/css/leaflet.css';
-import 'leaflet/dist/leaflet.css';
+
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import { ICartItem } from "@/interface/cart.interface";
 import { getConfig } from "@/services/home.service";
@@ -27,8 +22,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { registerGuestUser } from "@/services/auth.service";
 import { setCookie } from "cookies-next";
 import { getProfile } from "@/services/profile.service";
+import dynamic from "next/dynamic";
 
 const token = getToken();
+const LeafletMap = dynamic(() => import('@/shared/components/leaflet'), {
+  ssr: false,
+});
 
 const Checkout = ({ paymentMethods }: PaymentFormProps) => {
   const router = useRouter();
@@ -188,30 +187,7 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
     position: number[]; // Add the position prop to the interface
   }
   
-  const Markers: React.FC<MarkersProps> = ({ onMarkerClick, position }) => {
-    const [markerKey, setMarkerKey] = useState(0);
-    const markerPosition: LatLngExpression = [position[0], position[1]];
-
-    const customIcon = new L.Icon({
-      iconUrl: MarkerIcon,
-      iconSize: [50, 50],
-    });
-
-    const map = useMapEvents({
-      click: (e) => {
-        const lat = e.latlng.lat;
-        const lng = e.latlng.lng;
-        onMarkerClick(lat, lng);
-        setMarkerKey((prevKey) => prevKey + 1);
-      },
-    });
-
-    useEffect(() => {
-      setMarkerKey((prevKey) => prevKey + 1);
-    }, [position]);
-
-    return <Marker key={markerKey} position={markerPosition} icon={customIcon} />;
-  };
+ 
 
   const phoneNumberRegex = /^(97|98)\d{8}$/;
   const handleSubmit = async (event: React.FormEvent) => {
@@ -285,60 +261,8 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
   };
   
   
-  // Leaflet Geosearch
-  const GeoSearch = () => {
-    const map = useMap();
-    useEffect(() => {
-      const provider = new OpenStreetMapProvider();
-
-      const searchControl = GeoSearchControl({
-        provider: provider,
-        showMarker: true,
-        showPopup: false,
-        marker: {
-          icon: new L.Icon.Default(),
-          draggable: false,
-        },
-        popupFormat: ({ query, result }: { query: any, result: any }) => result.label,
-        maxMarkers: 1,
-        retainZoomLevel: false,
-        animateZoom: true,
-        autoClose: false,
-        searchLabel: 'Enter address',
-        keepResult: true
-      });
-
-      map.addControl(searchControl);
-      // Cleanup function
-      return () => {
-        map.removeControl(searchControl);
-      };
-    }, []);
-    return null;
-  };
   
-  // Change cursor Drag
-  
-  const ChangeCursorOnDrag = () => {
-    const map = useMap();
 
-    useMapEvents({
-      mouseover: () => {
-        map.getContainer().style.cursor = 'pointer';
-      },
-      mouseout: () => {
-        map.getContainer().style.cursor = '';
-      },
-      dragstart: () => {
-        map.getContainer().style.cursor = 'grabbing';
-      },
-      dragend: () => {
-        map.getContainer().style.cursor = 'pointer';
-      },
-    });
-
-    return null;
-  };
 
   const handlePlaceOrder =  async () => {
     if(token) {
@@ -633,15 +557,12 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
 
                             <form action="" className="py-4" onSubmit={handleSubmit}>
                               <div className="h-[280px] mb-3">
-                              <MapContainer center={position} zoom={13} style={{ height: "280px", width: "100%" }}>
-                                <TileLayer
-                                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                                />
-                                <Markers position={[formData.latitude, formData.longitude]} onMarkerClick={handleMarkerClick} />
-                                <ChangeCursorOnDrag />
-                                <GeoSearch />
-                              </MapContainer>
+                             
+                              <LeafletMap
+                    lat={formData.latitude || 27.7172}
+                    long={formData.longitude || 85.3240}
+                    onChange={handleMarkerClick}
+                  />
                               </div>
 
                               <label
@@ -773,15 +694,13 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
                     <form action="" className="py-4" onSubmit={handleSubmit}>
                   
                       <div className="h-[280px] mb-3">
-                        <MapContainer center={position} zoom={13} style={{ height: "280px", width: "100%" }}>
-                          <TileLayer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                          />
-                          <Markers position={[guestformData.latitude, guestformData.longitude]} onMarkerClick={handleMarkerClickGuest} />
-                          <ChangeCursorOnDrag />
-                          <GeoSearch />
-                        </MapContainer>
+                      
+                        <LeafletMap
+                    lat={guestformData.latitude || 27.7172}
+                    long={guestformData.longitude || 85.3240}
+                    onChange={handleMarkerClickGuest}
+                  />
+                        
                       </div>
                       <div className="flex flex-col col-span-12 mb-[15px]">
                       <label
@@ -866,7 +785,17 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
                   <div className="collapse-title text-xl font-medium flex items-center justify-between border-none">
                     <div className="col-10 text-left">
                       <h5 className="text-[16px] font-semibold">
-                        2. Payment method
+                      {token ? (
+                                <h5 className="text-[16px] font-semibold">
+                                  {" "}
+                                  2. Payment Method{" "}
+                                </h5>
+                        ) : (
+                                <h5 className="text-[16px] font-semibold">
+                                  {" "}
+                                  3. Payment Method{" "}
+                                </h5>
+                      )}
                       </h5>
                     </div>
                     <div className="col-2 text-right">
