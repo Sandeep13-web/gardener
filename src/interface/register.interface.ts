@@ -6,3 +6,4 @@ export interface IRegister {
     password: string,
     confirm_password: string
 }
+

@@ -44,7 +44,6 @@ const ContactUsForm = () => {
         },
     })
     const feedBackSubmit = (data: IContactUs) => {
-        console.log(data)
         const payload = {
             data,
         }
