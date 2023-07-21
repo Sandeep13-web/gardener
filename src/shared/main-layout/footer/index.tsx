@@ -19,6 +19,7 @@ import React from "react";
 
 const Footer = () => {
   const { data: config }: any = useQuery(['getConfig'])
+  console.log("config?.data?.pageData['section4 appstore link']", config?.data?.pageData['section4 appstore link'])
 
   return (
     <div className="relative">
@@ -134,17 +135,19 @@ const Footer = () => {
               DOWNLOAD THE APP ON
             </h3>
             <div className="flex gap-3">
-              <Link target="_blank" href={config?.data?.pageData['section4 appstore link']} className="p-0 btn">
-                <Image src={AppStore} height={32} width={108} alt="app-store" />
-              </Link>
-              <Link target="_blank" href={config?.data?.pageData['section4 googleplay link']} className="p-0 btn">
-                <Image
-                  src={PlayStore}
-                  height={32}
-                  width={108}
-                  alt="play-store"
-                />
-              </Link>
+              {config?.data?.pageData && <>
+                <Link target="_blank" href={config?.data?.pageData['section4 appstore link']} className="p-0 btn">
+                  <Image src={AppStore} height={32} width={108} alt="app-store" />
+                </Link>
+                <Link target="_blank" href={config?.data?.pageData['section4 googleplay link']} className="p-0 btn">
+                  <Image
+                    src={PlayStore}
+                    height={32}
+                    width={108}
+                    alt="play-store"
+                  />
+                </Link>
+              </>}
             </div>
           </div>
         </div>
