@@ -8,3 +8,12 @@ export const getPageData = async (slug: any) => {
     throw error;
   }
 };
+
+export const getFaqData = async () => {
+  try {
+    const response = await axiosInstance.get("/faq");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
