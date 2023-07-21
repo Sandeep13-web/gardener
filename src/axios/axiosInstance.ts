@@ -13,13 +13,25 @@ const axiosInstance = axios.create({
   baseURL: baseURL,
   headers: {
     Accept: "application/json",
-    ...(getToken() && { Authorization: `Bearer ${getToken()}` }),
     ...(getCartNumber() && { "Cart-Number": getCartNumber() }),
     // ...(getCoupon() && { Coupon: getCoupon() }),
     "Api-Key": config.gateway.apiKey,
     "Warehouse-Id": getWareId(),
   },
 });
+
+// Function to set the Authorization header dynamically
+export const setAuthorizationHeader = () => {
+  const token = getToken();
+  if (token) {
+    axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete axiosInstance.defaults.headers.common["Authorization"];
+  }
+};
+
+// Call the function initially to set the Authorization header if the token is available.
+setAuthorizationHeader();
 
 axiosInstance.interceptors.response.use(
   (response: any) => {

@@ -13,30 +13,28 @@ import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { debounce } from 'lodash'
 import CardHeartIcon from "@/shared/icons/common/CardHeartIcon";
 import { useWishlists } from "@/hooks/wishlist.hooks";
+import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 
-const Card: React.FC<Props> = ({ product, cartItem }) => {
+const Card: React.FC<Props> = ({ product, cartItem, }) => {
+
+  //Token 
+  const token = getToken();
+
+  //Use query hook
   const { data: cart } = useQuery<ICartItem>(["getCart"]);
-  const { data: favouriteList } = useQuery(['getAllWishlistProducts']);
-
-  const [quantity, setQuantity] = useState<number>(1);
-
-  const stock: any = cartItem?.selectedUnit?.stock
   const queryClient = useQueryClient();
+  const stock: any = cartItem?.selectedUnit?.stock
+  const { addFavMutation, removeFavMutation, addLoading, removeLoading } = useWishlists() //for adding products for wishlist ->hook
 
+  /*
+ * States 
+ */
+  const [quantity, setQuantity] = useState<number>(1);
   const { updateCartMutation, handleRemoveFromCart } = useCarts(); //customHook
 
-  const { handleAddToFav, handleRemoveFromFav, addLoading, removeLoading } = useWishlists() //for adding products for wishlist ->hook
-
-  const handleAddToCart = () => {
-    const payload: ICreateCartItem = {
-      note: '',
-      productId: product?.id,
-      priceId: product?.unitPrice[0]?.id,
-      quantity: quantity,
-    }
-    mutation.mutate(payload)
-  };
-
+  /*
+  * Handle Add to cart api call
+  */
   const mutation = useMutation({
     mutationFn: addToCart,
     onSuccess: () => {
@@ -48,8 +46,23 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
     }
   })
 
+
   /*
-  ** provides payload to the update api when the value is being increased or decreased.
+  * Handle Add to cart paylod function
+  */
+  const handleAddToCart = () => {
+    const payload: ICreateCartItem = {
+      note: '',
+      productId: product?.id,
+      priceId: product?.unitPrice[0]?.id,
+      quantity: quantity,
+    }
+    mutation.mutate(payload)
+  };
+
+
+  /*
+  ** Provides payload to the update api when the value is being increased or decreased.
   */
   const handleUpdateCart = (newQuantity: number) => {
     if (newQuantity <= stock) {
@@ -72,21 +85,31 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
   )
 
   /**
-   * for btn onClick function to pass the new value either being increased or decreased.
+   * For btn onClick function to pass the new value either being increased or decreased.
    */
   const updateCartCall = (newQuantity: number) => {
     setQuantity(newQuantity) //set the updated value
     debouncedHandleUpdateCart(newQuantity) //debounce callback added the updated value
   }
 
+  /*
+   ** Add product in favourite list
+  */
   const addToFav = (id: number) => {
-    handleAddToFav(id)
+    addFavMutation.mutate(id)
   }
 
-  // const removeFromFav = (id: number) => {
-  //   handleRemoveFromFav(id)
-  // }
+  /*
+ ** Remove product from favourite list
+*/
+  const removeFromFav = (id: number) => {
+    removeFavMutation.mutate(id)
+  }
 
+
+  /*
+ ** Set Cart item updated value
+*/
   useEffect(() => {
     if (cartItem?.quantity) {
       setQuantity(cartItem?.quantity)
@@ -100,20 +123,26 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
         href={`/products/${product?.slug}`}
         className="absolute top-0 bottom-0 left-0 right-0 z-[1]"
       />
-      <button onClick={() => addToFav(product?.id)} className="absolute top-3 right-3 z-[2]">
-        {
-          addLoading ?
-            <ButtonLoader className="!border-primary !block" /> :
-            <CardHeartIcon />
-        }
-      </button>
-      {/* <button onClick={() => removeFromFav(product?.id)} className="absolute top-3 right-3 z-[2]">
-        {
-          removeLoading ?
-            <ButtonLoader className="!border-primary !block" /> :
-            <CardHeartIcon className="stroke-[#E5002B] fill-[#E5002B]" />
-        }
-      </button> */}
+      {token &&
+        <>
+          {!product?.isFav ?
+            <button onClick={() => addToFav(product?.id)} className="absolute top-3 right-3 z-[2]">
+              {
+                addLoading ?
+                  <ButtonLoader className="!border-primary !block" /> :
+                  <CardHeartIcon />
+              }
+            </button>
+            :
+            <button onClick={() => removeFromFav(product?.id)} className="absolute top-3 right-3 z-[2]">
+              {
+                removeLoading ?
+                  <ButtonLoader className="!border-primary !block" /> :
+                  <CardHeartIcon className="stroke-[#E5002B] fill-[#E5002B]" />
+              }
+            </button>}
+        </>
+      }
       <figure>
 
         <Image

@@ -69,12 +69,34 @@ const Header = () => {
     enabled: !!token,
   });
 
-  const { data: favouriteList, isInitialLoading: loadingFavourite } = useQuery({
-    queryKey: ["getAllWishlistProducts", token],
-    queryFn: getAllWishlistProducts,
-    enabled: !!token,
+  const { data: favouriteList, isInitialLoading: loadingFavourite }: any = useQuery(["wishlistProducts", token], {
+    enabled: !!token
   })
-  console.log('favList' , favouriteList)
+
+
+  // const { data: favouriteList, isInitialLoading: loadingFavourite } = useQuery(
+  //   ['getAllWishlistProducts', token],
+  //   getAllWishlistProducts,
+  //   {
+  //     enabled: !!token, // Only enable the query if the token is available
+  //     retry: false, // Disable automatic retries on query failure
+  //     staleTime: 60000, // Set a time (in milliseconds) before the data is considered stale and a refetch is needed
+  //   }
+  // );
+
+
+
+  // const { data: favouriteList, isInitialLoading: loadingFavourite } = useQuery({
+  //   queryKey: ["getAllWishlistProducts"],
+  //   queryFn: async () => {
+  //     if (token) {
+  //       const response = await getAllWishlistProducts();
+  //       return response;
+  //     }
+  //   },
+  //   enabled: !!token
+  // })
+  // console.log('favList', favouriteList)
 
   const { data: cart } = useQuery<ICartItem>(["getCart"])
 
@@ -392,7 +414,7 @@ const Header = () => {
             <div className="dropdown dropdown-hover  md:min-w-[15rem] min-w-full">
               <label
                 tabIndex={0}
-                className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full"
+                className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full remove-focus"
               >
                 <BarsIcon />
                 All Categories <CaretDownIcon />
