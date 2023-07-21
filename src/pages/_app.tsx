@@ -4,7 +4,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import "@/styles/abstract/utils.scss";
 import "@/styles/pages/innerpages.scss";
 import "@/styles/pages/account.scss";
-import "@/styles/components/header.scss";
 import "@/styles/components/card.scss";
 import "@/styles/components/pageBanner.scss";
 import "@/styles/components/pagination.scss";

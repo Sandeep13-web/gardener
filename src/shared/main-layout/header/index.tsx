@@ -413,7 +413,7 @@ const Header = () => {
             <div className="dropdown dropdown-hover  md:min-w-[15rem] min-w-full">
               <label
                 tabIndex={0}
-                className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full remove-focus"
+                className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] !min-h-[3rem] min-w-full remove-focus"
               >
                 <BarsIcon />
                 All Categories <CaretDownIcon />
