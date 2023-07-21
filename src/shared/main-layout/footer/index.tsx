@@ -19,7 +19,6 @@ import React from "react";
 
 const Footer = () => {
   const { data: config }: any = useQuery(['getConfig'])
-  console.log("config?.data?.pageData['section4 appstore link']", config?.data?.pageData['section4 appstore link'])
 
   return (
     <div className="relative">
