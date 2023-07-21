@@ -4,10 +4,6 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap");
 
-//
-@import "./abstract/utils";
-@import "./components/header", "./components/card", "./components/pageBanner",
-  "./components/pagination", "./components/auth", "./components/btn";
 @layer components {
   .input {
     @apply shadow-none outline-none h-full focus:outline-transparent;
