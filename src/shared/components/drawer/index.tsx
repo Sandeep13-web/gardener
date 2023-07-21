@@ -15,6 +15,7 @@ import React, { useState } from "react";
 import { AiOutlineLogout, AiOutlineHeart } from 'react-icons/ai'
 import { BiUser } from 'react-icons/bi'
 import ConfirmationModal from "../confirmation-modal";
+import { getAllWishlistProducts } from "@/services/wishlist.service";
 
 const Drawer = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -22,7 +23,13 @@ const Drawer = () => {
   const token = getToken()
   const router = useRouter()
 
-  const { data: favouriteList }: any = useQuery(["getAllWishlistProducts", token])
+
+  const { data: favouriteList, isInitialLoading: loadingFavourite } = useQuery({
+    queryKey: ["wishlistProducts", token],
+    queryFn: () => getAllWishlistProducts(token),
+    enabled: !!token,
+    retry: false,
+  });
 
   const mutation = useMutation({
     mutationFn: logout,
