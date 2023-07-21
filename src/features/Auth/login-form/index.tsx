@@ -19,8 +19,6 @@ const LoginForm:React.FC<LoginFormProps> = ({ closeModal }) => {
     const router = useRouter()
     const queryClient = useQueryClient();
     const { data: cart } = useQuery<ICartItem>(["getCart"], getCartData)
-    console.log(cart);
-
     const mutation = useMutation({
         mutationFn: login,
         onSuccess: (data) => {
