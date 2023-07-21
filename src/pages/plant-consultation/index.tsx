@@ -4,20 +4,21 @@ import MainLayout from "@/shared/main-layout";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getPageData } from "@/services/page.service";
-import Breadcrumb from "@/components/Breadcrumb";
+import Breadcrumb from "@/shared/components/breadcrumb";
+import Loader from "@/components/Loading";
+import Head from "next/head";
 
 const PlantConsultation: NextPageWithLayout = () => {
   const router = useRouter();
   const { asPath } = router;
-  const [descriptionContent, setDescriptionContent] = useState<string>('');
-  const path = asPath.split('/');
+  const [descriptionContent, setDescriptionContent] = useState<string>("");
+  const path = asPath.split("/");
   const slug = path[path.length - 1];
-  const { data: plantConsultationData } = useQuery({
+  const { data: plantConsultationData, isInitialLoading: fetchLoading } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
         const response = await getPageData(slug);
-        console.log(response);
         return response;
       }
     },
@@ -26,17 +27,32 @@ const PlantConsultation: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (plantConsultationData) {
-      setDescriptionContent(plantConsultationData?.data?.description || '');
-     }
+      setDescriptionContent(plantConsultationData?.data?.description || "");
+    }
   }, [plantConsultationData]);
+
   return (
     <>
-    <Breadcrumb title={plantConsultationData?.data?.title} />
-    <div className="py-7 text-justify" dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
+      <Head>
+        <title>{plantConsultationData?.data?.title || 'I am the Gardener'}</title>
+      </Head>
+      {
+        fetchLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <Breadcrumb title={plantConsultationData?.data?.title} />
+            <div
+              className="py-0 main-wrapper-block"
+              dangerouslySetInnerHTML={{ __html: descriptionContent }}
+            />
+          </>
+        )
+      }
+
     </>
   );
-  
-}
+};
 export default PlantConsultation;
 PlantConsultation.getLayout = (page) => {
   return <MainLayout>{page}</MainLayout>;

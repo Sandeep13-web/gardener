@@ -1,15 +1,22 @@
 import Badge from "@/shared/components/badge";
 import Button from "@/shared/components/button";
-import Dropdown from "@/shared/components/dropdown";
-import { CardImg, Logo } from "@/shared/lib/image-config";
+import { Logo } from "@/shared/lib/image-config";
 import Image from "next/image";
 import FlowerIcon from "@/shared/icons/common/FlowerIcon";
 import SearchIcon from "@/shared/icons/common/SearchIcon";
 import CaretDownIcon from "@/shared/icons/common/CaretDownIcon";
 import BarsIcon from "@/shared/icons/common/BarsIcon";
 import Drawer from "@/shared/components/drawer";
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getConfig, getHomeData, getProductCategory } from "@/services/home.service";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
+import {
+  getConfig,
+  getHomeData,
+  getProductCategory,
+} from "@/services/home.service";
 import OfferIcon from "@/shared/icons/common/OfferIcon";
 import HeartIcon from "@/shared/icons/common/HeartIcon";
 import Link from "next/link";
@@ -17,29 +24,39 @@ import { getProfile } from "@/services/profile.service";
 import { deleteCookie } from "cookies-next";
 import { FaChevronDown, FaUser } from "react-icons/fa";
 import { IHome } from "@/interface/home.interface";
-import { getToken, getWareId } from "@/shared/utils/cookies-utils/cookies.utils";
+import {
+  getToken,
+} from "@/shared/utils/cookies-utils/cookies.utils";
 import { logout } from "@/services/auth.service";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
-import React, { ChangeEvent, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ConfirmationModal from "@/shared/components/confirmation-modal";
 import { useRouter } from "next/router";
-import { getSearchResults } from "@/services/search.service";
+import { getSuggestionResults } from "@/services/search.service";
 import CartDropdown from "@/shared/components/cartDropdown";
+import { BsCaretDownFill } from "react-icons/bs";
+import { getAllWishlistProducts } from "@/services/wishlist.service";
+import { useDebounce } from "@/hooks/useDebounce.hooks";
+import { ICartItem } from "@/interface/cart.interface";
 
 const Header = () => {
   const token = getToken();
-  const [searchValue, setSearchValue] = useState('');
-  const [selectedType, setSelectedType] = useState('product');
-  const [showModal, setShowModal] = useState<boolean>(false)
-  const [selectedOption, setSelectedOption] = useState<string>('');
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [selectedType, setSelectedType] = useState<string>("product");
+  const [showModal, setShowModal] = useState<boolean>(false);
   const router = useRouter();
+  const { pathname } = router
+  const debounceSearch = useDebounce(searchValue, 300) //Pass search value here and then this variable to the dependency below
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
   const { data: config, isInitialLoading } = useQuery({
     queryKey: ["getConfig"],
     queryFn: getConfig,
   });
 
-  const { data: home } = useQuery<IHome>({ queryKey: ['getHomeData'], queryFn: getHomeData });
-
+  const { data: home } = useQuery<IHome>({
+    queryKey: ["getHomeData"],
+    queryFn: getHomeData,
+  });
 
   const { data: categories, isInitialLoading: loading } = useQuery({
     queryKey: ["getCategories"],
@@ -47,39 +64,68 @@ const Header = () => {
   });
 
   const { data: profile, isInitialLoading: loadingProfile } = useQuery({
-    queryKey: ["getProfile"],
+    queryKey: ["getProfile", token],
     queryFn: getProfile,
     enabled: !!token,
+  });
+
+  const { data: favouriteList, isInitialLoading: loadingFavourite }: any = useQuery(["wishlistProducts", token], {
+    enabled: !!token
   })
+
+
+  // const { data: favouriteList, isInitialLoading: loadingFavourite } = useQuery(
+  //   ['getAllWishlistProducts', token],
+  //   getAllWishlistProducts,
+  //   {
+  //     enabled: !!token, // Only enable the query if the token is available
+  //     retry: false, // Disable automatic retries on query failure
+  //     staleTime: 60000, // Set a time (in milliseconds) before the data is considered stale and a refetch is needed
+  //   }
+  // );
+
+
+
+  // const { data: favouriteList, isInitialLoading: loadingFavourite } = useQuery({
+  //   queryKey: ["getAllWishlistProducts"],
+  //   queryFn: async () => {
+  //     if (token) {
+  //       const response = await getAllWishlistProducts();
+  //       return response;
+  //     }
+  //   },
+  //   enabled: !!token
+  // })
+
+  const { data: cart } = useQuery<ICartItem>(["getCart"])
 
   const mutation = useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      deleteCookie("token")
-      showToast(TOAST_TYPES.success, "Logged out successfully")
-    }
-  })
+      deleteCookie("token");
+      deleteCookie("isLoggedIn")
+      showToast(TOAST_TYPES.success, "Logged out successfully");
+    },
+  });
 
   const logoutHandler = () => {
-    mutation.mutate()
-    setShowModal(false)
-  }
+    mutation.mutate();
+    setShowModal(false);
+  };
 
-
+  //suggestion
   const {
-    data: searchData,
-    error,
+    data: suggestData,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    status,
-  } = useInfiniteQuery(
-    ['search', selectedType || '', searchValue || ''],
-    ({ pageParam = 1 }) => getSearchResults(selectedType || '', searchValue || '', pageParam),
+  } = useInfiniteQuery(["suggest", selectedType || "", debounceSearch],
+    () =>
+      getSuggestionResults(selectedType || "", searchValue || ""),
     {
-      enabled: searchValue.length > 0 ? true : false
+      enabled: searchValue.length > 0 ? true : false,
     }
-  );
+  )
 
   const handleLoadMore = () => {
     fetchNextPage();
@@ -94,25 +140,42 @@ const Header = () => {
     }
   };
 
-
   const handleTypeChange = (text: string) => {
     setSelectedType(text);
   };
 
   const handleInputChange = (event: any) => {
+    setDropdownOpen(true)
     setSearchValue(event.target.value);
-
   };
-
 
   const handleSearch = () => {
     const query = {
       type: selectedType,
-      keyword: searchValue
+      keyword: searchValue,
     };
+    setDropdownOpen(false)
     const queryString = new URLSearchParams(query).toString();
     router.push(`/search?${queryString}`);
   };
+
+  const redirectDetailPage = (title: string) => {
+    const query = {
+      type: selectedType,
+      keyword: title,
+    };
+    setSearchValue(title)
+    setDropdownOpen(false)
+    const queryString = new URLSearchParams(query).toString();
+    router.push(`/search?${queryString}`);
+  }
+
+  //setting input value to empty when page changed
+  useEffect(() => {
+    if (!pathname.includes('/search')) {
+      setSearchValue('')
+    }
+  }, [pathname])
 
   return (
     <>
@@ -146,62 +209,73 @@ const Header = () => {
               </div>
               <div className="flex-none">
                 <FaUser className="w-[13px] h-auto text-white me-2" />
-                {
-                  token && profile ?
-                    <div className="dropdown dropdown-hover dropdown-end">
-                      <label tabIndex={0} className="text-xs text-white py-1 m-1 px-0 capitalize bg-transparent border-0 hover:bg-transparent hover:transform hover:scale-[1.1] btn">
-                        {profile?.data?.firstName}
-                        <FaChevronDown />
-                      </label>
-                      <ul tabIndex={0} className="w-full min-w-[160px] py-2 px-3.5 shadow dropdown-content menu bg-base-100 top-[30px] z-[100]">
-                        <li className="mx-5">
-                          <Link
-                            href={'/'}
-                            className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.1] hover:px-0">
-                            My Account
-                          </Link>
-                        </li>
-                        <li className="mx-5 ">
-                          <Link
-                            href={'/'}
-                            className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.1] hover:px-0">
-                            Checkout
-                          </Link>
-                        </li>
-                        <li className="mx-5 ">
-                          <button
-                            onClick={() => setShowModal(!showModal)}
-                            className="!border-b-0 dropdown-item font-semibold text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center hover:transform hover:scale-[1.1] hover:px-0">
-                            Logout
-                          </button>
-                        </li>
-                      </ul>
-                      {
-                        showModal &&
-                        <ConfirmationModal
-                          confirmHeading="Are you sure you want to logout?"
-                          modalType="logout_modal"
-                          btnName="Logout"
-                          showModal={showModal}
-                          btnFunction={logoutHandler}
-                          cancelFuntion={() => setShowModal(false)}
-                          isLoading={mutation.isLoading}
-                        />
-                      }
-                    </div>
-                    :
-                    <div className="flex">
-                      <Link
-                        href={'/auth/login'}
-                        className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]">
-                        Login
-                      </Link>
-                      <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0"></div>
-                      <Link href={'/auth/register'} className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]">
-                        Sign Up
-                      </Link>
-                    </div>
-                }
+                {token && profile ? (
+                  <div className="dropdown dropdown-hover dropdown-end">
+                    <label
+                      tabIndex={0}
+                      className="text-xs text-white py-1 m-1 px-0 capitalize bg-transparent border-0 hover:bg-transparent hover:transform hover:scale-[1.1] btn"
+                    >
+                      {profile?.data?.firstName}
+                      <FaChevronDown />
+                    </label>
+                    <ul
+                      tabIndex={0}
+                      className="w-full min-w-[160px] py-2 px-3.5 shadow dropdown-content menu bg-base-100 top-[30px] z-[100]"
+                    >
+                      <li className="mx-5">
+                        <Link
+                          href={"/account/profile"}
+                          className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.1] hover:px-0 focus:!bg-transparent"
+                        >
+                          My Account
+                        </Link>
+                      </li>
+                      <li className="mx-5 ">
+                        <Link
+                          href={"/checkout"}
+                          className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.1] hover:px-0 focus:!bg-transparent"
+                        >
+                          Checkout
+                        </Link>
+                      </li>
+                      <li className="mx-5 ">
+                        <button
+                          onClick={() => setShowModal(!showModal)}
+                          className="!border-b-0 dropdown-item font-semibold text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center hover:transform hover:scale-[1.1] hover:px-0"
+                        >
+                          Logout
+                        </button>
+                      </li>
+                    </ul>
+                    {showModal && (
+                      <ConfirmationModal
+                        confirmHeading="Are you sure you want to logout?"
+                        modalType="logout_modal"
+                        btnName="Logout"
+                        showModal={showModal}
+                        btnFunction={logoutHandler}
+                        cancelFuntion={() => setShowModal(false)}
+                        isLoading={mutation.isLoading}
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <div className="flex">
+                    <Link
+                      href={"/auth/login"}
+                      className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]"
+                    >
+                      Login
+                    </Link>
+                    <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0"></div>
+                    <Link
+                      href={"/auth/register"}
+                      className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]"
+                    >
+                      Sign Up
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -222,7 +296,6 @@ const Header = () => {
             {/* Search */}
 
             <div className="border-[1px] border-[#E4E4E4] rounded-md h-[48px] !outline-offset-0 flex items-center justify-between gap-1 w-[60%]">
-
               <div className="relative w-full">
                 <div className="flex items-center justify-between gap-1 ">
                   <input
@@ -245,57 +318,53 @@ const Header = () => {
                       tabIndex={0}
                       className={`dropdown-content menu shadow p-0 bg-base-100 rounded-sm min-w-[110px] z-[60] `}
                     >
-                      <li onClick={() => handleTypeChange('product')}>
+                      <li onClick={() => handleTypeChange("product")}>
                         <span>Product</span>
                       </li>
-                      <li onClick={() => handleTypeChange('category')}>
+                      <li onClick={() => handleTypeChange("category")}>
                         <span>Category</span>
                       </li>
-
                     </ul>
                   </div>
                 </div>
-                {searchValue.length > 0 && (
-                  <ul className="absolute z-50 w-full mt-2 bg-white border border-gray-300 rounded top-full" onScroll={handleScroll}>
-                    {searchData && searchData?.pages.map((group, index) => (
-                      <React.Fragment key={index}>
-                        {group?.data?.map((prev: any, _i: number) => (
-                          <li key={_i} className="p-2 cursor-pointer hover:bg-gray-100">
-                            <div className="flex items-center">
-                              <Image
-                                src={prev?.categoryBackgroundImage}
-                                width={30}
-                                height={20}
-                                alt="image"
-                                className="object-contain aspect-square"
-                              />
-                              <span className="ps-2">
-                                {prev.title}
-                              </span>
-
-                            </div>
-                          </li>
-                        ))}
-                      </React.Fragment>
-                    ))}
-                    {/* {searchHistory.map((item, index) => (
-                  <li
-                    key={index}
-                    className="p-2 cursor-pointer hover:bg-gray-100"
-                    onClick={() => setSearchValue(item)}
+                {dropdownOpen && searchValue.length > 0 && (
+                  <ul
+                    className="absolute z-50 w-full mt-2 bg-white border border-gray-300 rounded top-full max-h-[335px] overflow-y-auto"
+                    onScroll={handleScroll}
                   >
-                    {item}
-                  </li>
-                ))} */}
+                    {suggestData &&
+                      suggestData.pages?.map((group: any, index: number) => (
+                        <React.Fragment key={index}>
+                          {group?.data?.map((prev: any, _i: number) => (
+                            <li
+                              key={_i}
+                              className="p-2 cursor-pointer hover:bg-gray-100"
+                            >
+                              <div className="flex items-center cursor-pointer" onClick={() => redirectDetailPage(prev?.title)}>
+                                <Image
+                                  src={prev?.img}
+                                  width={30}
+                                  height={20}
+                                  alt={`image-${_i}`}
+                                  className="object-contain aspect-square"
+                                />
+                                <span className="ps-2">{prev.title}</span>
+                              </div>
+                            </li>
+                          ))}
+                        </React.Fragment>
+                      ))}
                   </ul>
                 )}
               </div>
 
-              <button className="py-3 rounded-l-none btn btn-primary rounded-r-md" onClick={handleSearch}>
+              <button
+                className="py-3 rounded-l-none btn btn-primary rounded-r-md"
+                onClick={handleSearch}
+              >
                 <SearchIcon />
               </button>
             </div>
-
 
             {/* Why Plant Button */}
             <Link href="/why-plants">
@@ -305,19 +374,21 @@ const Header = () => {
             </Link>
           </div>
 
-
           <div className="flex items-center gap-3">
             {/* Heart Button */}
-            <button className="relative hidden py-3 btn btn-circle md:flex">
-              <HeartIcon className="text-black" />
-              <Badge
-                className="badge-accent "
-                type="primary"
-                badgePosition="top-right"
-              >
-                0
-              </Badge>
-            </button>
+            {
+              token &&
+              <Link href="/wishlist" className="relative hidden py-3 btn btn-circle md:flex">
+                <HeartIcon className="text-black" />
+                <Badge
+                  className="badge-accent "
+                  type="primary"
+                  badgePosition="top-right"
+                >
+                  {favouriteList ? favouriteList.data?.length : 0}
+                </Badge>
+              </Link>
+            }
             {/* Cart */}
             <CartDropdown />
 
@@ -327,22 +398,22 @@ const Header = () => {
                 TOTAL PRICE
               </p>
               <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
-                {/* NPR {cart?.total || 0} */}
+                NPR {cart?.total || 0}
               </p>
             </div>
             {/* md:drawer */}
             <Drawer />
-          </div >
-        </div >
-      </div >
+          </div>
+        </div>
+      </div>
       {/* Category header */}
-      < div className={`border-b-[1px]  md:sticky top-0 md:z-70 z-10 bg-white `}>
+      <div className={`border-b-[1px]  md:sticky top-0 md:z-70 z-10 bg-white `}>
         <div className="container flex items-center justify-between">
           <div className="flex w-full gap-10 md:w-auto">
             <div className="dropdown dropdown-hover  md:min-w-[15rem] min-w-full">
               <label
                 tabIndex={0}
-                className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full"
+                className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full remove-focus"
               >
                 <BarsIcon />
                 All Categories <CaretDownIcon />
@@ -374,39 +445,114 @@ const Header = () => {
               <Button
                 type="ghost"
                 className="!bg-white border-0 text-gray-550 font-bold uppercase"
-                onClick={() => router.push('/')}
+                onClick={() => router.push("/")}
               >
                 Home
               </Button>
-              <div className="dropdown dropdown-hover rounded-none">
-                <label tabIndex={0} className="btn m-1 bg-transparent border-0 text-gray-550 font-bold hover:bg-transparent">OUR SERVICE</label>
-                <ul tabIndex={0} className="dropdown-content z-[1] menu  px-0 pt-2.5 pb-0 shadow bg-base-100 w-[252px]">
-                  <li><Link href="/plant-consultation" className="rounded-none text-gray-750 border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:bg-transparent hover:text-primary hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Plant Consultation</Link></li>
-                  <li><Link href="/gift-a-plant" className="rounded-none text-gray-750 text-sm  capitalize font-medium hover:bg-transparent hover:text-primary hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Gift a plant</Link></li>
+              <div className="rounded-none dropdown dropdown-hover">
+                <label
+                  tabIndex={0}
+                  className="m-1 font-bold bg-transparent border-0 cursor-pointer btn text-gray-550 hover:bg-transparent hover:text-primary"
+                >
+                  OUR SERVICE{" "}
+                  <span>
+                    <BsCaretDownFill />
+                  </span>
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content z-[1] menu  px-0 pt-2.5 pb-0 shadow bg-base-100 w-[252px]"
+                >
+                  <li>
+                    <Link
+                      href="/plant-consultation"
+                      className="rounded-none text-gray-750 border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:bg-transparent hover:text-primary hover:pl-[20px] transition-all duration-200 ease-linear outline-none"
+                    >
+                      Plant Consultation
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/gift-a-plant"
+                      className="rounded-none text-gray-750 text-sm  capitalize font-medium hover:bg-transparent hover:text-primary hover:pl-[20px] transition-all duration-200 ease-linear outline-none"
+                    >
+                      Gift a plant
+                    </Link>
+                  </li>
                 </ul>
               </div>
-              <Button
-                type="ghost"
-                className="!bg-white border-0 text-gray-550 font-bold"
-              >
-                OUTLET
-              </Button>
+              <Link href="/our-outlets" className="!bg-white border-0 text-gray-550 font-bold text-sm">  OUTLET</Link>
+              {/* <Button
+                  type="ghost"
+                  className="!bg-white border-0 text-gray-550 font-bold"
+                >
+                  OUTLET
+                </Button> */}
+
               <div className="dropdown dropdown-hover">
-                <label tabIndex={0} className="btn m-1  bg-transparent border-0 text-gray-550 font-bold hover:bg-transparent">ABOUT US</label>
-                <ul tabIndex={0} className="dropdown-content z-[1] menu pt-2.5 pb-0 shadow bg-base-100 w-[252px]">
-                  <li><Link href="/tree-installation" className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Tree Installation</Link></li>
-                  <li><Link href="about-us"  className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Our Story</Link></li>
-                  <li><Link href="/our-values"  className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Values That Make Us</Link></li>
-                  <li><Link href="/working-at-i-am-the-gardener"  className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Working At I Am The Gardner</Link></li>
-                  <li><Link href="/csr-projects"  className="rounded-none text-gray-750 text-sm  capitalize font-medium hover:bg-transparent hover:text-primary hover:pl-[20px] transition-all duration-200 ease-linear outline-none">Our CSR Project</Link></li>
+                <label
+                  tabIndex={0}
+                  className="m-1 font-bold bg-transparent border-0 cursor-pointer btn text-gray-550 hover:bg-transparent hover:text-primary"
+                >
+                  ABOUT US{" "}
+                  <span>
+                    <BsCaretDownFill />
+                  </span>
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content z-[1] menu pt-2.5 pb-0 shadow bg-base-100 w-[252px]"
+                >
+                  <li>
+                    <Link
+                      href="/tree-installation"
+                      className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none"
+                    >
+                      Tree Installation
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="about-us"
+                      className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none"
+                    >
+                      Our Story
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/our-values"
+                      className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none"
+                    >
+                      Values That Make Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/working-at-i-am-the-gardener"
+                      className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none"
+                    >
+                      Working At I Am The Gardner
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/csr-projects"
+                      className="rounded-none text-gray-750 text-sm  capitalize font-medium hover:bg-transparent hover:text-primary hover:pl-[20px] transition-all duration-200 ease-linear outline-none"
+                    >
+                      Our CSR Project
+                    </Link>
+                  </li>
                 </ul>
               </div>
-              <Button
-                type="ghost"
-                className="!bg-white border-0 text-gray-550 font-bold uppercase"
-              >
-                BLOGS
-              </Button>
+              <Link href="/blogs">
+                <Button
+                  type="ghost"
+                  className="!bg-white border-0 text-gray-550 font-bold uppercase"
+                >
+                  BLOGS
+                </Button>
+              </Link>
             </div>
           </div>
           <Link href="/offer">
@@ -416,7 +562,7 @@ const Header = () => {
             </button>
           </Link>
         </div>
-      </div >
+      </div>
     </>
   );
 };

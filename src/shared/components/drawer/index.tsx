@@ -1,29 +1,67 @@
+import { logout } from "@/services/auth.service";
 import BarsIcon from "@/shared/icons/common/BarsIcon";
 import FlowerIcon from "@/shared/icons/common/FlowerIcon";
 import LocationIcon from "@/shared/icons/common/LocationIcon";
 import SearchIcon from "@/shared/icons/common/SearchIcon";
 import TagIcon from "@/shared/icons/common/TagIcon";
 import UserIcon from "@/shared/icons/common/UserIcon";
+import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
+import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { deleteCookie } from "cookies-next";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { AiOutlineLogout, AiOutlineHeart } from 'react-icons/ai'
+import { BiUser } from 'react-icons/bi'
+import ConfirmationModal from "../confirmation-modal";
+import { getAllWishlistProducts } from "@/services/wishlist.service";
 
 const Drawer = () => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [toggleDrawer, setToggleDrawer] = useState<boolean>(false)
+  const token = getToken()
+  const router = useRouter()
+
+
+  const { data: favouriteList, isInitialLoading: loadingFavourite } = useQuery({
+    queryKey: ["wishlistProducts", token],
+    queryFn: () => getAllWishlistProducts(token),
+    enabled: !!token,
+    retry: false,
+  });
+
+  const mutation = useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      deleteCookie("token");
+      deleteCookie("isLoggedIn")
+      showToast(TOAST_TYPES.success, "Logged out successfully");
+    },
+  });
+
+  const logoutHandler = () => {
+    mutation.mutate();
+    setShowModal(false);
+  };
+
   return (
     <div className="z-50 flex max-w-[8rem] drawer md:hidden">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Page content here */}
-        <label htmlFor="my-drawer" className="btn btn-ghost drawer-button">
+        <label htmlFor="my-drawer" onClick={() => setToggleDrawer(true)} className="btn btn-ghost drawer-button">
           <BarsIcon />
         </label>
       </div>
       <div className=" drawer-side">
-        <label htmlFor="my-drawer" className="drawer-overlay"></label>
-        <ul className="w-64 h-full p-4 bg-white menu text-base-content">
+        <label htmlFor="my-drawer" className="drawer-overlay" onClick={() => setToggleDrawer(false)}></label>
+        <ul className="w-64 h-[100vh] p-4 bg-white menu text-base-content flex-nowrap">
           <div className="relative">
             <label
               htmlFor="my-drawer"
-              className=" drawer-end absolute p-3 rounded-sm -top-4 right-[-3rem] btn btn-error"
+              onClick={() => setToggleDrawer(false)}
+              className={`drawer-end absolute p-3 rounded-sm -top-4 right-[-3rem] btn btn-error ${toggleDrawer ? 'block' : 'hidden'}`}
             >
               x
             </label>
@@ -46,92 +84,108 @@ const Drawer = () => {
               </button>
             </div>
           </li>
-          <li>
+          <li className="max-h-[calc(100vh-88px)] overflow-y-scroll pb-[40px]">
             <div className="!bg-transparent block p-1">
-              <p className="collapse-title">Home</p>
+              <Link href={'/'} className="block font-normal collapse-title leading-[25px]">Home</Link>
               <div className="collapse collapse-plus">
                 <input type="checkbox" className="min-h-0" />
-                <div className="collapse-title after:!top-0 after:!right-1 pe-4 after:text-lg">
+                <div className="collapse-title font-normal leading-[25px] after:!top-0 after:!right-1 pe-4 after:text-lg">
                   Our Services
                 </div>
                 <div className="collapse-content">
-                  <p className="collapse-text"><Link href="/plant-consultation">Plant Consultant</Link></p>
-                  <p className="collapse-text"><Link href="/gift-a-plant">Gift a Plant</Link></p>
+                  <p className="font-normal collapse-text"><Link href="/plant-consultation">Plant Consultant</Link></p>
+                  <p className="font-normal collapse-text"><Link href="/gift-a-plant">Gift a Plant</Link></p>
                 </div>
               </div>
-              <p className="collapse-title">Out Outlets</p>
+              <Link href={'/our-outlets'} className="block font-normal collapse-title leading-[25px]">Our Outlets</Link>
               <div className="collapse collapse-plus">
                 <input type="checkbox" className="min-h-0" />
-                <div className="collapse-title after:!top-0 after:!right-1 pe-4 after:text-lg">
+                <div className="collapse-title font-normal leading-[25px] after:!top-0 after:!right-1 pe-4 after:text-lg">
                   About Us
                 </div>
                 <div className="collapse-content">
-                  <p className="collapse-text"><Link href="/tree-installation">Tree Installation</Link></p>
-                  <p className="collapse-text"><Link href="/about-us">Our Story</Link></p>
-                  <p className="collapse-text">
+                  <p className="font-normal collapse-text"><Link href="/tree-installation">Tree Installation</Link></p>
+                  <p className="font-normal collapse-text"><Link href="/about-us">Our Story</Link></p>
+                  <p className="font-normal collapse-text">
                     <Link href="/our-values">
-                    Values that make us who we are{" "}
+                      Values that make us who we are{" "}
                     </Link>
                   </p>
-                  <p className="collapse-text"><Link href="/csr-projects">Our CSR Projects</Link> </p>
+                  <p className="font-normal collapse-text"><Link href="/csr-projects">Our CSR Projects</Link> </p>
                 </div>
               </div>
-              <p className="collapse-title">Blog</p>
-              <div className="mt-3">
+              <Link href={'/blogs'} className="block font-normal collapse-title leading-[25px]">Blog</Link>
+              <div className="mt-6">
                 <p className="mb-2 text-base font-bold">Our Services</p>
-                <Link href="/why-plants">
-                  <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
-                    <FlowerIcon className="text-primary" />
-                    Why Plants
-                  </button>
+                <Link href="/why-plants" className="flex items-center justify-start gap-3 p-0 text-base font-medium capitalize btn btn-ghost text-start">
+                  <FlowerIcon className="text-primary" />
+                  Why Plants
                 </Link>
               </div>
               <div className="mt-6">
                 <p className="mb-2 text-base font-bold">My Account</p>
-                
-                <div className="flex">
-                  <Link href="/login">
-                    <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
+
+                {
+                  token ? (
+                    <>
+                      <Link href="/account/profile" className="flex justify-start leading-[33px] gap-3 p-0 text-base font-normal capitalize btn btn-ghost text-start">
+                        <BiUser />
+                        View Profile
+                      </Link>
+                      <Link href="/wishlist" className="flex justify-start leading-[33px] gap-3 p-0 text-base font-normal capitalize btn btn-ghost text-start">
+                        <AiOutlineHeart />
+                        Wishlist ({favouriteList ? favouriteList?.data?.length : 0})
+                      </Link>
+                    </>
+                  ) : (
+                    <div className="flex items-center gap-3">
                       <UserIcon className="text-black" />
-                      Login
-                    </button>
-                  </Link>
-                  <span>/</span>
-                  <Link href="/login">
-                    <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
-                      Sign Up
-                    </button>
-                  </Link>
-                </div>
-                
-                <Link href="/offer">
-                <button className="flex block gap-1 p-0 text-base font-medium capitalize btn btn-ghost text-start">
-                  <TagIcon className="text-black" />
+                      <div className="flex items-center gap-1 leading-[33px]">
+                        <Link href="/auth/login" className="flex gap-1 p-0 text-base font-normal capitalize btn btn-ghost text-start">
+                          Login
+                        </Link>
+                        <span>/</span>
+                        <Link href="/auth/register" className="flex gap-1 p-0 text-base font-normal capitalize btn btn-ghost text-start">
+                          Sign Up
+                        </Link>
+                      </div>
+                    </div>
+                  )
+                }
+
+                <Link href="/offer" className="flex justify-start leading-[33px] gap-3 p-0 text-base font-normal capitalize btn btn-ghost text-start">
+                  <TagIcon />
                   Offer
-                </button>
                 </Link>
-                
+                {
+                  token &&
+                  <button
+                    type="button"
+                    onClick={() => setShowModal(true)}
+                    className="flex justify-start leading-[33px] gap-3 p-0 text-base font-normal capitalize btn btn-ghost text-start">
+                    {/* <TagIcon className="text-black" /> */}
+                    <AiOutlineLogout />
+                    Logout
+                  </button>
+                }
+
               </div>
             </div>
           </li>
-          {/* <li className="border-b-[1px] border-primary ">
-            <p>Home</p>
-          </li>
-          <li className="border-b-[1px] border-primary ">
-            <p>Our Outlets</p>
-          </li>
-          <li className="border-b-[1px] border-primary ">
-            <p>Blog</p>
-          </li>
-          <li>
-            Our Services
-            <button className="block btn btn-ghost text-start">
-              Why Plants
-            </button>
-          </li> */}
-        </ul>
-      </div>
-    </div>
+        </ul >
+      </div >
+      {showModal && (
+        <ConfirmationModal
+          confirmHeading="Are you sure you want to logout?"
+          modalType="logout_modal"
+          btnName="Logout"
+          showModal={showModal}
+          btnFunction={logoutHandler}
+          cancelFuntion={() => setShowModal(false)}
+          isLoading={mutation.isLoading}
+        />
+      )}
+    </div >
   );
 };
 

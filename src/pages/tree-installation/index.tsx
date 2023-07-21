@@ -4,7 +4,9 @@ import MainLayout from "@/shared/main-layout";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getPageData } from "@/services/page.service";
-import Breadcrumb from "@/components/Breadcrumb";
+import Breadcrumb from "@/shared/components/breadcrumb";
+import Loader from "@/components/Loading";
+import Head from "next/head";
 
 const TreeInstallation: NextPageWithLayout = () => {
   const router = useRouter();
@@ -12,12 +14,11 @@ const TreeInstallation: NextPageWithLayout = () => {
   const [descriptionContent, setDescriptionContent] = useState<string>('');
   const path = asPath.split('/');
   const slug = path[path.length - 1];
-  const { data: treeInstallationData } = useQuery({
+  const { data: treeInstallationData, isInitialLoading: fetchLoading } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
         const response = await getPageData(slug);
-        console.log(response);
         return response;
       }
     },
@@ -27,15 +28,27 @@ const TreeInstallation: NextPageWithLayout = () => {
   useEffect(() => {
     if (treeInstallationData) {
       setDescriptionContent(treeInstallationData?.data?.description || '');
-     }
+    }
   }, [treeInstallationData]);
   return (
     <>
-    <Breadcrumb title={treeInstallationData?.data?.title} />
-    <div className="py-7 text-justify" dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
+      <Head>
+        <title>{treeInstallationData?.data?.title || 'I am the Gardener'}</title>
+      </Head>
+      {
+        fetchLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <Breadcrumb title={treeInstallationData?.data?.title} />
+            <div className="main-wrapper-block" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
+          </>
+        )
+      }
+
     </>
   );
-  
+
 }
 export default TreeInstallation;
 TreeInstallation.getLayout = (page) => {

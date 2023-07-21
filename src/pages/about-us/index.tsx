@@ -4,7 +4,9 @@ import MainLayout from "@/shared/main-layout";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getPageData } from "@/services/page.service";
-import Breadcrumb from "@/components/Breadcrumb";
+import Breadcrumb from "@/shared/components/breadcrumb";
+import Loader from "@/components/Loading";
+import Head from "next/head";
 
 const AboutUs: NextPageWithLayout = () => {
   const router = useRouter();
@@ -12,12 +14,11 @@ const AboutUs: NextPageWithLayout = () => {
   const [descriptionContent, setDescriptionContent] = useState<string>('');
   const path = asPath.split('/');
   const slug = path[path.length - 1];
-  const { data: aboutData } = useQuery({
+  const { data: aboutData, isInitialLoading: fetchLoading } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
         const response = await getPageData(slug);
-        console.log(response);
         return response;
       }
     },
@@ -27,15 +28,26 @@ const AboutUs: NextPageWithLayout = () => {
   useEffect(() => {
     if (aboutData) {
       setDescriptionContent(aboutData?.data?.description || '');
-     }
+    }
   }, [aboutData]);
   return (
     <>
-    <Breadcrumb title={aboutData?.data?.title} />
-    <div className="py-7 text-justify" dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
+      <Head>
+        <title>{aboutData?.data?.title || 'I am the Gardener'}</title>
+      </Head>
+      {
+        fetchLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <Breadcrumb title={aboutData?.data?.title} />
+            <div className="main-wrapper-block aboutus-wrapper" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
+          </>
+        )
+      }
     </>
   );
-  
+
 }
 export default AboutUs;
 AboutUs.getLayout = (page) => {

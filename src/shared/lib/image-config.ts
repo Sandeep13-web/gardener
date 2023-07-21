@@ -15,6 +15,11 @@ export const CashOnHand = '/images/cash-on-hand.png';
 export const UnionPay = '/images/union-pay.png';
 export const BreadCrumbImage = '/images/gardener-breadcrumb.png';
 export const UpArrow = '/images/up-arrow-icon.svg';
+export const fourzerofour = '/images/404.png';
+export const CartEmpty = '/images/cart-empty.svg';
+export const MarkerIcon = '/images/marker.png';
+export const OrderSuccess = '/images/order-success.svg';
+export const OrderFailure = '/images/payment-faied.png';
 
 export const socials = {
     facebook: 'images/facebook.svg',

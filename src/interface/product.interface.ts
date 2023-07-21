@@ -45,6 +45,8 @@ export interface IProduct {
   title: string;
   unitPrice: UnitPrice[];
   warehouses: IWareHouse[];
+  isFav?: boolean;
+  favId?: number;
 }
 
 interface IProductImage {

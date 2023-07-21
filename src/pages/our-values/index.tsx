@@ -4,7 +4,9 @@ import MainLayout from "@/shared/main-layout";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getPageData } from "@/services/page.service";
-import Breadcrumb from "@/components/Breadcrumb";
+import Breadcrumb from "@/shared/components/breadcrumb";
+import Loader from "@/components/Loading";
+import Head from "next/head";
 
 const OurValues: NextPageWithLayout = () => {
   const router = useRouter();
@@ -12,12 +14,11 @@ const OurValues: NextPageWithLayout = () => {
   const [descriptionContent, setDescriptionContent] = useState<string>('');
   const path = asPath.split('/');
   const slug = path[path.length - 1];
-  const { data: valuesData } = useQuery({
+  const { data: valuesData, isInitialLoading: fetchLoading } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
         const response = await getPageData(slug);
-        console.log(response);
         return response;
       }
     },
@@ -27,15 +28,26 @@ const OurValues: NextPageWithLayout = () => {
   useEffect(() => {
     if (valuesData) {
       setDescriptionContent(valuesData?.data?.description || '');
-     }
+    }
   }, [valuesData]);
   return (
     <>
-    <Breadcrumb title={valuesData?.data?.title} />
-    <div className="py-7 text-justify" dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
+      <Head>
+        <title>{valuesData?.data?.title || 'I am the Gardener'}</title>
+      </Head>
+      {
+        fetchLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <Breadcrumb title={valuesData?.data?.title} />
+            <div className="main-wrapper-block" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
+          </>
+        )
+      }
+
     </>
   );
-  
 }
 export default OurValues;
 OurValues.getLayout = (page) => {

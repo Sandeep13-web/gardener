@@ -6,18 +6,43 @@ import {
   getToken,
   getWareId,
 } from "@/shared/utils/cookies-utils/cookies.utils";
+import { getCookie } from "cookies-next";
+// import { getCoupon } from "@/shared/utils/local-storage-utils/local-storage.utils";
 
 const baseURL = config.gateway.baseURL;
 const axiosInstance = axios.create({
   baseURL: baseURL,
   headers: {
     Accept: "application/json",
-    ...(getToken() && { Authorization: `Bearer ${getToken()}` }),
     ...(getCartNumber() && { "Cart-Number": getCartNumber() }),
+    // ...(getCoupon() && { Coupon: getCoupon() }),
     "Api-Key": config.gateway.apiKey,
-    "Warehouse-Id": getWareId(),
+    "Warehouse-Id": getWareId() || 1,
   },
 });
+
+// Function to set the Authorization header dynamically
+export const setAuthorizationHeader = () => {
+  const token = getToken();
+  if (token) {
+    axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete axiosInstance.defaults.headers.common["Authorization"];
+  }
+};
+
+// Call the function initially to set the Authorization header if the token is available.
+setAuthorizationHeader();
+
+export const setCouponHeader = () => {
+  const coupon = getCookie("coupon");
+  if (coupon) {
+    axiosInstance.defaults.headers.common["Coupon"] = coupon;
+  } else {
+    delete axiosInstance.defaults.headers.common["Coupon"];
+  }
+};
+setCouponHeader();
 
 axiosInstance.interceptors.response.use(
   (response: any) => {

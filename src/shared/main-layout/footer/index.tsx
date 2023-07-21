@@ -1,3 +1,4 @@
+import { getConfig } from "@/services/home.service";
 import FooterBullet from "@/shared/icons/common/FooterBullet";
 import {
   AppStore,
@@ -11,10 +12,16 @@ import {
   UnionPay,
   socials,
 } from "@/shared/lib/image-config";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Footer = () => {
+  const { data: config }: any = useQuery(['getConfig'])
+  const appStoreLink = config?.data?.pageData['section4 appstore link'];
+  const googlePlayLink = config?.data?.pageData['section4 googleplay link'];
+
   return (
     <div className="relative">
       <Image fill src={FooterBg} className="z-0" alt="footer-bg" />
@@ -64,82 +71,82 @@ const Footer = () => {
             <span className="footer-title">Company</span>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <button className="p-0 footer-link">About Us</button>
+              <Link href='/about-us' className="p-0 footer-link">About Us</Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <button className="p-0 footer-link">Privacy Policy</button>
+              <Link href='/privacy-policy' className="p-0 footer-link">Privacy Policy</Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <button className="p-0 footer-link">FAQs</button>
+              <Link href='/faq' className="p-0 footer-link">FAQs</Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <button className="p-0 footer-link">Contact Us</button>
+              <Link href='/contact-us' className="p-0 footer-link">Contact Us</Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <button className="p-0 footer-link">Terms and Conditions</button>
+              <Link href='/terms-and-conditions' className="p-0 footer-link">Terms and Conditions</Link>
             </div>
           </div>
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
             <span className="footer-title">Buy Plants and Accessories</span>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <button className="p-0 footer-link">
+              <Link href='/plant-consultation' className="p-0 footer-link">
                 Plants and Consultation
-              </button>
+              </Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <button className="p-0 footer-link">Tree Installation</button>
+              <Link href='/tree-installation' className="p-0 footer-link">Tree Installation</Link>
             </div>
           </div>
         </div>
         <div className="container flex flex-wrap items-center justify-between gap-4 mb-4">
           <div className="flex gap-3">
-            <button className="w-auto p-0 btn btn-circle">
+            <Link href='https://www.facebook.com/imthegardener/' target="_blank" className="w-auto p-0 btn btn-circle">
               <Image
                 src={socials.facebook}
                 height={36}
                 width={36}
                 alt="facebook"
               />
-            </button>
-            <button className="w-auto p-0 btn btn-circle">
+            </Link>
+            <Link href='https://www.instagram.com/iamthegardener/' target="_blank" className="w-auto p-0 btn btn-circle">
               <Image
                 src={socials.instagram}
                 height={36}
                 width={36}
                 alt="facebook"
               />
-            </button>
-            <button className="w-auto p-0 btn btn-circle">
+            </Link>
+            <Link href='https://www.youtube.com/channel/UCYAdKv4kRybRdWjHU_tZcvQ' target="_blank" className="w-auto p-0 btn btn-circle">
               <Image
                 src={socials.youtube}
                 height={36}
                 width={36}
                 alt="facebook"
               />
-            </button>
+            </Link>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <h3 className="text-base font-bold text-black me-4">
               DOWNLOAD THE APP ON
             </h3>
             <div className="flex gap-3">
-              <button className="p-0 btn">
-                <Image src={AppStore} height={32} width={108} alt="app-store" />
-              </button>
-              <button className="p-0 btn">
-                <Image
-                  src={PlayStore}
-                  height={32}
-                  width={108}
-                  alt="play-store"
-                />
-              </button>
+              {appStoreLink && (
+                <Link target="_blank" href={appStoreLink} className="p-0 btn">
+                  <Image src={AppStore} height={32} width={108} alt="app-store" />
+                </Link>
+              )}
+
+              {googlePlayLink && (
+                <Link target="_blank" href={googlePlayLink} className="p-0 btn">
+                  <Image src={PlayStore} height={32} width={108} alt="play-store" />
+                </Link>
+              )}
             </div>
           </div>
         </div>

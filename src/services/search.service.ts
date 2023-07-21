@@ -3,7 +3,8 @@ import axiosInstance from "@/axios/axiosInstance";
 export const getSearchResults = async (
   type?: string,
   query?: string,
-  page?: number
+  page?: number,
+  sortBy?: string
 ) => {
   try {
     let apiUrl = "";
@@ -20,9 +21,25 @@ export const getSearchResults = async (
       params: {
         query,
         page,
+        sortBy,
       },
     });
 
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+//suggestion
+export const getSuggestionResults = async (type?: string, query?: string) => {
+  try {
+    const response = await axiosInstance.get("/suggest", {
+      params: {
+        type,
+        query,
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;

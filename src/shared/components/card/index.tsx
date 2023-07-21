@@ -1,61 +1,120 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Props } from "./card.props";
 import Image from "next/image";
 import Link from "next/link";
 import SearchIcon from "@/shared/icons/common/SearchIcon";
 import TrashIcon from "@/shared/icons/common/TrashIcon";
-import { useCart } from "@/store/use-cart";
-import { IProduct } from "@/interface/product.interface";
-import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addToCart, updateCart } from "@/services/cart.service";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { addToCart } from "@/services/cart.service";
 import { ICartItem, ICreateCartItem, IUpdateCartItem } from "@/interface/cart.interface";
 import ButtonLoader from "../btn-loading";
 import { useCarts } from "@/hooks/cart.hooks";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
+import { debounce } from 'lodash'
+import CardHeartIcon from "@/shared/icons/common/CardHeartIcon";
+import { useWishlists } from "@/hooks/wishlist.hooks";
+import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 
-const Card: React.FC<Props> = ({ product, cartItem }) => {
+const Card: React.FC<Props> = ({ product, cartItem, }) => {
+
+  //Token 
+  const token = getToken();
+
+  //Use query hook
   const { data: cart } = useQuery<ICartItem>(["getCart"]);
-  const [value, setValue] = useState<number>(cartItem?.quantity || 1);
-  const stock: any = cartItem?.selectedUnit?.stock
   const queryClient = useQueryClient();
+  const stock: any = cartItem?.selectedUnit?.stock
+  const { addFavMutation, removeFavMutation, addLoading, removeLoading } = useWishlists() //for adding products for wishlist ->hook
 
-  const { updateCartMutation } = useCarts(); //customHook
+  /*
+ * States 
+ */
+  const [quantity, setQuantity] = useState<number>(1);
+  const { updateCartMutation, handleRemoveFromCart } = useCarts(); //customHook
 
-
-  const handleAddToCart = () => {
-    const payload: ICreateCartItem = {
-      note: '',
-      productId: product?.id,
-      priceId: product?.id,
-      quantity: value,
-    }
-    mutation.mutate(payload)
-  };
-
-  const handleUpdateCart = (values: number) => {
-    if (values < stock) {
-      setValue(values)
-      const payload: IUpdateCartItem = {
-        note: '',
-        quantity: values,
-        product_number: cartItem?.id,
-      }
-      updateCartMutation.mutate(payload)
-    } else {
-      console.log("erro", mutation.error)
-    }
-
-  };
-
+  /*
+  * Handle Add to cart api call
+  */
   const mutation = useMutation({
     mutationFn: addToCart,
     onSuccess: () => {
       showToast(TOAST_TYPES.success, 'Item Added To Cart Successfully');
       queryClient.invalidateQueries(['getCart'])
+    },
+    onError: (error: any) => {
+      showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message)
     }
   })
 
 
+  /*
+  * Handle Add to cart paylod function
+  */
+  const handleAddToCart = () => {
+    const payload: ICreateCartItem = {
+      note: '',
+      productId: product?.id,
+      priceId: product?.unitPrice[0]?.id,
+      quantity: quantity,
+    }
+    mutation.mutate(payload)
+  };
+
+
+  /*
+  ** Provides payload to the update api when the value is being increased or decreased.
+  */
+  const handleUpdateCart = (newQuantity: number) => {
+    if (newQuantity <= stock) {
+      const payload: IUpdateCartItem = {
+        note: '',
+        quantity: newQuantity,
+        product_number: cartItem?.id,
+      }
+      updateCartMutation.mutate(payload)
+    }
+  };
+
+  /**
+   * Used in order to debounce the value(quantity) that is being updated.
+   */
+  const debouncedHandleUpdateCart = useCallback( //debounce callback to call when value changes
+    debounce((newQuantity) => {
+      handleUpdateCart(newQuantity)
+    }, 300), []
+  )
+
+  /**
+   * For btn onClick function to pass the new value either being increased or decreased.
+   */
+  const updateCartCall = (newQuantity: number) => {
+    setQuantity(newQuantity) //set the updated value
+    debouncedHandleUpdateCart(newQuantity) //debounce callback added the updated value
+  }
+
+  /*
+   ** Add product in favourite list
+  */
+  const addToFav = (id: number) => {
+    addFavMutation.mutate(id)
+  }
+
+  /*
+ ** Remove product from favourite list
+*/
+  const removeFromFav = (id: number) => {
+    removeFavMutation.mutate(id)
+  }
+
+
+  /*
+ ** Set Cart item updated value
+*/
+  useEffect(() => {
+    if (cartItem?.quantity) {
+      setQuantity(cartItem?.quantity)
+    }
+  }, [])
 
 
   return (
@@ -64,6 +123,26 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
         href={`/products/${product?.slug}`}
         className="absolute top-0 bottom-0 left-0 right-0 z-[1]"
       />
+      {token &&
+        <>
+          {!product?.isFav ?
+            <button onClick={() => addToFav(product?.id)} className="absolute top-3 right-3 z-[2]">
+              {
+                addLoading ?
+                  <ButtonLoader className="!border-primary !block" /> :
+                  <CardHeartIcon />
+              }
+            </button>
+            :
+            <button onClick={() => removeFromFav(product?.favId!)} className="absolute top-3 right-3 z-[2]">
+              {
+                removeLoading ?
+                  <ButtonLoader className="!border-primary !block" /> :
+                  <CardHeartIcon className="stroke-[#E5002B] fill-[#E5002B]" />
+              }
+            </button>}
+        </>
+      }
       <figure>
 
         <Image
@@ -81,7 +160,7 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
       </figure>
       <div className="plant-card_preview-icon">
         <Link
-          href={`/${product?.slug}`}
+          href={`/products/${product?.slug}`}
           className="flex items-center justify-center"
         >
           <SearchIcon className="max-w-[15px] h-auto" />
@@ -97,7 +176,7 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
         </p>
 
         <div className="flex justify-end relative z-[3]">
-          {!(cart?.cartProducts?.some((item: any) => item?.product.id === product?.id)) && (
+          {(!(cart?.cartProducts?.some((item: any) => item?.product.id === product?.id))) ? (
             <button
               className="btn btn-primary btn-outline p-2 h-auto !min-h-0 text-xs leading-auto"
               onClick={handleAddToCart}
@@ -109,35 +188,36 @@ const Card: React.FC<Props> = ({ product, cartItem }) => {
                 <ButtonLoader />
               }
             </button>
-          )}
-          {cart?.cartProducts?.some((item: any) => item.product.id === product.id) && (
-            <div className="flex items-center gap-3 px-3 border rounded rounded-lg border-primary">
-              <button
-                className="text-primary py-1 text-sm w-[14px]"
-                onClick={() => handleUpdateCart(value - 1)}
-              >
-                {value === 1 ? (
-                  <TrashIcon className="max-w-[14px] h-auto" />
-                ) : (
-                  "-"
-                )}
-              </button>
-              <input
-                type="text"
-                className="text-center max-w-[35px] h-full font-bold text-sm border-0 focus:outline-0 text-primary"
-                value={value}
-                readOnly
-                maxLength={3}
-              />
-              <button
-                className="text-primary py-1 w-[14px]"
-                onClick={() => handleUpdateCart(value + 1)}
-              // disabled={value >= stock ? true : false}
-              >
-                +
-              </button>
-            </div>
-          )}
+          ) :
+            cart?.cartProducts?.some((item: any) => item.product.id === product.id) && (
+              <div className="flex items-center gap-3 px-3 border rounded-lg border-primary">
+                {
+                  quantity === 1 ?
+                    <button onClick={() => handleRemoveFromCart(cartItem?.id!)}>
+                      <TrashIcon className="max-w-[14px] h-auto" />
+                    </button>
+                    :
+                    <button
+                      className="text-primary py-1 text-sm w-[14px]"
+                      onClick={() => { updateCartCall(quantity - 1) }}
+                    > - </button>
+                }
+                <input
+                  type="text"
+                  className="text-center max-w-[35px] h-full font-bold text-sm border-0 focus:outline-0 text-primary"
+                  value={quantity}
+                  readOnly
+                  maxLength={3}
+                />
+                <button
+                  className="text-primary py-1 w-[14px] disabled:cursor-not-allowed disabled:opacity-50"
+                  onClick={() => { updateCartCall(quantity + 1) }}
+                  disabled={quantity === stock ? true : false}
+                >
+                  +
+                </button>
+              </div>
+            )}
         </div>
       </div>
       {/* <div className='plant-card_cartBtn'>

@@ -4,7 +4,9 @@ import MainLayout from "@/shared/main-layout";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getPageData } from "@/services/page.service";
-import Breadcrumb from "@/components/Breadcrumb";
+import Breadcrumb from "@/shared/components/breadcrumb";
+import Loader from "@/components/Loading";
+import Head from "next/head";
 
 const CSRProjects: NextPageWithLayout = () => {
   const router = useRouter();
@@ -12,12 +14,11 @@ const CSRProjects: NextPageWithLayout = () => {
   const [descriptionContent, setDescriptionContent] = useState<string>('');
   const path = asPath.split('/');
   const slug = path[path.length - 1];
-  const { data: csrProjectData } = useQuery({
+  const { data: csrProjectData, isInitialLoading: fetchLoading } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
         const response = await getPageData(slug);
-        console.log(response);
         return response;
       }
     },
@@ -27,15 +28,27 @@ const CSRProjects: NextPageWithLayout = () => {
   useEffect(() => {
     if (csrProjectData) {
       setDescriptionContent(csrProjectData?.data?.description || '');
-     }
+    }
   }, [csrProjectData]);
   return (
     <>
-    <Breadcrumb title={csrProjectData?.data?.title} />
-    <div className="py-7 text-justify" dangerouslySetInnerHTML={{ __html:descriptionContent, }} />
+      <Head>
+        <title>{csrProjectData?.data?.title || 'I am the Gardener'}</title>
+      </Head>
+      {
+        fetchLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <Breadcrumb title={csrProjectData?.data?.title} />
+            <div className="main-wrapper-block" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
+          </>
+        )
+      }
+
     </>
   );
-  
+
 }
 export default CSRProjects;
 CSRProjects.getLayout = (page) => {

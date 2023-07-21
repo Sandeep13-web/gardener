@@ -1,13 +1,13 @@
 import { NextPageWithLayout } from '@/pages/_app'
-import AuthBanner from '@/shared/components/authBanner'
-import AuthBody from '@/shared/components/authBody'
+import AuthBody from '@/shared/components/auth-body'
+import Breadcrumb from '@/shared/components/breadcrumb'
 import MainLayout from '@/shared/main-layout'
 import React from 'react'
 
 const ForgotPassword: NextPageWithLayout = () => {
     return (
         <>
-            <AuthBanner title='Forgot Password' breadCrumb='Forgot Password' />
+            <Breadcrumb />
             <AuthBody />
         </>
     )
