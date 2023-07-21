@@ -137,13 +137,15 @@ const ProductSlug = () => {
   const favId = genFavId() //setting generated fav id.
 
   useEffect(() => {
-    cartData?.cartProducts?.map((item: any) => {
-      if (slug === item?.product?.slug) {
-        setItemCartDetail(item)
-        setValue(item?.quantity)
-      }
-    })
-  }, [slug])
+    if (cartData) {
+      cartData?.cartProducts?.map((item: any) => {
+        if (slug === item?.product?.slug) {
+          setItemCartDetail(item)
+          setValue(item?.quantity)
+        }
+      })
+    }
+  }, [slug, cartData])
 
   useEffect(() => {
     if (productData) {
@@ -197,11 +199,6 @@ const ProductSlug = () => {
                         }
                       </div>
                     </>
-                    // <Image
-                    //   src={productData?.response?.data?.images[0]?.imageName}
-                    //   alt="Product image"
-                    //   className="flex mx-auto img-fluid"
-                    // />
                   )
               }
 

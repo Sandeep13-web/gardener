@@ -225,7 +225,7 @@ const Header = () => {
                       <li className="mx-5">
                         <Link
                           href={"/account/profile"}
-                          className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.1] hover:px-0"
+                          className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.1] hover:px-0 focus:!bg-transparent"
                         >
                           My Account
                         </Link>
@@ -233,7 +233,7 @@ const Header = () => {
                       <li className="mx-5 ">
                         <Link
                           href={"/checkout"}
-                          className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.1] hover:px-0"
+                          className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.1] hover:px-0 focus:!bg-transparent"
                         >
                           Checkout
                         </Link>

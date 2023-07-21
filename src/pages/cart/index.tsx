@@ -19,7 +19,6 @@ enum COUPON_METHODS {
 
 const Cart: NextPageWithLayout = () => {
   const [coupon, setCoupon] = useState('')
-  const cookieCoupon = getCookie("coupon")
   const [couponText, setCouponText] = useState<COUPON_METHODS>(COUPON_METHODS.ADD_COUPON)
   const { data: cart } = useQuery<ICartItem>(["getCart"])
   const { bulkCartDelete, bulkDeleteLoading } = useCarts()
@@ -28,24 +27,25 @@ const Cart: NextPageWithLayout = () => {
     bulkCartDelete.mutate()
   }
   const handleApplyCoupon = () => {
-    setCookie("coupon", coupon)
-    // localStorage.setItem('coupon', coupon)
+    localStorage.setItem('coupon', coupon)
     setCouponText(COUPON_METHODS.DELETE_COUPON)
   }
   const handleRemoveCoupon = () => {
-    if (getCookie("coupon")) {
-      // localStorage.removeItem("coupon")
-      deleteCookie("coupon")
+    if (localStorage.getItem("coupon")) {
+      localStorage.removeItem("coupon")
       setCouponText(COUPON_METHODS.ADD_COUPON)
       setCoupon('')
     }
   }
   useEffect(() => {
-    if (getCookie("coupon")) {
-      setCouponText(COUPON_METHODS.DELETE_COUPON)
-      setCoupon(getCookie("coupon") as any)
+    if (window && localStorage) {
+      setCoupon(localStorage.getItem('coupon') as any)
     }
-  }, [getCookie("coupon")])
+    if (localStorage.getItem("coupon")) {
+      setCouponText(COUPON_METHODS.DELETE_COUPON)
+    }
+  }, [localStorage, window])
+
 
   return (
     <>
@@ -136,15 +136,16 @@ const Cart: NextPageWithLayout = () => {
                         <input
                           type="text"
                           value={coupon}
+                          disabled={couponText === COUPON_METHODS.DELETE_COUPON ? true : false}
                           onChange={(e) => setCoupon(e.target.value)}
-                          className="bg-white border border-gray-350 h-[45px] mb-[30px] pl-2.5 w-full focus:outline-0"
+                          className="bg-white border border-gray-350 h-[45px] mb-[30px] pl-2.5 w-full focus:outline-0 disabled:opacity-70 disabled:bg-gray-300 disabled:cursor-not-allowed"
                         />
                         {
                           couponText === COUPON_METHODS.ADD_COUPON ?
                             <button
                               onClick={handleApplyCoupon}
                               type="button"
-                              disabled={coupon === ''}
+                              disabled={coupon === '' || coupon === null}
                               className="btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white">
                               {couponText}
                             </button> : <button
@@ -169,7 +170,7 @@ const Cart: NextPageWithLayout = () => {
                         NPR {cart?.orderAmount}
                       </p>
                     </div>
-                    {
+                    {/* {
                       coupon &&
                       <div className="flex items-center justify-between w-full mt-[36px] mb-[27px]">
                         <p className="text-sm font-semibold">Coupon Discount</p>
@@ -177,7 +178,7 @@ const Cart: NextPageWithLayout = () => {
                           NPR {cart?.couponDiscount}
                         </p>
                       </div>
-                    }
+                    } */}
                     <div className="flex items-center justify-between w-full mt-[36px] mb-[27px]">
                       <p className="text-sm font-semibold">Subtotal</p>
                       <p className="text-lg font-bold">

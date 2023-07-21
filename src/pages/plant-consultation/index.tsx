@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getPageData } from "@/services/page.service";
 import Breadcrumb from "@/shared/components/breadcrumb";
 import Loader from "@/components/Loading";
+import Head from "next/head";
 
 const PlantConsultation: NextPageWithLayout = () => {
   const router = useRouter();
@@ -32,6 +33,9 @@ const PlantConsultation: NextPageWithLayout = () => {
 
   return (
     <>
+      <Head>
+        <title>{plantConsultationData?.data?.title || 'I am the Gardener'}</title>
+      </Head>
       {
         fetchLoading ? (
           <Loader />
@@ -39,7 +43,7 @@ const PlantConsultation: NextPageWithLayout = () => {
           <>
             <Breadcrumb title={plantConsultationData?.data?.title} />
             <div
-              className="main-wrapper-block"
+              className="py-0 main-wrapper-block"
               dangerouslySetInnerHTML={{ __html: descriptionContent }}
             />
           </>
