@@ -576,10 +576,17 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
                   <input type="radio" name="address" />
                   <div className="collapse-title text-xl font-medium flex items-center justify-between border-none">
                     <div className="col-10 text-left">
-                      <h5 className="text-[16px] font-semibold">
-                        {" "}
-                        2. Address{" "}
-                      </h5>
+                      {token ? (
+                                <h5 className="text-[16px] font-semibold">
+                                  {" "}
+                                  1. Address{" "}
+                                </h5>
+                        ) : (
+                                <h5 className="text-[16px] font-semibold">
+                                  {" "}
+                                  2. Address{" "}
+                                </h5>
+                      )}
                     </div>
                     <div className="col-2 text-right">
                       <span className="text text-white">
@@ -917,7 +924,7 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
                 <div className="my-[29px] py-[18px] border-t-[1px]  border-b-[1px] border-light-gray border-solid">
                   <ul className="">
                     {cart?.cartProducts.map((productData: any, index: any) => (
-                        <li className="flex justify-between">
+                        <li className="flex justify-between" key={index}>
                           <span> {productData?.product?.title} X {productData?.quantity} </span>
                           <span>NPR {productData.selectedUnit.sellingPrice *
                               productData.quantity} </span>
