@@ -365,7 +365,6 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
           ...guestUserData,
         };
         try {
-          // await registerGuestUser(completeAddress, false);
           const guestUserRegisterResponse = await registerGuestUser(completeGuestUserData, false);
           const selectedPaymentMethodId = selectedPayment?.id;
           setCookie('token', guestUserRegisterResponse?.data?.access_token);
