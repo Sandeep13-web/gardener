@@ -38,6 +38,7 @@ const Home: NextPageWithLayout = () => {
     <>
       <Head>
         <title>I am the Gardener</title>
+
       </Head>
       <div className="text-lg font-bold">
         <Banner />

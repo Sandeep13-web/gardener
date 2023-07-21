@@ -286,9 +286,11 @@ const Header = () => {
       <div className="p-2 border-b-[1px]  border-[#6071C60F] bg-white sticky md:static top-0 md:z-10 z-40 ">
         <div className="container flex items-center justify-between w-full gap-3 max-h-12 sm:max-h-24">
           {/* Logo */}
-          <div className="relative h-14 sm:h-20 w-36">
+          <div className="relative sm:h-20">
             <Link href={"/"}>
-              <Image src={Logo} fill quality={100} alt="Logo" />
+              <Image src={Logo} height={80} width={144} quality={100} alt="Logo"
+                style={{ width: "auto", height: "auto" }}
+                priority />
             </Link>
           </div>
 
@@ -413,7 +415,7 @@ const Header = () => {
             <div className="dropdown dropdown-hover  md:min-w-[15rem] min-w-full">
               <label
                 tabIndex={0}
-                className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] min-h-[3rem] min-w-full remove-focus"
+                className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] !min-h-[3rem] min-w-full remove-focus"
               >
                 <BarsIcon />
                 All Categories <CaretDownIcon />
