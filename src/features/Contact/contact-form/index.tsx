@@ -1,5 +1,5 @@
 import { IContactUs } from '@/interface/contact-us.interface';
-import { sendFeedback } from '@/services/contact.service';
+import { feedBackOption, sendFeedback } from '@/services/contact.service';
 import { getProfileShow } from '@/services/profile.service';
 import ButtonLoader from '@/shared/components/btn-loading'
 import CaretDownIcon from '@/shared/icons/common/CaretDownIcon';
@@ -10,14 +10,15 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form';
 
+// export interface IFeedBackOptions {
+//     id: number,
+//     title: string
+// }
+
 const ContactUsForm = () => {
     const router = useRouter()
     const token = getToken()
-    const options = [
-        { label: 'Web', value: 'web' },
-        { label: 'App', value: 'app' },
-        { label: 'Design', value: 'design' }
-    ];
+    const [options, setOptions] = useState<Array<Object>>([{}]);
 
     const [selectedType, setSelectedType] = useState("Please Select");
 
@@ -27,10 +28,11 @@ const ContactUsForm = () => {
 
     const { data: showProfileData } = useQuery(['getProfileShow'], getProfileShow)
 
+    const { data: feedbackOptions } = useQuery(['getFeedbackOptions'], feedBackOption)
     const { register, handleSubmit, control, formState: { errors }, trigger, reset } = useForm<IContactUs>({
         defaultValues: {
             message: '',
-            subject: 'Web',
+            subject: selectedType,
             email: '',
             name: '',
             contact: '',
@@ -39,14 +41,12 @@ const ContactUsForm = () => {
     const mutation = useMutation({
         mutationFn: sendFeedback,
         onSuccess: () => {
-            showToast(TOAST_TYPES.success, 'Feedback sent successfully.');
+            showToast(TOAST_TYPES.success, 'Message Was Successfully Sent!');
             router.push('/');
         },
     })
     const feedBackSubmit = (data: IContactUs) => {
-        const payload = {
-            data,
-        }
+        console.log(data)
         // mutation.mutate(data)
         // reset()
     }
@@ -59,6 +59,12 @@ const ContactUsForm = () => {
             })
         }
     }, [showProfileData])
+
+    useEffect(() => {
+        if (feedbackOptions) {
+            setOptions(feedbackOptions?.data)
+        }
+    }, [feedbackOptions])
 
     return (
         <div className='my-[60px] p-[40px] max-w-[700px] mx-auto bg-gray-1250'>
@@ -136,9 +142,9 @@ const ContactUsForm = () => {
                                         tabIndex={0}
                                         className="dropdown-content menu shadow p-0 bg-base-100 rounded-sm w-full z-[60]"
                                     >
-                                        {options.map((option) => (
-                                            <li key={option.value} onClick={() => handleTypeChange(option.value)} className={`hover:!bg-[#ebf5ff] ${option.label === selectedType ? 'bg-[#ebf5ff]' : ''}`}>
-                                                <span className='border-0 rounded-none bg-none hover:!bg-none'>{option.label}</span>
+                                        {options.map((option: any) => (
+                                            <li key={option?.id} onClick={() => handleTypeChange(option?.title)} className={`hover:!bg-[#ebf5ff] ${option?.title === selectedType ? 'bg-[#ebf5ff]' : ''}`}>
+                                                <span className='border-0 rounded-none bg-none hover:!bg-none'>{option?.title}</span>
                                             </li>
                                         ))}
                                     </ul>
@@ -146,13 +152,19 @@ const ContactUsForm = () => {
                             )}
                         />
 
-                        {/* {
-                            errors['confirm-password'] &&
-                            <p className="text-error text-xs leading-[24px] mt-1">{errors['confirm-password']?.message}</p>
-                        } */}
+                        {
+                            errors?.subject &&
+                            <p className="text-error text-xs leading-[24px] mt-1">{errors?.subject?.message}</p>
+                        }
                     </div>
                     <div className="col-span-12">
-                        <textarea {...register("message", { required: "Message is required." })}
+                        <textarea {...register("message", {
+                            required: "Message is required.",
+                            minLength: {
+                                value: 20,
+                                message: "Message should be at least 20 characters long."
+                            }
+                        })}
                             placeholder='Message Here'
                             className={`p-3.5 text-black min-h-[200px] w-full outline-0 text-sm border bg-transparent resize-none ${errors?.message ? 'border-error' : 'border-zinc-450'}`}></textarea>
                         {

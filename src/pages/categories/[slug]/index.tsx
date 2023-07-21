@@ -188,37 +188,12 @@ const CategoryDetail: NextPageWithLayout = () => {
                                 Tag
                             </h3>
                             <TagSidebar />
-                            {/* <div className='flex flex-wrap'>
-                                {
-                                       tags?.data?.map((item: any, index: number) => (
-                                            <div key={`categories-${index}`} className='mb-[20px]'>
-                                                <Link href={{ pathname: '/tag',query: { id: item?.slug }}}
-                                                    className={`border border-gray-350 px-[25px] py-[10px] rounded-[30px] bg-white capitalize m-1 text-gray-550 text-sm leading-[20px] transition-all delay-100 duration-300 hover:bg-primary hover:text-white hover:border-primary`}
-                                                    onClick={handleCategoriesClick}
-                                                >
-                                                    {item?.title}
-                                                </Link>
-                                            </div>
-                                        ))
-                                    }
-                                
-                            </div> */}
                         </div>
                     </div>
                     <div className='col-span-12 md:col-span-9'>
                         <div className='flex flex-col sm:flex-row px-[30px] py-[10px] mb-[30px] bg-slate-150'>
                             <div className='flex-1 flex items-center mb-4 sm:mb-0 gap-[15px]'>
-                                <div className="tabs gap-[15px]">
-                                    <button
-                                        className={`tab tab-active p-0 ${grid ? 'text-primary' : 'text-zinc-600'} hover:text-primary`}
-                                        onClick={() => setGrid(true)}
-                                    ><BsFillGrid3X3GapFill className='w-[18px] h-auto' /></button>  {/** Active status toggle remain */}
-                                    <button
-                                        className={`tab p-0 ${!grid ? 'text-primary' : 'text-zinc-600'} hover:text-primary`}
-                                        onClick={() => setGrid(false)}
-                                    ><FaListUl className='w-[18px] h-auto' /></button>
-                                </div>
-                                <p className='text-gray-750 text-sm leading-[20px] p-2'>There Are {initialProductData?.data.length} Products.</p>
+                                <p className='text-gray-750 text-sm leading-[20px]'>There Are {initialProductData?.data.length} Products.</p>
                             </div>
                             <div className='flex items-center gap-[10px]'>
                                 <p className='text-gray-750 text-sm leading-[20px] p-2'>Sort By:</p>

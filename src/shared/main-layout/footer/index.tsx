@@ -1,3 +1,4 @@
+import { getConfig } from "@/services/home.service";
 import FooterBullet from "@/shared/icons/common/FooterBullet";
 import {
   AppStore,
@@ -11,11 +12,14 @@ import {
   UnionPay,
   socials,
 } from "@/shared/lib/image-config";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const Footer = () => {
+  const { data: config }: any = useQuery(['getConfig'])
+
   return (
     <div className="relative">
       <Image fill src={FooterBg} className="z-0" alt="footer-bg" />
@@ -130,17 +134,17 @@ const Footer = () => {
               DOWNLOAD THE APP ON
             </h3>
             <div className="flex gap-3">
-              <button className="p-0 btn">
+              <Link target="_blank" href={config?.data?.pageData['section4 appstore link']} className="p-0 btn">
                 <Image src={AppStore} height={32} width={108} alt="app-store" />
-              </button>
-              <button className="p-0 btn">
+              </Link>
+              <Link target="_blank" href={config?.data?.pageData['section4 googleplay link']} className="p-0 btn">
                 <Image
                   src={PlayStore}
                   height={32}
                   width={108}
                   alt="play-store"
                 />
-              </button>
+              </Link>
             </div>
           </div>
         </div>
