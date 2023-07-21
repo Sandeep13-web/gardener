@@ -41,8 +41,8 @@ const ScrollToTopButton = () => {
         height={20}
         width={20}
         alt="scroll"
-        style={{ width: "auto", height: "auto" }}
         className="max-w-[15px] md:max-w-full"
+        style={{ width: "auto", height: "auto" }}
       />
     </button>
   );
