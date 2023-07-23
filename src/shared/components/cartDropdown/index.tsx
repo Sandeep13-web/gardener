@@ -63,6 +63,7 @@ const CartDropdown = () => {
                         </div>
                         <div className="flex-grow">
                           <Link href={`/products/${item.product?.slug}`}
+                            aria-label={`product-${item?.product?.id}`}
                             className="overflow-hidden text-sm font-semibold transition-all delay-150 duration-150 block text-ellipsis whitespace-nowrap max-w-[90%] hover:text-primary ">{item.product?.title}</Link>
                           <p className="mt-1 text-sm gray-550">
                             <span>NPR</span>{" "}

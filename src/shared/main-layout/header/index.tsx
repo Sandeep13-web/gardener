@@ -287,7 +287,7 @@ const Header = () => {
         <div className="container flex items-center justify-between w-full gap-3 max-h-12 sm:max-h-24">
           {/* Logo */}
           <div className="relative sm:h-20">
-            <Link href={"/"}>
+            <Link href={"/"} aria-label="home_blank">
               <Image src={Logo} height={80} width={144} quality={100} alt="Logo"
                 style={{ width: "auto", height: "auto" }}
                 priority />
@@ -369,7 +369,7 @@ const Header = () => {
             </div>
 
             {/* Why Plant Button */}
-            <Link href="/why-plants">
+            <Link href="/why-plants" aria-label="why-plantss-2">
               <button className="btn btn-primary btn-outline !min-h-12 font-bold text-base gap-0">
                 <FlowerIcon /> <p className="hidden lg:block">Why Plant</p>
               </button>
@@ -380,7 +380,7 @@ const Header = () => {
             {/* Heart Button */}
             {
               token &&
-              <Link href="/wishlist" className="relative hidden py-3 btn btn-circle md:flex">
+              <Link href="/wishlist" aria-label="header-wishlist" className="relative hidden py-3 btn btn-circle md:flex">
                 <HeartIcon className="text-black" />
                 <Badge
                   className="badge-accent "
@@ -437,7 +437,7 @@ const Header = () => {
                     </li>
                   ))}
                 <li>
-                  <Link href="/categories" className="dropdown-item">
+                  <Link href="/categories" aria-label="header-categories" className="dropdown-item">
                     + More categories
                   </Link>
                 </li>
@@ -483,7 +483,7 @@ const Header = () => {
                   </li>
                 </ul>
               </div>
-              <Link href="/our-outlets" className="!bg-white border-0 text-gray-550 font-bold text-sm">  OUTLET</Link>
+              <Link href="/our-outlets" aria-label="our-outlets" className="!bg-white border-0 text-gray-550 font-bold text-sm">  OUTLET</Link>
               {/* <Button
                   type="ghost"
                   className="!bg-white border-0 text-gray-550 font-bold"
@@ -547,7 +547,7 @@ const Header = () => {
                   </li>
                 </ul>
               </div>
-              <Link href="/blogs">
+              <Link href="/blogs" aria-label="header-blogs">
                 <Button
                   type="ghost"
                   className="!bg-white border-0 text-gray-550 font-bold uppercase"
@@ -557,7 +557,7 @@ const Header = () => {
               </Link>
             </div>
           </div>
-          <Link href="/offer">
+          <Link href="/offer" aria-label="header-offer">
             <button className="btn btn-ghost !bg-white !border-0 text-gray-550 gap-1 font-bold hidden md:flex">
               <OfferIcon className="text-accent" />
               OFFER

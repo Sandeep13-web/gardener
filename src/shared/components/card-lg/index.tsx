@@ -24,17 +24,17 @@ const CardLg: React.FC<Props> = ({ type, title, price, image, link, availability
     }
     return (
         <div className="card plant-card relative ">
-            <Link href={link} className="absolute top-0 bottom-0 left-0 right-0 z-[1]" />
+            <Link href={link} className="absolute top-0 bottom-0 left-0 right-0 z-[1]" aria-label={`blog-custom-${title}`} />
             <div className='grid grid-cols-12'>
                 <div className='col-span-12 md:col-span-4'>
                     <div className='w-full md:max-w-[259px] relative'>
-                        <Link href={link}>
+                        <Link href={link} aria-label={`blog-${link}-0`}>
                             <figure>
                                 <Image src={image} alt="Plant" className='w-full h-auto' width={100} height={0} />
                             </figure>
                         </Link>
                         <div className='plant-card_preview-icon'>
-                            <Link href={link} className='flex items-center justify-center'>
+                            <Link href={link} className='flex items-center justify-center' aria-label={`1-${title}-search`}>
                                 <SearchIcon className='max-w-[15px] h-auto' />
                             </Link>
                         </div>
@@ -47,7 +47,7 @@ const CardLg: React.FC<Props> = ({ type, title, price, image, link, availability
                         <p className='text-primary text-base font-semibold'>NPR {price}</p>
                         <div className='my-[30px]'>
                             <p className='desc'>{desc}</p>
-                            <Link href={link} className='text-slate-850 font-bold text-sm leading-[1] transition-all delay-100 duration-150 hover:text-primary z-[1] relative'>Read More</Link>
+                            <Link href={link} className='text-slate-850 font-bold text-sm leading-[1] transition-all delay-100 duration-150 hover:text-primary z-[1] relative' aria-label={`reac-more`}>Read More</Link>
                         </div>
                         <p className='text-sm text-gray-650 leading-[1] mb-[30px]'>Availability: <span className='text-primary font-bold'>{availability}</span></p>
 

@@ -42,7 +42,7 @@ const Breadcrumb: FC<IProps> = ({ title }) => {
         <h1 className="breadcrumb-heading text-black font-semibold text-3xl leading-none capitalize mb-6">{breadcrumbLabel}</h1>
         <ul className="breadcrumb-links flex justify-center">
           <li>
-            <Link href="/" className="inline-block relative text-black leading-5 text-base">
+            <Link href="/" className="inline-block relative text-black leading-5 text-base" aria-label="home" >
               Home
             </Link>
           </li>

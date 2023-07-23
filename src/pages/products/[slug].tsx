@@ -214,7 +214,7 @@ const ProductSlug = () => {
                     </h2>
                     <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
                       Category:
-                      <Link href={`/category/${productData?.response?.data?.categorySlug}`} className="mb-0 text-primary">
+                      <Link href={`/category/${productData?.response?.data?.categorySlug}`} aria-label="category-title" className="mb-0 text-primary">
                         <span className="font-normal">{productData?.response?.data?.categoryTitle}</span>
                       </Link>
                     </p>

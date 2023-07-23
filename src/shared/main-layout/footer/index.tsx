@@ -71,42 +71,42 @@ const Footer = () => {
             <span className="footer-title">Company</span>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <Link href='/about-us' className="p-0 footer-link">About Us</Link>
+              <Link href='/about-us' aria-label="about-us" className="p-0 footer-link">About Us</Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <Link href='/privacy-policy' className="p-0 footer-link">Privacy Policy</Link>
+              <Link href='/privacy-policy' aria-label="privacy-policy-footter" className="p-0 footer-link">Privacy Policy</Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <Link href='/faq' className="p-0 footer-link">FAQs</Link>
+              <Link href='/faq' aria-label="faq-footer" className="p-0 footer-link">FAQs</Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <Link href='/contact-us' className="p-0 footer-link">Contact Us</Link>
+              <Link href='/contact-us' aria-label="contact-us" className="p-0 footer-link">Contact Us</Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <Link href='/terms-and-conditions' className="p-0 footer-link">Terms and Conditions</Link>
+              <Link href='/terms-and-conditions' aria-label="terms-and-condition" className="p-0 footer-link">Terms and Conditions</Link>
             </div>
           </div>
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
             <span className="footer-title">Buy Plants and Accessories</span>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <Link href='/plant-consultation' className="p-0 footer-link">
+              <Link href='/plant-consultation' aria-label="plant-and-consultation" className="p-0 footer-link">
                 Plants and Consultation
               </Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <Link href='/tree-installation' className="p-0 footer-link">Tree Installation</Link>
+              <Link href='/tree-installation' aria-label="tree-installation" className="p-0 footer-link">Tree Installation</Link>
             </div>
           </div>
         </div>
         <div className="container flex flex-wrap items-center justify-between gap-4 mb-4">
           <div className="flex gap-3">
-            <Link href='https://www.facebook.com/imthegardener/' target="_blank" className="w-auto p-0 btn btn-circle">
+            <Link href='https://www.facebook.com/imthegardener/' aria-label="fb-link" target="_blank" className="w-auto p-0 btn btn-circle">
               <Image
                 src={socials.facebook}
                 height={36}
@@ -114,20 +114,20 @@ const Footer = () => {
                 alt="facebook"
               />
             </Link>
-            <Link href='https://www.instagram.com/iamthegardener/' target="_blank" className="w-auto p-0 btn btn-circle">
+            <Link href='https://www.instagram.com/iamthegardener/' aria-label="insta-link" target="_blank" className="w-auto p-0 btn btn-circle">
               <Image
                 src={socials.instagram}
                 height={36}
                 width={36}
-                alt="facebook"
+                alt="insta"
               />
             </Link>
-            <Link href='https://www.youtube.com/channel/UCYAdKv4kRybRdWjHU_tZcvQ' target="_blank" className="w-auto p-0 btn btn-circle">
+            <Link href='https://www.youtube.com/channel/UCYAdKv4kRybRdWjHU_tZcvQ' aria-label="youtube" target="_blank" className="w-auto p-0 btn btn-circle">
               <Image
                 src={socials.youtube}
                 height={36}
                 width={36}
-                alt="facebook"
+                alt="yt"
               />
             </Link>
           </div>
@@ -137,10 +137,10 @@ const Footer = () => {
             </h3>
             <div className="flex gap-3">
               {config?.data?.pageData && <>
-                <Link target="_blank" href={config?.data?.pageData['section4 appstore link']} className="p-0 btn">
+                <Link target="_blank" aria-label="app-store" href={config?.data?.pageData['section4 appstore link']} className="p-0 btn">
                   <Image src={AppStore} height={32} width={108} alt="app-store" />
                 </Link>
-                <Link target="_blank" href={config?.data?.pageData['section4 googleplay link']} className="p-0 btn">
+                <Link aria-label="play-store" target="_blank" href={config?.data?.pageData['section4 googleplay link']} className="p-0 btn">
                   <Image
                     src={PlayStore}
                     height={32}
