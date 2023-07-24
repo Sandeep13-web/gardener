@@ -53,8 +53,8 @@ const Wishlist: NextPageWithLayout = () => {
             <div className="wishlist-page">
                 <div className="container">
                     {isLoading ? (
-                        <div className="grid my-[60px] grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                            {[1, 2, 3, 4].map((index) => (
+                        <div className="grid my-[60px] grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
+                            {[1, 2, 3, 4, 5].map((index) => (
                                 <SkeletonLoadingCard
                                     key={`app-skeleton-${index}`}
                                 />
@@ -67,23 +67,27 @@ const Wishlist: NextPageWithLayout = () => {
                                     {wishlist?.data?.length === 0 ? (
                                         <EmptyPage />
                                     ) : (
-                                        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                                            {updatedData?.map((favProduct: any, index: any) =>
-                                                <Card
-                                                    product={favProduct?.product}
-                                                    key={`app-cat-products-${index}`}
-                                                    cartItem={cart?.cartProducts.find((item) => item?.product?.id === favProduct?.id)}
-                                                />
-                                            )}
-                                        </div>
+                                        <>
+                                            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                                                {updatedData?.map((favProduct: any, index: any) =>
+                                                    <Card
+                                                        product={favProduct?.product}
+                                                        key={`app-cat-products-${index}`}
+                                                        cartItem={cart?.cartProducts.find((item) => item?.product?.id === favProduct?.product?.id)}
+                                                    />
+                                                )}
+
+                                            </div>
+                                            <Pagination
+                                                currentPage={wishlist?.meta?.pagination?.current_page}
+                                                pageChange={handlePageChange}
+                                                totalPages={wishlist?.meta?.pagination?.total_pages}
+                                            />
+                                        </>
                                     )}
                                 </div>
                             </section>
-                            <Pagination
-                                currentPage={wishlist?.meta?.pagination?.current_page}
-                                pageChange={handlePageChange}
-                                totalPages={wishlist?.meta?.pagination?.total_pages}
-                            />
+
                         </>
                     )}
                 </div>

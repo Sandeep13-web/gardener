@@ -23,6 +23,7 @@ import { registerGuestUser } from "@/services/auth.service";
 import { setCookie } from "cookies-next";
 import { getProfile } from "@/services/profile.service";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 const token = getToken();
 const LeafletMap = dynamic(() => import('@/shared/components/leaflet'), {
@@ -253,7 +254,7 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
       // Make the DELETE request
       await deleteDeliverAddressById(id);
       // Call the getDeliveryAddress function to update the data
-      // getDeliveryAddress();
+      getDeliveryAddress();
     } catch (error) {
       // Handle any errors
       console.error('Error deleting address:', error);
@@ -825,8 +826,10 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
                             onChange={() => handlePaymentChange(payment)}
                           />
                           <div className="flex">
-                            <img
-                              alt=""
+                            <Image
+                              alt="Checkout Img"
+                              width={200}
+                              height={200}
                               src={payment.icon}
                               className="w-[30px] mx-3"
                             />
