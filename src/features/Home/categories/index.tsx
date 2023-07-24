@@ -1,9 +1,6 @@
-import { getProductCategory } from '@/services/home.service'
 import CategoryCard from '@/shared/components/category-card'
 import CategorySkeletonLoading from '@/shared/components/skeleton/category'
 import Title from '@/shared/components/title'
-import { CategoryImg } from '@/shared/lib/image-config'
-import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 
 interface IProps {
