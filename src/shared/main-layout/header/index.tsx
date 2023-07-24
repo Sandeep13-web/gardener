@@ -363,6 +363,7 @@ const Header = () => {
               <button
                 className="py-3 rounded-l-none btn btn-primary rounded-r-md"
                 onClick={handleSearch}
+                name="Search Icon"
               >
                 <SearchIcon />
               </button>
