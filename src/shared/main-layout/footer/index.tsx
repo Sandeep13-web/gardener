@@ -22,7 +22,7 @@ const Footer = () => {
 
   return (
     <div className="relative">
-      <Image fill src={FooterBg} className="z-0" alt="footer-bg" />
+      <Image fill src={FooterBg} priority={true} className="z-0" alt="footer-bg" />
       <footer className="relative block p-4 !pb-0 sm:p-10 footer text-base-content">
         <div className="container flex flex-wrap items-start justify-between gap-2 footer">
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">

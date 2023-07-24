@@ -119,6 +119,10 @@ const CategoryDetail: NextPageWithLayout = () => {
         }
     }, [setFiltered, initialProductData]);
 
+    useEffect(() => {
+        handlePageChange(1)
+    }, [slug])
+
     return (
         <>
             <Head>
