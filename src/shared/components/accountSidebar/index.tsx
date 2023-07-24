@@ -8,6 +8,8 @@ import { useState } from "react";
 import { FaAddressBook, FaShoppingBag, FaSignOutAlt, FaTrashAlt, FaUserAlt } from "react-icons/fa";
 import { RiLockPasswordFill } from 'react-icons/ri'
 import ConfirmationModal from "../confirmation-modal";
+import Image from "next/image";
+import { ProfileImg } from "@/shared/lib/image-config";
 
 const AccountSidebar = () => {
   const { pathname } = useRouter()
@@ -32,7 +34,7 @@ const AccountSidebar = () => {
       showToast(TOAST_TYPES.success, "Logged out successfully");
     },
   });
-  
+
   const delAccMutation = useMutation({
     mutationFn: deleteAccount,
     onSuccess: (data) => {
@@ -58,9 +60,11 @@ const AccountSidebar = () => {
       <div className="pb-4 border-b border-gray-350">
         <div className="relative rounded-full overflow-hidden w-[100px] mx-auto">
           <Link href={``} className={linkClass}></Link>
-          <img
-            src="https://api.uat.ordering-merokishan.ekbana.net/storage/uploads/config/image-config/avatar-image/6422a939ac2db.png"
-            alt=""
+          <Image
+            width={200}
+            height={200}
+            src={ProfileImg}
+            alt="User image"
             className="object-cover w-full"
           />
         </div>

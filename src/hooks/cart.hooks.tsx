@@ -2,17 +2,22 @@ import { bulkDeleteCart, deleteCartItemById, updateCart } from "@/services/cart.
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCookie } from "cookies-next";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export const useCarts = () => {
     const [selectedId, setSelectedId] = useState<number>(0);
     const queryClient = useQueryClient();
+    const router = useRouter()
 
     const cartDelete = useMutation({
         mutationFn: deleteCartItemById,
         onSuccess: () => {
-            showToast(TOAST_TYPES.success, 'Item Deleted From Cart Successfully');
             queryClient.invalidateQueries(['getCart'])
+            showToast(TOAST_TYPES.success, 'Item Deleted From Cart Successfully');
+            if (router.pathname === '/wishlist') {
+                queryClient.invalidateQueries(['wishlistProducts'])
+            }
         }
     })
 
@@ -44,8 +49,9 @@ export const useCarts = () => {
         cartDelete,
         selectedId,
         updateCartMutation,
-        bulkCartDelete, 
+        bulkCartDelete,
         bulkDeleteLoading: bulkCartDelete.isLoading,
-        updateCartLoading: updateCartMutation.isLoading
+        updateCartLoading: updateCartMutation.isLoading,
+        cartDeleteLoading: cartDelete.isLoading
     };
 };
