@@ -1,5 +1,6 @@
 import { ICartItem } from "@/interface/cart.interface";
 import { IAppCategories } from "@/interface/home.interface";
+import { getCartData } from "@/services/cart.service";
 import Card from "@/shared/components/card";
 import SkeletonLoadingCard from "@/shared/components/skeleton/products";
 import Title from "@/shared/components/title";
@@ -14,7 +15,7 @@ interface IProps {
 
 const AppCategories: React.FC<IProps> = ({ prev }) => {
   const token = getToken();
-  const { data: cart } = useQuery<ICartItem>(["getCart"]);
+  const { data: cart } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon: '' }));
   const { data: favList }: any = useQuery<any>(["wishlistProducts", token], { enabled: !!token });
 
   const updatedData = prev?.products?.map(item => ({

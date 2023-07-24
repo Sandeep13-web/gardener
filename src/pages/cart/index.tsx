@@ -33,9 +33,9 @@ const Cart: NextPageWithLayout = () => {
 
   const handleApplyCoupon = () => {
     setCoupon(tempCoupon);
-    localStorage.setItem('coupon', coupon);
+    localStorage.setItem('coupon', tempCoupon);
     setCouponText(COUPON_METHODS.DELETE_COUPON);
-    queryClient.invalidateQueries(['getCart']);
+    queryClient.invalidateQueries(['getCart', tempCoupon]);
   };
   const handleRemoveCoupon = () => {
     if (localStorage.getItem('coupon')) {
@@ -44,12 +44,12 @@ const Cart: NextPageWithLayout = () => {
     setCouponText(COUPON_METHODS.ADD_COUPON);
     setCoupon('');
     setTempCoupon('');
+    queryClient.invalidateQueries(['getCart', tempCoupon]);
   };
   useEffect(() => {
     if (window && localStorage && localStorage.getItem('coupon')) {
-      setCoupon(localStorage.getItem('coupon') as any);
-    }
-    if (localStorage.getItem('coupon')) {
+      setTempCoupon(localStorage.getItem('coupon') as any);
+      setCoupon(localStorage.getItem('coupon') as any)
       setCouponText(COUPON_METHODS.DELETE_COUPON);
     }
   }, [localStorage, window]);
@@ -160,15 +160,15 @@ const Cart: NextPageWithLayout = () => {
                   <p className="text-sm font-semibold">Total products</p>
                   <p className="text-lg font-bold">NPR {cart?.orderAmount}</p>
                 </div>
-                {/* {
-                      coupon &&
-                      <div className="flex items-center justify-between w-full mt-[36px] mb-[27px]">
-                        <p className="text-sm font-semibold">Coupon Discount</p>
-                        <p className="text-lg font-bold">
-                          NPR {cart?.couponDiscount}
-                        </p>
-                      </div>
-                    } */}
+                {
+                  cart?.couponDiscount &&
+                  <div className="flex items-center justify-between w-full mt-[36px] mb-[27px]">
+                    <p className="text-sm font-semibold">Coupon Discount</p>
+                    <p className="text-lg font-bold">
+                      NPR {cart?.couponDiscount}
+                    </p>
+                  </div>
+                }
                 <div className="flex items-center justify-between w-full mt-[36px] mb-[27px]">
                   <p className="text-sm font-semibold">Subtotal</p>
                   <p className="text-lg font-bold">NPR {cart?.subTotal}</p>

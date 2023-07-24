@@ -14,7 +14,7 @@ import { ICartProduct } from '@/interface/product.interface';
 import { useCarts } from '@/hooks/cart.hooks';
 import ButtonLoader from '@/shared/components/btn-loading';
 import Head from 'next/head';
-import { addToCart } from '@/services/cart.service';
+import { addToCart, getCartData } from '@/services/cart.service';
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils';
 import SkeletonImage from '@/shared/components/skeleton/image';
 import CardHeartIcon from '@/shared/icons/common/CardHeartIcon';
@@ -36,7 +36,7 @@ const ProductSlug = () => {
   const [value, setValue] = useState<number>(1);
   const { updateCartMutation, updateCartLoading } = useCarts()
 
-  const { data: cartData } = useQuery<ICartItem>(['getCart'])
+  const { data: cartData } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon: '' }));
 
   const { data: productData, isLoading, error } = useQuery(
     ['getProductsFromSlug', slug],

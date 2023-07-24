@@ -9,12 +9,21 @@ import { useQuery } from '@tanstack/react-query';
 import { getCartData } from '@/services/cart.service';
 import { ICartItem } from '@/interface/cart.interface';
 import { useCarts } from '@/hooks/cart.hooks';
+import { useCart } from '@/store/use-cart';
 
 const CartDropdown = () => {
   const router = useRouter();
 
-  const { data: cart } = useQuery<ICartItem>(['getCart'], async () => getCartData({ coupon: '' }));
+
+  const { coupon, setCoupon } = useCart()
+  const { data: cart } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon }));
   const { cartDelete, handleRemoveFromCart, selectedId } = useCarts();
+
+  useEffect(() => {
+    if (window && localStorage && localStorage.getItem("coupon")) {
+      setCoupon(localStorage.getItem("coupon") as string)
+    }
+  }, [window, localStorage, coupon])
 
   return (
     <div className="relative z-40 py-3 cursor-pointer dropdown dropdown-hover bg-gray-350 btn-circle shrink-0">
@@ -38,9 +47,13 @@ const CartDropdown = () => {
                       <Image
                         width={85}
                         height={100}
+                        style={{
+                          width: 'auto',
+                          height: 'auto'
+                        }}
                         src={item?.product?.images[0]?.imageName}
                         alt="image"
-                        className="object-contain aspect-auto"
+                        className="object-contain min-w-[93px] max-w-[93px] min-h-[92px]"
                         crossOrigin="anonymous"
                       />
                       <Badge className="badge-primary left-1 top-1" badgePosition="top-left">
@@ -78,6 +91,12 @@ const CartDropdown = () => {
                 <p className="flex justify-between mb-1 font-medium text-gray-450">
                   Subtotal : <span>NPR {cart?.subTotal}</span>
                 </p>
+                {
+                  cart?.couponDiscount &&
+                  <p className="flex justify-between mb-1 font-medium text-gray-450">
+                    Coupon Discount : <span>NPR {cart?.couponDiscount}</span>
+                  </p>
+                }
                 <p className="flex justify-between mb-1 font-medium text-gray-450">
                   Delivery charge : <span>NPR {cart?.deliveryCharge}</span>
                 </p>
