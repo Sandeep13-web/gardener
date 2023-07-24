@@ -220,16 +220,7 @@ const ProductSlug = () => {
                     </p>
                     <ul className="flex my-5">
 
-                      {!productData?.response?.data?.unitPrice[0]?.hasOffer && (
-                        <li className="mr-1 text-base text-red-250">
-                          NPR
-                          <span>
-                            {productData?.response?.data?.unitPrice[0]?.sellingPrice}
-                          </span>
-                        </li>
-                      )}
-
-                      {productData?.response?.data?.unitPrice[0]?.hasOffer && (
+                      {productData?.response?.data?.unitPrice[0]?.hasOffer ? (
                         <>
                           <li className="mr-1 text-base text-red-250">
                             NPR
@@ -245,6 +236,13 @@ const ProductSlug = () => {
                             </span>
                           </li>
                         </>
+                      ) : (
+                        <li className="mr-1 text-base text-red-250">
+                          NPR
+                          <span>
+                            {productData?.response?.data?.unitPrice[0]?.sellingPrice}
+                          </span>
+                        </li>
                       )}
                       <li className="text-base font-semibold text-primary ">
                         ( <span dangerouslySetInnerHTML={{ __html: taxMessage }} />)

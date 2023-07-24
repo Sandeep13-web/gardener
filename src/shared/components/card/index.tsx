@@ -176,9 +176,24 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
           {product?.categoryTitle}
         </p>
         <h2 className="card-title plant-card-title">{product?.title}</h2>
-        <p className="text-sm font-semibold text-primary">
-          NPR {product?.unitPrice[0]?.sellingPrice}
-        </p>
+        {
+          product?.unitPrice[0]?.hasOffer ? (
+            <div className="flex items-center">
+              <p className="flex-grow-0 mr-2 text-sm text-red-250">
+                NPR{product?.unitPrice[0]?.newPrice}
+              </p>
+              <p className="flex-grow-0 mr-2 text-sm font-semibold line-through text-primary">
+                NPR
+                {product?.unitPrice[0]?.oldPrice}
+              </p>
+              <p className="flex-grow-0 flex justify-center py-0.5 px-1 text-xs text-center text-white capitalize rounded-md bg-red-250">offer</p>
+            </div>
+          ) : (
+            <p className="text-sm font-semibold text-primary">
+              NPR {product?.unitPrice[0]?.sellingPrice}
+            </p>
+          )
+        }
 
         <div className="flex justify-end relative z-[3]">
           {(!(cart?.cartProducts?.some((item: any) => item?.product.id === product?.id))) ? (
