@@ -111,6 +111,7 @@ const Header = () => {
   const logoutHandler = () => {
     mutation.mutate();
     setShowModal(false);
+    router.push('/')
   };
 
   //suggestion
@@ -225,7 +226,7 @@ const Header = () => {
                       <li className="mx-5">
                         <Link
                           href={"/account/profile"}
-                          className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.1] hover:px-0 focus:!bg-transparent"
+                          className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.05] hover:!px-0 focus:!bg-transparent"
                         >
                           My Account
                         </Link>
@@ -233,7 +234,7 @@ const Header = () => {
                       <li className="mx-5 ">
                         <Link
                           href={"/checkout"}
-                          className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.1] hover:px-0 focus:!bg-transparent"
+                          className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.05] hover:!px-0 focus:!bg-transparent"
                         >
                           Checkout
                         </Link>
@@ -241,7 +242,7 @@ const Header = () => {
                       <li className="mx-5 ">
                         <button
                           onClick={() => setShowModal(!showModal)}
-                          className="!border-b-0 dropdown-item font-semibold text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center hover:transform hover:scale-[1.1] hover:px-0"
+                          className="!border-b-0 dropdown-item font-semibold text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center hover:transform hover:scale-[1.05] hover:!px-0"
                         >
                           Logout
                         </button>
