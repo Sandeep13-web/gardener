@@ -1,17 +1,10 @@
-import axiosInstance, {
-  setAuthorizationHeader,
-  setCouponHeader,
-} from "@/axios/axiosInstance";
-import { ICreateCartItem, IUpdateCartItem } from "@/interface/cart.interface";
-import { CookieKeys } from "@/shared/enum";
-import {
-  getCartNumber,
-  getToken,
-  getWareId,
-} from "@/shared/utils/cookies-utils/cookies.utils";
-import axios from "axios";
-import { setCookie } from "cookies-next";
-import { config } from "../../config";
+import axiosInstance, { setAuthorizationHeader, setCouponHeader } from '@/axios/axiosInstance';
+import { ICreateCartItem, IUpdateCartItem } from '@/interface/cart.interface';
+import { CookieKeys } from '@/shared/enum';
+import { getCartNumber, getToken, getWareId } from '@/shared/utils/cookies-utils/cookies.utils';
+import axios from 'axios';
+import { setCookie } from 'cookies-next';
+import { config } from '../../config';
 const baseURL = config.gateway.baseURL;
 
 export const setCartNumberCookie = async () => {
@@ -25,9 +18,14 @@ export const setCartNumberCookie = async () => {
     throw error;
   }
 };
-export const getCartData = async () => {
+export const getCartData = async (params: { coupon?: string }) => {
+  console.log('coupon here', params.coupon);
   try {
-    setCouponHeader();
+    if (params.coupon) {
+      setCouponHeader({
+        coupon: params.coupon,
+      });
+    }
     const response = await axiosInstance.get(`/cart`);
     return response.data.data;
   } catch (error) {
@@ -59,10 +57,7 @@ export const updateCart = async (data: IUpdateCartItem) => {
   };
   delete payload.product_number;
   try {
-    const response = await axiosInstance.patch(
-      `/cart-product/${data.product_number}`,
-      payload
-    );
+    const response = await axiosInstance.patch(`/cart-product/${data.product_number}`, payload);
     return response.data;
   } catch (error) {
     throw error;
@@ -71,7 +66,7 @@ export const updateCart = async (data: IUpdateCartItem) => {
 
 export const bulkDeleteCart = async () => {
   try {
-    const response = await axiosInstance.delete("/cart");
+    const response = await axiosInstance.delete('/cart');
     return response;
   } catch (error) {
     throw error;
@@ -91,11 +86,11 @@ export const associateCart = async (auth: any) => {
   const associateCartUrl = `${baseURL}/cart/associate`;
 
   const headers = {
-    ...(getCartNumber() && { "Cart-Number": getCartNumber() }),
+    ...(getCartNumber() && { 'Cart-Number': getCartNumber() }),
     // ...(getCoupon() && { Coupon: getCoupon() }),
 
     Authorization: `Bearer ${auth}`,
-    "Warehouse-Id": getWareId(),
+    'Warehouse-Id': getWareId(),
   };
 
   try {
