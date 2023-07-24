@@ -38,11 +38,11 @@ const ScrollToTopButton = () => {
     >
       <Image
         src={UpArrow}
-        height={20}
-        width={20}
+        height={100}
+        width={100}
         alt="scroll"
         style={{ width: "auto", height: "auto" }}
-        className="max-w-[15px] md:max-w-full"
+        className="min-w-[15px] max-w-[15px] md:max-w-full"
       />
     </button>
   );

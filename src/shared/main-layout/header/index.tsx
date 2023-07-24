@@ -38,6 +38,8 @@ import { BsCaretDownFill } from "react-icons/bs";
 import { getAllWishlistProducts } from "@/services/wishlist.service";
 import { useDebounce } from "@/hooks/useDebounce.hooks";
 import { ICartItem } from "@/interface/cart.interface";
+import { getCartData } from "@/services/cart.service";
+import { useCart } from "@/store/use-cart";
 
 const Header = () => {
   const token = getToken();
@@ -48,6 +50,10 @@ const Header = () => {
   const { pathname } = router
   const debounceSearch = useDebounce(searchValue, 300) //Pass search value here and then this variable to the dependency below
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
+  const { setCoupon, coupon } = useCart()
+
+  const { data: cart } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon }));
+
   const { data: config, isInitialLoading } = useQuery({
     queryKey: ["getConfig"],
     queryFn: getConfig,
@@ -97,7 +103,6 @@ const Header = () => {
   //   enabled: !!token
   // })
 
-  const { data: cart } = useQuery<ICartItem>(["getCart"])
 
   const mutation = useMutation({
     mutationFn: logout,
@@ -177,6 +182,12 @@ const Header = () => {
       setSearchValue('')
     }
   }, [pathname])
+
+  useEffect(() => {
+    if (window && localStorage && localStorage.getItem("coupon") || coupon) {
+      setCoupon(localStorage.getItem('coupon') as string || coupon)
+    }
+  }, [window, localStorage, coupon])
 
   return (
     <>

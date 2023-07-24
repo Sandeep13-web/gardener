@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import { setCookie } from "cookies-next";
 import { config } from "../../config";
+import { useCart } from "@/store/use-cart";
 const baseURL = config.gateway.baseURL;
 
 export const setCartNumberCookie = async () => {
@@ -25,9 +26,18 @@ export const setCartNumberCookie = async () => {
     throw error;
   }
 };
-export const getCartData = async () => {
+
+export const getCartData = async (params: { coupon?: string }) => {
   try {
-    setCouponHeader();
+    if (params.coupon) {
+      setCouponHeader({
+        coupon: params.coupon,
+      });
+    } else {
+      setCouponHeader({
+        coupon: "",
+      });
+    }
     const response = await axiosInstance.get(`/cart`);
     return response.data.data;
   } catch (error) {
