@@ -14,7 +14,7 @@ import { ICartProduct } from '@/interface/product.interface';
 import { useCarts } from '@/hooks/cart.hooks';
 import ButtonLoader from '@/shared/components/btn-loading';
 import Head from 'next/head';
-import { addToCart } from '@/services/cart.service';
+import { addToCart, getCartData } from '@/services/cart.service';
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils';
 import SkeletonImage from '@/shared/components/skeleton/image';
 import CardHeartIcon from '@/shared/icons/common/CardHeartIcon';
@@ -36,7 +36,7 @@ const ProductSlug = () => {
   const [value, setValue] = useState<number>(1);
   const { updateCartMutation, updateCartLoading } = useCarts()
 
-  const { data: cartData } = useQuery<ICartItem>(['getCart'])
+  const { data: cartData } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon: '' }));
 
   const { data: productData, isLoading, error } = useQuery(
     ['getProductsFromSlug', slug],
@@ -220,16 +220,7 @@ const ProductSlug = () => {
                     </p>
                     <ul className="flex my-5">
 
-                      {!productData?.response?.data?.unitPrice[0]?.hasOffer && (
-                        <li className="mr-1 text-base text-red-250">
-                          NPR
-                          <span>
-                            {productData?.response?.data?.unitPrice[0]?.sellingPrice}
-                          </span>
-                        </li>
-                      )}
-
-                      {productData?.response?.data?.unitPrice[0]?.hasOffer && (
+                      {productData?.response?.data?.unitPrice[0]?.hasOffer ? (
                         <>
                           <li className="mr-1 text-base text-red-250">
                             NPR
@@ -245,6 +236,13 @@ const ProductSlug = () => {
                             </span>
                           </li>
                         </>
+                      ) : (
+                        <li className="mr-1 text-base text-red-250">
+                          NPR
+                          <span>
+                            {productData?.response?.data?.unitPrice[0]?.sellingPrice}
+                          </span>
+                        </li>
                       )}
                       <li className="text-base font-semibold text-primary ">
                         ( <span dangerouslySetInnerHTML={{ __html: taxMessage }} />)

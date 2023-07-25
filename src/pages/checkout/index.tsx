@@ -23,6 +23,7 @@ import { registerGuestUser } from "@/services/auth.service";
 import { setCookie } from "cookies-next";
 import { getProfile } from "@/services/profile.service";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 const token = getToken();
 const LeafletMap = dynamic(() => import('@/shared/components/leaflet'), {
@@ -253,7 +254,7 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
       // Make the DELETE request
       await deleteDeliverAddressById(id);
       // Call the getDeliveryAddress function to update the data
-      // getDeliveryAddress();
+      getDeliveryAddress();
     } catch (error) {
       // Handle any errors
       console.error('Error deleting address:', error);
@@ -387,8 +388,8 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
               <div>
                 {
                   !token &&
-                  <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-borderGray mb-[16px]">
-                    <input type="radio" name="address" />
+                  <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-gray-1200 mb-[16px]">
+                    <input type="checkbox" name="address" />
                     <div className="flex items-center justify-between text-xl font-medium border-none collapse-title">
                       <div className="text-left col-10">
                         <h5 className="text-[16px] font-semibold">
@@ -503,7 +504,7 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
 
 
                 <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-orange-550 mb-[16px]">
-                  <input type="radio" name="address" />
+                  <input type="checkbox" name="address" />
                   <div className="flex items-center justify-between text-xl font-medium border-none collapse-title">
                     <div className="text-left col-10">
                       {token ? (
@@ -787,7 +788,7 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
                 </div>
 
                 <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-orange-550 mb-[16px]">
-                  <input type="radio" name="payment-method" />
+                  <input type="checkbox" name="payment-method" />
                   <div className="flex items-center justify-between text-xl font-medium border-none collapse-title">
                     <div className="text-left col-10">
                       <h5 className="text-[16px] font-semibold">
@@ -825,8 +826,10 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
                             onChange={() => handlePaymentChange(payment)}
                           />
                           <div className="flex">
-                            <img
-                              alt=""
+                            <Image
+                              alt="Checkout Img"
+                              width={200}
+                              height={200}
                               src={payment.icon}
                               className="w-[30px] mx-3"
                             />
@@ -843,7 +846,7 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
               <div>
                 <h3 className="mb-4 text-3xl font-bold">Order Note</h3>
                 <textarea
-                  className="textarea w-full focus:outline-none border-[1px] border-borderGray"
+                  className="textarea w-full rounded-none focus:outline-none border-[1px] border-gray-1200"
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                 >

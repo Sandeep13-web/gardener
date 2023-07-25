@@ -8,6 +8,7 @@ import { parseISO, format } from "date-fns";
 import { useRouter } from "next/router";
 import CategorySidebar from "../categorySidebar";
 import TagSidebar from "../tagSidebar";
+import Image from "next/image";
 
 const BlogSidebar = () => {
   const router = useRouter();
@@ -64,9 +65,11 @@ const BlogSidebar = () => {
               <div className="relative flex items-center mb-5" key={`featured-blogs-${index}`}>
                 <Link href={`/blogs/${blog?.slug}`} className="absolute w-full h-full " aria-label={`blogs-${index}`} />
                 <div className="aspect-square w-[90px] shrink-0">
-                  <img
+                  <Image
+                    width={200}
+                    height={200}
                     src={blog?.thumbImage}
-                    alt=""
+                    alt="Blog Image"
                   />
                 </div>
                 <div className="p-2 overflow-hidden">

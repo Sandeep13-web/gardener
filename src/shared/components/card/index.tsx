@@ -14,11 +14,13 @@ import { debounce } from 'lodash'
 import CardHeartIcon from "@/shared/icons/common/CardHeartIcon";
 import { useWishlists } from "@/hooks/wishlist.hooks";
 import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
+import { useRouter } from "next/router";
 
 const Card: React.FC<Props> = ({ product, cartItem, }) => {
 
   //Token 
   const token = getToken();
+  const router = useRouter()
 
   //Use query hook
   const { data: cart } = useQuery<ICartItem>(["getCart"]);
@@ -30,7 +32,7 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
  * States 
  */
   const [quantity, setQuantity] = useState<number>(1);
-  const { updateCartMutation, handleRemoveFromCart } = useCarts(); //customHook
+  const { updateCartMutation, handleRemoveFromCart, cartDeleteLoading } = useCarts(); //customHook
 
   /*
   * Handle Add to cart api call
@@ -40,6 +42,9 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
     onSuccess: () => {
       showToast(TOAST_TYPES.success, 'Item Added To Cart Successfully');
       queryClient.invalidateQueries(['getCart'])
+      // if (router.pathname === '/wishlist') {
+      //   queryClient.invalidateQueries(['wishlistProducts'])
+      // }
     },
     onError: (error: any) => {
       showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message)
@@ -64,12 +69,12 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
   /*
   ** Provides payload to the update api when the value is being increased or decreased.
   */
-  const handleUpdateCart = (newQuantity: number) => {
+  const handleUpdateCart = (newQuantity: number, itemId: number) => {
     if (newQuantity <= stock) {
       const payload: IUpdateCartItem = {
         note: '',
         quantity: newQuantity,
-        product_number: cartItem?.id,
+        product_number: itemId,
       }
       updateCartMutation.mutate(payload)
     }
@@ -80,8 +85,8 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
    */
   const debouncedHandleUpdateCart = useCallback( //debounce callback to call when value changes
     debounce((newQuantity) => {
-      handleUpdateCart(newQuantity)
-    }, 300), []
+      handleUpdateCart(newQuantity, cartItem?.id!)
+    }, 300), [cartItem]
   )
 
   /**
@@ -148,14 +153,13 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
         <Image
           src={product?.images[0]?.imageName}
           alt="Plant"
-          className="w-full h-auto"
           width={216}
           height={270}
           quality={100}
           style={{
             maxWidth: '100%',
             height: 'auto',
-            width: 'auto',
+            width: '100%',
           }}
         />
       </figure>
@@ -172,9 +176,24 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
           {product?.categoryTitle}
         </p>
         <h2 className="card-title plant-card-title">{product?.title}</h2>
-        <p className="text-sm font-semibold text-primary">
-          NPR {product?.unitPrice[0]?.sellingPrice}
-        </p>
+        {
+          product?.unitPrice[0]?.hasOffer ? (
+            <div className="flex items-center">
+              <p className="flex-grow-0 mr-2 text-sm text-red-250">
+                NPR{product?.unitPrice[0]?.newPrice}
+              </p>
+              <p className="flex-grow-0 mr-2 text-sm font-semibold line-through text-primary">
+                NPR
+                {product?.unitPrice[0]?.oldPrice}
+              </p>
+              <p className="flex-grow-0 flex justify-center py-0.5 px-1 text-xs text-center text-white capitalize rounded-md bg-red-250">offer</p>
+            </div>
+          ) : (
+            <p className="text-sm font-semibold text-primary">
+              NPR {product?.unitPrice[0]?.sellingPrice}
+            </p>
+          )
+        }
 
         <div className="flex justify-end relative z-[3]">
           {(!(cart?.cartProducts?.some((item: any) => item?.product.id === product?.id))) ? (
@@ -194,8 +213,14 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
               <div className="flex items-center gap-3 px-3 border rounded-lg border-primary">
                 {
                   quantity === 1 ?
-                    <button onClick={() => handleRemoveFromCart(cartItem?.id!)}>
-                      <TrashIcon className="max-w-[14px] h-auto" />
+                    <button onClick={() => handleRemoveFromCart(cartItem?.id!)} disabled={cartDeleteLoading}>
+                      {
+                        cartDeleteLoading ? (
+                          <ButtonLoader className="!border-primary !block max-w-[18px] h-[18px]" />
+                        ) : (
+                          <TrashIcon className="max-w-[14px] h-auto" />
+                        )
+                      }
                     </button>
                     :
                     <button

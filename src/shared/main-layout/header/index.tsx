@@ -38,6 +38,8 @@ import { BsCaretDownFill } from "react-icons/bs";
 import { getAllWishlistProducts } from "@/services/wishlist.service";
 import { useDebounce } from "@/hooks/useDebounce.hooks";
 import { ICartItem } from "@/interface/cart.interface";
+import { getCartData } from "@/services/cart.service";
+import { useCart } from "@/store/use-cart";
 
 const Header = () => {
   const token = getToken();
@@ -48,6 +50,10 @@ const Header = () => {
   const { pathname } = router
   const debounceSearch = useDebounce(searchValue, 300) //Pass search value here and then this variable to the dependency below
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
+  const { setCoupon, coupon } = useCart()
+
+  const { data: cart } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon }));
+
   const { data: config, isInitialLoading } = useQuery({
     queryKey: ["getConfig"],
     queryFn: getConfig,
@@ -97,7 +103,6 @@ const Header = () => {
   //   enabled: !!token
   // })
 
-  const { data: cart } = useQuery<ICartItem>(["getCart"])
 
   const mutation = useMutation({
     mutationFn: logout,
@@ -111,6 +116,7 @@ const Header = () => {
   const logoutHandler = () => {
     mutation.mutate();
     setShowModal(false);
+    router.push('/')
   };
 
   //suggestion
@@ -177,6 +183,12 @@ const Header = () => {
     }
   }, [pathname])
 
+  useEffect(() => {
+    if (window && localStorage && localStorage.getItem("coupon") || coupon) {
+      setCoupon(localStorage.getItem('coupon') as string || coupon)
+    }
+  }, [window, localStorage, coupon])
+
   return (
     <>
       <header>
@@ -225,7 +237,7 @@ const Header = () => {
                       <li className="mx-5">
                         <Link
                           href={"/account/profile"}
-                          className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.1] hover:px-0 focus:!bg-transparent"
+                          className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.05] hover:!px-0 focus:!bg-transparent"
                         >
                           My Account
                         </Link>
@@ -233,7 +245,7 @@ const Header = () => {
                       <li className="mx-5 ">
                         <Link
                           href={"/checkout"}
-                          className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.1] hover:px-0 focus:!bg-transparent"
+                          className="text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center font-semibold dropdown-item hover:transform hover:scale-[1.05] hover:!px-0 focus:!bg-transparent"
                         >
                           Checkout
                         </Link>
@@ -241,7 +253,7 @@ const Header = () => {
                       <li className="mx-5 ">
                         <button
                           onClick={() => setShowModal(!showModal)}
-                          className="!border-b-0 dropdown-item font-semibold text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center hover:transform hover:scale-[1.1] hover:px-0"
+                          className="!border-b-0 dropdown-item font-semibold text-xs text-gray-850 focus:bg-none focus:text-primary py-3 px-0 text-center hover:transform hover:scale-[1.05] hover:!px-0"
                         >
                           Logout
                         </button>
@@ -363,6 +375,7 @@ const Header = () => {
               <button
                 className="py-3 rounded-l-none btn btn-primary rounded-r-md"
                 onClick={handleSearch}
+                name="Search Icon"
               >
                 <SearchIcon />
               </button>
