@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IChangePassword } from '@/interface/password.interface';
 import { changePassword, logout } from '@/services/auth.service';
-import ButtonLoader from '@/shared/components/btn-loading'; 
+import ButtonLoader from '@/shared/components/btn-loading';
 const ChangePasswordForm = () => {
     const router = useRouter();
     const { register, handleSubmit, watch, formState: { errors }, trigger } = useForm<IChangePassword>();
@@ -31,7 +31,7 @@ const ChangePasswordForm = () => {
         onSuccess: () => {
             deleteCookie("token");
             deleteCookie("isLoggedIn");
-            router.push('/auth/login');
+            router.push('/login');
         },
         onError: (error: any) => {
             console.log(error);

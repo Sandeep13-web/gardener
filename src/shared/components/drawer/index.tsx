@@ -142,11 +142,11 @@ const Drawer = () => {
                     <div className="flex items-center gap-3">
                       <UserIcon className="text-black" />
                       <div className="flex items-center gap-1 leading-[33px]">
-                        <Link href="/auth/login" className="flex gap-1 p-0 text-base font-normal capitalize btn btn-ghost text-start" aria-label="login">
+                        <Link href="/login" className="flex gap-1 p-0 text-base font-normal capitalize btn btn-ghost text-start" aria-label="login">
                           Login
                         </Link>
                         <span>/</span>
-                        <Link href="/auth/register" className="flex gap-1 p-0 text-base font-normal capitalize btn btn-ghost text-start" aria-label="sign-up">
+                        <Link href="/register" className="flex gap-1 p-0 text-base font-normal capitalize btn btn-ghost text-start" aria-label="sign-up">
                           Sign Up
                         </Link>
                       </div>

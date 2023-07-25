@@ -11,7 +11,7 @@ const ForgotPasswordForm = () => {
     const router = useRouter();
     const { register, handleSubmit, formState: { errors }, trigger } = useForm<IForgotPassword>();
 
-    const forgotPasswordSubmit: SubmitHandler<IForgotPassword> = (data) => { 
+    const forgotPasswordSubmit: SubmitHandler<IForgotPassword> = (data) => {
         mutation.mutate(data);
     }
 
@@ -19,7 +19,7 @@ const ForgotPasswordForm = () => {
         mutationFn: forgotPassword,
         onSuccess: (data) => {
             showToast(TOAST_TYPES.success, 'An email has been sent to you mailing address.');
-            router.push('/auth/reset-password');
+            router.push('/reset-password');
         },
         onError: (error: any) => {
             const errors = error?.response?.data?.errors;
@@ -33,13 +33,13 @@ const ForgotPasswordForm = () => {
             autoComplete='off'
         >
             <p className='mb-[20px] text-sm text-zinc-250 leading-[24px]'>
-            Please enter email address/phone number. You will receive a link to create new password via email or OTP in your phone number.
+                Please enter email address/phone number. You will receive a link to create new password via email or OTP in your phone number.
             </p>
             <div className='flex flex-col mb-[20px]'>
                 <input
                     type="text"
                     placeholder='Enter Your Email or Phone number'
-                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${ errors.email ? 'border-error' : 'border-gray-350'}`}
+                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.email ? 'border-error' : 'border-gray-350'}`}
                     {...register("email", { required: 'Email or Phone Number is required.' })}
                     onBlur={() => trigger('email')}
                 />
