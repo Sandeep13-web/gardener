@@ -281,7 +281,7 @@ const Header = () => {
                     </Link>
                     <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0"></div>
                     <Link
-                      href={"/registers"}
+                      href={"/register"}
                       className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]"
                     >
                       Sign Up
