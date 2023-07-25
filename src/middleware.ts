@@ -19,5 +19,12 @@ export async function middleware(req: NextRequest) {
  * Add all the protected routes here in the matcher.
  */
 export const config = {
-  matcher: ["/wishlist", "/account/:path*", "/login"],
+  matcher: [
+    "/wishlist",
+    "/account/:path*",
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/reset-password",
+  ],
 };
