@@ -18,7 +18,7 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
   const router = useRouter()
   const queryClient = useQueryClient();
-  const { data: cart } = useQuery<ICartItem>(["getCart"], getCartData)
+  const { data: cart } = useQuery<ICartItem>(["getCart"])
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
