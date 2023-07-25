@@ -230,3 +230,22 @@
         @apply bg-primary text-white rounded-t-md;
     }
 }
+.productSwiper-navigation{
+    @apply absolute top-[20px] right-0 flex gap-4;
+    button{
+        @apply disabled:opacity-50 disabled:cursor-not-allowed border border-gray-350 w-[43px] h-[43px] flex items-center justify-center rounded-full transition-all delay-100 duration-150;
+        
+        svg{
+            @apply w-[10px] h-auto fill-slate-850 opacity-80 transition-all delay-100 duration-150;
+        }
+        &:hover{
+            @apply bg-orange-450;
+            svg{
+                @apply fill-white;
+            }
+        }
+    }
+}
+  
+
+  

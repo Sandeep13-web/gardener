@@ -1,4 +1,5 @@
 import "@/styles/globals.scss";
+import 'swiper/css/grid';
 import 'react-toastify/dist/ReactToastify.css';
 
 import "@/styles/abstract/utils.scss";

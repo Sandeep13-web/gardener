@@ -1,8 +1,11 @@
 import React from 'react'
 
-const SkeletonImage = () => {
+interface IProps {
+    className?: string
+}
+const SkeletonImage = ({ className }: IProps) => {
     return (
-        <figure className="mb-4 bg-gray-300 w-80 h-80 animate-pulse"></figure>
+        <figure className={`mb-4 bg-gray-300 w-80 h-80 animate-pulse ${className}`}></figure>
     )
 }
 

@@ -40,6 +40,7 @@ import { useDebounce } from "@/hooks/useDebounce.hooks";
 import { ICartItem } from "@/interface/cart.interface";
 import { getCartData } from "@/services/cart.service";
 import { useCart } from "@/store/use-cart";
+import { first } from "lodash";
 
 const Header = () => {
   const token = getToken();
@@ -59,14 +60,15 @@ const Header = () => {
     queryFn: getConfig,
   });
 
-  const { data: home } = useQuery<IHome>({
-    queryKey: ["getHomeData"],
-    queryFn: getHomeData,
-  });
+  // const { data: home } = useQuery<IHome>({
+  //   queryKey: ["getHomeData"],
+  //   queryFn: getHomeData,
+  // });
 
   const { data: categories, isInitialLoading: loading } = useQuery({
     queryKey: ["getCategories"],
     queryFn: getProductCategory,
+
   });
 
   const { data: profile, isInitialLoading: loadingProfile } = useQuery({
