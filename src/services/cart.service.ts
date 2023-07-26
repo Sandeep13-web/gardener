@@ -105,7 +105,8 @@ export const associateCart = async (auth: any) => {
     // ...(getCoupon() && { Coupon: getCoupon() }),
 
     Authorization: `Bearer ${auth}`,
-    "Warehouse-Id": getWareId(),
+    "Api-Key": config.gateway.apiKey,
+    "Warehouse-Id": getWareId() || 1,
   };
 
   try {

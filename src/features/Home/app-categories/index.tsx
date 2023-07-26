@@ -7,8 +7,10 @@ import Title from "@/shared/components/title";
 import { CardImg } from "@/shared/lib/image-config";
 import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
-
+import React, { useCallback, useState } from "react";
+import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
+import { Grid } from 'swiper';
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 interface IProps {
   prev: IAppCategories;
 }
@@ -25,18 +27,64 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
   }
   ));
 
+  const [swiperRef, setSwiperRef] = useState<SwiperClass>();
+
+  //handling prev and next of swiper category
+  const handlePrevious = useCallback(() => {
+    if (swiperRef) {
+      swiperRef?.slidePrev();
+    }
+  }, [swiperRef]);
+
+  const handleNext = useCallback(() => {
+    if (swiperRef) {
+      swiperRef?.slideNext();
+    }
+  }, [swiperRef]);
+
   return (
     <section className="my-[60px]">
-      <Title type="title-section" text={prev.title} />
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-        {updatedData?.map((product, index) => (
-          <Card
-            product={product}
-            key={index}
-            cartItem={cart?.cartProducts.find((item) => item?.product?.id === product?.id)}
-          />
-        ))}
+      <div className="relative flex items-center justify-between">
+        <Title type="title-section" text={prev.title} />
+        {
+          prev?.products?.length > 10 && (
+            <div className='!static productSwiper-navigation mb-[45px]'>
+              <button
+                // disabled={swiperRef?.isBeginning}
+                onClick={handlePrevious}>
+                <FaChevronLeft />
+              </button>
+              <button
+                // disabled={swiperRef?.isEnd}
+                onClick={handleNext}>
+                <FaChevronRight />
+              </button>
+            </div>
+          )
+        }
       </div>
+      <Swiper
+        slidesPerView={5}
+        grid={{
+          rows: 2,
+          fill: "row",
+        }}
+        pagination={false}
+        spaceBetween={20}
+        modules={[Grid]}
+        className="productSwiper"
+        onSwiper={setSwiperRef}
+      >
+        {updatedData?.map((product, index) => (
+          <SwiperSlide key={`app-categories-${index}`}>
+            <Card
+              product={product}
+              key={index}
+              cartItem={cart?.cartProducts.find((item) => item?.product?.id === product?.id)}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </section>
   );
 };
