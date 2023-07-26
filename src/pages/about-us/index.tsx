@@ -7,6 +7,9 @@ import { getPageData } from "@/services/page.service";
 import Breadcrumb from "@/shared/components/breadcrumb";
 import Loader from "@/components/Loading";
 import Head from "next/head";
+import SkeletonImage from "@/shared/components/skeleton/image";
+import SkeletonDescription from "@/shared/components/skeleton/description";
+import SkeletonDynamicPage from "@/shared/components/skeleton/dynamic-page";
 
 const AboutUs: NextPageWithLayout = () => {
   const router = useRouter();
@@ -37,7 +40,7 @@ const AboutUs: NextPageWithLayout = () => {
       </Head>
       {
         fetchLoading ? (
-          <Loader />
+          <SkeletonDynamicPage />
         ) : (
           <>
             <Breadcrumb title={aboutData?.data?.title} />

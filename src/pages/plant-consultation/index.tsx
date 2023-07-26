@@ -7,6 +7,7 @@ import { getPageData } from "@/services/page.service";
 import Breadcrumb from "@/shared/components/breadcrumb";
 import Loader from "@/components/Loading";
 import Head from "next/head";
+import SkeletonDynamicPage from "@/shared/components/skeleton/dynamic-page";
 
 const PlantConsultation: NextPageWithLayout = () => {
   const router = useRouter();
@@ -38,7 +39,8 @@ const PlantConsultation: NextPageWithLayout = () => {
       </Head>
       {
         fetchLoading ? (
-          <Loader />
+          <SkeletonDynamicPage />
+
         ) : (
           <>
             <Breadcrumb title={plantConsultationData?.data?.title} />
