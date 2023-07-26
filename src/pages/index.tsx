@@ -24,7 +24,6 @@ import { getHomeData } from "@/services/home.service";
 const Home: NextPageWithLayout = () => {
   const { data: home, isInitialLoading: homeLoading } = useQuery<IHome>({
     queryKey: ["getHomeData"],
-    queryFn: getHomeData,
   });
 
   const { data: categories, isInitialLoading: loadingCategories }: any = useQuery({ queryKey: ['getCategories'] });

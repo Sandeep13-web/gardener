@@ -7,7 +7,7 @@ import Title from "@/shared/components/title";
 import { CardImg } from "@/shared/lib/image-config";
 import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { useQuery } from "@tanstack/react-query";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import { Grid } from 'swiper';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -17,6 +17,9 @@ interface IProps {
 
 const AppCategories: React.FC<IProps> = ({ prev }) => {
   const token = getToken();
+  const [nextDisable, setNextDisable] = useState<boolean>(false)
+  const [prevDisable, setPrevDisable] = useState<boolean>(false)
+
   const { data: cart } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon: '' }));
   const { data: favList }: any = useQuery<any>(["wishlistProducts", token], { enabled: !!token });
 
@@ -31,32 +34,40 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
 
   //handling prev and next of swiper category
   const handlePrevious = useCallback(() => {
+    setNextDisable(false)
     if (swiperRef) {
       swiperRef?.slidePrev();
     }
   }, [swiperRef]);
 
   const handleNext = useCallback(() => {
+    setPrevDisable(false)
     if (swiperRef) {
       swiperRef?.slideNext();
     }
   }, [swiperRef]);
+  // const prevRef = useRef<HTMLButtonElement>(null);
+  // const nextRef = useRef<HTMLButtonElement>(null);
 
   return (
     <section className="my-[60px]">
       <div className="relative flex items-center justify-between">
         <Title type="title-section" text={prev.title} />
         {
-          prev?.products?.length > 10 && (
+          prev?.products?.length > 0 && (
             <div className='!static productSwiper-navigation mb-[45px]'>
               <button
-                // disabled={swiperRef?.isBeginning}
-                onClick={handlePrevious}>
+                // ref={prevRef}
+                disabled={prevDisable}
+                onClick={handlePrevious}
+              >
                 <FaChevronLeft />
               </button>
               <button
-                // disabled={swiperRef?.isEnd}
-                onClick={handleNext}>
+                // ref={nextRef}
+                disabled={nextDisable}
+                onClick={handleNext}
+              >
                 <FaChevronRight />
               </button>
             </div>
@@ -74,6 +85,47 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
         modules={[Grid]}
         className="productSwiper"
         onSwiper={setSwiperRef}
+        onBeforeInit={() => setPrevDisable(true)}
+        onReachBeginning={() => setPrevDisable(true)}
+        onReachEnd={() => setNextDisable(true)}
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+            grid: {
+              rows: 2
+            },
+            spaceBetween: 20,
+            // navigation: {
+            //   enabled: true,
+            //   nextEl: nextRef.current,
+            //   prevEl: nextRef.current
+            // }
+          },
+          768: {
+            slidesPerView: 3,
+            grid: {
+              rows: 2
+            },
+            spaceBetween: 20,
+            // navigation: {
+            //   enabled: true,
+            //   nextEl: nextRef.current,
+            //   prevEl: nextRef.current
+            // }
+          },
+          1050: {
+            slidesPerView: 5,
+            grid: {
+              rows: 2
+            },
+            spaceBetween: 20,
+            // navigation: {
+            //   enabled: true,
+            //   nextEl: nextRef.current,
+            //   prevEl: nextRef.current
+            // }
+          }
+        }}
       >
         {updatedData?.map((product, index) => (
           <SwiperSlide key={`app-categories-${index}`}>
