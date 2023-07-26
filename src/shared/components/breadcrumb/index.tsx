@@ -13,10 +13,10 @@ const Breadcrumb = ({ title }: any) => {
   // Define the breadcrumb items and their respective paths
   const breadcrumbItems = [
     { label: "Home", path: "/" },
-    { label: "Login", path: "/auth/login" },
-    { label: "Sign Up", path: "/auth/register" },
-    { label: "Forgot Password", path: "/auth/forgot-password" },
-    { label: "Reset Password", path: "/auth/reset-password" },
+    { label: "Login", path: "/login" },
+    { label: "Sign Up", path: "/register" },
+    { label: "Forgot Password", path: "/forgot-password" },
+    { label: "Reset Password", path: "/reset-password" },
     { label: "Offer", path: "/offer" },
     { label: "Blogs", path: "/blogs" },
     { label: "Products", path: "/products" },

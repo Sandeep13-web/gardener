@@ -41,7 +41,7 @@ const AccountSidebar = () => {
       deleteCookie("token");
       deleteCookie("isLoggedIn");
       showToast(TOAST_TYPES.success, data?.data?.success?.message);
-      router.push('/auth/login');
+      router.push('/login');
     },
   });
 
