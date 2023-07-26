@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { IRegister } from '../../../interface/register.interface'
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
 import ButtonLoader from '@/shared/components/btn-loading'
+import { handleKeyDownAlphabet, handleKeyDownNumber } from '@/shared/utils/form-validation-utils'
 
 const RegisterForm = () => {
     const router = useRouter()
@@ -30,15 +31,22 @@ const RegisterForm = () => {
         mutation.mutate(data)
     }
 
-
     return (
         <form onSubmit={handleSubmit(registerSubmit)} autoComplete='off'>
             <div className='flex flex-col mb-[20px]'>
                 <input
                     type="text"
                     placeholder='Enter Your First Name'
-                    {...register("first_name", { required: 'FirstName is required.' })}
-                    onBlur={() => trigger('first_name')}
+                    {...register("first_name", {
+                        required: 'FirstName is required',
+                        pattern: {
+                            value: /^[A-Za-z]+$/,
+                            message: "Only alphabetical characters are allowed",
+                        },
+                    })}
+                    maxLength={20}
+                    onKeyDown={handleKeyDownAlphabet}
+                    onKeyDownCapture={() => trigger('first_name')}
                     className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.first_name ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
@@ -49,9 +57,17 @@ const RegisterForm = () => {
             <div className='flex flex-col mb-[20px]'>
                 <input
                     type="text"
-                    {...register("last_name", { required: 'LastName is required.' })}
+                    {...register("last_name", {
+                        required: 'LastName is required',
+                        pattern: {
+                            value: /^[A-Za-z]+$/,
+                            message: "Only alphabetical characters are allowed",
+                        },
+                    })}
                     placeholder='Enter Your Last Name'
-                    onBlur={() => trigger('last_name')}
+                    onKeyDownCapture={() => trigger('last_name')}
+                    maxLength={20}
+                    onKeyDown={handleKeyDownAlphabet}
                     className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.last_name ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
@@ -64,14 +80,18 @@ const RegisterForm = () => {
                     type="text"
                     {...register("mobile_number",
                         {
-                            required: "Phone number is required.",
+                            required: "Phone number is required",
                             pattern: {
-                                value: /^[9]\d{9}$/,
-                                message: "Phone number must start with 9 and have 10 digits.",
-                            }
+                                value: /^98\d*$/,
+                                message: "Incorrect phone number format",
+                            },
                         })}
-                    onBlur={() => trigger('mobile_number')}
+                    onKeyDownCapture={() => trigger('mobile_number')}
+                    pattern="^[1-9]\d*$"
+                    maxLength={10}
+                    inputMode='numeric'
                     placeholder='Enter Your Phone Number'
+                    onKeyDown={handleKeyDownNumber}
                     className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.mobile_number ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
@@ -83,12 +103,13 @@ const RegisterForm = () => {
                 <input
                     type="text"
                     {...register("email", {
-                        required: "Email is required",
+                        required: "Email is required.",
                         pattern: {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: "Invalid email address.",
+                            message: "Invalid email address",
                         },
                     })}
+                    onKeyDownCapture={() => trigger("email")}
                     placeholder='Enter Your Email'
                     className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.email ? 'border-error' : 'border-gray-350'}`}
                 />
@@ -101,13 +122,13 @@ const RegisterForm = () => {
                 <input type="password"
                     placeholder='Password'
                     {...register("password", {
-                        required: 'Password is required.',
+                        required: 'Password is required',
                         minLength: {
-                            value: 6,
+                            value: 5,
                             message: "Password must have at least 6 characters.",
                         },
                     })}
-                    onBlur={() => trigger('password')}
+                    onKeyDown={() => trigger('password')}
                     className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.password ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
@@ -125,6 +146,7 @@ const RegisterForm = () => {
                             validate: (value) => value === watch("password") || "Password do not match"
                         },
                     )}
+                    // onKeyDown={() => trigger('confirm_password')}
                     className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.confirm_password ? 'border-error' : 'border-gray-350'}`}
                 />
                 {

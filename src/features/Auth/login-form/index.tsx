@@ -52,7 +52,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
         <input
           type="text"
           placeholder='Phone Number/Email'
-          {...register("username", { required: 'Username is required.' })}
+          {...register("username", { required: 'Phone Number Or Email is required' })}
           onBlur={() => trigger('username')}
           className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.username ? 'border-error' : 'border-gray-350'}`}
         />
@@ -64,7 +64,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
       <div className='flex flex-col mb-[20px]'>
         <input type="password"
           placeholder='Password'
-          {...register("password", { required: 'Password is required.', })}
+          {...register("password", { required: 'Password is required', })}
           onBlur={() => trigger('password')}
           className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.password ? 'border-error' : 'border-gray-350'}`}
         />
