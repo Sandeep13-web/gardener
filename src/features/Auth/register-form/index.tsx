@@ -14,7 +14,7 @@ const RegisterForm = () => {
         mutationFn: signUp,
         onSuccess: () => {
             showToast(TOAST_TYPES.success, 'User Created Successfully.');
-            router.push('/auth/login');
+            router.push('/login');
         },
         onError: (error: any) => {
             const errors = error?.response?.data?.errors
@@ -83,6 +83,7 @@ const RegisterForm = () => {
                 <input
                     type="text"
                     {...register("email", {
+                        required: "Email is required",
                         pattern: {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                             message: "Invalid email address.",

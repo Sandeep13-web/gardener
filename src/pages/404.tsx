@@ -1,6 +1,7 @@
 import { fourzerofour } from "@/shared/lib/image-config";
 import MainLayout from "@/shared/main-layout";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const NotFound = () => {
@@ -18,10 +19,10 @@ const NotFound = () => {
           It might have been removed, renamed or did not exist in the first
           place.
         </p>
-        <a href="" className=" btn btn-primary py-4 px-8 rounded-3xl mb-8">
+        <Link href="/" aria-label="go-to-home" className=" btn btn-primary py-4 px-8 rounded-3xl mb-8">
           {" "}
           GO TO HOMEPAGE{" "}
-        </a>
+        </Link>
       </div>
     </div>
   );
@@ -29,6 +30,6 @@ const NotFound = () => {
 
 export default NotFound;
 
-NotFound.getLayout = (page:any) => {
+NotFound.getLayout = (page: any) => {
   return <MainLayout>{page}</MainLayout>;
 };

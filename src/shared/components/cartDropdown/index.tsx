@@ -36,7 +36,7 @@ const CartDropdown = () => {
         {/* item list*/}
         <div className={`max-h-42 overflow-auto px-[30px] ${cart?.cartProducts?.length === 0 ? '' : 'pb-[30px]'}`}>
           {!cart || cart?.cartProducts?.length === 0 ? (
-            <p className="text-sm font-medium text-center text-slate-850">No Products in the cart.</p>
+            <p className="text-sm font-bold text-center text-slate-850">No Products in the cart.</p>
           ) : (
             <>
               <div className="overflow-y-scroll max-h-[350px] pr-[20px]">

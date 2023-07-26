@@ -18,7 +18,7 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
   const router = useRouter()
   const queryClient = useQueryClient();
-  const { data: cart } = useQuery<ICartItem>(["getCart"], getCartData)
+  const { data: cart } = useQuery<ICartItem>(["getCart"])
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
@@ -27,6 +27,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
       showToast(TOAST_TYPES.success, 'You have been successfully logged in.');
       if (cart && cart.cartProducts?.length > 0) {
         associateCart(data?.access_token);
+        queryClient.invalidateQueries(['getCart'])
         router.push('/checkout');
         closeModal && closeModal();
       } else {
@@ -84,7 +85,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
             <ButtonLoader />
           }
         </button>
-        <Link href='/auth/forgot-password' className='text-sm transition-all duration-150 delay-100 text-slate-850 hover:text-primary' aria-label="forget-passsword" >Forgot Password?</Link>
+        <Link href='/forgot-password' className='text-sm transition-all duration-150 delay-100 text-slate-850 hover:text-primary' aria-label="forget-passsword" >Forgot Password?</Link>
       </div>
     </form>
   )
