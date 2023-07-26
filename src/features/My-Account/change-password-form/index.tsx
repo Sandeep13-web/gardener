@@ -38,7 +38,7 @@ const ChangePasswordForm = () => {
         }
     });
 
-    const validRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    const validRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     return (
         <form className="px-6 py-6" onSubmit={handleSubmit(changePasswordSubmit)} autoComplete="off">
             <div className="grid grid-cols-12 gap-4 md:gap-6">
@@ -65,8 +65,8 @@ const ChangePasswordForm = () => {
                             required: 'New Password is required.',
                             validate: (value) => value !== watch("old-password") || 'Old password and New password must be different.',
                             pattern: {
-                                value: validRegex,
-                                message: 'Password must contain at least 8 characters, 1 uppercase letter,1 lowercase letter and a number',
+                                value: /^\S{6}$/,
+                                message: 'Password must contain 6 digit',
                             }
                         })}
                         onBlur={() => trigger("new-password")}

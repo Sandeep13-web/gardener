@@ -28,7 +28,7 @@ export const login = async (data: any) => {
   const provider = "";
   const refresh_token = "";
   try {
-    const response = await axiosInstance.post(`/login`, {
+    const response = await axiosInstance.post(`/auth/login`, {
       ...data,
       grant_type,
       client_secret,
