@@ -10,16 +10,16 @@ import Link from "next/link";
 import React from "react";
 import { parseISO, format } from "date-fns";
 
- const BlogsCard: React.FC<Props> = ({ blog }) => {
+const BlogsCard: React.FC<Props> = ({ blog }) => {
 
   const changeDateFormat = (dateString: string) => {
     const date = parseISO(dateString);
-    return <span>{ format(date, 'd LLLL yyyy') }</span>
-  } 
+    return <span>{format(date, 'd LLLL yyyy')}</span>
+  }
 
   return (
     <div className="w-full card bg-base-100 ">
-      <Link href={`/blogs/${blog.slug}`}>
+      <Link href={`/blogs/${blog.slug}`} aria-label={`blog-${blog?.slug}`}>
         <figure>
           <Image
             src={blog.thumbImage}
@@ -41,7 +41,7 @@ import { parseISO, format } from "date-fns";
           href={`/blogs/${blog.slug}`}
           className="block mb-2 text-2xl font-semibold truncate card-title hover:text-primary"
         >
-          { blog.title }
+          {blog.title}
         </Link>
         <div className="flex items-center gap-2 mb-4">
           <Link
@@ -49,14 +49,14 @@ import { parseISO, format } from "date-fns";
             className="flex items-center gap-1 pr-2 text-sm border-r border-black border-solid group hover:text-primary "
           >
             <Usersvg className="text-black hover:fill-blue-500" />
-            { blog.author }
+            {blog.author}
           </Link>
           <Link
             href={`/blogs/${blog.slug}`}
             className="flex items-center gap-1 text-sm group hover:text-primary"
           >
             <CalendarIcon className="text-black hover:fill-blue-500" />
-            { changeDateFormat(blog.created_date.date) }
+            {changeDateFormat(blog.created_date.date)}
           </Link>
         </div>
         <p className="mb-4 text-sm line-clamp-2"

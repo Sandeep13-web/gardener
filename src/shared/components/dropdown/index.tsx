@@ -50,20 +50,20 @@ const Dropdown: React.FC<DropdownProps> = ({
         tabIndex={0}
         className={`dropdown-content menu shadow p-0 bg-base-100 rounded-sm min-w-[110px] z-[60] ${listClassName}`}
       >
-      {data?.map((item, index) => {
-        const dropdownItem = dropdownData.find((data) => data.title === item);
-        if (dropdownItem) {
-          return (
-            <li key={index} onClick={() => handleItemClick(index)}>
-              <Link href={`/${dropdownItem.slug}`} className="dropdown-item">
-                {dropdownItem.title}
-              </Link>
-            </li>
-          );
-        } else {
-          return null;
-        }
-      })}
+        {data?.map((item, index) => {
+          const dropdownItem = dropdownData.find((data) => data.title === item);
+          if (dropdownItem) {
+            return (
+              <li key={index} onClick={() => handleItemClick(index)}>
+                <Link href={`/${dropdownItem.slug}`} className="dropdown-item" aria-label={dropdownItem.title}>
+                  {dropdownItem.title}
+                </Link>
+              </li>
+            );
+          } else {
+            return null;
+          }
+        })}
       </ul>
     </div>
   );

@@ -25,7 +25,7 @@ const CategoryCard: React.FC<Props> = ({ title, totalProducts, shopLink, image }
       <div className='absolute left-[40px] top-[50%] transform translate-y-[-50%] flex flex-col gap-[10px] z-[9]'>
         <h2 className='category-card-title'>{title}</h2>
         <p className='text-xs font-normal uppercase text-gray-450'>{totalProducts} Products</p>
-        <Link href={shopLink} className='text-slate-850 transition-all delay-100 text-sm hover:text-primary hover:ml-[10px] flex items-center gap-1 font-normal'>
+        <Link href={shopLink} className='text-slate-850 transition-all delay-100 text-sm hover:text-primary hover:ml-[10px] flex items-center gap-1 font-normal' aria-label={`shop-link`}>
           Shop Now
           <span className='bg-primary rounded rounded-full flex items-center justify-center w-[12px] h-[12px] p-[2px]'>
             <CaretDownIcon className='transform rotate-[270deg] text-white max-w-full h-auto' />

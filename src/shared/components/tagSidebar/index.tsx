@@ -14,17 +14,18 @@ const TagSidebar = () => {
     return (
         <div className='flex flex-wrap'>
             {
-                   tags?.data?.map((item: any, index: number) => (
-                        <div key={`categories-${index}`} className='mb-[20px]'>
-                            <Link href={{ pathname: '/tag',query: { id: item?.slug }}}
-                                className={`border border-gray-350 px-[25px] py-[10px] rounded-[30px] capitalize m-1 text-sm leading-[20px] transition-all delay-100 duration-300 hover:bg-primary hover:text-white hover:border-primary ${item.slug == id ? 'bg-orange-450 text-white' : 'bg-white text-gray-550'}`}
-                            >
-                                {item?.title}
-                            </Link>
-                        </div>
-                    ))
-                }
-            
+                tags?.data?.map((item: any, index: number) => (
+                    <div key={`categories-${index}`} className='mb-[20px]'>
+                        <Link href={{ pathname: '/tag', query: { id: item?.slug } }}
+                            aria-label={`sidebar-${item?.slug}`}
+                            className={`border border-gray-350 px-[25px] py-[10px] rounded-[30px] capitalize m-1 text-sm leading-[20px] transition-all delay-100 duration-300 hover:bg-primary hover:text-white hover:border-primary ${item.slug == id ? 'bg-orange-450 text-white' : 'bg-white text-gray-550'}`}
+                        >
+                            {item?.title}
+                        </Link>
+                    </div>
+                ))
+            }
+
         </div>
     );
 }
