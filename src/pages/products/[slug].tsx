@@ -25,6 +25,7 @@ import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import { Grid } from 'swiper';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import SkeletonLoadingCard from '@/shared/components/skeleton/products';
+import { ITag } from '@/interface/tag.interface';
 
 
 const ProductSlug = () => {
@@ -238,6 +239,15 @@ const ProductSlug = () => {
                       <Link href={`/category/${productData?.response?.data?.categorySlug}`} aria-label="category-title" className="mb-0 text-primary">
                         <span className="font-normal">{productData?.response?.data?.categoryTitle}</span>
                       </Link>
+                    </p>
+                    {console.log("productData?.response?.data", productData?.response?.data)}
+                    <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
+                      Tags:
+                      {productData?.response?.data?.tags.map((prev: ITag, index: number) => (
+                        <Link href={`/tag?id=${prev?.slug}`} aria-label="tag-title" className="mb-0 text-primary" key={`tag-${index}`}>
+                          <span className="font-normal">{prev?.title}</span>
+                        </Link>
+                      ))}
                     </p>
                     <ul className="flex my-5">
 
