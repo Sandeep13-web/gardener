@@ -52,7 +52,7 @@ const DelieveryAddress = () => {
         getDeliveryAddress();
         setShowModal(false); // Close the modal after successful update
       } catch (error) {
-        if (error.response && error.response.data && error.response.data.errors) {
+        if (error?.response && error?.response?.data && error?.response?.data?.errors) {
           const { errors } = error.response.data;
           errors.forEach((err:any) => {
             showToast(TOAST_TYPES.error, err.message);
