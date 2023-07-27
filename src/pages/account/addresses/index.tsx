@@ -52,16 +52,7 @@ const DelieveryAddress = () => {
         getDeliveryAddress();
         setShowModal(false); // Close the modal after successful update
       } catch (error) {
-        if (error?.response && error?.response?.data && error?.response?.data?.errors) {
-          const { errors } = error.response.data;
-          errors.forEach((err:any) => {
-            showToast(TOAST_TYPES.error, err.message);
-          });
-        } else {
-          // Handle other types of errors
-          console.log(error);
-         
-        }
+        console.log(error);
       }
     } else {
       // Call the add API for saving a new address
