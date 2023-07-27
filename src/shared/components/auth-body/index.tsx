@@ -17,27 +17,27 @@ const AuthBody = () => {
                         !router.pathname.includes('/forgot-password') && !router.pathname.includes('/reset-password') &&
                         <div className='flex items-center gap-[20px]'>
                             <Link
-                                href='/auth/login'
+                                href='/login'
                                 className={`text-2xl font-bold ${router.pathname.includes('/login') ? 'text-primary' : 'text-slate-850'} `}
                             >Login</Link>
                             <span className='text-sm'>|</span>
                             <Link
-                                href='/auth/register'
+                                href='/register'
                                 className={`text-2xl font-bold ${router.pathname.includes('/register') ? 'text-primary' : 'text-slate-850'} `}
                             >Sign Up</Link>
                         </div>
                     }
                     <div className='auth-form'>
                         {
-                            router.pathname.includes('/reset-password') ? 
-                                <ResetPasswordForm /> : 
-                            router.pathname.includes('/forgot-password') ?
-                                <ForgotPasswordForm />
-                                :
-                                router.pathname.includes('/login') ?
-                                    <LoginForm />
+                            router.pathname.includes('/reset-password') ?
+                                <ResetPasswordForm /> :
+                                router.pathname.includes('/forgot-password') ?
+                                    <ForgotPasswordForm />
                                     :
-                                    <RegisterForm />
+                                    router.pathname.includes('/login') ?
+                                        <LoginForm />
+                                        :
+                                        <RegisterForm />
                         }
                     </div>
                 </div>

@@ -86,38 +86,38 @@ const Drawer = () => {
           </li>
           <li className="max-h-[calc(100vh-88px)] overflow-y-scroll pb-[40px]">
             <div className="!bg-transparent block p-1">
-              <Link href={'/'} className="block font-normal collapse-title leading-[25px]">Home</Link>
+              <Link href={'/'} className="block font-normal collapse-title leading-[25px]" aria-label="home">Home</Link>
               <div className="collapse collapse-plus">
                 <input type="checkbox" className="min-h-0" />
                 <div className="collapse-title font-normal leading-[25px] after:!top-0 after:!right-1 pe-4 after:text-lg">
                   Our Services
                 </div>
                 <div className="collapse-content">
-                  <p className="font-normal collapse-text"><Link href="/plant-consultation">Plant Consultant</Link></p>
-                  <p className="font-normal collapse-text"><Link href="/gift-a-plant">Gift a Plant</Link></p>
+                  <p className="font-normal collapse-text"><Link href="/plant-consultation" aria-label="plant-consultant">Plant Consultant</Link></p>
+                  <p className="font-normal collapse-text"><Link href="/gift-a-plant" aria-label="gift a plant">Gift a Plant</Link></p>
                 </div>
               </div>
-              <Link href={'/our-outlets'} className="block font-normal collapse-title leading-[25px]">Our Outlets</Link>
+              <Link href={'/our-outlets'} className="block font-normal collapse-title leading-[25px]" aria-label="our outlets">Our Outlets</Link>
               <div className="collapse collapse-plus">
                 <input type="checkbox" className="min-h-0" />
                 <div className="collapse-title font-normal leading-[25px] after:!top-0 after:!right-1 pe-4 after:text-lg">
                   About Us
                 </div>
                 <div className="collapse-content">
-                  <p className="font-normal collapse-text"><Link href="/tree-installation">Tree Installation</Link></p>
-                  <p className="font-normal collapse-text"><Link href="/about-us">Our Story</Link></p>
+                  <p className="font-normal collapse-text"><Link href="/tree-installation" aria-label="tree intsallations">Tree Installation</Link></p>
+                  <p className="font-normal collapse-text"><Link href="/about-us" aria-label="our story">Our Story</Link></p>
                   <p className="font-normal collapse-text">
                     <Link href="/our-values">
                       Values that make us who we are{" "}
                     </Link>
                   </p>
-                  <p className="font-normal collapse-text"><Link href="/csr-projects">Our CSR Projects</Link> </p>
+                  <p className="font-normal collapse-text"><Link href="/csr-projects" aria-label="cssr-project">Our CSR Projects</Link> </p>
                 </div>
               </div>
               <Link href={'/blogs'} className="block font-normal collapse-title leading-[25px]">Blog</Link>
               <div className="mt-6">
                 <p className="mb-2 text-base font-bold">Our Services</p>
-                <Link href="/why-plants" className="flex items-center justify-start gap-3 p-0 text-base font-medium capitalize btn btn-ghost text-start">
+                <Link href="/why-plants" className="flex items-center justify-start gap-3 p-0 text-base font-medium capitalize btn btn-ghost text-start" aria-label="why plants">
                   <FlowerIcon className="text-primary" />
                   Why Plants
                 </Link>
@@ -128,11 +128,12 @@ const Drawer = () => {
                 {
                   token ? (
                     <>
-                      <Link href="/account/profile" className="flex justify-start leading-[33px] gap-3 p-0 text-base font-normal capitalize btn btn-ghost text-start">
+                      <Link href="/account/profile" className="flex justify-start leading-[33px] gap-3 p-0 text-base font-normal capitalize btn btn-ghost text-start"
+                        aria-label="account-profile">
                         <BiUser />
                         View Profile
                       </Link>
-                      <Link href="/wishlist" className="flex justify-start leading-[33px] gap-3 p-0 text-base font-normal capitalize btn btn-ghost text-start">
+                      <Link href="/wishlist" className="flex justify-start leading-[33px] gap-3 p-0 text-base font-normal capitalize btn btn-ghost text-start" aria-label="wishlist">
                         <AiOutlineHeart />
                         Wishlist ({favouriteList ? favouriteList?.data?.length : 0})
                       </Link>
@@ -141,11 +142,11 @@ const Drawer = () => {
                     <div className="flex items-center gap-3">
                       <UserIcon className="text-black" />
                       <div className="flex items-center gap-1 leading-[33px]">
-                        <Link href="/auth/login" className="flex gap-1 p-0 text-base font-normal capitalize btn btn-ghost text-start">
+                        <Link href="/login" className="flex gap-1 p-0 text-base font-normal capitalize btn btn-ghost text-start" aria-label="login">
                           Login
                         </Link>
                         <span>/</span>
-                        <Link href="/auth/register" className="flex gap-1 p-0 text-base font-normal capitalize btn btn-ghost text-start">
+                        <Link href="/register" className="flex gap-1 p-0 text-base font-normal capitalize btn btn-ghost text-start" aria-label="sign-up">
                           Sign Up
                         </Link>
                       </div>
@@ -153,7 +154,7 @@ const Drawer = () => {
                   )
                 }
 
-                <Link href="/offer" className="flex justify-start leading-[33px] gap-3 p-0 text-base font-normal capitalize btn btn-ghost text-start">
+                <Link href="/offer" className="flex justify-start leading-[33px] gap-3 p-0 text-base font-normal capitalize btn btn-ghost text-start" aria-label="offer">
                   <TagIcon />
                   Offer
                 </Link>

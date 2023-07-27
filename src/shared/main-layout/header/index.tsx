@@ -11,6 +11,7 @@ import {
   useInfiniteQuery,
   useMutation,
   useQuery,
+  useQueryClient,
 } from "@tanstack/react-query";
 import {
   getConfig,
@@ -21,7 +22,7 @@ import OfferIcon from "@/shared/icons/common/OfferIcon";
 import HeartIcon from "@/shared/icons/common/HeartIcon";
 import Link from "next/link";
 import { getProfile } from "@/services/profile.service";
-import { deleteCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 import { FaChevronDown, FaUser } from "react-icons/fa";
 import { IHome } from "@/interface/home.interface";
 import {
@@ -40,33 +41,43 @@ import { useDebounce } from "@/hooks/useDebounce.hooks";
 import { ICartItem } from "@/interface/cart.interface";
 import { getCartData } from "@/services/cart.service";
 import { useCart } from "@/store/use-cart";
+import { first } from "lodash";
+import { setAuthorizationHeader, setCouponHeader } from "@/axios/axiosInstance";
 
 const Header = () => {
+  const router = useRouter();
+  const { pathname } = router
+
   const token = getToken();
+  const loggedIn = getCookie('isLoggedIn');
+  const { setCoupon, coupon } = useCart();
+  const queryClient = useQueryClient();
+
   const [searchValue, setSearchValue] = useState<string>("");
   const [selectedType, setSelectedType] = useState<string>("product");
   const [showModal, setShowModal] = useState<boolean>(false);
-  const router = useRouter();
-  const { pathname } = router
+  const [logIn, setLogIn] = useState<boolean>(false);
+
   const debounceSearch = useDebounce(searchValue, 300) //Pass search value here and then this variable to the dependency below
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
-  const { setCoupon, coupon } = useCart()
 
-  const { data: cart } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon }));
+
+  const { data: cart } = useQuery<ICartItem>(['getCart', logIn], () => getCartData({ coupon }));
 
   const { data: config, isInitialLoading } = useQuery({
     queryKey: ["getConfig"],
     queryFn: getConfig,
   });
 
-  const { data: home } = useQuery<IHome>({
-    queryKey: ["getHomeData"],
-    queryFn: getHomeData,
-  });
+  // const { data: home } = useQuery<IHome>({
+  //   queryKey: ["getHomeData"],
+  //   queryFn: getHomeData,
+  // });
 
   const { data: categories, isInitialLoading: loading } = useQuery({
     queryKey: ["getCategories"],
     queryFn: getProductCategory,
+
   });
 
   const { data: profile, isInitialLoading: loadingProfile } = useQuery({
@@ -104,19 +115,22 @@ const Header = () => {
   // })
 
 
-  const mutation = useMutation({
+  const LogoutMutation = useMutation({
     mutationFn: logout,
-    onSuccess: () => {
+    onSuccess: async () => {
       deleteCookie("token");
-      deleteCookie("isLoggedIn")
+      deleteCookie("isLoggedIn");
+      deleteCookie("cart_number");
+      await setAuthorizationHeader();
+      queryClient.invalidateQueries(['getCart', coupon || '']);
       showToast(TOAST_TYPES.success, "Logged out successfully");
+      router.push('/')
+      setShowModal(false);
     },
   });
 
   const logoutHandler = () => {
-    mutation.mutate();
-    setShowModal(false);
-    router.push('/')
+    LogoutMutation.mutate();
   };
 
   //suggestion
@@ -183,11 +197,21 @@ const Header = () => {
     }
   }, [pathname])
 
+
   useEffect(() => {
     if (window && localStorage && localStorage.getItem("coupon") || coupon) {
       setCoupon(localStorage.getItem('coupon') as string || coupon)
     }
   }, [window, localStorage, coupon])
+
+  useEffect(() => {
+    if (loggedIn !== undefined) {
+      setLogIn(true)
+    } else {
+      setLogIn(false)
+    }
+  }, [loggedIn])
+
 
   return (
     <>
@@ -267,21 +291,21 @@ const Header = () => {
                         showModal={showModal}
                         btnFunction={logoutHandler}
                         cancelFuntion={() => setShowModal(false)}
-                        isLoading={mutation.isLoading}
+                        isLoading={LogoutMutation.isLoading}
                       />
                     )}
                   </div>
                 ) : (
                   <div className="flex">
                     <Link
-                      href={"/auth/login"}
+                      href={"/login"}
                       className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]"
                     >
                       Login
                     </Link>
                     <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0"></div>
                     <Link
-                      href={"/auth/register"}
+                      href={"/register"}
                       className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]"
                     >
                       Sign Up
@@ -299,7 +323,7 @@ const Header = () => {
         <div className="container flex items-center justify-between w-full gap-3 max-h-12 sm:max-h-24">
           {/* Logo */}
           <div className="relative sm:h-20">
-            <Link href={"/"}>
+            <Link href={"/"} aria-label="home_blank">
               <Image src={Logo} height={80} width={144} quality={100} alt="Logo"
                 style={{ width: "auto", height: "auto" }}
                 priority />
@@ -382,7 +406,7 @@ const Header = () => {
             </div>
 
             {/* Why Plant Button */}
-            <Link href="/why-plants">
+            <Link href="/why-plants" aria-label="why-plantss-2">
               <button className="btn btn-primary btn-outline !min-h-12 font-bold text-base gap-0">
                 <FlowerIcon /> <p className="hidden lg:block">Why Plant</p>
               </button>
@@ -393,7 +417,7 @@ const Header = () => {
             {/* Heart Button */}
             {
               token &&
-              <Link href="/wishlist" className="relative hidden py-3 btn btn-circle md:flex">
+              <Link href="/wishlist" aria-label="header-wishlist" className="relative hidden py-3 btn btn-circle md:flex">
                 <HeartIcon className="text-black" />
                 <Badge
                   className="badge-accent "
@@ -450,7 +474,7 @@ const Header = () => {
                     </li>
                   ))}
                 <li>
-                  <Link href="/categories" className="dropdown-item">
+                  <Link href="/categories" aria-label="header-categories" className="dropdown-item">
                     + More categories
                   </Link>
                 </li>
@@ -496,7 +520,7 @@ const Header = () => {
                   </li>
                 </ul>
               </div>
-              <Link href="/our-outlets" className="!bg-white border-0 text-gray-550 font-bold text-sm">  OUTLET</Link>
+              <Link href="/our-outlets" aria-label="our-outlets" className="!bg-white border-0 text-gray-550 font-bold text-sm">  OUTLET</Link>
               {/* <Button
                   type="ghost"
                   className="!bg-white border-0 text-gray-550 font-bold"
@@ -560,7 +584,7 @@ const Header = () => {
                   </li>
                 </ul>
               </div>
-              <Link href="/blogs">
+              <Link href="/blogs" aria-label="header-blogs">
                 <Button
                   type="ghost"
                   className="!bg-white border-0 text-gray-550 font-bold uppercase"
@@ -570,7 +594,7 @@ const Header = () => {
               </Link>
             </div>
           </div>
-          <Link href="/offer">
+          <Link href="/offer" aria-label="header-offer">
             <button className="btn btn-ghost !bg-white !border-0 text-gray-550 gap-1 font-bold hidden md:flex">
               <OfferIcon className="text-accent" />
               OFFER

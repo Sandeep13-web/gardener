@@ -25,6 +25,7 @@ const CartDropdown = () => {
     }
   }, [window, localStorage, coupon])
 
+  console.log("cart", cart?.cartProducts)
   return (
     <div className="relative z-40 py-3 cursor-pointer dropdown dropdown-hover bg-gray-350 btn-circle shrink-0">
       <CartIcon className="mx-auto" />
@@ -36,14 +37,14 @@ const CartDropdown = () => {
         {/* item list*/}
         <div className={`max-h-42 overflow-auto px-[30px] ${cart?.cartProducts?.length === 0 ? '' : 'pb-[30px]'}`}>
           {!cart || cart?.cartProducts?.length === 0 ? (
-            <p className="text-sm font-medium text-center text-slate-850">No Products in the cart.</p>
+            <p className="text-sm font-bold text-center text-slate-850">No Products in the cart.</p>
           ) : (
             <>
               <div className="overflow-y-scroll max-h-[350px] pr-[20px]">
                 {cart?.cartProducts?.map((item: any) => (
                   <div key={item.product?.id} className="relative flex gap-4 py-[30px] border-b-2 border-solid border-gray-350">
                     <div className="min-w-[85px] min-h-[100px] aspect-auto border-solid border-2 border-gray-350 relative">
-                      <Link href={`/products/${item.product?.slug}`} className="absolute w-full h-full" />
+                      <Link href={`/products/${item.product?.slug}`} className="absolute w-full h-full" aria-label={`product-item-slug`} />
                       <Image
                         width={85}
                         height={100}
@@ -63,11 +64,12 @@ const CartDropdown = () => {
                     <div className="flex-grow">
                       <Link
                         href={`/products/${item.product?.slug}`}
+                        aria-label={`product-${item?.product?.id}`}
                         className="overflow-hidden text-sm font-semibold transition-all delay-150 duration-150 block text-ellipsis whitespace-nowrap max-w-[90%] hover:text-primary ">
                         {item.product?.title}
                       </Link>
                       <p className="mt-1 text-sm gray-550">
-                        <span>NPR</span> {item.product?.unitPrice[0].sellingPrice * item.quantity}
+                        <span>NPR</span> {item?.product?.unitPrice[0].hasOffer ? item.product?.unitPrice[0]?.newPrice * item?.quantity : item.product?.unitPrice[0]?.sellingPrice * item?.quantity}
                       </p>
                     </div>
                     <button
@@ -108,10 +110,13 @@ const CartDropdown = () => {
                 <Link
                   href={'/cart'}
                   className="py-4 font-normal btn btn-block rounded-3xl hover:bg-primary hover:text-white"
-                  onClick={() => router.push('/cart')}>
+                  onClick={() => router.push('/cart')}
+                  aria-label='cart'
+                >
+
                   CART
                 </Link>
-                <Link href={'/checkout'} className="py-4 font-normal btn btn-block rounded-3xl hover:bg-primary hover:text-white ">
+                <Link href={'/checkout'} className="py-4 font-normal btn btn-block rounded-3xl hover:bg-primary hover:text-white " aria-label={`checkout`}>
                   CHECKOUT
                 </Link>
               </div>

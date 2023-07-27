@@ -41,7 +41,7 @@ const AccountSidebar = () => {
       deleteCookie("token");
       deleteCookie("isLoggedIn");
       showToast(TOAST_TYPES.success, data?.data?.success?.message);
-      router.push('/auth/login');
+      router.push('/login');
     },
   });
 
@@ -59,7 +59,7 @@ const AccountSidebar = () => {
     <div className="py-6">
       <div className="pb-4 border-b border-gray-350">
         <div className="relative rounded-full overflow-hidden w-[100px] mx-auto">
-          <Link href={``} className={linkClass}></Link>
+          <Link href={``} className={linkClass} aria-label="account-top"></Link>
           <Image
             width={200}
             height={200}
@@ -72,7 +72,7 @@ const AccountSidebar = () => {
       <ul className="[&>:active]:text-primary flex md:block justify-around border-b border-gray-350 border-solid ">
         {linkUrls.map((link, index) => (
           <li key={index} className={`${listItemClass} ${pathname === link.href && 'text-primary'}`}>
-            <Link href={link.href} className={linkClass}></Link>
+            <Link href={link.href} className={linkClass} aria-label="link-title"></Link>
             {link.icon}
             <span className={`${iconClass} hidden md:block`}>{link.text}</span>
           </li>

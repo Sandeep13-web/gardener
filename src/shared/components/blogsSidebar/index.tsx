@@ -63,7 +63,7 @@ const BlogSidebar = () => {
           {
             featuredBlog && featuredBlog?.data.slice(0, 4).map((blog: IBlogItem, index: number) => (
               <div className="relative flex items-center mb-5" key={`featured-blogs-${index}`}>
-                <Link href={`/blogs/${blog?.slug}`} className="absolute w-full h-full " />
+                <Link href={`/blogs/${blog?.slug}`} className="absolute w-full h-full " aria-label={`blogs-${index}`} />
                 <div className="aspect-square w-[90px] shrink-0">
                   <Image
                     width={200}
@@ -73,7 +73,7 @@ const BlogSidebar = () => {
                   />
                 </div>
                 <div className="p-2 overflow-hidden">
-                  <Link href={`/blogs//${blog?.slug}`} className="mb-1 text-sm font-bold truncate transition-all delay-100 duration-150 relative z-[1] hover:text-primary">
+                  <Link href={`/blogs//${blog?.slug}`} className="mb-1 text-sm font-bold truncate transition-all delay-100 duration-150 relative z-[1] hover:text-primary" aria-label={`blog-slug-${blog?.slug}`}>
                     {" "}
                     {blog?.title}
                   </Link>

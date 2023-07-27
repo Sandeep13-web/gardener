@@ -1,10 +1,9 @@
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import MainLayout from '@/shared/main-layout';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getProductsFromSlug, getRelatedProductsFromId } from '@/services/product.service';
-import EmptyPage from '@/components/emptyPage';
 import Card from '@/shared/components/card';
 import Title from '@/shared/components/title';
 import Breadcrumb from '@/shared/components/breadcrumb';
@@ -22,6 +21,12 @@ import { getToken } from '@/shared/utils/cookies-utils/cookies.utils';
 import { useWishlists } from '@/hooks/wishlist.hooks';
 import SkeletonDescription from '@/shared/components/skeleton/description';
 
+import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
+import { Grid } from 'swiper';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import SkeletonLoadingCard from '@/shared/components/skeleton/products';
+import { ITag } from '@/interface/tag.interface';
+
 
 const ProductSlug = () => {
   const router = useRouter()
@@ -35,6 +40,8 @@ const ProductSlug = () => {
   const [itemCartDetail, setItemCartDetail] = useState<ICartProduct>()
   const [value, setValue] = useState<number>(1);
   const { updateCartMutation, updateCartLoading } = useCarts()
+  //For swiper
+  const [swiperRef, setSwiperRef] = useState<SwiperClass>();
 
   const { data: cartData } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon: '' }));
 
@@ -50,7 +57,7 @@ const ProductSlug = () => {
   );
   const stock: any = productData?.response?.data?.unitPrice[0]?.stock
 
-  const { data: relatedProducts } = useQuery(
+  const { data: relatedProducts, isLoading: relatedProductsLoading } = useQuery(
     ['getRelatedProductsFromId', productData?.productId],
     async () => {
       if (productData?.productId) {
@@ -136,6 +143,21 @@ const ProductSlug = () => {
   }
   const favId = genFavId() //setting generated fav id.
 
+
+  //handling prev and next of swiper category
+  const handlePrevious = useCallback(() => {
+    if (swiperRef) {
+      swiperRef?.slidePrev();
+    }
+  }, [swiperRef]);
+
+  const handleNext = useCallback(() => {
+    if (swiperRef) {
+      swiperRef?.slideNext();
+    }
+  }, [swiperRef]);
+
+
   useEffect(() => {
     if (cartData) {
       cartData?.cartProducts?.map((item: any) => {
@@ -214,9 +236,18 @@ const ProductSlug = () => {
                     </h2>
                     <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
                       Category:
-                      <Link href={`/category/${productData?.response?.data?.categorySlug}`} className="mb-0 text-primary">
+                      <Link href={`/category/${productData?.response?.data?.categorySlug}`} aria-label="category-title" className="mb-0 text-primary">
                         <span className="font-normal">{productData?.response?.data?.categoryTitle}</span>
                       </Link>
+                    </p>
+                    {console.log("productData?.response?.data", productData?.response?.data)}
+                    <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
+                      Tags:
+                      {productData?.response?.data?.tags.map((prev: ITag, index: number) => (
+                        <Link href={`/tag?id=${prev?.slug}`} aria-label="tag-title" className="mb-0 text-primary" key={`tag-${index}`}>
+                          <span className="font-normal">{prev?.title}</span>
+                        </Link>
+                      ))}
                     </p>
                     <ul className="flex my-5">
 
@@ -342,41 +373,86 @@ const ProductSlug = () => {
         </div >
       </section >
 
-      <div className="mb-[60px]">
-        <div className="container">
-          <a data-toggle="tab" className="active relative flex justify-center uppercase pb-3 text-lg font-bold text-center after:h-[2px] after:absolute after:left-0 after:right-0 after:bottom-[-1px] after:bg-transparent after:transition-all after:duration-300 after:ease-linear after:bg-primary text-slate-850 after:w-[250px] after:text-center after:m-auto">
-            Product Description
-          </a>
-          <div className="px-8 py-10 overflow-hidden text-base leading-6 text-left bg-white border border-gray-200 tab-content">
-            <div id="productDetail" className="tab-pane active">
-              <div className="product-anotherinfo-wrapper">
-                <div className="text-justify description__text">
-                  <p dangerouslySetInnerHTML={{ __html: moreInfoContent, }} />
+      {
+        moreInfoContent !== '' &&
+        <div className="mb-[60px]">
+          <div className="container">
+            <a data-toggle="tab" className="active relative flex justify-center uppercase pb-3 text-lg font-bold text-center after:h-[2px] after:absolute after:left-0 after:right-0 after:bottom-[-1px] after:bg-transparent after:transition-all after:duration-300 after:ease-linear after:bg-primary text-slate-850 after:w-[250px] after:text-center after:m-auto">
+              Product Description
+            </a>
+            <div className="px-8 py-10 overflow-hidden text-base leading-6 text-left bg-white border border-gray-200 tab-content">
+              <div id="productDetail" className="tab-pane active">
+                <div className="product-anotherinfo-wrapper">
+                  <div className="text-justify description__text">
+                    <p dangerouslySetInnerHTML={{ __html: moreInfoContent, }} />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      }
       {/* Related Products */}
-      <section className="my-[60px]">
-        <div className="container">
-          <Title type="title-section" text="You Might Also Like" />
-          {relatedProducts?.data.length === 0 ? (
-            <EmptyPage />
-          ) : (
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-              {relatedProducts?.data.map((product: any, index: any) => (
-                <Card
-                  product={product}
-                  key={`app-cat-products-${index}`}
-
-                />
-              ))}
+      {
+        relatedProducts?.data.length !== 0 &&
+        <section className="my-[60px]">
+          <div className="container">
+            <div className='flex items-center justify-between'>
+              <Title type="title-section" text="You Might Also Like" />
+              {
+                relatedProducts?.data.length > 5 && (
+                  <div className='!static productSwiper-navigation mb-[45px]'>
+                    <button
+                      // disabled={swiperRef?.isBeginning}
+                      onClick={handlePrevious}>
+                      <FaChevronLeft />
+                    </button>
+                    <button
+                      // disabled={swiperRef?.isEnd}
+                      onClick={handleNext}>
+                      <FaChevronRight />
+                    </button>
+                  </div>
+                )
+              }
             </div>
-          )}
-        </div>
-      </section>
+            {
+              relatedProductsLoading ? (
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
+                  {[1, 2, 3, 4, 5].map((index) => (
+                    <SkeletonLoadingCard
+                      key={`app-skeleton-${index}`}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <Swiper
+                  slidesPerView={5}
+                  grid={{
+                    rows: 1,
+                    fill: "row",
+                  }}
+                  pagination={false}
+                  spaceBetween={20}
+                  modules={[Grid]}
+                  className="productSwiper"
+                  onSwiper={setSwiperRef}
+                >
+                  {relatedProducts?.data.map((product: any, index: any) => (
+                    <SwiperSlide key={`related-producys-${index}`}>
+                      <Card
+                        product={product}
+                        key={`app-cat-products-${index}`}
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              )
+            }
+
+          </div>
+        </section >
+      }
     </>
   );
 }

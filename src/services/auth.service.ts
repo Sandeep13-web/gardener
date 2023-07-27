@@ -1,13 +1,20 @@
-import axiosInstance from "@/axios/axiosInstance";
+import axiosInstance, {
+  setAuthorizationHeader,
+  setCouponHeader,
+} from "@/axios/axiosInstance";
 import { config } from "../../config";
-import { IChangePassword, IForgotPassword, IResetPassword } from "@/interface/password.interface";
+import {
+  IChangePassword,
+  IForgotPassword,
+  IResetPassword,
+} from "@/interface/password.interface";
 import axios from "axios";
 import { getCartNumber } from "@/shared/utils/cookies-utils/cookies.utils";
 const baseURL = config.gateway.baseURL;
 
 export const signUp = async (data: any) => {
   try {
-    const response = await axiosInstance.post(`/auth/signup`, data);
+    const response = await axiosInstance.post(`/signup`, data);
 
     if (response.status === 201) {
       return response.data;
@@ -41,55 +48,64 @@ export const login = async (data: any) => {
   }
 };
 
-export const logout = async() => {
-  try{
-    const response = await axiosInstance.get('/auth/logout')
-    if(response.status === 204){
-      return response
+export const logout = async () => {
+  try {
+    const response = await axiosInstance.get("/auth/logout");
+    if (response.status === 204) {
+      setCouponHeader({
+        coupon: "",
+      });
+      return response;
     }
-  } catch(error){
-    throw error
+  } catch (error) {
+    throw error;
   }
-}
+};
 
 export const forgotPassword = async (email: IForgotPassword) => {
   try {
-    const response = await axiosInstance.post('/auth/forgot-password', email);
+    const response = await axiosInstance.post("/auth/forgot-password", email);
     return response;
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const resetPassword = async (resetPasswordBody: IResetPassword) => {
   try {
-    const response = await axiosInstance.post('/auth/reset-password', resetPasswordBody);
+    const response = await axiosInstance.post(
+      "/auth/reset-password",
+      resetPasswordBody
+    );
     return response;
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const changePassword = async (changePasswordBody: IChangePassword) => {
   try {
-    const response = await axiosInstance.post('/profile/change-password', changePasswordBody);
+    const response = await axiosInstance.post(
+      "/profile/change-password",
+      changePasswordBody
+    );
     return response;
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const deleteAccount = async () => {
   try {
-    const response = await axiosInstance.post('/request-account-delete');
+    const response = await axiosInstance.post("/request-account-delete");
     return response.data;
   } catch (error) {
     throw error;
   }
-}
+};
 
-export const registerGuestUser = async (data:any, isInitialSubmit:any) => {
-  const registerGuestUserUrl = `${baseURL}/guest/auth/signup`;
+export const registerGuestUser = async (data: any, isInitialSubmit: any) => {
+  const registerGuestUserUrl = `${baseURL}/guest/signup`;
   let payload;
   if (isInitialSubmit) {
     payload = {
@@ -121,7 +137,7 @@ export const registerGuestUser = async (data:any, isInitialSubmit:any) => {
   try {
     const response = await axios.post(`${registerGuestUserUrl}`, payload, {
       headers: {
-        'Cart-Number': getCartNumber(),
+        "Cart-Number": getCartNumber(),
       },
     });
     return response;

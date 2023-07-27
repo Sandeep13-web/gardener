@@ -51,14 +51,14 @@ const CartTableRow = ({ item }: any) => {
         <tr className="border-b-gray-350">
             <td className="w-[150px] text-gray-650 text-center py-[30px] font-medium">
                 <Image
-                    src={"/images/card-img.jpeg"}
+                    src={item?.product?.images[0]?.imageName}
                     height={80}
                     width={80}
                     alt={item?.product?.title}
                 />
             </td>
             <td className="w-[435px] text-gray-650 text-center py-[30px] font-medium">
-                <Link href={`/products/${item?.product?.slug}`} className="text-[15px]">
+                <Link href={`/products/${item?.product?.slug}`} className="text-[15px]" aria-label="indoor-plants" >
                     {item?.product?.title}{" "}
                     <span className="capitalize">(Indoor)</span>
                 </Link>

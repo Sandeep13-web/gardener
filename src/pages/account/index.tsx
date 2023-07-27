@@ -18,7 +18,7 @@ const AccountInfornation = () => {
       <div className="grid grid-cols-12 gap-4 md:gap-6 ">
         {/*  */}
         <div className="group col-span-12 sm:col-span-6 lg:col-span-4 py-16 px-8 relative border-solid border-grey-350 border hover:border-primary-focus">
-          <Link href={``} className="w-full h-full absolute left-0 top-0" />
+          <Link href={``} className="w-full h-full absolute left-0 top-0" aria-label="information" />
           <div className="flex flex-col w-full text-primary justify-center items-center group-hover:text-primary-focus">
             <FaUser className="text-4xl mb-4 group-hover:text-primary-focus" />
             <p className="font-semibold">Information</p>
@@ -26,7 +26,7 @@ const AccountInfornation = () => {
         </div>
         {/*  */}
         <div className="group col-span-12 sm:col-span-6 lg:col-span-4 py-16 px-8 relative border-solid border-grey-350 border hover:border-primary-focus">
-          <Link href={``} className="w-full h-full absolute left-0 top-0" />
+          <Link href={``} className="w-full h-full absolute left-0 top-0" aria-label="address" />
           <div className="flex flex-col w-full text-primary justify-center items-center group-hover:text-primary-focus">
             <FaMapMarkerAlt className="text-4xl mb-4 group-hover:text-primary-focus" />
             <p className="font-semibold">Address</p>
@@ -34,7 +34,7 @@ const AccountInfornation = () => {
         </div>
         {/*  */}
         <div className="group col-span-12 sm:col-span-6 lg:col-span-4 py-16 px-8 relative border-solid border-grey-350 border hover:border-primary-focus">
-          <Link href={``} className="w-full h-full absolute left-0 top-0" />
+          <Link href={``} className="w-full h-full absolute left-0 top-0" aria-label="oder-history" />
           <div className="flex flex-col w-full text-primary justify-center items-center group-hover:text-primary-focus">
             <FaRegCalendarAlt className="text-4xl mb-4 group-hover:text-primary-focus" />
             <p className="font-semibold">Order History</p>
@@ -42,7 +42,7 @@ const AccountInfornation = () => {
         </div>
         {/*  */}
         <div className="group col-span-12 sm:col-span-6 lg:col-span-4 py-16 px-8 relative border-solid border-grey-350 border hover:border-primary-focus">
-          <Link href={``} className="w-full h-full absolute left-0 top-0" />
+          <Link href={``} className="w-full h-full absolute left-0 top-0" aria-label="change-password" />
           <div className="flex flex-col w-full text-primary justify-center items-center group-hover:text-primary-focus">
             <FaKey className="text-4xl mb-4 group-hover:text-primary-focus" />
             <p className="font-semibold">Change Password</p>
@@ -50,7 +50,7 @@ const AccountInfornation = () => {
         </div>
         {/*  */}
         <div className="group col-span-12 sm:col-span-6 lg:col-span-4 py-16 px-8 relative border-solid border-grey-350 border hover:border-primary-focus">
-          <Link href={``} className="w-full h-full absolute left-0 top-0" />
+          <Link href={``} className="w-full h-full absolute left-0 top-0" aria-label="logout" />
           <div className="flex flex-col w-full text-primary justify-center items-center group-hover:text-primary-focus">
             <FaSignOutAlt className="text-4xl mb-4 group-hover:text-primary-focus" />
             <p className="font-semibold">Logout</p>
@@ -58,7 +58,7 @@ const AccountInfornation = () => {
         </div>
         {/*  */}
         <div className="group col-span-12 sm:col-span-6 lg:col-span-4 py-16 px-8 relative border-solid border-grey-350 border hover:border-primary-focus">
-          <Link href={``} className="w-full h-full absolute left-0 top-0" />
+          <Link href={``} className="w-full h-full absolute left-0 top-0" aria-label="delete-account" />
           <div className="flex flex-col w-full text-primary justify-center items-center group-hover:text-primary-focus">
             <FaTrashAlt className="text-4xl mb-4 group-hover:text-primary-focus" />
             <p className="font-semibold">Delete Account</p>
@@ -71,6 +71,6 @@ const AccountInfornation = () => {
 
 export default AccountInfornation;
 
-AccountInfornation.getLayout = (page:any) => {
+AccountInfornation.getLayout = (page: any) => {
   return <MainLayout>{page}</MainLayout>;
 };
