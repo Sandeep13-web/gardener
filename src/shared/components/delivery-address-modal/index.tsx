@@ -3,7 +3,8 @@ import { addDeliverAddress, getDeliverAddress, updateDeliveryAddressByAddressId 
 import { showToast, TOAST_TYPES } from '@/shared/utils/toast-utils/toast.utils';
 import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
-import React from 'react'
+import React, { useState } from 'react'
+import ButtonLoader from '../btn-loading';
 
 const LeafletMap = dynamic(() => import('@/shared/components/leaflet'), {
   ssr: false,
@@ -24,7 +25,10 @@ const DeliveryAddressModal: React.FC<IProps> = ({
   setShowModal,
   setIsEditing,
   isEditing }) => {
-  const handleMarkerClick = ({ latitude, longitude }: any) => {
+
+  const [addressSaved, setAddressSaved] = useState(false);
+
+  const handleMarkerClick = (latitude: any, longitude: any) => {
     setFormData((prevData: any) => ({
       ...prevData,
       latitude,
@@ -38,15 +42,16 @@ const DeliveryAddressModal: React.FC<IProps> = ({
     queryKey: ["getDeliverAddress"],
     queryFn: getDeliverAddress,
   });
-  
+
   const fetchDeliveryAddress = async () => {
     await getDeliveryAddress();
   };
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+    setAddressSaved(true);
     if (formData.latitude === 0 || formData.longitude === 0) {
       showToast(TOAST_TYPES.error, 'Please select a location');
+      setAddressSaved(false);
       return;
     }
     if (!phoneNumberRegex.test(formData.contact_no)) {
@@ -55,8 +60,10 @@ const DeliveryAddressModal: React.FC<IProps> = ({
     if (isEditing) {
       // Call the update API for editing an existing address
       try {
+
         await updateDeliveryAddressByAddressId(formData);
         getDeliveryAddress();
+        setAddressSaved(false);
         setShowModal(false); // Close the modal after successful update
       } catch (error) {
         // Handle error during update
@@ -76,6 +83,7 @@ const DeliveryAddressModal: React.FC<IProps> = ({
       }
     }
   };
+
 
   return (
     <>
@@ -100,7 +108,6 @@ const DeliveryAddressModal: React.FC<IProps> = ({
 
           <form action="" className="py-4" onSubmit={handleSubmit}>
             <div className="h-[280px] mb-3">
-
               <LeafletMap
                 lat={formData.latitude || 27.7172}
                 long={formData.longitude || 85.3240}
@@ -194,8 +201,12 @@ const DeliveryAddressModal: React.FC<IProps> = ({
                   Update
                 </button>
               ) : (
-                <button type="submit" className="btn rounded-[30px] px-[30px] py-[11px]">
+                <button type="submit" className="btn rounded-[30px] px-[30px] py-[11px]" disabled={addressSaved}>
                   Save
+                  {
+                    addressSaved &&
+                    <ButtonLoader />
+                  }
                 </button>
               )}
             </div>

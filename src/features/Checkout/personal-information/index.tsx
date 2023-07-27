@@ -1,23 +1,28 @@
 import { IRegister } from '@/interface/register.interface';
 import { registerGuestUser } from '@/services/auth.service';
+import ButtonLoader from '@/shared/components/btn-loading';
 import { generatePassword } from '@/shared/utils/cookies-utils/cookies.utils';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 interface PersonalInformationProps {
     addressCollapseDisabled: boolean;
+    personalInfoSubmitted: boolean;
     setAddressCollapseDisabled: (disabled: boolean) => void;
+    setPersonalInfoSubmitted: (disabled: boolean) => void;
+    guestUserData: IRegister | null;
+  setGuestUserData: (data: IRegister | null) => void;
   };
 
 const PersonalInformation:React.FC<PersonalInformationProps> = ({
     addressCollapseDisabled,
     setAddressCollapseDisabled,
+    guestUserData,
+    setGuestUserData,
   }) => {
-    const [guestUserData, setGuestUserData] = useState<IRegister | null>(null);
     //Password generated for guest user
     const [generatedPassword, setGeneratedPassword] = useState<string>(''); // Initialize password state as empty string
     const [personalInfoSubmitted, setPersonalInfoSubmitted] = useState(false);
-    const [addressFormValidated, setAddressFormValidated] = useState(false);
     //Guest Register User
     const { register, handleSubmit: handleSubmitRegisterGuestUser, setValue, formState: { errors }, trigger } = useForm<IRegister>();
 
@@ -25,14 +30,17 @@ const PersonalInformation:React.FC<PersonalInformationProps> = ({
         const generatedPwd = generatePasswordValue();
         data.password = generatedPwd;
         data.confirm_password = generatedPwd;
-
         // Set the guest user data in the state
         setGuestUserData(data);
         setPersonalInfoSubmitted(true);
         setAddressCollapseDisabled(false); // Enable the address collapse section after successful submission.
         try {
             await registerGuestUser(data, true);
+            setPersonalInfoSubmitted(false);
+            // setGuestUserData(data);
         } catch (error) {
+            setPersonalInfoSubmitted(false);
+            setAddressCollapseDisabled(true);
             console.error('Registration failed:', error);
         }
     };
@@ -45,7 +53,6 @@ const PersonalInformation:React.FC<PersonalInformationProps> = ({
       setValue('confirm_password', password);
       return password;
     }
-    // If the password is already generated, return the stored value
     return generatedPassword;
   };
 
@@ -130,15 +137,19 @@ const PersonalInformation:React.FC<PersonalInformationProps> = ({
                         <p className='text-error text-xs leading-[24px] mt-1'>{errors.email.message}</p>
                     }
                     </div>
-
                     <div className="col-span-12 text-right">
-                    <button
-                        type="submit"
-                        className="bg-primary text-base-100 font-bold py-[10px] px-[22px] uppercase rounded-full hover:bg-slate-850"
-                    >
-                        Next
-                    </button>
-                    </div>
+                        <button
+                          type="submit"
+                          className="bg-primary text-base-100 font-bold py-[10px] px-[22px] uppercase rounded-full hover:bg-slate-850"
+                        >
+                          Next
+                        {
+                            personalInfoSubmitted &&
+                            <ButtonLoader />
+                          }
+                        </button>
+                      </div>
+                    
                 </div>
 
             </form>

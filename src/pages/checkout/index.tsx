@@ -4,12 +4,9 @@ import NewAddressIcon from "@/shared/icons/common/NewAddressIcon";
 import MainLayout from "@/shared/main-layout";
 import { generatePassword, getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { TiTick } from "react-icons/ti";
-
-import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
-import { ICartItem } from "@/interface/cart.interface";
 import { getConfig } from "@/services/home.service";
 import { IPaymentMethod, PaymentFormProps } from "@/interface/home.interface";
 import { checkout } from "@/services/checkout.service";
@@ -31,59 +28,51 @@ import CheckoutPayment from "@/features/Checkout/checkout-payment";
 import GuestUserAddress from "@/features/Checkout/checkout-address/guest-user-address";
 import DeliveryAddressModal from "@/shared/components/delivery-address-modal";
 import Address from "@/features/Address";
+import ButtonLoader from "@/shared/components/btn-loading";
+import { NextPageWithLayout } from "../_app";
 
 const token = getToken();
 const LeafletMap = dynamic(() => import('@/shared/components/leaflet'), {
   ssr: false,
 });
 
-const Checkout = ({ paymentMethods }: PaymentFormProps) => {
+interface CheckoutProps {
+  guestUserData: IRegister | null;
+}
+
+const Checkout: NextPageWithLayout = () => {
   const router = useRouter();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [showLoginConfirmModal, setShowLoginConfirmModal] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [note, setNote] = useState("");
+  const [checkoutGuestUserData, setCheckoutGuestUserData] = useState<IRegister | null>(null);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [note, setNote] = useState<string>("");
   const token = getToken()
-
-  // State to hold the data object for guest user registration
-  const [guestUserData, setGuestUserData] = useState<IRegister | null>(null);
-
-
-
   //Get Config Data
   const { data: config, isInitialLoading } = useQuery({
     queryKey: ["getConfig"],
     queryFn: getConfig,
   });
 
-  //Guest Register User
-  const { register, handleSubmit: handleSubmitRegisterGuestUser, setValue, formState: { errors }, trigger } = useForm<IRegister>();
-
-  //Password generated for guest user
-  const [generatedPassword, setGeneratedPassword] = useState<string>(''); // Initialize password state as empty string
+  const setGuestUserData = (data: IRegister | null) => {
+    setCheckoutGuestUserData(data);
+  };
 
   const [personalInfoSubmitted, setPersonalInfoSubmitted] = useState(false);
   const [addressCollapseDisabled, setAddressCollapseDisabled] = useState(true);
   const [addressFormValidated, setAddressFormValidated] = useState(false);
-
-
-
-
-
-
-
+  const [paymentCollapseOpen, setPaymentCollapseOpen] = useState(false);
 
   const handleAddressSubmitGuest = (e: any) => {
-    debugger;
-    console.log('guestaddress')
     e.preventDefault();
     if (guestformData.latitude === 0 || guestformData.longitude === 0) {
       showToast(TOAST_TYPES.error, 'Please select a location');
       return;
     }
+    setAddressFormValidated(true);
     if (guestformData.latitude && guestformData.longitude && guestformData.title) {
-      setAddressFormValidated(true);
+      setAddressFormValidated(false);
     } else {
 
       setAddressFormValidated(false);
@@ -91,19 +80,12 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
 
   };
 
-  // Selected payment method
+  const handleNextButtonClick = () => {
+    setPaymentCollapseOpen(true);
+  };
 
   const [selectedPayment, setSelectedPayment] = useState<IPaymentMethod | null>(null);
   const [selectedDeliveryAddress, setSelectedDeliveryAddress] = useState(null);
-
-
-
-  // Selected Delivery Address by id
-  const handleSelectDeliveryAddress = (defaultAddressvalue: any) => {
-    setSelectedDeliveryAddress(defaultAddressvalue);
-  };
-
-  const [position, setPosition] = useState<[number, number]>([28.3949, 84.1240]); // Coordinates for Nepal
   const [formData, setFormData] = useState<IDeliveryAddress>({
     address: '',
     contact_no: '',
@@ -125,56 +107,11 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
     id: 0
   });
 
-  //Edit the delivery address list
-  const handleEdit = (addressId: any) => {
-    // For finfing  address object with the specified ID
-    const addressData = deliveryAddressData?.find((address: any) => address.id === addressId);
-    if (addressData) {
-      setFormData({
-        ...formData,
-        id: addressData?.id,
-        title: addressData?.title,
-        customer: addressData?.customer,
-        contact_no: addressData?.contactNo,
-        latitude: addressData?.latitude,
-        longitude: addressData?.longitude,
-        isDefault: addressData?.isDefault
-      });
-      // Set isEditing to true when editing
-      setIsEditing(true);
-      // Show the modal for editing
-      setShowModal(true);
-    } else {
-      // Handle the case when addressData is not found
-      console.error('Address not found.');
-    }
-  };
-
-  const handleAddNew = () => {
-    // Reset the form data when adding a new address
-    setFormData({
-      address: '',
-      contact_no: '',
-      customer: '',
-      isDefault: false,
-      latitude: 0,
-      longitude: 0,
-      title: '',
-    });
-    // Set isEditing to false when adding
-    setIsEditing(false);
-    // Show the modal for adding
-    setShowModal(true);
-  };
-
   //Open Login Modal
 
   const openLoginModal = () => {
-
-    // Show the modal for adding
     setShowLoginConfirmModal(true);
   };
-
 
   const openLoginFormModal = () => {
     setShowLoginModal(true);
@@ -186,95 +123,17 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
     setShowLoginModal((prev) => !prev);
   };
 
-
-  interface MarkersProps {
-    onMarkerClick: (lat: number, lng: number) => void;
-    position: number[]; // Add the position prop to the interface
-  }
-
-
-
-  const phoneNumberRegex = /^(97|98)\d{8}$/;
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    if (formData.latitude === 0 || formData.longitude === 0) {
-      showToast(TOAST_TYPES.error, 'Please select a location');
-      return;
-    }
-    if (!phoneNumberRegex.test(formData.contact_no)) {
-      return;
-    }
-    if (isEditing) {
-      // Call the update API for editing an existing address
-      try {
-        await updateDeliveryAddressByAddressId(formData);
-        getDeliveryAddress();
-        setShowModal(false); // Close the modal after successful update
-      } catch (error) {
-        console.error('Error occurred during update:', error);
-      }
-    } else {
-      // API Call  for saving a new address
-      try {
-        await addDeliverAddress(formData);
-        getDeliveryAddress();
-        setShowModal(false);
-      } catch (error) {
-        console.error('Error occurred during save:', error);
-      }
-    }
-  };
-
   const { data: deliveryAddressData, refetch: getDeliveryAddress } = useQuery({
     queryKey: ["getDeliverAddress"],
     queryFn: getDeliverAddress,
   });
 
-  const fetchDeliveryAddress = async () => {
-    await getDeliveryAddress();
-  };
 
-  // handle marker click and update the latitude and longitude values
-  const handleMarkerClick = (lat: number, lng: number) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      latitude: lat,
-      longitude: lng,
-    }));
-  };
-
-  const handleMarkerClickGuest = (lat: number, lng: number) => {
-    setGuestFormData((prevData) => ({
-      ...prevData,
-      latitude: lat,
-      longitude: lng,
-    }));
-  };
-
-  //Delete Address
-  const handleDeleteAddress = async (id: any) => {
-    try {
-      // Make the DELETE request
-      await deleteDeliverAddressById(id);
-      // Call the getDeliveryAddress function to update the data
-      getDeliveryAddress();
-    } catch (error) {
-      // Handle any errors
-      console.error('Error deleting address:', error);
-    }
-  };
-
-
-
-
-
+  // Checkout Place order
   const handlePlaceOrder = async () => {
     if (token) {
-      // Get the selected delivery address ID and payment method ID from the state
       const selectedDeliveryAddressId = selectedDeliveryAddress;
       const selectedPaymentMethodId = selectedPayment?.id;
-      // Call the checkout API
       checkout(selectedDeliveryAddressId, selectedPaymentMethodId, note)
         .then((res) => {
           switch (selectedPayment?.title) {
@@ -284,14 +143,13 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
           }
         })
         .catch((error) => {
-          // Handle error
           console.error(error);
         });
     } else {
-      if (guestUserData) {
+      if (checkoutGuestUserData) {
         const completeGuestUserData = {
           ...guestformData,
-          ...guestUserData,
+          ...checkoutGuestUserData,
         };
         try {
           const guestUserRegisterResponse = await registerGuestUser(completeGuestUserData, false);
@@ -413,11 +271,14 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
                       <PersonalInformation
                         addressCollapseDisabled={addressCollapseDisabled}
                         setAddressCollapseDisabled={setAddressCollapseDisabled}
+                        personalInfoSubmitted={personalInfoSubmitted}
+                        setPersonalInfoSubmitted={setPersonalInfoSubmitted}
+                        guestUserData={checkoutGuestUserData}
+                        setGuestUserData={setGuestUserData}
                       />
                     </div>
                   </div>
                 }
-
 
                 <div className={`collapse collapse-arrow p-4 border-solid border-[1px] border-orange-550 mb-[16px] ${(!token && addressCollapseDisabled) ? 'pointer-events-none' : ''}`}>
                   <input type="checkbox" name="address" />
@@ -460,16 +321,23 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
                             />
                           </>
                         )}
-                        <Address 
-          setShowModal={setShowModal}
-          showModal={showModal}/>
+                        <Address
+                          formData={formData}
+                          setFormData={setFormData}
+                          setShowModal={setShowModal}
+                          showModal={showModal} />
                         <div className="text-right">
                           <button
                             type="submit"
                             className="bg-primary text-base-100 font-bold py-[10px] px-[22px] uppercase rounded-full hover:bg-slate-850"
+                            onClick={handleNextButtonClick}
                           >
                             Next
-                      </button>
+                            {
+                              personalInfoSubmitted &&
+                              <ButtonLoader />
+                            }
+                          </button>
                         </div>
                       </div>
                     ) : (
@@ -486,21 +354,22 @@ const Checkout = ({ paymentMethods }: PaymentFormProps) => {
                           <button
                             type="submit"
                             className="bg-primary text-base-100 font-bold py-[10px] px-[22px] uppercase rounded-full hover:bg-slate-850"
+                            onClick={handleNextButtonClick}
                           >
                             Next
-                      </button>
+                            {
+                              addressFormValidated &&
+                              <ButtonLoader />
+                            }
+                          </button>
                         </div>
                       </div>
-
-
                     )}
                     {/* Address Section */}
-
-
                   </div>
                 </div>
 
-                <div className={`collapse collapse-arrow p-4 border-solid border-[1px] border-orange-550 mb-[16px] ${addressFormValidated || addressCollapseDisabled ? 'pointer-events-none' : ''}`}>
+                <div className={`collapse collapse-arrow p-4 border-solid border-[1px] border-orange-550 mb-[16px] ${paymentCollapseOpen ? '' : 'pointer-events-none'}`}>
                   <input type="checkbox" name="payment-method" />
                   <div className="flex items-center justify-between text-xl font-medium border-none collapse-title">
                     <div className="text-left col-10">
@@ -560,3 +429,5 @@ export default Checkout;
 Checkout.getLayout = (page: any) => {
   return <MainLayout>{page}</MainLayout>;
 };
+
+

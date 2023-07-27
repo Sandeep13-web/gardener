@@ -71,6 +71,7 @@ const LeafletMap:FC<IProps> = ({ lat, long, onChange}) => {
         const newLong = e.latlng.lng;
         map.flyTo([newLat, newLong], 13);
         // inform parent about the change
+      
         onChange(newLat, newLong);
       },
     });

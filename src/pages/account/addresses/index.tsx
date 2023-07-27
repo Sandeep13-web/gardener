@@ -1,14 +1,9 @@
 import AccountSidebarLayout from "@/shared/account-sidebar-layout";
-import NewAddressIcon from "@/shared/icons/common/NewAddressIcon";
 import MainLayout from "@/shared/main-layout";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
-
-import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
-import { useForm } from "react-hook-form";
 import { IDeliveryAddress } from "@/interface/delivery-address.interface";
 import { addDeliverAddress, deleteDeliverAddressById, getDeliverAddress, updateDeliveryAddressByAddressId } from "@/services/delivery-address.service";
 import dynamic from "next/dynamic";
@@ -20,8 +15,6 @@ const LeafletMap = dynamic(() => import('@/shared/components/leaflet'), {
 });
 
 const DelieveryAddress = () => {
-
-
   const [showModal, setShowModal] = useState<boolean>(false);
   const [position, setPosition] = useState<[number, number]>([28.3949, 84.1240]); // Coordinates for Nepal
   const [isEditing, setIsEditing] = useState(false);
@@ -34,12 +27,6 @@ const DelieveryAddress = () => {
     longitude: 85.3240,
     title: ''
   });
-
-
-
-
-
-
 
   interface MarkersProps {
     onMarkerClick: (lat: number, lng: number) => void;
@@ -65,8 +52,16 @@ const DelieveryAddress = () => {
         getDeliveryAddress();
         setShowModal(false); // Close the modal after successful update
       } catch (error) {
-        // Handle error during update
-        console.error('Error occurred during update:', error);
+        if (error.response && error.response.data && error.response.data.errors) {
+          const { errors } = error.response.data;
+          errors.forEach((err:any) => {
+            showToast(TOAST_TYPES.error, err.message);
+          });
+        } else {
+          // Handle other types of errors
+          console.log(error);
+         
+        }
       }
     } else {
       // Call the add API for saving a new address
@@ -121,6 +116,8 @@ const DelieveryAddress = () => {
           </>
         )}
         <Address 
+        formData={formData}
+        setFormData={setFormData}
           setShowModal={setShowModal}
           showModal={showModal}/>
       </div>

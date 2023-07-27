@@ -19,7 +19,7 @@ const LeafletMap = dynamic(() => import('@/shared/components/leaflet'), {
 
 
 const GuestUserAddress: React.FC<IProps> = ({guestformData, setGuestFormData}) => {
-    const handleMarkerClickGuest = ({latitude, longitude}:any) => {
+    const handleMarkerClickGuest = (latitude: any, longitude: any) => {
         setGuestFormData((prevData:any) => ({
           ...prevData,
           latitude,
