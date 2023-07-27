@@ -1,8 +1,7 @@
-import { Logo, banner } from "@/shared/lib/image-config";
 import Image from "next/image";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade, Navigation, Pagination } from "swiper";
+import { Autoplay, EffectFade, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -12,10 +11,16 @@ import { useQuery } from "@tanstack/react-query";
 import { IHome } from "@/interface/home.interface";
 import { useRouter } from "next/router";
 import BannerSkeletonLoader from "../skeleton/banner";
+import { getHomeData } from "@/services/home.service";
 
 const Banner = () => {
   const router = useRouter();
-  const { data, isInitialLoading } = useQuery<IHome>({ queryKey: ['getHomeData'] });
+  const { data, isInitialLoading } = useQuery<IHome>({
+    queryKey: ["getHomeData"],
+    queryFn: () => getHomeData(),
+    enabled: true
+  });
+
   const handleOpenNewTab = (value: any) => {
     // Open the URL in a new tab
     window.open(value, '_blank');

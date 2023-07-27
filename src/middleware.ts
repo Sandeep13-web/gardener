@@ -9,7 +9,10 @@ export async function middleware(req: NextRequest) {
   if (!verify && (url == "/wishlist" || url.startsWith("/account"))) {
     return redirectToLogin;
   }
-  if (verify && url.startsWith("/auth")) {
+  if (
+    verify &&
+    ["/login", "/register", "/forgot-password", "/reset-password"].includes(url)
+  ) {
     return NextResponse.redirect(new URL("/", req.url));
   }
   return NextResponse.next();

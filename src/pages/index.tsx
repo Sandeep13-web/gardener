@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NextPageWithLayout } from "./_app";
 import MainLayout from "@/shared/main-layout";
 import Title from "@/shared/components/title";
@@ -16,24 +16,23 @@ import { useQuery } from "@tanstack/react-query";
 import { IAppCategories, IHome } from "@/interface/home.interface";
 import SkeletonLoadingCard from "@/shared/components/skeleton/products";
 import Head from "next/head";
-import { getCookie } from "cookies-next";
-import { setCartNumberCookie } from "@/services/cart.service";
-import { CookieKeys } from "@/shared/enum";
-import { getHomeData } from "@/services/home.service";
+import { ICartItem } from "@/interface/cart.interface";
+import { getCartData } from "@/services/cart.service";
+import { useCart } from "@/store/use-cart";
 
 const Home: NextPageWithLayout = () => {
   const { data: home, isInitialLoading: homeLoading } = useQuery<IHome>({
     queryKey: ["getHomeData"],
-    queryFn: getHomeData,
   });
-
+  const { coupon } = useCart();
+  const { data: cart } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon }))
   const { data: categories, isInitialLoading: loadingCategories }: any = useQuery({ queryKey: ['getCategories'] });
 
-  useEffect(() => {
-    if (!getCookie(CookieKeys.CARTNUMBER)) {
-      setCartNumberCookie()
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (!getCookie(CookieKeys.CARTNUMBER)) {
+  //     setCartNumberCookie()
+  //   }
+  // }, [])
 
   return (
     <>

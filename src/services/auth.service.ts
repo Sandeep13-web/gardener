@@ -1,4 +1,7 @@
-import axiosInstance from "@/axios/axiosInstance";
+import axiosInstance, {
+  setAuthorizationHeader,
+  setCouponHeader,
+} from "@/axios/axiosInstance";
 import { config } from "../../config";
 import {
   IChangePassword,
@@ -49,6 +52,9 @@ export const logout = async () => {
   try {
     const response = await axiosInstance.get("/auth/logout");
     if (response.status === 204) {
+      setCouponHeader({
+        coupon: "",
+      });
       return response;
     }
   } catch (error) {
