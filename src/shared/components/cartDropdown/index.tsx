@@ -25,6 +25,7 @@ const CartDropdown = () => {
     }
   }, [window, localStorage, coupon])
 
+  console.log("cart", cart?.cartProducts)
   return (
     <div className="relative z-40 py-3 cursor-pointer dropdown dropdown-hover bg-gray-350 btn-circle shrink-0">
       <CartIcon className="mx-auto" />
@@ -68,7 +69,7 @@ const CartDropdown = () => {
                         {item.product?.title}
                       </Link>
                       <p className="mt-1 text-sm gray-550">
-                        <span>NPR</span> {item.product?.unitPrice[0].sellingPrice * item.quantity}
+                        <span>NPR</span> {item?.product?.unitPrice[0].hasOffer ? item.product?.unitPrice[0]?.newPrice * item?.quantity : item.product?.unitPrice[0]?.sellingPrice * item?.quantity}
                       </p>
                     </div>
                     <button
