@@ -18,7 +18,7 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
   const router = useRouter()
   const queryClient = useQueryClient();
-  const { data: cart } = useQuery<ICartItem>(["getCart"], getCartData)
+  const { data: cart } = useQuery<ICartItem>(["getCart"])
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
@@ -27,6 +27,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
       showToast(TOAST_TYPES.success, 'You have been successfully logged in.');
       if (cart && cart.cartProducts?.length > 0) {
         associateCart(data?.access_token);
+        queryClient.invalidateQueries(['getCart'])
         router.push('/checkout');
         closeModal && closeModal();
       } else {
@@ -51,7 +52,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
         <input
           type="text"
           placeholder='Phone Number/Email'
-          {...register("username", { required: 'Username is required.' })}
+          {...register("username", { required: 'Phone Number Or Email is required' })}
           onBlur={() => trigger('username')}
           className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.username ? 'border-error' : 'border-gray-350'}`}
         />
@@ -63,7 +64,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
       <div className='flex flex-col mb-[20px]'>
         <input type="password"
           placeholder='Password'
-          {...register("password", { required: 'Password is required.', })}
+          {...register("password", { required: 'Password is required', })}
           onBlur={() => trigger('password')}
           className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.password ? 'border-error' : 'border-gray-350'}`}
         />
@@ -84,7 +85,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
             <ButtonLoader />
           }
         </button>
-        <Link href='/auth/forgot-password' className='text-sm transition-all duration-150 delay-100 text-slate-850 hover:text-primary' aria-label="forget-passsword" >Forgot Password?</Link>
+        <Link href='/forgot-password' className='text-sm transition-all duration-150 delay-100 text-slate-850 hover:text-primary' aria-label="forget-passsword" >Forgot Password?</Link>
       </div>
     </form>
   )

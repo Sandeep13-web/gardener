@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NextPageWithLayout } from "./_app";
 import MainLayout from "@/shared/main-layout";
 import Title from "@/shared/components/title";
 import {
-  CardImg,
-  CategoryImg,
   DeliveryImg,
   LockImg,
   CallImg,
@@ -18,21 +16,23 @@ import { useQuery } from "@tanstack/react-query";
 import { IAppCategories, IHome } from "@/interface/home.interface";
 import SkeletonLoadingCard from "@/shared/components/skeleton/products";
 import Head from "next/head";
-import { getCookie } from "cookies-next";
-import { getCartData, setCartNumberCookie } from "@/services/cart.service";
-import { CookieKeys } from "@/shared/enum";
 import { ICartItem } from "@/interface/cart.interface";
-import { getCartNumber } from "@/shared/utils/cookies-utils/cookies.utils";
+import { getCartData } from "@/services/cart.service";
+import { useCart } from "@/store/use-cart";
 
 const Home: NextPageWithLayout = () => {
-  const { data: home, isInitialLoading: homeLoading } = useQuery<IHome>({ queryKey: ['getHomeData'] });
+  const { data: home, isInitialLoading: homeLoading } = useQuery<IHome>({
+    queryKey: ["getHomeData"],
+  });
+  const { coupon } = useCart();
+  const { data: cart } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon }))
   const { data: categories, isInitialLoading: loadingCategories }: any = useQuery({ queryKey: ['getCategories'] });
 
-  useEffect(() => {
-    if (!getCookie(CookieKeys.CARTNUMBER)) {
-      setCartNumberCookie()
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (!getCookie(CookieKeys.CARTNUMBER)) {
+  //     setCartNumberCookie()
+  //   }
+  // }, [])
 
   return (
     <>
@@ -100,13 +100,13 @@ const Home: NextPageWithLayout = () => {
           </div>
           <Categories
             loading={loadingCategories}
-            categories={categories?.data.slice(0, 6)}
+            categories={categories?.data}
           />
           {homeLoading ?
             <>
               <div className="w-20 h-5 mx-4 mb-5 bg-gray-300 rounded animate-pulse"></div>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                {[1, 2, 3, 4].map((item, index) => (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
+                {[1, 2, 3, 4, 5].map((index) => (
                   <SkeletonLoadingCard
                     key={`app-skeleton-${index}`}
                   />

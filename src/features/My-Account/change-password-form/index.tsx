@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IChangePassword } from '@/interface/password.interface';
 import { changePassword, logout } from '@/services/auth.service';
-import ButtonLoader from '@/shared/components/btn-loading'; 
+import ButtonLoader from '@/shared/components/btn-loading';
 const ChangePasswordForm = () => {
     const router = useRouter();
     const { register, handleSubmit, watch, formState: { errors }, trigger } = useForm<IChangePassword>();
@@ -31,14 +31,14 @@ const ChangePasswordForm = () => {
         onSuccess: () => {
             deleteCookie("token");
             deleteCookie("isLoggedIn");
-            router.push('/auth/login');
+            router.push('/login');
         },
         onError: (error: any) => {
             console.log(error);
         }
     });
 
-    const validRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    const validRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     return (
         <form className="px-6 py-6" onSubmit={handleSubmit(changePasswordSubmit)} autoComplete="off">
             <div className="grid grid-cols-12 gap-4 md:gap-6">
@@ -65,8 +65,8 @@ const ChangePasswordForm = () => {
                             required: 'New Password is required.',
                             validate: (value) => value !== watch("old-password") || 'Old password and New password must be different.',
                             pattern: {
-                                value: validRegex,
-                                message: 'Password must contain at least 8 characters, 1 uppercase letter,1 lowercase letter and a number',
+                                value: /^\S{6}$/,
+                                message: 'Password must contain 6 digit',
                             }
                         })}
                         onBlur={() => trigger("new-password")}

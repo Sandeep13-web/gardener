@@ -15,11 +15,14 @@ import CardHeartIcon from "@/shared/icons/common/CardHeartIcon";
 import { useWishlists } from "@/hooks/wishlist.hooks";
 import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { useRouter } from "next/router";
+import { getCookie } from "cookies-next";
 
 const Card: React.FC<Props> = ({ product, cartItem, }) => {
 
   //Token 
   const token = getToken();
+  const [logIn, setLogin] = useState<boolean>(false)
+  const loggedIn = getCookie("isLoggedIn")
   const router = useRouter()
 
   //Use query hook
@@ -121,6 +124,14 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (loggedIn !== undefined) {
+      setLogin(true)
+    } else {
+      setLogin(false)
+    }
+  }, [loggedIn])
+
 
   return (
     <div className="relative card plant-card">
@@ -128,7 +139,7 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
         href={`/products/${product?.slug}`}
         className="absolute top-0 bottom-0 left-0 right-0 z-[1]"
       />
-      {token &&
+      {logIn &&
         <>
           {!product?.isFav ?
             <button onClick={() => addToFav(product?.id)} className="absolute top-3 right-3 z-[2]">

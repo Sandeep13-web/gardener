@@ -10,22 +10,22 @@ import {
   getWareId,
 } from "@/shared/utils/cookies-utils/cookies.utils";
 import axios from "axios";
-import { setCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { config } from "../../config";
 import { useCart } from "@/store/use-cart";
 const baseURL = config.gateway.baseURL;
 
-export const setCartNumberCookie = async () => {
-  try {
-    const response = await axiosInstance.get(`/cart`);
-    if (response.status === 200) {
-      setCookie(CookieKeys.CARTNUMBER, response?.data?.data?.cartNumber);
-    }
-    return response.data.data;
-  } catch (error) {
-    throw error;
-  }
-};
+// export const setCartNumberCookie = async () => {
+//   try {
+//     const response = await axiosInstance.get(`/cart`);
+//     if (response.status === 200) {
+//       setCookie(CookieKeys.CARTNUMBER, response?.data?.data?.cartNumber);
+//     }
+//     return response.data.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 export const getCartData = async (params: { coupon?: string }) => {
   try {
@@ -39,6 +39,9 @@ export const getCartData = async (params: { coupon?: string }) => {
       });
     }
     const response = await axiosInstance.get(`/cart`);
+    if (!getCookie(CookieKeys.CARTNUMBER)) {
+      setCookie(CookieKeys.CARTNUMBER, response?.data?.data?.cartNumber);
+    }
     return response.data.data;
   } catch (error) {
     throw error;
@@ -105,7 +108,8 @@ export const associateCart = async (auth: any) => {
     // ...(getCoupon() && { Coupon: getCoupon() }),
 
     Authorization: `Bearer ${auth}`,
-    "Warehouse-Id": getWareId(),
+    "Api-Key": config.gateway.apiKey,
+    "Warehouse-Id": getWareId() || 1,
   };
 
   try {
