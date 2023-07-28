@@ -221,14 +221,14 @@ const Header = () => {
           <div className="container mx-auto">
             <div className="navbar bg-primary min-h-[48px] text-[12px] flex-wrap flex-col sm:flex-row px-2">
               <div className="flex-1">
-                <p className="text-slate-50">Welcome to I am the Gardener !</p>
+                <p className="text-slate-50">Welcome to {config?.data?.title} !</p>
                 <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 hidden sm:block"></div>
                 <div className="hidden dropdown sm:block">
                   <label
                     tabIndex={0}
                     className="btn btn-link text-md text-[12px] p-0 text-white no-underline h-auto min-h-fit capitalize"
                   >
-                    Outlet: Durbarmall
+                    Outlet: {config?.data?.warehouse[0]?.title}
                   </label>
                   <ul
                     tabIndex={0}
@@ -324,7 +324,7 @@ const Header = () => {
           {/* Logo */}
           <div className="relative sm:h-20">
             <Link href={"/"} aria-label="home_blank">
-              <Image src={Logo} height={80} width={144} quality={100} alt="Logo"
+              <Image src={config?.data?.pageData?.headerlogo} height={80} width={144} quality={100} alt="Logo"
                 style={{ width: "auto", height: "auto" }}
                 priority />
             </Link>

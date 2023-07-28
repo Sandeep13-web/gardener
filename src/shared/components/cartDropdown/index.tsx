@@ -25,7 +25,6 @@ const CartDropdown = () => {
     }
   }, [window, localStorage, coupon])
 
-  console.log("cart", cart?.cartProducts)
   return (
     <div className="relative z-40 py-3 cursor-pointer dropdown dropdown-hover bg-gray-350 btn-circle shrink-0">
       <CartIcon className="mx-auto" />

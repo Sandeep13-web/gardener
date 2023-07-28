@@ -240,7 +240,6 @@ const ProductSlug = () => {
                         <span className="font-normal">{productData?.response?.data?.categoryTitle}</span>
                       </Link>
                     </p>
-                    {console.log("productData?.response?.data", productData?.response?.data)}
                     <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
                       Tags:
                       {productData?.response?.data?.tags.map((prev: ITag, index: number) => (

@@ -46,7 +46,6 @@ const ContactUsForm = () => {
         },
     })
     const feedBackSubmit = (data: IContactUs) => {
-        console.log(data)
         // mutation.mutate(data)
         // reset()
     }

@@ -49,7 +49,6 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
   }, [swiperRef]);
   // const prevRef = useRef<HTMLButtonElement>(null);
   // const nextRef = useRef<HTMLButtonElement>(null);
-  console.log("prev", prev)
 
   return (
     <section className="my-[60px]">
