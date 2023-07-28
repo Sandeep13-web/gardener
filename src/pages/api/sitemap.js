@@ -3,7 +3,7 @@ import axios from 'axios';
 import { createSitemap } from 'sitemap';
 
 async function generateBlogListUrls() {
-  const baseUrl = 'https://api.uat.ordering-iamthegardener-v4.ekbana.net/api/apiv4';
+  const baseUrl = 'https://api.uat.ordering-iamthegardener-v4.ekbana.net/api/v4';
   const domainUrl = 'https://qa.ordering-iamthegardener-v4.ekbana.net';
   const apiKey = config.gateway.apiKey;
 
@@ -27,7 +27,7 @@ async function generateBlogListUrls() {
 }
 
 export default async function handler(req, res) {
-  const baseUrl = 'https://api.uat.ordering-iamthegardener-v4.ekbana.net/api/apiv4';
+  const baseUrl = 'https://api.uat.ordering-iamthegardener-v4.ekbana.net/api/v4';
   const dynamicUrls = await generateDynamicUrls();
   const blogListUrls = await generateBlogListUrls();
   console.log('All URLs:', blogListUrls );
