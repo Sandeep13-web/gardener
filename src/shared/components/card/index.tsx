@@ -247,7 +247,7 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
                   maxLength={3}
                 />
                 <button
-                  className="text-primary py-1 w-[14px] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="text-primary py-1 w-[14px] disabled:cursor-not-allowed disabled:opacity-50 disabled:pointer-events-none"
                   onClick={() => { updateCartCall(quantity + 1) }}
                   disabled={quantity === stock ? true : false}
                 >

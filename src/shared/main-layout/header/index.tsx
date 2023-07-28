@@ -431,15 +431,6 @@ const Header = () => {
             {/* Cart */}
             <CartDropdown />
 
-            {/* Total Price */}
-            <div>
-              <p className="hidden mb-1 text-sm font-bold text-gray-550 whitespace-nowrap md:block">
-                TOTAL PRICE
-              </p>
-              <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
-                NPR {cart?.total || 0}
-              </p>
-            </div>
             {/* md:drawer */}
             <Drawer />
           </div>
