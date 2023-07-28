@@ -51,84 +51,87 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
     <>
       {
         !prev?.products ? '' : (
-
-          <section className="my-[60px]">
-            <div className="relative flex items-center justify-between">
-              <Title type="title-section" text={prev.title} />
-              {
-                prev?.products?.length > 0 && (
-                  <div className='!static productSwiper-navigation mb-[45px]'>
-                    <button
-                      disabled={prevDisable}
-                      onClick={handlePrevious}
-                    >
-                      <FaChevronLeft />
-                    </button>
-                    <button
-                      disabled={nextDisable}
-                      onClick={handleNext}
-                    >
-                      <FaChevronRight />
-                    </button>
+          prev?.type === 'half_left' ?
+            <HalfLeftCard updatedData={prev} /> :
+            (
+              <div className="container">
+                <section className="my-[60px]">
+                  <div className="relative flex items-center justify-between">
+                    <Title type="title-section" text={prev.title} />
+                    {
+                      prev?.products?.length > 0 && (
+                        <div className='!static productSwiper-navigation mb-[45px]'>
+                          <button
+                            disabled={prevDisable}
+                            onClick={handlePrevious}
+                          >
+                            <FaChevronLeft />
+                          </button>
+                          <button
+                            disabled={nextDisable}
+                            onClick={handleNext}
+                          >
+                            <FaChevronRight />
+                          </button>
+                        </div>
+                      )
+                    }
                   </div>
-                )
-              }
-            </div>
-            <>
-              {/* {
-                prev?.type === 'half_left' &&
-                <HalfLeftCard updatedData={updatedData} />
-              } */}
-              <Swiper
-                slidesPerView={5}
-                grid={{
-                  rows: (prev?.type === "product_horizontal" || prev?.type === 'product_vertical') ? 1 : 2,
-                  fill: "row",
-                }}
-                pagination={false}
-                spaceBetween={20}
-                modules={[Grid]}
-                className="productSwiper"
-                onSwiper={setSwiperRef}
-                onBeforeInit={() => setPrevDisable(true)}
-                onReachBeginning={() => setPrevDisable(true)}
-                onReachEnd={() => setNextDisable(true)}
-                breakpoints={{
-                  0: {
-                    slidesPerView: 1,
-                    grid: {
-                      rows: 2
-                    },
-                    spaceBetween: 20,
-                  },
-                  768: {
-                    slidesPerView: 3,
-                    grid: {
-                      rows: 2
-                    },
-                    spaceBetween: 20,
-                  },
-                  1050: {
-                    slidesPerView: 5,
-                    grid: {
-                      rows: 2
-                    },
-                    spaceBetween: 20,
-                  }
-                }}
-              >
-                {updatedData?.map((product, index) => (
-                  <SwiperSlide key={`app-categories-${index}`}>
-                    <Card
-                      product={product}
-                      key={index}
-                      cartItem={cart?.cartProducts.find((item) => item?.product?.id === product?.id)}
-                    />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </>
-          </section>
+                  <>
+
+                    <Swiper
+                      slidesPerView={5}
+                      grid={{
+                        rows: (prev?.type === "product_horizontal" || prev?.type === 'product_vertical') ? 1 : 2,
+                        fill: "row",
+                      }}
+                      pagination={false}
+                      spaceBetween={20}
+                      modules={[Grid]}
+                      className="productSwiper"
+                      onSwiper={setSwiperRef}
+                      onBeforeInit={() => setPrevDisable(true)}
+                      onReachBeginning={() => setPrevDisable(true)}
+                      onReachEnd={() => setNextDisable(true)}
+                      breakpoints={{
+                        0: {
+                          slidesPerView: 1,
+                          grid: {
+                            rows: 2
+                          },
+                          spaceBetween: 20,
+                        },
+                        768: {
+                          slidesPerView: 3,
+                          grid: {
+                            rows: 2
+                          },
+                          spaceBetween: 20,
+                        },
+                        1050: {
+                          slidesPerView: 5,
+                          grid: {
+                            rows: 2
+                          },
+                          spaceBetween: 20,
+                        }
+                      }}
+                    >
+                      {updatedData?.map((product, index) => (
+                        <SwiperSlide key={`app-categories-${index}`}>
+                          <Card
+                            product={product}
+                            key={index}
+                            cartItem={cart?.cartProducts.find((item) => item?.product?.id === product?.id)}
+                          />
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                  </>
+                </section>
+              </div>
+
+            )
         )
       }
     </>

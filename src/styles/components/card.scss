@@ -1,9 +1,9 @@
 .plant-card {
-  @apply relative bg-white border border-gray-350 rounded rounded-[5px] overflow-hidden mb-[30px] transition-all delay-150 duration-300 mb-0;
+  @apply relative bg-white border border-gray-350 rounded-[5px] overflow-hidden transition-all delay-150 duration-300 mb-0;
   &_preview-icon {
     @apply absolute top-[50%] transform translate-y-[-50%] left-0 right-0 text-center z-[1] h-[46px];
     a {
-      @apply inline-flex bg-white  h-[46px] w-[46px] rounded rounded-full text-center opacity-0 transform;
+      @apply inline-flex bg-white  h-[46px] w-[46px] rounded-full text-center opacity-0 transform;
       transform: scale3d(0, 0, 0);
       transition: all 0.3s linear;
       svg path {
@@ -71,9 +71,57 @@
   }
 }
 .checkout-card {
-  @apply bg-slate-250 border border-gray-350 rounded rounded-[5px] px-[30px] py-[45px] pb-[50px] w-full md:w-[370px];
+  @apply bg-slate-250 border border-gray-350 rounded-[5px] px-[30px] py-[45px] pb-[50px] w-full md:w-[370px];
 
   &-header {
     @apply relative before:content-[''] before:absolute before:top-[10px] before:z-[1] before:left-0 before:bg-gray-350 before:h-[1px] before:w-full;
+  }
+}
+
+.half-left-card{
+  @apply p-5 w-full flex items-center gap-3 relative overflow-hidden bg-white border border-gray-350 rounded-[5px]  transition-all delay-150 duration-300 mb-0;
+
+  &__image{
+    @apply w-[95px] relative;
+    &--img{
+      @apply max-w-full min-w-[95px] h-auto;
+    }
+    &--view{
+      @apply absolute top-[50%] transform translate-y-[-50%] left-0 right-0 text-center z-[1] h-[46px];
+      a {
+        @apply inline-flex bg-white  h-[46px] w-[46px] rounded-full text-center opacity-0 transform;
+        transform: scale3d(0, 0, 0);
+        transition: all 0.3s linear;
+        svg path {
+          fill: #253237;
+        }
+        &:hover {
+          @apply bg-primary;
+          svg path {
+            fill: #fff;
+          }
+        }
+      }
+    }
+  }
+  &__desc{
+    @apply flex-grow w-full max-w-full;
+    &--title{
+      @apply text-sm mb-4 max-w-[90%] text-ellipsis whitespace-nowrap overflow-hidden block hover:text-primary duration-150 delay-100 capitalize text-slate-850 leading-[18px] font-bold;
+    }
+  }
+  &:hover {
+    @apply border-primary;
+    .half-left-card__image--view {
+      a {
+        @apply opacity-100;
+        transform: scaleX(1);
+      }
+    }
+    .plant-card_cartBtn {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) translateZ(0);
+    }
   }
 }
