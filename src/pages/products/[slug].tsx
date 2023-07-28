@@ -286,7 +286,7 @@ const ProductSlug = () => {
                         <button
                           onClick={() => { setValue(value - 1) }}
                           disabled={value === 1 ? true : false}
-                          className="w-6 h-12 text-sm font-medium text-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                          className="w-6 h-12 text-sm font-medium text-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none">
                           -
                         </button>
                         <input
@@ -299,7 +299,7 @@ const ProductSlug = () => {
                         <button
                           onClick={() => { setValue(value + 1) }}
                           disabled={value === stock ? true : false}
-                          className="w-6 h-12 text-sm font-medium text-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                          className="w-6 h-12 text-sm font-medium text-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none">
                           +
                         </button>
                       </div>

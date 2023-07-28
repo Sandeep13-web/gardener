@@ -25,10 +25,21 @@ const RegisterForm = () => {
         }
     })
 
-    const { register, handleSubmit, watch, formState: { errors }, trigger } = useForm<IRegister>()
+    const { register, getValues, handleSubmit, watch, setError, formState: { errors }, trigger } = useForm<IRegister>()
 
     const registerSubmit = (data: any) => {
         mutation.mutate(data)
+    }
+
+    //password-confirmPassword validation
+    const passValidation = (value: string) => {
+        if (getValues("confirm_password") !== '') {
+            trigger("confirm_password")
+            return value === watch("confirm_password")
+        }
+    }
+    const confirmValidation = (value: string) => {
+        return value === watch("password") || "Password do not match"
     }
 
     return (
@@ -38,15 +49,15 @@ const RegisterForm = () => {
                     type="text"
                     placeholder='Enter Your First Name'
                     {...register("first_name", {
-                        required: 'FirstName is required',
+                        required: 'First name is required',
                         pattern: {
                             value: /^[A-Za-z]+$/,
                             message: "Only alphabetical characters are allowed",
                         },
                     })}
                     maxLength={20}
+                    onKeyUp={() => trigger("first_name")}
                     onKeyDown={handleKeyDownAlphabet}
-                    onKeyDownCapture={() => trigger('first_name')}
                     className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.first_name ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
@@ -58,16 +69,16 @@ const RegisterForm = () => {
                 <input
                     type="text"
                     {...register("last_name", {
-                        required: 'LastName is required',
+                        required: 'Last name is required',
                         pattern: {
                             value: /^[A-Za-z]+$/,
                             message: "Only alphabetical characters are allowed",
                         },
                     })}
                     placeholder='Enter Your Last Name'
-                    onKeyDownCapture={() => trigger('last_name')}
+                    onKeyUp={() => trigger('last_name')}
                     maxLength={20}
-                    onKeyDown={handleKeyDownAlphabet}
+                    onKeyDown={() => { handleKeyDownAlphabet }}
                     className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.last_name ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
@@ -86,7 +97,7 @@ const RegisterForm = () => {
                                 message: "Incorrect phone number format",
                             },
                         })}
-                    onKeyDownCapture={() => trigger('mobile_number')}
+                    onKeyUp={() => trigger('mobile_number')}
                     pattern="^[1-9]\d*$"
                     maxLength={10}
                     inputMode='numeric'
@@ -109,7 +120,7 @@ const RegisterForm = () => {
                             message: "Invalid email address",
                         },
                     })}
-                    onKeyDownCapture={() => trigger("email")}
+                    onKeyUp={() => trigger("email")}
                     placeholder='Enter Your Email'
                     className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.email ? 'border-error' : 'border-gray-350'}`}
                 />
@@ -119,7 +130,7 @@ const RegisterForm = () => {
                 }
             </div>
             <div className='flex flex-col mb-[20px]'>
-                <input type="password"
+                <input type="text"
                     placeholder='Password'
                     {...register("password", {
                         required: 'Password is required',
@@ -127,8 +138,9 @@ const RegisterForm = () => {
                             value: 5,
                             message: "Password must have at least 6 characters.",
                         },
+                        validate: (value) => passValidation(value)
                     })}
-                    onKeyDown={() => trigger('password')}
+                    onKeyUp={() => trigger('password')}
                     className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.password ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
@@ -137,16 +149,15 @@ const RegisterForm = () => {
                 }
             </div>
             <div className='flex flex-col mb-[20px]'>
-                <input type="password"
+                <input type="text"
                     placeholder='Confirm Password'
-                    {...register("confirm_password"
-                        ,
+                    {...register("confirm_password",
                         {
                             required: "Confirm Password is required.",
-                            validate: (value) => value === watch("password") || "Password do not match"
+                            validate: (value) => confirmValidation(value)
                         },
                     )}
-                    // onKeyDown={() => trigger('confirm_password')}
+                    onKeyUp={() => trigger('confirm_password')}
                     className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.confirm_password ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
