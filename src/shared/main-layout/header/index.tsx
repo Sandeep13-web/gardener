@@ -324,7 +324,7 @@ const Header = () => {
           {/* Logo */}
           <div className="relative sm:h-20">
             <Link href={"/"} aria-label="home_blank">
-              <Image src={config?.data?.pageData?.headerlogo} height={80} width={144} quality={100} alt="Logo"
+              <Image className="max-w-[150px]" src={config?.data?.pageData?.headerlogo} height={80} width={144} quality={100} alt="Logo"
                 style={{ width: "auto", height: "auto" }}
                 priority />
             </Link>

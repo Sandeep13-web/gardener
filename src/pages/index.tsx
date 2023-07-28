@@ -102,29 +102,30 @@ const Home: NextPageWithLayout = () => {
             loading={loadingCategories}
             categories={categories?.data}
           />
-          {homeLoading ?
-            <>
-              <div className="w-20 h-5 mx-4 mb-5 bg-gray-300 rounded animate-pulse"></div>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
-                {[1, 2, 3, 4, 5].map((index) => (
-                  <SkeletonLoadingCard
-                    key={`app-skeleton-${index}`}
-                  />
-                ))}
-              </div>
-            </>
-            :
-            <>
-              {home?.data?.appCategories.map((prev: IAppCategories, index: number) => (
-                <AppCategories
-                  key={`appcatgories-${index}`}
-                  prev={prev}
-                />
-              )
-              )}
-            </>
-          }
+
         </div>
+        {homeLoading ?
+          <div className="container my-6">
+            <div className="w-20 h-5 mx-4 mb-5 bg-gray-300 rounded animate-pulse"></div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
+              {[1, 2, 3, 4, 5].map((index) => (
+                <SkeletonLoadingCard
+                  key={`app-skeleton-${index}`}
+                />
+              ))}
+            </div>
+          </div>
+          :
+          <>
+            {home?.data?.appCategories.map((prev: IAppCategories, index: number) => (
+              <AppCategories
+                key={`appcatgories-${index}`}
+                prev={prev}
+              />
+            )
+            )}
+          </>
+        }
       </div>
     </>
   );
