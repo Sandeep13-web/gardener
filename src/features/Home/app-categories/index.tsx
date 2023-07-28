@@ -47,105 +47,91 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
       swiperRef?.slideNext();
     }
   }, [swiperRef]);
-  // const prevRef = useRef<HTMLButtonElement>(null);
-  // const nextRef = useRef<HTMLButtonElement>(null);
-  console.log("prev", prev)
-
   return (
-    <section className="my-[60px]">
-      <div className="relative flex items-center justify-between">
-        <Title type="title-section" text={prev.title} />
-        {
-          prev?.products?.length > 0 && (
-            <div className='!static productSwiper-navigation mb-[45px]'>
-              <button
-                // ref={prevRef}
-                disabled={prevDisable}
-                onClick={handlePrevious}
-              >
-                <FaChevronLeft />
-              </button>
-              <button
-                // ref={nextRef}
-                disabled={nextDisable}
-                onClick={handleNext}
-              >
-                <FaChevronRight />
-              </button>
+    <>
+      {
+        !prev?.products ? '' : (
+
+          <section className="my-[60px]">
+            <div className="relative flex items-center justify-between">
+              <Title type="title-section" text={prev.title} />
+              {
+                prev?.products?.length > 0 && (
+                  <div className='!static productSwiper-navigation mb-[45px]'>
+                    <button
+                      disabled={prevDisable}
+                      onClick={handlePrevious}
+                    >
+                      <FaChevronLeft />
+                    </button>
+                    <button
+                      disabled={nextDisable}
+                      onClick={handleNext}
+                    >
+                      <FaChevronRight />
+                    </button>
+                  </div>
+                )
+              }
             </div>
-          )
-        }
-      </div>
-      <>
-        {/* {
-          prev.type === 'half_left' &&
-          <HalfLeftCard />
-        } */}
-        <Swiper
-          slidesPerView={5}
-          grid={{
-            rows: 2,
-            fill: "row",
-          }}
-          pagination={false}
-          spaceBetween={20}
-          modules={[Grid]}
-          className="productSwiper"
-          onSwiper={setSwiperRef}
-          onBeforeInit={() => setPrevDisable(true)}
-          onReachBeginning={() => setPrevDisable(true)}
-          onReachEnd={() => setNextDisable(true)}
-          breakpoints={{
-            0: {
-              slidesPerView: 1,
-              grid: {
-                rows: 2
-              },
-              spaceBetween: 20,
-              // navigation: {
-              //   enabled: true,
-              //   nextEl: nextRef.current,
-              //   prevEl: nextRef.current
-              // }
-            },
-            768: {
-              slidesPerView: 3,
-              grid: {
-                rows: 2
-              },
-              spaceBetween: 20,
-              // navigation: {
-              //   enabled: true,
-              //   nextEl: nextRef.current,
-              //   prevEl: nextRef.current
-              // }
-            },
-            1050: {
-              slidesPerView: 5,
-              grid: {
-                rows: 2
-              },
-              spaceBetween: 20,
-              // navigation: {
-              //   enabled: true,
-              //   nextEl: nextRef.current,
-              //   prevEl: nextRef.current
-              // }
-            }
-          }}
-        >
-          {updatedData?.map((product, index) => (
-            <SwiperSlide key={`app-categories-${index}`}>
-              <Card
-                product={product}
-                key={index}
-                cartItem={cart?.cartProducts.find((item) => item?.product?.id === product?.id)}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </>
-    </section>
+            <>
+              {/* {
+                prev?.type === 'half_left' &&
+                <HalfLeftCard updatedData={updatedData} />
+              } */}
+              <Swiper
+                slidesPerView={5}
+                grid={{
+                  rows: (prev?.type === "product_horizontal" || prev?.type === 'product_vertical') ? 1 : 2,
+                  fill: "row",
+                }}
+                pagination={false}
+                spaceBetween={20}
+                modules={[Grid]}
+                className="productSwiper"
+                onSwiper={setSwiperRef}
+                onBeforeInit={() => setPrevDisable(true)}
+                onReachBeginning={() => setPrevDisable(true)}
+                onReachEnd={() => setNextDisable(true)}
+                breakpoints={{
+                  0: {
+                    slidesPerView: 1,
+                    grid: {
+                      rows: 2
+                    },
+                    spaceBetween: 20,
+                  },
+                  768: {
+                    slidesPerView: 3,
+                    grid: {
+                      rows: 2
+                    },
+                    spaceBetween: 20,
+                  },
+                  1050: {
+                    slidesPerView: 5,
+                    grid: {
+                      rows: 2
+                    },
+                    spaceBetween: 20,
+                  }
+                }}
+              >
+                {updatedData?.map((product, index) => (
+                  <SwiperSlide key={`app-categories-${index}`}>
+                    <Card
+                      product={product}
+                      key={index}
+                      cartItem={cart?.cartProducts.find((item) => item?.product?.id === product?.id)}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </>
+          </section>
+        )
+      }
+    </>
   );
 };
 

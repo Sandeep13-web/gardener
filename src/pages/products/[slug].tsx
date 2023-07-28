@@ -240,7 +240,6 @@ const ProductSlug = () => {
                         <span className="font-normal">{productData?.response?.data?.categoryTitle}</span>
                       </Link>
                     </p>
-                    {console.log("productData?.response?.data", productData?.response?.data)}
                     <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
                       Tags:
                       {productData?.response?.data?.tags.map((prev: ITag, index: number) => (
@@ -287,7 +286,7 @@ const ProductSlug = () => {
                         <button
                           onClick={() => { setValue(value - 1) }}
                           disabled={value === 1 ? true : false}
-                          className="w-6 h-12 text-sm font-medium text-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                          className="w-6 h-12 text-sm font-medium text-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none">
                           -
                         </button>
                         <input
@@ -300,7 +299,7 @@ const ProductSlug = () => {
                         <button
                           onClick={() => { setValue(value + 1) }}
                           disabled={value === stock ? true : false}
-                          className="w-6 h-12 text-sm font-medium text-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                          className="w-6 h-12 text-sm font-medium text-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none">
                           +
                         </button>
                       </div>

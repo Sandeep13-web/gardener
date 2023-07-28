@@ -105,7 +105,7 @@ export const deleteAccount = async () => {
 };
 
 export const registerGuestUser = async (data: any, isInitialSubmit: any) => {
-  const registerGuestUserUrl = `${baseURL}/guest/signup`;
+  const registerGuestUserUrl = `${baseURL}/guest/auth/signup`;
   let payload;
   if (isInitialSubmit) {
     payload = {
