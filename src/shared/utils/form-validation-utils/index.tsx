@@ -3,7 +3,7 @@ export const handleKeyDownNumber = (event: any) => {
     const keyCode = event.which || event.keyCode;
 
     // Check if the key pressed is an alphabet (a-z or A-Z)
-    if ((keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122)) {
+    if ((keyCode >= 65 && keyCode <= 90) || (keyCode >= 106 && keyCode <= 122)) {
         // If it's an alphabet, prevent the default behavior
         event.preventDefault();
     }

@@ -47,6 +47,10 @@ const Checkout: NextPageWithLayout = () => {
   const [showLoginConfirmModal, setShowLoginConfirmModal] = useState<boolean>(false);
   const [checkoutGuestUserData, setCheckoutGuestUserData] = useState<IRegister | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [personalOpen, setPersonalOpen] = useState<boolean>(true)
+  const [addressOpen, setAddressOpen] = useState<boolean>(false)
+  const [paymentOpen, setPaymentOpen] = useState<boolean>(false)
+  const [placeBtnDisable, setPlaceBtnDisable] = useState<boolean>(false)
   const [note, setNote] = useState<string>("");
   const token = getToken()
   //Get Config Data
@@ -60,6 +64,7 @@ const Checkout: NextPageWithLayout = () => {
   };
 
   const [personalInfoSubmitted, setPersonalInfoSubmitted] = useState(false);
+  const [addressFilled, setAddressFilled] = useState<boolean>(false)
   const [addressCollapseDisabled, setAddressCollapseDisabled] = useState(true);
   const [addressFormValidated, setAddressFormValidated] = useState(false);
   const [paymentCollapseOpen, setPaymentCollapseOpen] = useState(false);
@@ -82,6 +87,9 @@ const Checkout: NextPageWithLayout = () => {
 
   const handleNextButtonClick = () => {
     setPaymentCollapseOpen(true);
+    setAddressFilled(true)
+    setAddressOpen(false)
+    setPaymentOpen(true)
   };
 
   const [selectedPayment, setSelectedPayment] = useState<IPaymentMethod | null>(null);
@@ -131,6 +139,7 @@ const Checkout: NextPageWithLayout = () => {
 
   // Checkout Place order
   const handlePlaceOrder = async () => {
+    setPlaceBtnDisable(true)
     if (token) {
       const selectedDeliveryAddressId = selectedDeliveryAddress;
       const selectedPaymentMethodId = selectedPayment?.id;
@@ -141,9 +150,10 @@ const Checkout: NextPageWithLayout = () => {
               checkoutSuccessfulRedirect();
               break;
           }
+          setPlaceBtnDisable(false)
         })
         .catch((error) => {
-          console.error(error);
+          showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message)
         });
     } else {
       if (checkoutGuestUserData) {
@@ -156,6 +166,7 @@ const Checkout: NextPageWithLayout = () => {
           const selectedPaymentMethodId = selectedPayment?.id;
           setCookie('token', guestUserRegisterResponse?.data?.access_token);
           setCookie('isLoggedIn', true)
+          setPlaceBtnDisable(false)
           checkout(guestUserRegisterResponse?.data?.deliveryAddress?.data?.id, selectedPaymentMethodId, note)
             .then((res) => {
               switch (selectedPayment?.title) {
@@ -166,13 +177,11 @@ const Checkout: NextPageWithLayout = () => {
             })
             .catch((error) => {
               // Handle error
-              console.error('Checkout API error:', error);
+              showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message)
             });
-        } catch (error) {
-          console.error('Guest user registration failed:', error);
+        } catch (error: any) {
+          showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message)
         }
-      } else {
-        console.error('Guest user data is missing.');
       }
     }
 
@@ -202,6 +211,12 @@ const Checkout: NextPageWithLayout = () => {
     }
   }, [config?.data?.paymentMethod, deliveryAddressData]);
 
+
+  useEffect(() => {
+    if (token) {
+      setAddressOpen(true)
+    }
+  }, [])
   return (
     <div>
       <div className="mt-[60px] mb-[40px]">
@@ -211,7 +226,7 @@ const Checkout: NextPageWithLayout = () => {
             !token &&
             <p>
               Already have an account?
-              <a className="cursor-pointer text-primary" onClick={openLoginModal}>Log in</a>
+              <a className="ml-3 cursor-pointer text-primary" onClick={openLoginModal}>Log in</a>
             </p>
 
           }
@@ -251,7 +266,12 @@ const Checkout: NextPageWithLayout = () => {
                 {
                   !token &&
                   <div className="collapse collapse-arrow p-4 border-solid border-[1px] border-gray-1200 mb-[16px]">
-                    <input type="checkbox" name="address" />
+                    <input
+                      type="radio"
+                      name="address"
+                      defaultChecked={personalOpen}
+                      onClick={() => { setAddressOpen(false); setPaymentOpen(false) }}
+                      readOnly />
                     <div className="flex items-center justify-between text-xl font-medium border-none collapse-title">
                       <div className="text-left col-10">
                         <h5 className="text-[16px] font-semibold">
@@ -262,7 +282,7 @@ const Checkout: NextPageWithLayout = () => {
                         <span className="text-white text">
                           <TiTick
                             size={20}
-                            className="rounded-full bg-gray-650"
+                            className={`rounded-full ${personalInfoSubmitted ? 'bg-primary' : 'bg-gray-650'}`}
                           />
                         </span>
                       </div>
@@ -275,13 +295,20 @@ const Checkout: NextPageWithLayout = () => {
                         setPersonalInfoSubmitted={setPersonalInfoSubmitted}
                         guestUserData={checkoutGuestUserData}
                         setGuestUserData={setGuestUserData}
+                        setPersonalOpen={setPersonalOpen}
+                        setAddressOpen={setAddressOpen}
                       />
                     </div>
                   </div>
                 }
 
                 <div className={`collapse collapse-arrow p-4 border-solid border-[1px] border-orange-550 mb-[16px] ${(!token && addressCollapseDisabled) ? 'pointer-events-none' : ''}`}>
-                  <input type="checkbox" name="address" />
+                  <input
+                    type="radio"
+                    name="address"
+                    onClick={() => { setAddressOpen(true); setPersonalOpen(false); setPaymentOpen(false) }}
+                    checked={addressOpen}
+                    readOnly />
                   <div className="flex items-center justify-between text-xl font-medium border-none collapse-title">
                     <div className="text-left col-10">
                       {token ? (
@@ -300,32 +327,35 @@ const Checkout: NextPageWithLayout = () => {
                       <span className="text-white text">
                         <TiTick
                           size={20}
-                          className="rounded-full bg-gray-650"
+                          className={`rounded-full ${addressFilled ? 'bg-primary' : 'bg-gray-650'}`}
                         />
                       </span>
                     </div>
                   </div>
                   <div className="collapse-content">
                     {token ? (
-                      <div className="grid grid-cols-12 gap-5 p-4">
+                      <>
+                        <div className="grid grid-cols-12 gap-5 p-4">
 
 
-                        {showModal && (
-                          <>
-                            <DeliveryAddressModal
-                              formData={formData}
-                              setFormData={setFormData}
-                              setShowModal={setShowModal}
-                              isEditing={isEditing}
-                              setIsEditing={setIsEditing}
-                            />
-                          </>
-                        )}
-                        <Address
-                          formData={formData}
-                          setFormData={setFormData}
-                          setShowModal={setShowModal}
-                          showModal={showModal} />
+                          {showModal && (
+                            <>
+                              <DeliveryAddressModal
+                                formData={formData}
+                                setFormData={setFormData}
+                                setShowModal={setShowModal}
+                                isEditing={isEditing}
+                                setIsEditing={setIsEditing}
+                              />
+                            </>
+                          )}
+                          <Address
+                            formData={formData}
+                            setFormData={setFormData}
+                            setShowModal={setShowModal}
+                            showModal={showModal} />
+
+                        </div>
                         <div className="text-right">
                           <button
                             type="submit"
@@ -339,21 +369,19 @@ const Checkout: NextPageWithLayout = () => {
                             }
                           </button>
                         </div>
-                      </div>
+                      </>
                     ) : (
                       // Guest User Address Section
                       <div>
 
                         <form className="py-4" onSubmit={handleAddressSubmitGuest}>
-
-
                           <GuestUserAddress guestformData={guestformData} setGuestFormData={setGuestFormData} />
-
                         </form>
                         <div className="text-right">
                           <button
                             type="submit"
-                            className="bg-primary text-base-100 font-bold py-[10px] px-[22px] uppercase rounded-full hover:bg-slate-850"
+                            disabled={guestformData.title === ''}
+                            className=" disabled:opacity-50 disabled:cursor-not-allowed bg-primary text-base-100 font-bold py-[10px] px-[22px] uppercase rounded-full hover:bg-slate-850"
                             onClick={handleNextButtonClick}
                           >
                             Next
@@ -370,22 +398,25 @@ const Checkout: NextPageWithLayout = () => {
                 </div>
 
                 <div className={`collapse collapse-arrow p-4 border-solid border-[1px] border-orange-550 mb-[16px] ${paymentCollapseOpen ? '' : 'pointer-events-none'}`}>
-                  <input type="checkbox" name="payment-method" />
+                  <input
+                    type="radio"
+                    name="address"
+                    checked={paymentOpen}
+                    onClick={() => { setAddressOpen(false); setPersonalOpen(false); setPaymentOpen(true) }}
+                    readOnly />
                   <div className="flex items-center justify-between text-xl font-medium border-none collapse-title">
                     <div className="text-left col-10">
-                      <h5 className="text-[16px] font-semibold">
-                        {token ? (
-                          <h5 className="text-[16px] font-semibold">
-                            {" "}
-                            2. Payment Method{" "}
-                          </h5>
-                        ) : (
-                          <h5 className="text-[16px] font-semibold">
-                            {" "}
-                            3. Payment Method{" "}
-                          </h5>
-                        )}
-                      </h5>
+                      {token ? (
+                        <h5 className="text-[16px] font-semibold">
+                          {" "}
+                          2. Payment Method{" "}
+                        </h5>
+                      ) : (
+                        <h5 className="text-[16px] font-semibold">
+                          {" "}
+                          3. Payment Method{" "}
+                        </h5>
+                      )}
                     </div>
                     <div className="text-right col-2">
                       <span className="text-white text">
@@ -413,8 +444,15 @@ const Checkout: NextPageWithLayout = () => {
             <div className="col-span-12 md:col-span-5">
               <CheckoutDetail selectedPayment={selectedPayment} />
               <div className="mt-[25px]">
-                <button className="font-bold text-base-100 py-[18px] px-[20px] uppercase rounded-full cursor-pointer bg-primary w-full hover:bg-darkBlack" onClick={() => handlePlaceOrder()}>
+                <button
+                  disabled={placeBtnDisable}
+                  className="flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-pointer-not-allowed disabled:pointer-events-none font-bold text-base-100 py-[18px] px-[20px] uppercase rounded-full cursor-pointer bg-primary w-full hover:bg-darkBlack"
+                  onClick={() => handlePlaceOrder()}>
                   Place Order
+                  {
+                    placeBtnDisable &&
+                    <ButtonLoader className="!block" />
+                  }
                 </button>
               </div>
             </div>
