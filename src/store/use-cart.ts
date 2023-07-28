@@ -24,7 +24,6 @@ export const useCart = create<IStore>((set, get) => ({
     typeof window !== 'undefined' && localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems') || '[]') : [],
   coupon: '',
   setCoupon: (coupon) => {
-    // console.log({ coupon });
     set(() => ({ coupon: coupon }));
   },
   addToCart: (product, quantity = 1) => {

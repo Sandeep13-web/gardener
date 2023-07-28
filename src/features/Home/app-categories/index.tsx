@@ -75,10 +75,10 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
               }
             </div>
             <>
-              {
+              {/* {
                 prev?.type === 'half_left' &&
                 <HalfLeftCard updatedData={updatedData} />
-              }
+              } */}
               <Swiper
                 slidesPerView={5}
                 grid={{
