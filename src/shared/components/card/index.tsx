@@ -16,6 +16,8 @@ import { useWishlists } from "@/hooks/wishlist.hooks";
 import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
+import { config } from "../../../../config";
+import ProductDetailModal from "../product-detail-modal";
 
 const Card: React.FC<Props> = ({ product, cartItem, }) => {
 
@@ -36,7 +38,7 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
  */
   const [quantity, setQuantity] = useState<number>(1);
   const { updateCartMutation, handleRemoveFromCart, cartDeleteLoading } = useCarts(); //customHook
-
+  const [showProductModal, setShowProductModal] = useState<boolean>(false)
   /*
   * Handle Add to cart api call
   */
@@ -45,11 +47,13 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
     onSuccess: () => {
       showToast(TOAST_TYPES.success, 'Item Added To Cart Successfully');
       queryClient.invalidateQueries(['getCart'])
+      setShowProductModal(false)
       // if (router.pathname === '/wishlist') {
       //   queryClient.invalidateQueries(['wishlistProducts'])
       // }
     },
     onError: (error: any) => {
+      setShowProductModal(false)
       showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message)
     }
   })
@@ -59,13 +63,14 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
   * Handle Add to cart paylod function
   */
   const handleAddToCart = () => {
-    const payload: ICreateCartItem = {
-      note: '',
-      productId: product?.id,
-      priceId: product?.unitPrice[0]?.id,
-      quantity: quantity,
-    }
-    mutation.mutate(payload)
+    // const payload: ICreateCartItem = {
+    //   note: '',
+    //   productId: product?.id,
+    //   priceId: product?.unitPrice[0]?.id,
+    //   quantity: quantity,
+    // }
+    // mutation.mutate(payload)
+    setShowProductModal(true)
   };
 
 
@@ -134,133 +139,159 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
 
 
   return (
-    <div className="relative card plant-card">
-      <Link
-        href={`/products/${product?.slug}`}
-        className="absolute top-0 bottom-0 left-0 right-0 z-[1]"
-      />
-      {logIn &&
-        <>
-          {!product?.isFav ?
-            <button onClick={() => addToFav(product?.id)} className="absolute top-3 right-3 z-[2]">
-              {
-                addLoading ?
-                  <ButtonLoader className="!border-primary !block" /> :
-                  <CardHeartIcon />
-              }
-            </button>
-            :
-            <button onClick={() => removeFromFav(product?.favId!)} className="absolute top-3 right-3 z-[2]">
-              {
-                removeLoading ?
-                  <ButtonLoader className="!border-primary !block" /> :
-                  <CardHeartIcon className="stroke-[#E5002B] fill-[#E5002B]" />
-              }
-            </button>}
-        </>
-      }
-      <figure>
-
-        <Image
-          src={product?.images[0]?.imageName}
-          alt="Plant"
-          width={216}
-          height={270}
-          quality={100}
-          style={{
-            maxWidth: '100%',
-            height: 'auto',
-            width: '100%',
-          }}
-        />
-      </figure>
-      <div className="plant-card_preview-icon">
+    <>
+      <div className="relative card plant-card">
         <Link
           href={`/products/${product?.slug}`}
-          className="flex items-center justify-center"
-        >
-          <SearchIcon className="max-w-[15px] h-auto" />
-        </Link>
-      </div>
-      <div className="card-body px-[15px] py-[20px] gap-[10px]">
-        <p className="text-xs uppercase text-gray-450">
-          {product?.categoryTitle}
-        </p>
-        <h2 className="card-title plant-card-title">{product?.title}</h2>
-        {
-          product?.unitPrice[0]?.hasOffer ? (
-            <div className="flex items-center">
-              <p className="flex-grow-0 mr-2 text-sm text-red-250">
-                NPR{product?.unitPrice[0]?.newPrice}
-              </p>
-              <p className="flex-grow-0 mr-2 text-sm font-semibold line-through text-primary">
-                NPR
-                {product?.unitPrice[0]?.oldPrice}
-              </p>
-              <p className="flex-grow-0 flex justify-center py-0.5 px-1 text-xs text-center text-white capitalize rounded-md bg-red-250">offer</p>
-            </div>
-          ) : (
-            <p className="text-sm font-semibold text-primary">
-              NPR {product?.unitPrice[0]?.sellingPrice}
-            </p>
-          )
-        }
-
-        <div className="flex justify-end relative z-[3]">
-          {(!(cart?.cartProducts?.some((item: any) => item?.product.id === product?.id))) ? (
-            <button
-              className="btn btn-primary btn-outline p-2 h-auto !min-h-0 text-xs leading-auto"
-              onClick={handleAddToCart}
-              disabled={mutation.isLoading}
-            >
-              Add to Cart
-              {
-                mutation.isLoading &&
-                <ButtonLoader />
-              }
-            </button>
-          ) :
-            cart?.cartProducts?.some((item: any) => item.product.id === product.id) && (
-              <div className="flex items-center gap-3 px-3 border rounded-lg border-primary">
+          className="absolute top-0 bottom-0 left-0 right-0 z-[1]"
+        />
+        {logIn &&
+          <>
+            {!product?.isFav ?
+              <button onClick={() => addToFav(product?.id)} className="absolute top-3 right-3 z-[2]">
                 {
-                  quantity === 1 ?
-                    <button onClick={() => handleRemoveFromCart(cartItem?.id!)} disabled={cartDeleteLoading}>
-                      {
-                        cartDeleteLoading ? (
-                          <ButtonLoader className="!border-primary !block max-w-[18px] h-[18px]" />
-                        ) : (
-                          <TrashIcon className="max-w-[14px] h-auto" />
-                        )
-                      }
-                    </button>
-                    :
-                    <button
-                      className="text-primary py-1 text-sm w-[14px]"
-                      onClick={() => { updateCartCall(quantity - 1) }}
-                    > - </button>
+                  addLoading ?
+                    <ButtonLoader className="!border-primary !block" /> :
+                    <CardHeartIcon />
                 }
-                <input
-                  type="text"
-                  className="text-center max-w-[35px] h-full font-bold text-sm border-0 focus:outline-0 text-primary"
-                  value={quantity}
-                  readOnly
-                  maxLength={3}
-                />
-                <button
-                  className="text-primary py-1 w-[14px] disabled:cursor-not-allowed disabled:opacity-50 disabled:pointer-events-none"
-                  onClick={() => { updateCartCall(quantity + 1) }}
-                  disabled={quantity === stock ? true : false}
-                >
-                  +
-                </button>
-              </div>
-            )}
+              </button>
+              :
+              <button onClick={() => removeFromFav(product?.favId!)} className="absolute top-3 right-3 z-[2]">
+                {
+                  removeLoading ?
+                    <ButtonLoader className="!border-primary !block" /> :
+                    <CardHeartIcon className="stroke-[#E5002B] fill-[#E5002B]" />
+                }
+              </button>}
+          </>
+        }
+        <figure>
+
+          <Image
+            src={product?.images[0]?.imageName}
+            alt="Plant"
+            width={216}
+            height={270}
+            quality={100}
+            style={{
+              maxWidth: '100%',
+              height: 'auto',
+              width: '100%',
+            }}
+          />
+        </figure>
+        <div className="plant-card_preview-icon">
+          <Link
+            href={`/products/${product?.slug}`}
+            className="flex items-center justify-center"
+          >
+            <SearchIcon className="max-w-[15px] h-auto" />
+          </Link>
         </div>
-      </div>
-      {/* <div className='plant-card_cartBtn'>
+        <div className="card-body px-[15px] py-[20px] gap-[10px]">
+          <p className="text-xs uppercase text-gray-450">
+            {product?.categoryTitle}
+          </p>
+          <h2 className="card-title plant-card-title">{product?.title}</h2>
+          {
+            product?.unitPrice[0]?.hasOffer ? (
+              <div className="flex items-center">
+                <p className="flex-grow-0 mr-2 text-sm text-red-250">
+                  NPR{product?.unitPrice[0]?.newPrice}
+                </p>
+                <p className="flex-grow-0 mr-2 text-sm font-semibold line-through text-primary">
+                  NPR
+                  {product?.unitPrice[0]?.oldPrice}
+                </p>
+                <p className="flex-grow-0 flex justify-center py-0.5 px-1 text-xs text-center text-white capitalize rounded-md bg-red-250">offer</p>
+              </div>
+            ) : (
+              <p className="text-sm font-semibold text-primary">
+                NPR {product?.unitPrice[0]?.sellingPrice}
+              </p>
+            )
+          }
+
+          <div className="flex justify-end relative z-[3]">
+            {/* config?.gateway?.skuMethod ? (
+               <button
+                className="btn btn-primary btn-outline p-2 h-auto !min-h-0 text-xs leading-auto"
+                onClick={() => router.push(`/products/${product?.slug}`)}
+              >
+                Add to Cart
+              </button>
+            ) : ( */}
+            {(!(cart?.cartProducts?.some((item: any) => item?.product.id === product?.id))) ? (
+              <button
+                className="btn btn-primary btn-outline p-2 h-auto !min-h-0 text-xs leading-auto"
+                onClick={handleAddToCart}
+              // disabled={mutation.isLoading}
+              >
+                Add to Cart
+                {/* {
+                    mutation.isLoading &&
+                    <ButtonLoader />
+                  } */}
+              </button>
+            ) :
+              cart?.cartProducts?.some((item: any) => item.product.id === product.id) && (
+                // <div className="flex items-center gap-3 px-3 border rounded-lg border-primary">
+                //   {
+                //     quantity === 1 ?
+                //       <button onClick={() => handleRemoveFromCart(cartItem?.id!)} disabled={cartDeleteLoading}>
+                //         {
+                //           cartDeleteLoading ? (
+                //             <ButtonLoader className="!border-primary !block max-w-[18px] h-[18px]" />
+                //           ) : (
+                //             <TrashIcon className="max-w-[14px] h-auto" />
+                //           )
+                //         }
+                //       </button>
+                //       :
+                //       <button
+                //         className="text-primary py-1 text-sm w-[14px]"
+                //         onClick={() => { updateCartCall(quantity - 1) }}
+                //       > - </button>
+                //   }
+                //   <input
+                //     type="text"
+                //     className="text-center max-w-[35px] h-full font-bold text-sm border-0 focus:outline-0 text-primary"
+                //     value={quantity}
+                //     readOnly
+                //     maxLength={3}
+                //   />
+                //   <button
+                //     className="text-primary py-1 w-[14px] disabled:cursor-not-allowed disabled:opacity-50 disabled:pointer-events-none"
+                //     onClick={() => { updateCartCall(quantity + 1) }}
+                //     disabled={quantity === stock ? true : false}
+                //   >
+                //     +
+                //   </button>
+                // </div>
+                <button
+                  className="btn btn-primary btn-outline p-2 h-auto !min-h-0 text-xs leading-auto"
+                  onClick={() => setShowProductModal(true)}
+                // disabled={mutation.isLoading}
+                >
+                  Update Cart
+                  {/* {
+                    mutation.isLoading &&
+                    <ButtonLoader />
+                  } */}
+                </button>
+              )}
+            {/* ) */}
+          </div>
+        </div>
+        {/* <div className='plant-card_cartBtn'>
                 <Link href={'/'} className='font-bold underline uppercase bg-white text-slate-850 underline-offset-4 hover:textprimary'>Add to Cart</Link>
             </div> */}
-    </div>
+
+      </div>
+      {showProductModal &&
+        <ProductDetailModal setShowProductModal={setShowProductModal} slug={product?.slug} />
+      }
+    </>
   );
 };
 

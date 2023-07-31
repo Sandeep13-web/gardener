@@ -1,5 +1,5 @@
 .plant-card {
-  @apply relative bg-white border border-gray-350 rounded-[5px] overflow-hidden transition-all delay-150 duration-300 mb-0;
+  @apply relative bg-white border border-gray-350 rounded-[5px] transition-all delay-150 duration-300 mb-0;
   &_preview-icon {
     @apply absolute top-[50%] transform translate-y-[-50%] left-0 right-0 text-center z-[1] h-[46px];
     a {
@@ -16,6 +16,9 @@
         }
       }
     }
+  }
+  figure img{
+    aspect-ratio: 0.8;
   }
 
   &-title {
@@ -84,7 +87,9 @@
   &__image{
     @apply w-[95px] relative;
     &--img{
+      aspect-ratio: 0.9;
       @apply max-w-full min-w-[95px] h-auto;
+
     }
     &--view{
       @apply absolute top-[50%] transform translate-y-[-50%] left-0 right-0 text-center z-[1] h-[46px];

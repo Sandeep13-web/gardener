@@ -26,6 +26,7 @@ import { Grid } from 'swiper';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import SkeletonLoadingCard from '@/shared/components/skeleton/products';
 import { ITag } from '@/interface/tag.interface';
+import RelatedProducts from '@/features/Product/related-products';
 
 
 const ProductSlug = () => {
@@ -40,8 +41,8 @@ const ProductSlug = () => {
   const [itemCartDetail, setItemCartDetail] = useState<ICartProduct>()
   const [value, setValue] = useState<number>(1);
   const { updateCartMutation, updateCartLoading } = useCarts()
-  //For swiper
-  const [swiperRef, setSwiperRef] = useState<SwiperClass>();
+
+
 
   const { data: cartData } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon: '' }));
 
@@ -57,6 +58,13 @@ const ProductSlug = () => {
   );
   const stock: any = productData?.response?.data?.unitPrice[0]?.stock
 
+  //For SKU
+  const [selectedSizeId, setSelectedSizeId] = useState<number>(0)
+  const unitPriceArray = productData?.response?.data?.unitPrice || [];
+  const filteredUnitPrice = selectedSizeId
+    ? unitPriceArray.filter((sizeObj: any) => sizeObj.size === selectedSizeId)
+    : unitPriceArray;
+
   const { data: relatedProducts, isLoading: relatedProductsLoading } = useQuery(
     ['getRelatedProductsFromId', productData?.productId],
     async () => {
@@ -71,7 +79,7 @@ const ProductSlug = () => {
     const payload: ICreateCartItem = {
       note: '',
       productId: productData?.productId,
-      priceId: productData?.response?.data?.unitPrice[0]?.id,
+      priceId: selectedPrice?.id,
       quantity: value,
     }
     mutation.mutate(payload)
@@ -144,20 +152,6 @@ const ProductSlug = () => {
   const favId = genFavId() //setting generated fav id.
 
 
-  //handling prev and next of swiper category
-  const handlePrevious = useCallback(() => {
-    if (swiperRef) {
-      swiperRef?.slidePrev();
-    }
-  }, [swiperRef]);
-
-  const handleNext = useCallback(() => {
-    if (swiperRef) {
-      swiperRef?.slideNext();
-    }
-  }, [swiperRef]);
-
-
   useEffect(() => {
     if (cartData) {
       cartData?.cartProducts?.map((item: any) => {
@@ -178,6 +172,19 @@ const ProductSlug = () => {
     }
   }, [productData]);
 
+  useEffect(() => {
+    if (productData) {
+      setSelectedSizeId(productData?.response?.data?.unitPrice[0]?.id)
+    }
+  }, [productData])
+
+  //for SKU multiple
+  //For checking if the selected size and the mapped pricec are equal to show the change in price
+  const selectedPrice = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId);
+
+  //to display image according to the changed size.
+  const selectedImg = productData?.response?.data?.images.find((img: any) => img?.unit_price_id === selectedSizeId);
+  const updateCart = cartData?.cartProducts?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
 
   return (
     <>
@@ -193,34 +200,55 @@ const ProductSlug = () => {
                 isLoading ?
                   <SkeletonImage />
                   : (
-                    <>
-                      <div className="w-full carousel">
-                        {
-                          productData?.response?.data?.images?.map((img: any, index: number) => (
-                            <div key={index} id={`item-${index}`} className="w-full carousel-item">
-                              <Image
-                                alt='Product Image'
-                                src={img?.imageName}
-                                width={330} height={330}
-                              />
-                            </div>
-                          ))
-                        }
-                      </div>
-                      <div className="flex justify-start w-full gap-2 py-2">
-                        {
-                          productData?.response?.data?.images?.map((img: any, index: number) => (
-                            <a href={`#item-${index}`} key={index}>
-                              <Image
-                                alt='Product Image'
-                                src={img?.imageName}
-                                width={90} height={90}
-                              />
-                            </a>
-                          ))
-                        }
-                      </div>
-                    </>
+                    productData?.response?.data?.unitPrice.length > 1 && selectedImg ? (
+                      <>
+                        <div className='w-full'>
+                          <Image
+                            src={selectedImg?.imageName}
+                            alt='Product Image'
+                            width={330} height={330}
+                          />
+                        </div>
+                        <div className="flex justify-start w-full gap-2 py-2">
+                          <Image alt='Product image' src={selectedImg?.imageName} width={90} height={90} />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="w-full carousel">
+                          {
+                            productData?.response?.data?.images?.map((img: any, index: number) => (
+                              <div key={index} id={`item-${index}`} className="w-full carousel-item">
+                                <Image
+                                  alt='Product Image'
+                                  src={img?.imageName}
+                                  width={330} height={330}
+                                />
+                              </div>
+                            ))
+                          }
+                        </div>
+                        <div className="flex justify-start w-full gap-2 py-2">
+                          {
+                            filteredUnitPrice.length > 1 ? (
+                              filteredUnitPrice.map((sizeObj: any, index: number) => (
+                                <Image key={index} alt='Product image' src={sizeObj?.image?.imageName} width={90} height={90} />
+                              ))
+                            ) : (
+                              productData?.response?.data?.images?.map((img: any, index: number) => (
+                                <a href={`#item-${index}`} key={index}>
+                                  <Image
+                                    alt='Product Image'
+                                    src={img?.imageName}
+                                    width={90} height={90}
+                                  />
+                                </a>
+                              ))
+                            )
+                          }
+                        </div>
+                      </>
+                    )
                   )
               }
 
@@ -250,7 +278,61 @@ const ProductSlug = () => {
                     </p>
                     <ul className="flex my-5">
 
-                      {productData?.response?.data?.unitPrice[0]?.hasOffer ? (
+                      {
+                        selectedPrice && selectedPrice?.hasOffer ? (
+                          <>
+                            <li className="mr-1 text-base text-red-250">
+                              NPR
+                              <span>
+                                {selectedPrice?.newPrice}
+                              </span>
+                            </li>
+
+                            <li className="mr-1 text-base font-semibold line-through text-primary">
+                              NPR
+                              <span>
+                                {selectedPrice?.oldPrice}
+                              </span>
+                            </li>
+                          </>
+                        ) : (
+                          < li className="mr-1 text-base font-bold text-primary" >
+                            NPR
+                            <span className='ml-1'>
+                              {selectedPrice?.sellingPrice}
+                            </span>
+                          </li>
+                        )
+
+                        //   productData?.response?.data?.unitPrice?.map((price: any) => (
+                        // (price?.size === selectedSize) && (price?.hasOffer) ? (
+                        // console.log('price.size === selectedSize', price?.size === selectedSize)
+                        //       // <>
+                        //       //   <li className="mr-1 text-base text-red-250">
+                        //       //     NPR
+                        //       //     <span>
+                        //       //       {price.newPrice}
+                        //       //     </span>
+                        //       //   </li>
+
+                        //       //   <li className="mr-1 text-base font-semibold line-through text-primary">
+                        //       //     NPR
+                        //       //     <span>
+                        //       //       {price.oldPrice}
+                        //       //     </span>
+                        //       //   </li>
+                        //       // </>
+                        // ) : (
+                        // < li className="mr-1 text-base text-red-250" >
+                        //   NPR
+                        //   <span>
+                        //     {price.sellingPrice}
+                        //   </span>
+                        // </li>
+                        // )
+                        // ))
+                      }
+                      {/* {productData?.response?.data?.unitPrice[0]?.hasOffer ? (
                         <>
                           <li className="mr-1 text-base text-red-250">
                             NPR
@@ -273,7 +355,7 @@ const ProductSlug = () => {
                             {productData?.response?.data?.unitPrice[0]?.sellingPrice}
                           </span>
                         </li>
-                      )}
+                      )} */}
                       <li className="text-base font-semibold text-primary ">
                         ( <span dangerouslySetInnerHTML={{ __html: taxMessage }} />)
                       </li>
@@ -281,6 +363,22 @@ const ProductSlug = () => {
 
                     <p dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
 
+                    {
+                      unitPriceArray.length > 1 &&
+                      <div className='mt-3'>
+                        <p className='mb-3 text-lg font-bold text-slate-850'>Size</p>
+                        <select name="" id=""
+                          value={selectedSizeId}
+                          onChange={(e) => setSelectedSizeId(JSON.parse(e.target.value))}
+                          className='px-3 py-1 w-[175px] focus:outline-none text-lg border rounded-[4px] border-primary text-slate-850'>
+                          {
+                            unitPriceArray?.map((size: any) => (
+                              <option key={size?.id} value={size?.id}><p>{size?.size}</p></option>
+                            ))
+                          }
+                        </select>
+                      </div>
+                    }
                     <div className="w-100 flex my-[30px]">
                       <div className="h-[48px] flex items-center border border-solid border-gray-950 overflow-hidden relative text-gray-250">
                         <button
@@ -305,7 +403,7 @@ const ProductSlug = () => {
                       </div>
                       <div>
                         {
-                          itemCartDetail ?
+                          itemCartDetail && updateCart ?
                             <button
                               type='button'
                               onClick={updateCartHandler}
@@ -391,66 +489,11 @@ const ProductSlug = () => {
           </div>
         </div>
       }
+
       {/* Related Products */}
       {
         relatedProducts?.data.length !== 0 &&
-        <section className="my-[60px]">
-          <div className="container">
-            <div className='flex items-center justify-between'>
-              <Title type="title-section" text="You Might Also Like" />
-              {
-                relatedProducts?.data.length > 5 && (
-                  <div className='!static productSwiper-navigation mb-[45px]'>
-                    <button
-                      // disabled={swiperRef?.isBeginning}
-                      onClick={handlePrevious}>
-                      <FaChevronLeft />
-                    </button>
-                    <button
-                      // disabled={swiperRef?.isEnd}
-                      onClick={handleNext}>
-                      <FaChevronRight />
-                    </button>
-                  </div>
-                )
-              }
-            </div>
-            {
-              relatedProductsLoading ? (
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
-                  {[1, 2, 3, 4, 5].map((index) => (
-                    <SkeletonLoadingCard
-                      key={`app-skeleton-${index}`}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <Swiper
-                  slidesPerView={5}
-                  grid={{
-                    rows: 1,
-                    fill: "row",
-                  }}
-                  pagination={false}
-                  spaceBetween={20}
-                  modules={[Grid]}
-                  className="productSwiper"
-                  onSwiper={setSwiperRef}
-                >
-                  {relatedProducts?.data.map((product: any, index: any) => (
-                    <SwiperSlide key={`related-producys-${index}`}>
-                      <Card
-                        product={product}
-                        key={`app-cat-products-${index}`}
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              )
-            }
-
-          </div>
-        </section >
+        <RelatedProducts relatedProductsLoading={relatedProductsLoading} relatedProducts={relatedProducts?.data} />
       }
     </>
   );
