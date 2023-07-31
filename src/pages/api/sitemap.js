@@ -21,16 +21,13 @@ async function generateBlogListUrls() {
     }));
     return urls;
   } catch (err) {
-    console.log(err);
     return [];
   }
 }
 
 export default async function handler(req, res) {
   const baseUrl = 'https://api.uat.ordering-iamthegardener-v4.ekbana.net/api/v4';
-  const dynamicUrls = await generateDynamicUrls();
   const blogListUrls = await generateBlogListUrls();
-  console.log('All URLs:', blogListUrls );
 
   // Static URLs List
   const staticUrls = [
@@ -43,8 +40,7 @@ export default async function handler(req, res) {
   ];
 
   // All dynamic and static URLs
-  const allUrls = [...staticUrls, ...dynamicUrls, ...blogListUrls];
-  console.log(allUrls)
+  const allUrls = [...staticUrls, ...blogListUrls];
 
   //Dynamic sitemap here
   const sitemap = createSitemap({
