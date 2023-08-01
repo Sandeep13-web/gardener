@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { NextPageWithLayout } from "../_app";
+import { NextPageWithLayout } from "../../_app";
 import MainLayout from "@/shared/main-layout";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getPageData } from "@/services/page.service";
 import Breadcrumb from "@/shared/components/breadcrumb";
 import Loader from "@/components/Loading";
+import Head from "next/head";
+import SkeletonDynamicPage from "@/shared/components/skeleton/dynamic-page";
 
-
-const WhyPlant: NextPageWithLayout = () => {
+const Career: NextPageWithLayout = () => {
   const router = useRouter();
   const { asPath } = router;
   const [descriptionContent, setDescriptionContent] = useState<string>('');
   const path = asPath.split('/');
   const slug = path[path.length - 1];
-  const { data: whyPlantData, isInitialLoading: fetchLoading } = useQuery({
+  const { data: careerData, isInitialLoading: fetchLoading } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
@@ -26,19 +27,22 @@ const WhyPlant: NextPageWithLayout = () => {
   });
 
   useEffect(() => {
-    if (whyPlantData) {
-      setDescriptionContent(whyPlantData?.data?.description || '');
+    if (careerData) {
+      setDescriptionContent(careerData?.data?.description || '');
     }
-  }, [whyPlantData]);
+  }, [careerData]);
   return (
     <>
+      <Head>
+        <title>{careerData?.data?.title || 'I am the Gardener'}</title>
+      </Head>
       {
         fetchLoading ? (
-          <Loader />
+          <SkeletonDynamicPage />
         ) : (
           <>
-            <Breadcrumb title={whyPlantData?.data?.title} />
-            <div className="text-justify py-7" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
+            <Breadcrumb title={careerData?.data?.title} />
+            <div className="main-wrapper-block working-at-block" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
           </>
         )
       }
@@ -47,7 +51,7 @@ const WhyPlant: NextPageWithLayout = () => {
   );
 
 }
-export default WhyPlant;
-WhyPlant.getLayout = (page) => {
+export default Career;
+Career.getLayout = (page) => {
   return <MainLayout>{page}</MainLayout>;
 };

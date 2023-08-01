@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { NextPageWithLayout } from '../_app'
+import { NextPageWithLayout } from '../../_app'
 import MainLayout from '@/shared/main-layout'
 
 const TermsAndCondition: NextPageWithLayout = () => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NextPageWithLayout } from "../_app";
+import { NextPageWithLayout } from "../../_app";
 import MainLayout from "@/shared/main-layout";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
@@ -9,13 +9,13 @@ import Loader from "@/components/Loading";
 import Head from "next/head";
 import SkeletonDynamicPage from "@/shared/components/skeleton/dynamic-page";
 
-const GiftAPlant: NextPageWithLayout = () => {
+const CSRProjects: NextPageWithLayout = () => {
   const router = useRouter();
   const { asPath } = router;
   const [descriptionContent, setDescriptionContent] = useState<string>('');
   const path = asPath.split('/');
   const slug = path[path.length - 1];
-  const { data: giftPlantData, isInitialLoading: fetchLoading } = useQuery({
+  const { data: csrProjectData, isInitialLoading: fetchLoading } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
@@ -27,21 +27,21 @@ const GiftAPlant: NextPageWithLayout = () => {
   });
 
   useEffect(() => {
-    if (giftPlantData) {
-      setDescriptionContent(giftPlantData?.data?.description || '');
+    if (csrProjectData) {
+      setDescriptionContent(csrProjectData?.data?.description || '');
     }
-  }, [giftPlantData]);
+  }, [csrProjectData]);
   return (
     <>
       <Head>
-        <title>{giftPlantData?.data?.title || 'I am the Gardener'}</title>
+        <title>{csrProjectData?.data?.title || 'I am the Gardener'}</title>
       </Head>
       {
         fetchLoading ? (
           <SkeletonDynamicPage />
         ) : (
           <>
-            <Breadcrumb title={giftPlantData?.data?.title} />
+            <Breadcrumb title={csrProjectData?.data?.title} />
             <div className="main-wrapper-block" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
           </>
         )
@@ -51,7 +51,7 @@ const GiftAPlant: NextPageWithLayout = () => {
   );
 
 }
-export default GiftAPlant;
-GiftAPlant.getLayout = (page) => {
+export default CSRProjects;
+CSRProjects.getLayout = (page) => {
   return <MainLayout>{page}</MainLayout>;
 };

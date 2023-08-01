@@ -14,7 +14,6 @@ export interface IProps {
     updatedData: any
 }
 const HalfLeftCard = ({ updatedData }: IProps) => {
-    // console.log(updatedData)
     const [nextDisable, setNextDisable] = useState<boolean>(false)
     const [prevDisable, setPrevDisable] = useState<boolean>(false)
     const [swiperRef, setSwiperRef] = useState<SwiperClass>();
