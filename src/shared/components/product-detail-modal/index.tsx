@@ -47,13 +47,22 @@ const ProductDetailModal = ({ slug, setShowProductModal }: IProductModal) => {
             }
         }
     );
-    const stock: any = productData?.response?.data?.unitPrice[0]?.stock
     //For SKU
-    const [selectedSize, setSelectedSize] = useState<string>('')
+    const [selectedSizeId, setSelectedSizeId] = useState<number>(0)
     const unitPriceArray = productData?.response?.data?.unitPrice || [];
-    const filteredUnitPrice = selectedSize
-        ? unitPriceArray.filter((sizeObj: any) => sizeObj.size === selectedSize)
+    const filteredUnitPrice = selectedSizeId
+        ? unitPriceArray.filter((sizeObj: any) => sizeObj.size === selectedSizeId)
         : unitPriceArray;
+
+    //For checking if the selected size and the mapped pricec are equal to show the change in price
+    const selectedPrice = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId);
+
+    //to display image according to the changed size.
+    const selectedImg = productData?.response?.data?.images.find((img: any) => img?.unit_price_id === selectedSizeId);
+    const updateCart = cartData?.cartProducts?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
+
+    //checking stock for each product/sku element
+    const stock: any = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId)?.stock
 
     const handleAddToCart = () => {
         const payload: ICreateCartItem = {
@@ -153,9 +162,15 @@ const ProductDetailModal = ({ slug, setShowProductModal }: IProductModal) => {
 
     useEffect(() => {
         if (productData) {
-            setSelectedSize(productData?.response?.data?.unitPrice[0]?.size)
+            setSelectedSizeId(productData?.response?.data?.unitPrice[0]?.size)
         }
     }, [productData])
+
+    useEffect(() => {
+        setValue(1)
+    }, [selectedSizeId])
+
+
 
     return (
         <>
@@ -172,43 +187,59 @@ const ProductDetailModal = ({ slug, setShowProductModal }: IProductModal) => {
                                 isLoading ?
                                     <SkeletonImage />
                                     : (
-                                        <>
-                                            <div className="w-full carousel">
-                                                {
-                                                    productData?.response?.data?.images?.map((img: any, index: number) => (
-                                                        <div key={index} id={`item-${index}`} className="w-full carousel-item">
-                                                            <Image
-                                                                alt='Product Image'
-                                                                src={img?.imageName}
-                                                                width={330} height={330}
-                                                            />
-                                                        </div>
-                                                    ))
-                                                }
-                                            </div>
-                                            <div className="flex justify-start w-full gap-2 py-2">
-                                                {
-                                                    filteredUnitPrice.length > 1 ? (
-                                                        filteredUnitPrice.map((sizeObj: any, index: number) => (
-                                                            <Image key={index} alt='Product image' src={sizeObj?.image?.imageName} />
-                                                        ))
-                                                    ) : (
+                                        productData?.response?.data?.unitPrice.length > 1 && selectedImg ? (
+                                            <>
+                                                <div className='w-full'>
+                                                    <Image
+                                                        src={selectedImg?.imageName}
+                                                        alt='Product Image'
+                                                        width={330} height={330}
+                                                    />
+                                                </div>
+                                                <div className="flex justify-start w-full gap-2 py-2">
+                                                    <Image alt='Product image' src={selectedImg?.imageName} width={90} height={90} />
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="w-full carousel">
+                                                    {
                                                         productData?.response?.data?.images?.map((img: any, index: number) => (
-                                                            <a href={`#item-${index}`} key={index}>
+                                                            <div key={index} id={`item-${index}`} className="w-full carousel-item">
                                                                 <Image
                                                                     alt='Product Image'
                                                                     src={img?.imageName}
-                                                                    width={90} height={90}
+                                                                    width={330} height={330}
                                                                 />
-                                                            </a>
+                                                            </div>
                                                         ))
-                                                    )
-                                                }
-                                            </div>
-                                        </>
+                                                    }
+                                                </div>
+                                                <div className="flex justify-start w-full gap-2 py-2">
+                                                    {
+                                                        filteredUnitPrice.length > 1 ? (
+                                                            filteredUnitPrice.map((sizeObj: any, index: number) => (
+                                                                <>
+                                                                    <Image key={index} alt='Product image' src={sizeObj?.image?.imageName} width={90} height={90} />
+                                                                </>
+                                                            ))
+                                                        ) : (
+                                                            productData?.response?.data?.images?.map((img: any, index: number) => (
+                                                                <a href={`#item-${index}`} key={index}>
+                                                                    <Image
+                                                                        alt='Product Image'
+                                                                        src={img?.imageName}
+                                                                        width={90} height={90}
+                                                                    />
+                                                                </a>
+                                                            ))
+                                                        )
+                                                    }
+                                                </div>
+                                            </>
+                                        )
                                     )
                             }
-
                         </div>
                         <div className="col-span-12 md:col-span-7">
                             {
@@ -235,30 +266,32 @@ const ProductDetailModal = ({ slug, setShowProductModal }: IProductModal) => {
                                         </p>
                                         <ul className="flex my-5">
 
-                                            {productData?.response?.data?.unitPrice[0]?.hasOffer ? (
-                                                <>
-                                                    <li className="mr-1 text-base text-red-250">
-                                                        NPR
-                                                        <span>
-                                                            {productData?.response?.data?.unitPrice[0]?.newPrice}
-                                                        </span>
-                                                    </li>
+                                            {
+                                                selectedPrice && selectedPrice?.hasOffer ? (
+                                                    <>
+                                                        <li className="mr-1 text-base text-red-250">
+                                                            NPR
+                                                            <span>
+                                                                {selectedPrice?.newPrice * value}
+                                                            </span>
+                                                        </li>
 
-                                                    <li className="mr-1 text-base font-semibold line-through text-primary">
+                                                        <li className="mr-1 text-base font-semibold line-through text-primary">
+                                                            NPR
+                                                            <span>
+                                                                {selectedPrice?.oldPrice}
+                                                            </span>
+                                                        </li>
+                                                    </>
+                                                ) : (
+                                                    < li className="mr-1 text-base font-bold text-primary" >
                                                         NPR
-                                                        <span>
-                                                            {productData?.response?.data?.unitPrice[0]?.oldPrice}
+                                                        <span className='ml-1'>
+                                                            {selectedPrice?.sellingPrice * value}
                                                         </span>
                                                     </li>
-                                                </>
-                                            ) : (
-                                                <li className="mr-1 text-base text-red-250">
-                                                    NPR
-                                                    <span>
-                                                        {productData?.response?.data?.unitPrice[0]?.sellingPrice}
-                                                    </span>
-                                                </li>
-                                            )}
+                                                )
+                                            }
                                             <li className="text-base font-semibold text-primary ">
                                                 ( <span dangerouslySetInnerHTML={{ __html: taxMessage }} />)
                                             </li>
@@ -271,8 +304,8 @@ const ProductDetailModal = ({ slug, setShowProductModal }: IProductModal) => {
                                             <div className='mt-3'>
                                                 <p className='mb-3 text-lg font-bold text-slate-850'>Size</p>
                                                 <select name="" id=""
-                                                    value={selectedSize}
-                                                    onChange={(e) => setSelectedSize(e.target.value)}
+                                                    value={selectedSizeId}
+                                                    onChange={(e) => setSelectedSizeId(JSON.parse(e.target.value))}
                                                     className='px-3 py-1 w-[175px] focus:outline-none text-lg border rounded-[4px] border-primary text-slate-850'>
                                                     {
                                                         unitPriceArray?.map((size: any, index: number) => (

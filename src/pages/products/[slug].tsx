@@ -1,11 +1,9 @@
 import { useRouter } from 'next/router'
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import MainLayout from '@/shared/main-layout';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getProductsFromSlug, getRelatedProductsFromId } from '@/services/product.service';
-import Card from '@/shared/components/card';
-import Title from '@/shared/components/title';
 import Breadcrumb from '@/shared/components/breadcrumb';
 import Link from 'next/link';
 import { ICartItem, ICreateCartItem, IUpdateCartItem } from '@/interface/cart.interface';
@@ -20,11 +18,6 @@ import CardHeartIcon from '@/shared/icons/common/CardHeartIcon';
 import { getToken } from '@/shared/utils/cookies-utils/cookies.utils';
 import { useWishlists } from '@/hooks/wishlist.hooks';
 import SkeletonDescription from '@/shared/components/skeleton/description';
-
-import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
-import { Grid } from 'swiper';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import SkeletonLoadingCard from '@/shared/components/skeleton/products';
 import { ITag } from '@/interface/tag.interface';
 import RelatedProducts from '@/features/Product/related-products';
 
@@ -56,7 +49,6 @@ const ProductSlug = () => {
       }
     }
   );
-  const stock: any = productData?.response?.data?.unitPrice[0]?.stock
 
   //For SKU
   const [selectedSizeId, setSelectedSizeId] = useState<number>(0)
@@ -178,6 +170,10 @@ const ProductSlug = () => {
     }
   }, [productData])
 
+  useEffect(() => {
+    setValue(1)
+  }, [selectedSizeId])
+
   //for SKU multiple
   //For checking if the selected size and the mapped pricec are equal to show the change in price
   const selectedPrice = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId);
@@ -185,6 +181,9 @@ const ProductSlug = () => {
   //to display image according to the changed size.
   const selectedImg = productData?.response?.data?.images.find((img: any) => img?.unit_price_id === selectedSizeId);
   const updateCart = cartData?.cartProducts?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
+
+  //checking stock for each product/sku element
+  const stock: any = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId)?.stock
 
   return (
     <>
@@ -232,7 +231,9 @@ const ProductSlug = () => {
                           {
                             filteredUnitPrice.length > 1 ? (
                               filteredUnitPrice.map((sizeObj: any, index: number) => (
-                                <Image key={index} alt='Product image' src={sizeObj?.image?.imageName} width={90} height={90} />
+                                <>
+                                  <Image key={index} alt='Product image' src={sizeObj?.image?.imageName} width={90} height={90} />
+                                </>
                               ))
                             ) : (
                               productData?.response?.data?.images?.map((img: any, index: number) => (
@@ -284,7 +285,7 @@ const ProductSlug = () => {
                             <li className="mr-1 text-base text-red-250">
                               NPR
                               <span>
-                                {selectedPrice?.newPrice}
+                                {selectedPrice?.newPrice * value}
                               </span>
                             </li>
 
@@ -299,7 +300,7 @@ const ProductSlug = () => {
                           < li className="mr-1 text-base font-bold text-primary" >
                             NPR
                             <span className='ml-1'>
-                              {selectedPrice?.sellingPrice}
+                              {selectedPrice?.sellingPrice * value}
                             </span>
                           </li>
                         )

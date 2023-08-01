@@ -54,7 +54,7 @@ const CartTableRow = ({ item }: any) => {
         <tr className="border-b-gray-350">
             <td className="w-[150px] text-gray-650 text-center py-[30px] font-medium">
                 <Image
-                    src={selectedImg?.imageName}
+                    src={selectedImg ? selectedImg?.imageName : item?.product?.images[0]?.imageName}
                     height={80}
                     width={80}
                     alt={item?.product?.title}
