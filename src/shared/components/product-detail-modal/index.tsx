@@ -54,15 +54,6 @@ const ProductDetailModal = ({ slug, setShowProductModal }: IProductModal) => {
         ? unitPriceArray.filter((sizeObj: any) => sizeObj.size === selectedSizeId)
         : unitPriceArray;
 
-    //For checking if the selected size and the mapped pricec are equal to show the change in price
-    const selectedPrice = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId);
-
-    //to display image according to the changed size.
-    const selectedImg = productData?.response?.data?.images.find((img: any) => img?.unit_price_id === selectedSizeId);
-    const updateCart = cartData?.cartProducts?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
-
-    //checking stock for each product/sku element
-    const stock: any = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId)?.stock
 
     const handleAddToCart = () => {
         const payload: ICreateCartItem = {
@@ -162,7 +153,7 @@ const ProductDetailModal = ({ slug, setShowProductModal }: IProductModal) => {
 
     useEffect(() => {
         if (productData) {
-            setSelectedSizeId(productData?.response?.data?.unitPrice[0]?.size)
+            setSelectedSizeId(productData?.response?.data?.unitPrice[0]?.id)
         }
     }, [productData])
 
@@ -170,6 +161,15 @@ const ProductDetailModal = ({ slug, setShowProductModal }: IProductModal) => {
         setValue(1)
     }, [selectedSizeId])
 
+    //For checking if the selected size and the mapped pricec are equal to show the change in price
+    const selectedPrice = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId);
+
+    //to display image according to the changed size.
+    const selectedImg = productData?.response?.data?.images.find((img: any) => img?.unit_price_id === selectedSizeId);
+    const updateCart = cartData?.cartProducts?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
+
+    //checking stock for each product/sku element
+    const stock: any = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId)?.stock
 
 
     return (
@@ -309,7 +309,7 @@ const ProductDetailModal = ({ slug, setShowProductModal }: IProductModal) => {
                                                     className='px-3 py-1 w-[175px] focus:outline-none text-lg border rounded-[4px] border-primary text-slate-850'>
                                                     {
                                                         unitPriceArray?.map((size: any, index: number) => (
-                                                            <option key={index} value={size?.size}><p>{size?.size}</p></option>
+                                                            <option key={index} value={size?.id}><p>{size?.size}</p></option>
                                                         ))
                                                     }
                                                 </select>
@@ -339,7 +339,7 @@ const ProductDetailModal = ({ slug, setShowProductModal }: IProductModal) => {
                                             </div>
                                             <div>
                                                 {
-                                                    itemCartDetail ?
+                                                    itemCartDetail && updateCart ?
                                                         <button
                                                             type='button'
                                                             onClick={updateCartHandler}
