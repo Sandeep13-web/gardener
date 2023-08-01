@@ -1,6 +1,6 @@
 import MainLayout from '@/shared/main-layout';
 import React, { useEffect, useState } from 'react'
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from '../../_app';
 import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
 import { getPageData } from '@/services/page.service';
@@ -8,12 +8,12 @@ import Loader from '@/components/Loading';
 import Breadcrumb from '@/shared/components/breadcrumb';
 import Head from 'next/head';
 
-const PrivacyPolicy: NextPageWithLayout = () => {
+const AppPrivacyPolicy: NextPageWithLayout = () => {
     const router = useRouter();
     const { asPath } = router;
     const [descriptionContent, setDescriptionContent] = useState<string>("");
     const path = asPath.split("/");
-    const slug = path[path.length - 1];
+    const slug = asPath.replace("/page/app-", "");
     const { data: privacyPolicy, isInitialLoading: fetchLoading } = useQuery({
         queryKey: ["getPageData", slug],
         queryFn: async () => {
@@ -52,8 +52,4 @@ const PrivacyPolicy: NextPageWithLayout = () => {
         </>
     )
 }
-export default PrivacyPolicy
-
-PrivacyPolicy.getLayout = (page) => {
-    return <MainLayout>{page}</MainLayout>;
-};
+export default AppPrivacyPolicy

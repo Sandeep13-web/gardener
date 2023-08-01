@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { NextPageWithLayout } from '../_app'
+import { NextPageWithLayout } from '../../_app'
 import MainLayout from '@/shared/main-layout'
 import Head from 'next/head'
 import Loader from '@/components/Loading'

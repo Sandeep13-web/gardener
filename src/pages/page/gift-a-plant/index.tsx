@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NextPageWithLayout } from "../_app";
+import { NextPageWithLayout } from "../../_app";
 import MainLayout from "@/shared/main-layout";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
@@ -7,17 +7,15 @@ import { getPageData } from "@/services/page.service";
 import Breadcrumb from "@/shared/components/breadcrumb";
 import Loader from "@/components/Loading";
 import Head from "next/head";
-import SkeletonImage from "@/shared/components/skeleton/image";
-import SkeletonDescription from "@/shared/components/skeleton/description";
 import SkeletonDynamicPage from "@/shared/components/skeleton/dynamic-page";
 
-const AboutUs: NextPageWithLayout = () => {
+const GiftAPlant: NextPageWithLayout = () => {
   const router = useRouter();
   const { asPath } = router;
   const [descriptionContent, setDescriptionContent] = useState<string>('');
   const path = asPath.split('/');
   const slug = path[path.length - 1];
-  const { data: aboutData, isInitialLoading: fetchLoading } = useQuery({
+  const { data: giftPlantData, isInitialLoading: fetchLoading } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
@@ -29,30 +27,31 @@ const AboutUs: NextPageWithLayout = () => {
   });
 
   useEffect(() => {
-    if (aboutData) {
-      setDescriptionContent(aboutData?.data?.description || '');
+    if (giftPlantData) {
+      setDescriptionContent(giftPlantData?.data?.description || '');
     }
-  }, [aboutData]);
+  }, [giftPlantData]);
   return (
     <>
       <Head>
-        <title>{aboutData?.data?.title || 'I am the Gardener'}</title>
+        <title>{giftPlantData?.data?.title || 'I am the Gardener'}</title>
       </Head>
       {
         fetchLoading ? (
           <SkeletonDynamicPage />
         ) : (
           <>
-            <Breadcrumb title={aboutData?.data?.title} />
-            <div className="main-wrapper-block aboutus-wrapper" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
+            <Breadcrumb title={giftPlantData?.data?.title} />
+            <div className="main-wrapper-block" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
           </>
         )
       }
+
     </>
   );
 
 }
-export default AboutUs;
-AboutUs.getLayout = (page) => {
+export default GiftAPlant;
+GiftAPlant.getLayout = (page) => {
   return <MainLayout>{page}</MainLayout>;
 };

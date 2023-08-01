@@ -406,7 +406,7 @@ const Header = () => {
             </div>
 
             {/* Why Plant Button */}
-            <Link href="/why-plants" aria-label="why-plantss-2">
+            <Link href="/page/why-plants" aria-label="why-plantss-2">
               <button className="btn btn-primary btn-outline !min-h-12 font-bold text-base gap-0">
                 <FlowerIcon /> <p className="hidden lg:block">Why Plant</p>
               </button>
@@ -495,7 +495,7 @@ const Header = () => {
                 >
                   <li>
                     <Link
-                      href="/plant-consultation"
+                      href="/page/plant-consultation"
                       className="rounded-none text-gray-750 border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:bg-transparent hover:text-primary hover:pl-[20px] transition-all duration-200 ease-linear outline-none"
                     >
                       Plant Consultation
@@ -503,7 +503,7 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
-                      href="/gift-a-plant"
+                      href="/page/gift-a-plant"
                       className="rounded-none text-gray-750 text-sm  capitalize font-medium hover:bg-transparent hover:text-primary hover:pl-[20px] transition-all duration-200 ease-linear outline-none"
                     >
                       Gift a plant
@@ -511,7 +511,7 @@ const Header = () => {
                   </li>
                 </ul>
               </div>
-              <Link href="/our-outlets" aria-label="our-outlets" className="!bg-white border-0 text-gray-550 font-bold text-sm">  OUTLET</Link>
+              <Link href="/page/our-outlets" aria-label="our-outlets" className="!bg-white border-0 text-gray-550 font-bold text-sm">  OUTLET</Link>
               {/* <Button
                   type="ghost"
                   className="!bg-white border-0 text-gray-550 font-bold"
@@ -535,7 +535,7 @@ const Header = () => {
                 >
                   <li>
                     <Link
-                      href="/tree-installation"
+                      href="/page/tree-installation"
                       className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none"
                     >
                       Tree Installation
@@ -543,7 +543,7 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
-                      href="about-us"
+                      href="/page/about-us"
                       className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none"
                     >
                       Our Story
@@ -551,7 +551,7 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
-                      href="/our-values"
+                      href="/page/our-values"
                       className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none"
                     >
                       Values That Make Us
@@ -559,7 +559,7 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
-                      href="/working-at-i-am-the-gardener"
+                      href="/page/working-at-i-am-the-gardener"
                       className="rounded-none text-gray-750 hover:bg-transparent hover:text-primary border-b-gray-150 border-solid border-b-[1px]  text-sm  capitalize font-medium hover:pl-[20px] transition-all duration-200 ease-linear outline-none"
                     >
                       Working At I Am The Gardner
@@ -567,7 +567,7 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
-                      href="/csr-projects"
+                      href="/page/csr-projects"
                       className="rounded-none text-gray-750 text-sm  capitalize font-medium hover:bg-transparent hover:text-primary hover:pl-[20px] transition-all duration-200 ease-linear outline-none"
                     >
                       Our CSR Project

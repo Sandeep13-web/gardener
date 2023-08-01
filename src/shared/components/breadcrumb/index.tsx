@@ -29,10 +29,10 @@ const Breadcrumb = ({ title }: any) => {
     { label: "Order", path: '/account/order' },
     { label: 'Change Password', path: "/account/change-password" },
     { label: "Your Address", path: '/account/addresses' },
-    { label: 'Privacy Policy', path: '/privacy-policy' },
-    { label: 'Terms and Conditions', path: '/terms-and-conditions' },
-    { label: 'Faq', path: '/faq' },
-    { label: 'Contact Us', path: '/contact-us' },
+    { label: 'Privacy Policy', path: '/page/privacy-policy' },
+    { label: 'Terms and Conditions', path: '/page/terms-and-conditions' },
+    { label: 'Faq', path: '/page/faq' },
+    { label: 'Contact Us', path: '/page/contact-us' },
   ];
   const currentBreadcrumbItem = breadcrumbItems.find(
     (item) => item.path === pathname

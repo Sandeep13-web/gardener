@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NextPageWithLayout } from "../_app";
+import { NextPageWithLayout } from "../../_app";
 import MainLayout from "@/shared/main-layout";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
@@ -9,13 +9,13 @@ import Loader from "@/components/Loading";
 import Head from "next/head";
 import SkeletonDynamicPage from "@/shared/components/skeleton/dynamic-page";
 
-const Career: NextPageWithLayout = () => {
+const OurValues: NextPageWithLayout = () => {
   const router = useRouter();
   const { asPath } = router;
   const [descriptionContent, setDescriptionContent] = useState<string>('');
   const path = asPath.split('/');
   const slug = path[path.length - 1];
-  const { data: careerData, isInitialLoading: fetchLoading } = useQuery({
+  const { data: valuesData, isInitialLoading: fetchLoading } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
@@ -27,31 +27,30 @@ const Career: NextPageWithLayout = () => {
   });
 
   useEffect(() => {
-    if (careerData) {
-      setDescriptionContent(careerData?.data?.description || '');
+    if (valuesData) {
+      setDescriptionContent(valuesData?.data?.description || '');
     }
-  }, [careerData]);
+  }, [valuesData]);
   return (
     <>
       <Head>
-        <title>{careerData?.data?.title || 'I am the Gardener'}</title>
+        <title>{valuesData?.data?.title || 'I am the Gardener'}</title>
       </Head>
       {
         fetchLoading ? (
           <SkeletonDynamicPage />
         ) : (
           <>
-            <Breadcrumb title={careerData?.data?.title} />
-            <div className="main-wrapper-block working-at-block" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
+            <Breadcrumb title={valuesData?.data?.title} />
+            <div className="main-wrapper-block" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
           </>
         )
       }
 
     </>
   );
-
 }
-export default Career;
-Career.getLayout = (page) => {
+export default OurValues;
+OurValues.getLayout = (page) => {
   return <MainLayout>{page}</MainLayout>;
 };
