@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NextPageWithLayout } from "../_app";
+import { NextPageWithLayout } from "../../_app";
 import MainLayout from "@/shared/main-layout";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
@@ -9,13 +9,13 @@ import Loader from "@/components/Loading";
 import Head from "next/head";
 import SkeletonDynamicPage from "@/shared/components/skeleton/dynamic-page";
 
-const OurValues: NextPageWithLayout = () => {
+const AppAboutUs: NextPageWithLayout = () => {
   const router = useRouter();
   const { asPath } = router;
   const [descriptionContent, setDescriptionContent] = useState<string>('');
   const path = asPath.split('/');
-  const slug = path[path.length - 1];
-  const { data: valuesData, isInitialLoading: fetchLoading } = useQuery({
+  const slug = asPath.replace("/page/app-", "");
+  const { data: aboutData, isInitialLoading: fetchLoading } = useQuery({
     queryKey: ["getPageData", slug],
     queryFn: async () => {
       if (slug) {
@@ -27,30 +27,27 @@ const OurValues: NextPageWithLayout = () => {
   });
 
   useEffect(() => {
-    if (valuesData) {
-      setDescriptionContent(valuesData?.data?.description || '');
+    if (aboutData) {
+      setDescriptionContent(aboutData?.data?.description || '');
     }
-  }, [valuesData]);
+  }, [aboutData]);
   return (
     <>
       <Head>
-        <title>{valuesData?.data?.title || 'I am the Gardener'}</title>
+        <title>{aboutData?.data?.title || 'I am the Gardener'}</title>
       </Head>
       {
         fetchLoading ? (
           <SkeletonDynamicPage />
         ) : (
           <>
-            <Breadcrumb title={valuesData?.data?.title} />
-            <div className="main-wrapper-block" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
+            <Breadcrumb title={aboutData?.data?.title} />
+            <div className="main-wrapper-block aboutus-wrapper" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
           </>
         )
       }
-
     </>
   );
+
 }
-export default OurValues;
-OurValues.getLayout = (page) => {
-  return <MainLayout>{page}</MainLayout>;
-};
+export default AppAboutUs;
