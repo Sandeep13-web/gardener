@@ -10,12 +10,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ICartItem, ICreateCartItem, IUpdateCartItem } from '@/interface/cart.interface'
 import { addToCart, getCartData } from '@/services/cart.service'
 import { useCarts } from '@/hooks/cart.hooks'
-import { getProductsFromSlug, getRelatedProductsFromId } from '@/services/product.service'
+import { getProductsFromSlug } from '@/services/product.service'
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
 import { useWishlists } from '@/hooks/wishlist.hooks'
 import ButtonLoader from '../btn-loading'
 import CardHeartIcon from '@/shared/icons/common/CardHeartIcon'
-import { FaTimes, FaUserTimes } from 'react-icons/fa'
+import { FaTimes } from 'react-icons/fa'
 
 interface IProductModal {
     slug: string,

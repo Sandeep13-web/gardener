@@ -97,21 +97,21 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
                         0: {
                           slidesPerView: 1,
                           grid: {
-                            rows: 2
+                            rows: (prev?.type === "product_horizontal" || prev?.type === 'product_vertical') ? 1 : 2,
                           },
                           spaceBetween: 20,
                         },
                         768: {
                           slidesPerView: 3,
                           grid: {
-                            rows: 2
+                            rows: (prev?.type === "product_horizontal" || prev?.type === 'product_vertical') ? 1 : 2,
                           },
                           spaceBetween: 20,
                         },
                         1050: {
                           slidesPerView: 5,
                           grid: {
-                            rows: 2
+                            rows: (prev?.type === "product_horizontal" || prev?.type === 'product_vertical') ? 1 : 2,
                           },
                           spaceBetween: 20,
                         }
