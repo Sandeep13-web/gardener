@@ -13,12 +13,15 @@ import Head from "next/head";
 import Pagination from "@/shared/components/pagination";
 import SortingDropdown from "@/shared/components/sorting-dropdown";
 import SkeletonLoadingCard from "@/shared/components/skeleton/products";
+import ProductDetailModal from "@/shared/components/product-detail-modal";
 
 const Offer: NextPageWithLayout = () => {
 
   const [query, setQuery] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedValue, setSelectedValue] = useState<string>('')
+  const [productModalId, setProductModalId] = useState<string>("")
+
   const offer = 1
 
   const { data: offers, isLoading, error } = useQuery(
@@ -75,6 +78,7 @@ const Offer: NextPageWithLayout = () => {
                           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                             {offers.data.map((product: any, index: any) => (
                               <Card
+                                setProductModalId={setProductModalId}
                                 product={product}
                                 key={`app-cat-products-${index}`}
                               />
@@ -93,6 +97,10 @@ const Offer: NextPageWithLayout = () => {
 
               )}
             </div>
+            {
+              productModalId !== '' &&
+              <ProductDetailModal setProductModalId={setProductModalId} slug={productModalId} />
+            }
           </section>
         </div >
       </div >

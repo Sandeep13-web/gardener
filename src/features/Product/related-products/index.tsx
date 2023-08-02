@@ -1,5 +1,6 @@
 import { IProduct } from '@/interface/product.interface'
 import Card from '@/shared/components/card'
+import ProductDetailModal from '@/shared/components/product-detail-modal'
 import SkeletonLoadingCard from '@/shared/components/skeleton/products'
 import Title from '@/shared/components/title'
 import React, { useCallback, useState } from 'react'
@@ -13,6 +14,8 @@ export interface IRelatedProducts {
 }
 
 const RelatedProducts = ({ relatedProducts, relatedProductsLoading }: IRelatedProducts) => {
+    const [productModalId, setProductModalId] = useState<string>("")
+
     //For swiper
     const [nextDisable, setNextDisable] = useState<boolean>(false)
     const [prevDisable, setPrevDisable] = useState<boolean>(false)
@@ -110,6 +113,7 @@ const RelatedProducts = ({ relatedProducts, relatedProductsLoading }: IRelatedPr
                             {relatedProducts?.map((product: any, index: any) => (
                                 <SwiperSlide key={`related-products-${index}`}>
                                     <Card
+                                        setProductModalId={setProductModalId}
                                         product={product}
                                         key={`app-cat-products-${index}`}
                                     />
@@ -117,6 +121,10 @@ const RelatedProducts = ({ relatedProducts, relatedProductsLoading }: IRelatedPr
                             ))}
                         </Swiper>
                     )
+                }
+                {
+                    productModalId !== '' &&
+                    <ProductDetailModal setProductModalId={setProductModalId} slug={productModalId} />
                 }
             </div>
         </section >

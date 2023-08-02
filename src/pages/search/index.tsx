@@ -16,6 +16,7 @@ import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import SortingDropdown from "@/shared/components/sorting-dropdown";
 import SkeletonLoadingCard from "@/shared/components/skeleton/products";
 import Pagination from "@/shared/components/pagination";
+import ProductDetailModal from "@/shared/components/product-detail-modal";
 
 const SearchPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -24,6 +25,8 @@ const SearchPage: NextPageWithLayout = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const [selectedValue, setSelectedValue] = useState<string>('')
   const [pageNumber, setPageNumber] = useState<number>(1)
+  const [productModalId, setProductModalId] = useState<string>("")
+
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);
   };
@@ -103,6 +106,7 @@ const SearchPage: NextPageWithLayout = () => {
                           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                             {updatedData.map((product: any, index: any) => (
                               <Card
+                                setProductModalId={setProductModalId}
                                 product={product}
                                 key={`app-cat-products-${index}`}
 
@@ -112,6 +116,10 @@ const SearchPage: NextPageWithLayout = () => {
                         )
                       }
                     </section>
+                    {
+                      productModalId !== '' &&
+                      <ProductDetailModal setProductModalId={setProductModalId} slug={productModalId} />
+                    }
                   </div>
                 )}
                 {/* Show the category data */}

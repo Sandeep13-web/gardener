@@ -11,6 +11,7 @@ import Link from "next/link";
 import { ITag } from "@/interface/tag.interface";
 import TagSidebar from "@/shared/components/tagSidebar";
 import Breadcrumb from "@/shared/components/breadcrumb";
+import ProductDetailModal from "@/shared/components/product-detail-modal";
 
 
 const Tag: NextPageWithLayout = () => {
@@ -18,6 +19,7 @@ const Tag: NextPageWithLayout = () => {
   const { id } = router.query; // Access the value of the 'id' query parameter
   const [query, setQuery] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
+  const [productModalId, setProductModalId] = useState<string>("")
   const offer = 1
   const maxPrice = null
   const minPrice = null
@@ -130,6 +132,7 @@ const Tag: NextPageWithLayout = () => {
                   <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                     {tagData.data.map((product: any, index: any) => (
                       <Card
+                        setProductModalId={setProductModalId}
                         product={product}
                         key={`app-cat-products-${index}`}
                       />
@@ -138,6 +141,10 @@ const Tag: NextPageWithLayout = () => {
                 )}
               </div>
             </section>
+            {
+              productModalId !== '' &&
+              <ProductDetailModal setProductModalId={setProductModalId} slug={productModalId} />
+            }
           </div>
         </div>
       </div>
