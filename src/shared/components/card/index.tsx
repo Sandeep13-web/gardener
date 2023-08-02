@@ -234,7 +234,7 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
                   } */}
               </button>
             ) :
-              cart?.cartProducts?.some((item: any) => item.product.id === product.id) && (
+              cart?.cartProducts?.some((item: any) => item?.product.id === product?.id) && (
                 // <div className="flex items-center gap-3 px-3 border rounded-lg border-primary">
                 //   {
                 //     quantity === 1 ?
