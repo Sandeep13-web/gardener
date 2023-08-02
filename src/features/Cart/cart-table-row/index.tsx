@@ -47,11 +47,14 @@ const CartTableRow = ({ item }: any) => {
     // useEffect(() => {
     //     handleUpdateCart(debounceSearchValue);
     // }, [debounceSearchValue])
+    const selectedUnit = item?.selectedUnit
+    const selectedImg = item?.product?.images.find((img: any) => img?.unit_price_id === JSON.parse(selectedUnit?.id));
+
     return (
         <tr className="border-b-gray-350">
             <td className="w-[150px] text-gray-650 text-center py-[30px] font-medium">
                 <Image
-                    src={item?.product?.images[0]?.imageName}
+                    src={selectedImg ? selectedImg?.imageName : item?.product?.images[0]?.imageName}
                     height={80}
                     width={80}
                     alt={item?.product?.title}
@@ -60,11 +63,11 @@ const CartTableRow = ({ item }: any) => {
             <td className="w-[435px] text-gray-650 text-center py-[30px] font-medium">
                 <Link href={`/products/${item?.product?.slug}`} className="text-[15px]" aria-label="indoor-plants" >
                     {item?.product?.title}{" "}
-                    <span className="capitalize">(Indoor)</span>
+                    <span className="capitalize text-orange-4500">({item?.selectedUnit?.size})</span>
                 </Link>
             </td>
             <td className="w-[435px] text-gray-650 text-center py-[30px] font-medium text-[15px]">
-                NPR {item?.product?.unitPrice[0]?.sellingPrice}
+                NPR {item?.selectedUnit?.sellingPrice}
             </td>
             <td className="w-[435px] text-gray-650 text-center py-[30px] font-medium">
                 <div className="flex justify-center m-auto h-[40px] max-w-[115px]">
@@ -92,7 +95,7 @@ const CartTableRow = ({ item }: any) => {
                 </div>
             </td>
             <td className="text-gray-650 text-center py-[30px] font-medium text-[15px]">
-                NPR {item?.product?.unitPrice[0]?.sellingPrice * item?.quantity}
+                NPR {item?.selectedUnit?.sellingPrice * item?.quantity}
             </td>
             <td className="w-[100px] text-center py-[30px]">
                 <button
