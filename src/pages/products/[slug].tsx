@@ -20,6 +20,8 @@ import { useWishlists } from '@/hooks/wishlist.hooks';
 import SkeletonDescription from '@/shared/components/skeleton/description';
 import { ITag } from '@/interface/tag.interface';
 import RelatedProducts from '@/features/Product/related-products';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Thumbs } from 'swiper';
 
 
 const ProductSlug = () => {
@@ -35,6 +37,8 @@ const ProductSlug = () => {
   const [value, setValue] = useState<number>(1);
   const { updateCartMutation, updateCartLoading } = useCarts()
 
+  //for swiper carousel
+  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
 
 
   const { data: cartData } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon: '' }));
@@ -219,40 +223,54 @@ const ProductSlug = () => {
                       </>
                     ) : (
                       <>
-                        <div className="w-full carousel">
+                        <Swiper
+                          spaceBetween={10}
+                          thumbs={thumbsSwiper ? { swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null } : undefined}
+                          modules={[Thumbs]}
+                          className="mySwiper2"
+                        >
                           {
                             productData?.response?.data?.images?.map((img: any, index: number) => (
-                              <div key={index} id={`item-${index}`} className="w-full carousel-item">
+                              <SwiperSlide key={index}>
                                 <Image
                                   alt='Product Image'
                                   src={img?.imageName}
                                   width={330} height={330}
                                 />
-                              </div>
+                              </SwiperSlide>
                             ))
                           }
-                        </div>
-                        <div className="flex justify-start w-full gap-2 py-2">
+                        </Swiper>
+                        <Swiper
+                          onSwiper={setThumbsSwiper}
+                          spaceBetween={10}
+                          slidesPerView={4}
+                          watchSlidesProgress={true}
+                          modules={[Thumbs]}
+                          className="mySwiper"
+                        >
                           {
                             filteredUnitPrice?.length > 1 ? (
                               filteredUnitPrice.map((sizeObj: any, index: number) => (
-                                <>
-                                  <Image key={index} alt='Product image' src={sizeObj?.image?.imageName} width={90} height={90} />
-                                </>
+                                <SwiperSlide key={index}>
+                                  <Image className='cursor-pointer' alt='Product image' src={sizeObj?.image?.imageName} width={90} height={90} />
+                                </SwiperSlide>
                               ))
                             ) : (
                               productData?.response?.data?.images?.map((img: any, index: number) => (
-                                <a href={`#item-${index}`} key={index}>
+                                <SwiperSlide key={index}>
                                   <Image
+                                    className='m-auto cursor-pointer'
                                     alt='Product Image'
                                     src={img?.imageName}
                                     width={90} height={90}
                                   />
-                                </a>
+                                </SwiperSlide>
                               ))
                             )
                           }
-                        </div>
+
+                        </Swiper>
                       </>
                     )
                   )
@@ -498,7 +516,7 @@ const ProductSlug = () => {
 
       {/* Related Products */}
       {
-        relatedProducts?.data.length !== 0 &&
+        relatedProducts && relatedProducts?.data.length !== 0 &&
         <RelatedProducts relatedProductsLoading={relatedProductsLoading} relatedProducts={relatedProducts?.data} />
       }
     </>

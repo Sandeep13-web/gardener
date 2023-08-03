@@ -15,6 +15,8 @@ import { useWishlists } from '@/hooks/wishlist.hooks'
 import ButtonLoader from '../btn-loading'
 import CardHeartIcon from '@/shared/icons/common/CardHeartIcon'
 import { FaTimes } from 'react-icons/fa'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Thumbs } from 'swiper'
 
 interface IProductModal {
     slug: string,
@@ -32,7 +34,8 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
     const [itemCartDetail, setItemCartDetail] = useState<ICartProduct>()
     const [value, setValue] = useState<number>(1);
     // const { updateCartLoading } = useCarts()
-
+    //for swiper carousel
+    const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
 
     const { data: cartData } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon: '' }));
 
@@ -205,7 +208,7 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
                                 isLoading ?
                                     <SkeletonImage />
                                     : (
-                                        productData?.response?.data?.unitPrice?.length > 1 && selectedImg ? (
+                                        productData?.response?.data?.unitPrice.length > 1 && selectedImg ? (
                                             <>
                                                 <div className='w-full'>
                                                     <Image
@@ -220,44 +223,59 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
                                             </>
                                         ) : (
                                             <>
-                                                <div className="w-full carousel">
+                                                <Swiper
+                                                    spaceBetween={10}
+                                                    thumbs={thumbsSwiper ? { swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null } : undefined}
+                                                    modules={[Thumbs]}
+                                                    className="mySwiper2"
+                                                >
                                                     {
                                                         productData?.response?.data?.images?.map((img: any, index: number) => (
-                                                            <div key={index} id={`item-${index}`} className="w-full carousel-item">
+                                                            <SwiperSlide key={index}>
                                                                 <Image
                                                                     alt='Product Image'
                                                                     src={img?.imageName}
                                                                     width={330} height={330}
                                                                 />
-                                                            </div>
+                                                            </SwiperSlide>
                                                         ))
                                                     }
-                                                </div>
-                                                <div className="flex justify-start w-full gap-2 py-2">
+                                                </Swiper>
+                                                <Swiper
+                                                    onSwiper={setThumbsSwiper}
+                                                    spaceBetween={10}
+                                                    slidesPerView={4}
+                                                    watchSlidesProgress={true}
+                                                    modules={[Thumbs]}
+                                                    className="mySwiper"
+                                                >
                                                     {
                                                         filteredUnitPrice?.length > 1 ? (
                                                             filteredUnitPrice.map((sizeObj: any, index: number) => (
-                                                                <>
-                                                                    <Image key={index} alt='Product image' src={sizeObj?.image?.imageName} width={90} height={90} />
-                                                                </>
+                                                                <SwiperSlide key={index}>
+                                                                    <Image className='cursor-pointer' alt='Product image' src={sizeObj?.image?.imageName} width={90} height={90} />
+                                                                </SwiperSlide>
                                                             ))
                                                         ) : (
                                                             productData?.response?.data?.images?.map((img: any, index: number) => (
-                                                                <a href={`#item-${index}`} key={index}>
+                                                                <SwiperSlide key={index}>
                                                                     <Image
+                                                                        className='m-auto cursor-pointer'
                                                                         alt='Product Image'
                                                                         src={img?.imageName}
                                                                         width={90} height={90}
                                                                     />
-                                                                </a>
+                                                                </SwiperSlide>
                                                             ))
                                                         )
                                                     }
-                                                </div>
+
+                                                </Swiper>
                                             </>
                                         )
                                     )
                             }
+
                         </div>
                         <div className="col-span-12 md:col-span-7">
                             {
