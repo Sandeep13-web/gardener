@@ -22,7 +22,7 @@ const SearchPage: NextPageWithLayout = () => {
   const router = useRouter();
   const token = getToken()
   const { type, keyword } = router.query;
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState<string>('');
   const [selectedValue, setSelectedValue] = useState<string>('')
   const [pageNumber, setPageNumber] = useState<number>(1)
   const [productModalId, setProductModalId] = useState<string>("")
