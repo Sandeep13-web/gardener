@@ -28,6 +28,7 @@ import SkeletonLoadingCard from '@/shared/components/skeleton/products';
 import { ICartItem } from '@/interface/cart.interface';
 import Head from 'next/head';
 import { getToken } from '@/shared/utils/cookies-utils/cookies.utils';
+import ProductDetailModal from '@/shared/components/product-detail-modal';
 
 
 const CategoryDetail: NextPageWithLayout = () => {
@@ -41,6 +42,7 @@ const CategoryDetail: NextPageWithLayout = () => {
     const [setFiltered, setSetFiltered] = useState(false);
     const [productData, setProductData] = useState(null);
     const [selectedValue, setSelectedValue] = useState<string>('')
+    const [productModalId, setProductModalId] = useState<string>("")
     const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
     const { data: cart } = useQuery<ICartItem>(["getCart"]);
     const { data: tags } = useQuery({
@@ -221,6 +223,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 xxs:grid-cols-2 lg:grid-cols-4">
                                                 {updatedData?.map((product: any, index: any) => (
                                                     <Card
+                                                        setProductModalId={setProductModalId}
                                                         product={product}
                                                         key={`app-cat-products-${index}`}
                                                         cartItem={cart?.cartProducts.find((item) => item?.product?.id === product?.id)}
@@ -236,7 +239,10 @@ const CategoryDetail: NextPageWithLayout = () => {
                                     )
                             }
                         </div>
-
+                        {
+                            productModalId !== '' &&
+                            <ProductDetailModal setProductModalId={setProductModalId} slug={productModalId} />
+                        }
                     </div>
                 </div>
             </div>

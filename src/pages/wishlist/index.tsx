@@ -12,10 +12,13 @@ import Head from "next/head";
 import { ICartItem } from "@/interface/cart.interface";
 import Pagination from "@/shared/components/pagination";
 import SkeletonLoadingCard from "@/shared/components/skeleton/products";
+import ProductDetailModal from "@/shared/components/product-detail-modal";
 
 const Wishlist: NextPageWithLayout = () => {
     const token = getToken()
     const [pageNumber, setPageNumber] = useState(1);
+    const [productModalId, setProductModalId] = useState<string>("")
+
     const perPage = 10;
 
     const { data: wishlist, isLoading } = useQuery(
@@ -71,6 +74,7 @@ const Wishlist: NextPageWithLayout = () => {
                                             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                                                 {updatedData?.map((favProduct: any, index: any) =>
                                                     <Card
+                                                        setProductModalId={setProductModalId}
                                                         product={favProduct?.product}
                                                         key={`app-cat-products-${index}`}
                                                         cartItem={cart?.cartProducts.find((item) => item?.product?.id === favProduct?.product?.id)}
@@ -91,6 +95,10 @@ const Wishlist: NextPageWithLayout = () => {
                         </>
                     )}
                 </div>
+                {
+                    productModalId !== '' &&
+                    <ProductDetailModal setProductModalId={setProductModalId} slug={productModalId} />
+                }
             </div>
 
         </div>

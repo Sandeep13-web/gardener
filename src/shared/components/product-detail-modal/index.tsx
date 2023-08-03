@@ -19,10 +19,10 @@ import { FaTimes } from 'react-icons/fa'
 
 interface IProductModal {
     slug: string,
-    setShowProductModal: (arg: boolean) => void,
+    setProductModalId: (arg: string) => void
 }
 
-const ProductDetailModal = ({ slug, setShowProductModal }: IProductModal) => {
+const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
 
     const token = getToken()
     const queryClient = useQueryClient();
@@ -179,7 +179,7 @@ const ProductDetailModal = ({ slug, setShowProductModal }: IProductModal) => {
                 <div className="w-6/12 max-w-5xl rounded-lg lg:w-11/12 modal-box">
                     <div className='flex items-center justify-between'>
                         <h3 className="text-lg font-bold"></h3>
-                        <button onClick={() => setShowProductModal(false)}><FaTimes /></button>
+                        <button onClick={() => setProductModalId('')}><FaTimes /></button>
                     </div>
                     <div className="grid grid-cols-12">
                         <div className="col-span-12 md:col-span-5">

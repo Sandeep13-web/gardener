@@ -19,7 +19,7 @@ import { getCookie } from "cookies-next";
 import { config } from "../../../../config";
 import ProductDetailModal from "../product-detail-modal";
 
-const Card: React.FC<Props> = ({ product, cartItem, }) => {
+const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
 
   //Token 
   const token = getToken();
@@ -71,6 +71,7 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
     // }
     // mutation.mutate(payload)
     setShowProductModal(true)
+    setProductModalId(product?.slug)
   };
 
 
@@ -270,7 +271,7 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
                 // </div>
                 <button
                   className="btn btn-primary btn-outline p-2 h-auto !min-h-0 text-xs leading-auto"
-                  onClick={() => setShowProductModal(true)}
+                  onClick={handleAddToCart}
                 // disabled={mutation.isLoading}
                 >
                   Update Cart
@@ -288,9 +289,9 @@ const Card: React.FC<Props> = ({ product, cartItem, }) => {
             </div> */}
 
       </div>
-      {showProductModal &&
+      {/* {showProductModal &&
         <ProductDetailModal setShowProductModal={setShowProductModal} slug={product?.slug} />
-      }
+      } */}
     </>
   );
 };
