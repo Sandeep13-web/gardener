@@ -179,7 +179,7 @@ const ProductSlug = () => {
   const selectedPrice = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId);
 
   //to display image according to the changed size.
-  const selectedImg = productData?.response?.data?.images.find((img: any) => img?.unit_price_id === selectedSizeId);
+  const selectedImg = productData?.response?.data?.images?.find((img: any) => img?.unit_price_id === selectedSizeId);
   const updateCart = cartData?.cartProducts?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
 
   //checking stock for each product/sku element
@@ -229,7 +229,7 @@ const ProductSlug = () => {
                         </div>
                         <div className="flex justify-start w-full gap-2 py-2">
                           {
-                            filteredUnitPrice.length > 1 ? (
+                            filteredUnitPrice?.length > 1 ? (
                               filteredUnitPrice.map((sizeObj: any, index: number) => (
                                 <>
                                   <Image key={index} alt='Product image' src={sizeObj?.image?.imageName} width={90} height={90} />

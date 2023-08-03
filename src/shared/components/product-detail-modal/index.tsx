@@ -187,7 +187,7 @@ const ProductDetailModal = ({ slug, setShowProductModal }: IProductModal) => {
                                 isLoading ?
                                     <SkeletonImage />
                                     : (
-                                        productData?.response?.data?.unitPrice.length > 1 && selectedImg ? (
+                                        productData?.response?.data?.unitPrice?.length > 1 && selectedImg ? (
                                             <>
                                                 <div className='w-full'>
                                                     <Image
@@ -217,7 +217,7 @@ const ProductDetailModal = ({ slug, setShowProductModal }: IProductModal) => {
                                                 </div>
                                                 <div className="flex justify-start w-full gap-2 py-2">
                                                     {
-                                                        filteredUnitPrice.length > 1 ? (
+                                                        filteredUnitPrice?.length > 1 ? (
                                                             filteredUnitPrice.map((sizeObj: any, index: number) => (
                                                                 <>
                                                                     <Image key={index} alt='Product image' src={sizeObj?.image?.imageName} width={90} height={90} />
@@ -300,7 +300,7 @@ const ProductDetailModal = ({ slug, setShowProductModal }: IProductModal) => {
                                         <p dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
 
                                         {
-                                            unitPriceArray.length > 1 &&
+                                            unitPriceArray?.length > 1 &&
                                             <div className='mt-3'>
                                                 <p className='mb-3 text-lg font-bold text-slate-850'>Size</p>
                                                 <select name="" id=""
