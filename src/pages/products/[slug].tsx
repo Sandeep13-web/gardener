@@ -94,7 +94,7 @@ const ProductSlug = () => {
       const payload: IUpdateCartItem = {
         note: '',
         quantity: value,
-        product_number: itemCartDetail?.id || productData?.productId
+        product_number: selectedCartItems?.id || itemCartDetail?.id || productData?.productId
       }
       updateCartMutation.mutate(payload)
     }
@@ -143,13 +143,11 @@ const ProductSlug = () => {
   }
   const favId = genFavId() //setting generated fav id.
 
-
   useEffect(() => {
     if (cartData) {
       cartData?.cartProducts?.map((item: any) => {
         if (slug === item?.product?.slug) {
           setItemCartDetail(item)
-          setValue(item?.quantity)
         }
       })
     }
@@ -170,9 +168,7 @@ const ProductSlug = () => {
     }
   }, [productData])
 
-  useEffect(() => {
-    setValue(1)
-  }, [selectedSizeId])
+
 
   //for SKU multiple
   //For checking if the selected size and the mapped pricec are equal to show the change in price
@@ -184,6 +180,15 @@ const ProductSlug = () => {
 
   //checking stock for each product/sku element
   const stock: any = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId)?.stock
+  const selectedCartItems: ICartProduct | undefined = cartData?.cartProducts?.find((cart: any) => JSON.parse(cart?.selectedUnit?.id) === selectedSizeId);
+
+  useEffect(() => {
+    if (updateCart) {
+      setValue(selectedCartItems?.quantity!)
+    } else {
+      setValue(1)
+    }
+  }, [selectedCartItems, selectedSizeId])
 
   return (
     <>
@@ -404,7 +409,7 @@ const ProductSlug = () => {
                       </div>
                       <div>
                         {
-                          itemCartDetail && updateCart ?
+                          selectedCartItems && updateCart ?
                             <button
                               type='button'
                               onClick={updateCartHandler}
