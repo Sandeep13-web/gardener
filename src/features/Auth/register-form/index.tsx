@@ -1,7 +1,7 @@
 import { signUp } from '@/services/auth.service'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { IRegister } from '../../../interface/register.interface'
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
@@ -10,6 +10,7 @@ import { handleKeyDownAlphabet, handleKeyDownNumber } from '@/shared/utils/form-
 
 const RegisterForm = () => {
     const router = useRouter()
+    const [passwordMatch, setPasswordMatch] = useState<boolean>(true); // Track password match status
 
     const mutation = useMutation({
         mutationFn: signUp,
@@ -25,23 +26,21 @@ const RegisterForm = () => {
         }
     })
 
-    const { register, getValues, handleSubmit, watch, setError, formState: { errors }, trigger } = useForm<IRegister>()
+    const { register, getValues, handleSubmit, watch, setError, formState: { errors, isDirty }, trigger } = useForm<IRegister>()
 
     const registerSubmit = (data: any) => {
         mutation.mutate(data)
     }
 
-    //password-confirmPassword validation
-    const passValidation = (value: string) => {
+    useEffect(() => {
         if (getValues("confirm_password") !== '') {
-            trigger("confirm_password")
-            return value === watch("confirm_password")
-        }
-    }
-    const confirmValidation = (value: string) => {
-        return value === watch("password") || "Password do not match"
-    }
+            // Update password match status whenever password or confirm_password values change
+            if (isDirty) {
+                setPasswordMatch(watch("password") === watch("confirm_password"));
+            }
 
+        }
+    }, [watch("password"), watch("confirm_password"), isDirty]);
     return (
         <form onSubmit={handleSubmit(registerSubmit)} autoComplete='off'>
             <div className='flex flex-col mb-[20px]'>
@@ -138,7 +137,6 @@ const RegisterForm = () => {
                             value: 5,
                             message: "Password must have at least 6 characters.",
                         },
-                        validate: (value) => passValidation(value)
                     })}
                     onKeyUp={() => trigger('password')}
                     className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.password ? 'border-error' : 'border-gray-350'}`}
@@ -154,15 +152,19 @@ const RegisterForm = () => {
                     {...register("confirm_password",
                         {
                             required: "Confirm Password is required.",
-                            validate: (value) => confirmValidation(value)
+                            validate: (value) => value === watch("password") || "Passwords do not match",
                         },
                     )}
                     onKeyUp={() => trigger('confirm_password')}
-                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.confirm_password ? 'border-error' : 'border-gray-350'}`}
+                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.confirm_password && !passwordMatch ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
-                    errors.confirm_password &&
+                    errors.confirm_password && !passwordMatch &&
                     <p className='text-error text-xs leading-[24px] mt-1'>{errors.confirm_password.message}</p>
+                }
+                {
+                    !errors.confirm_password && !passwordMatch && // Display error message when passwords don't match
+                    <p className='text-error text-xs leading-[24px] mt-1'>Passwords do not match</p>
                 }
             </div>
             <div className='flex items-center justify-between'>
