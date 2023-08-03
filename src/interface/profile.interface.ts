@@ -8,3 +8,7 @@ export interface IProfileSubmit {
     "last-name": string,
     "mobile-number": number
 }
+
+export interface IProfileImage {
+    "image": File,
+}
