@@ -8,14 +8,15 @@ import { ITag } from '@/interface/tag.interface'
 import { getToken } from '@/shared/utils/cookies-utils/cookies.utils'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ICartItem, ICreateCartItem, IUpdateCartItem } from '@/interface/cart.interface'
-import { addToCart, getCartData } from '@/services/cart.service'
-import { useCarts } from '@/hooks/cart.hooks'
+import { addToCart, getCartData, updateCart } from '@/services/cart.service'
 import { getProductsFromSlug } from '@/services/product.service'
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
 import { useWishlists } from '@/hooks/wishlist.hooks'
 import ButtonLoader from '../btn-loading'
 import CardHeartIcon from '@/shared/icons/common/CardHeartIcon'
 import { FaTimes } from 'react-icons/fa'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Thumbs } from 'swiper'
 
 interface IProductModal {
     slug: string,
@@ -32,8 +33,9 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
 
     const [itemCartDetail, setItemCartDetail] = useState<ICartProduct>()
     const [value, setValue] = useState<number>(1);
-    const { updateCartMutation, updateCartLoading } = useCarts()
-
+    // const { updateCartLoading } = useCarts()
+    //for swiper carousel
+    const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
 
     const { data: cartData } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon: '' }));
 
@@ -59,7 +61,7 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
         const payload: ICreateCartItem = {
             note: '',
             productId: productData?.productId,
-            priceId: productData?.response?.data?.unitPrice[0]?.id,
+            priceId: selectedPrice?.id,
             quantity: value,
         }
         mutation.mutate(payload)
@@ -70,24 +72,35 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
         onSuccess: () => {
             showToast(TOAST_TYPES.success, 'Item Added To Cart Successfully');
             queryClient.invalidateQueries(['getCart'])
+            setProductModalId('')
         },
         onError: (error: any) => {
             showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message)
         }
     })
 
+    const updateCartMutation = useMutation({
+        mutationFn: updateCart,
+        onSuccess: () => {
+            showToast(TOAST_TYPES.success, 'Item Updated To Cart Successfully');
+            queryClient.invalidateQueries(['getCart'])
+            setProductModalId("")
+        },
+        onError: (error: any) => {
+            showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message);
+        }
+    })
     //updateCart function
     const updateCartHandler = () => {
         if (value <= stock) {
             const payload: IUpdateCartItem = {
                 note: '',
                 quantity: value,
-                product_number: itemCartDetail?.id || productData?.productId
+                product_number: selectedCartItems?.id || itemCartDetail?.id || productData?.productId
             }
             updateCartMutation.mutate(payload)
         }
     }
-
     const { addFavMutation, removeFavMutation, addLoading, removeLoading } = useWishlists() //for adding products for wishlist ->hook
     //getFavlist items
     const { data: favList }: any = useQuery<any>(["wishlistProducts", token], { enabled: !!token });
@@ -136,7 +149,6 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
             cartData?.cartProducts?.map((item: any) => {
                 if (slug === item?.product?.slug) {
                     setItemCartDetail(item)
-                    setValue(item?.quantity)
                 }
             })
         }
@@ -166,11 +178,20 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
 
     //to display image according to the changed size.
     const selectedImg = productData?.response?.data?.images.find((img: any) => img?.unit_price_id === selectedSizeId);
-    const updateCart = cartData?.cartProducts?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
+    const updatedCart = cartData?.cartProducts?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
 
     //checking stock for each product/sku element
     const stock: any = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId)?.stock
 
+    const selectedCartItems: ICartProduct | undefined = cartData?.cartProducts?.find((cart: any) => JSON.parse(cart?.selectedUnit?.id) === selectedSizeId);
+
+    useEffect(() => {
+        if (updatedCart) {
+            setValue(selectedCartItems?.quantity!)
+        } else {
+            setValue(1)
+        }
+    }, [selectedCartItems, selectedSizeId])
 
     return (
         <>
@@ -187,7 +208,7 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
                                 isLoading ?
                                     <SkeletonImage />
                                     : (
-                                        productData?.response?.data?.unitPrice?.length > 1 && selectedImg ? (
+                                        productData?.response?.data?.unitPrice.length > 1 && selectedImg ? (
                                             <>
                                                 <div className='w-full'>
                                                     <Image
@@ -202,44 +223,59 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
                                             </>
                                         ) : (
                                             <>
-                                                <div className="w-full carousel">
+                                                <Swiper
+                                                    spaceBetween={10}
+                                                    thumbs={thumbsSwiper ? { swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null } : undefined}
+                                                    modules={[Thumbs]}
+                                                    className="mySwiper2"
+                                                >
                                                     {
                                                         productData?.response?.data?.images?.map((img: any, index: number) => (
-                                                            <div key={index} id={`item-${index}`} className="w-full carousel-item">
+                                                            <SwiperSlide key={index}>
                                                                 <Image
                                                                     alt='Product Image'
                                                                     src={img?.imageName}
                                                                     width={330} height={330}
                                                                 />
-                                                            </div>
+                                                            </SwiperSlide>
                                                         ))
                                                     }
-                                                </div>
-                                                <div className="flex justify-start w-full gap-2 py-2">
+                                                </Swiper>
+                                                <Swiper
+                                                    onSwiper={setThumbsSwiper}
+                                                    spaceBetween={10}
+                                                    slidesPerView={4}
+                                                    watchSlidesProgress={true}
+                                                    modules={[Thumbs]}
+                                                    className="mySwiper"
+                                                >
                                                     {
                                                         filteredUnitPrice?.length > 1 ? (
                                                             filteredUnitPrice.map((sizeObj: any, index: number) => (
-                                                                <>
-                                                                    <Image key={index} alt='Product image' src={sizeObj?.image?.imageName} width={90} height={90} />
-                                                                </>
+                                                                <SwiperSlide key={index}>
+                                                                    <Image className='cursor-pointer' alt='Product image' src={sizeObj?.image?.imageName} width={90} height={90} />
+                                                                </SwiperSlide>
                                                             ))
                                                         ) : (
                                                             productData?.response?.data?.images?.map((img: any, index: number) => (
-                                                                <a href={`#item-${index}`} key={index}>
+                                                                <SwiperSlide key={index}>
                                                                     <Image
+                                                                        className='m-auto cursor-pointer'
                                                                         alt='Product Image'
                                                                         src={img?.imageName}
                                                                         width={90} height={90}
                                                                     />
-                                                                </a>
+                                                                </SwiperSlide>
                                                             ))
                                                         )
                                                     }
-                                                </div>
+
+                                                </Swiper>
                                             </>
                                         )
                                     )
                             }
+
                         </div>
                         <div className="col-span-12 md:col-span-7">
                             {
@@ -339,16 +375,16 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
                                             </div>
                                             <div>
                                                 {
-                                                    itemCartDetail && updateCart ?
+                                                    itemCartDetail && updatedCart ?
                                                         <button
                                                             type='button'
                                                             onClick={updateCartHandler}
-                                                            disabled={updateCartLoading}
-                                                            className={`${updateCartLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
+                                                            disabled={updateCartMutation.isLoading}
+                                                            className={`${updateCartMutation.isLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
 
                                                             + Update To Cart
                                                             {
-                                                                updateCartLoading &&
+                                                                updateCartMutation.isLoading &&
                                                                 <ButtonLoader />
                                                             }
                                                         </button>

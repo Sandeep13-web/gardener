@@ -16,7 +16,7 @@ import ProductDetailModal from "@/shared/components/product-detail-modal";
 
 const Wishlist: NextPageWithLayout = () => {
     const token = getToken()
-    const [pageNumber, setPageNumber] = useState(1);
+    const [pageNumber, setPageNumber] = useState<number>(1);
     const [productModalId, setProductModalId] = useState<string>("")
 
     const perPage = 10;

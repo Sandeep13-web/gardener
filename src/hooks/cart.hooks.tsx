@@ -31,6 +31,9 @@ export const useCarts = () => {
         onSuccess: () => {
             showToast(TOAST_TYPES.success, 'Item Updated To Cart Successfully');
             queryClient.invalidateQueries(['getCart'])
+        },
+        onError: (error: any) => {
+            showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message);
         }
     })
 
@@ -52,6 +55,6 @@ export const useCarts = () => {
         bulkCartDelete,
         bulkDeleteLoading: bulkCartDelete.isLoading,
         updateCartLoading: updateCartMutation.isLoading,
-        cartDeleteLoading: cartDelete.isLoading
+        cartDeleteLoading: cartDelete.isLoading,
     };
 };

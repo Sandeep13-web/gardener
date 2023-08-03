@@ -17,8 +17,8 @@ import ProductDetailModal from "@/shared/components/product-detail-modal";
 
 const Offer: NextPageWithLayout = () => {
 
-  const [query, setQuery] = useState('');
-  const [pageNumber, setPageNumber] = useState(1);
+  const [query, setQuery] = useState<string>('');
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [selectedValue, setSelectedValue] = useState<string>('')
   const [productModalId, setProductModalId] = useState<string>("")
 
