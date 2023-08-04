@@ -1,6 +1,7 @@
 import { IProfile } from '@/interface/profile.interface'
-import { getProfileShow, updateProfile } from '@/services/profile.service'
+import { getProfile, updateProfile } from '@/services/profile.service'
 import SkeletonInput from '@/shared/components/skeleton/input'
+import { getToken } from '@/shared/utils/cookies-utils/cookies.utils'
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import React, { useEffect } from 'react'
@@ -8,8 +9,10 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 const ProfileForm = () => {
     const queryClient = useQueryClient();
-    const { data: profile, initialLoading: profileLoading }: any = useQuery(['getProfileShow'], getProfileShow)
-
+    const token = getToken()
+    const { data: profile, initialLoading: profileLoading }: any = useQuery({
+        queryKey: ['getProfile', token]
+    })
     const { register, handleSubmit, formState: { errors }, trigger, reset } = useForm<IProfile>({
         defaultValues: {
             first_name: profile && profile?.data?.firstName,
@@ -32,12 +35,7 @@ const ProfileForm = () => {
         }
     })
     const profileSubmit: SubmitHandler<IProfile> = (data) => {
-        const payload = {
-            "first-name": data?.first_name,
-            "last-name": data?.last_name,
-            "mobile-number": data?.mobile_number
-        }
-        mutation.mutate(payload)
+        mutation.mutate(data)
     }
 
     useEffect(() => {

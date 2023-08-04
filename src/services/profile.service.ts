@@ -1,6 +1,9 @@
 import axiosInstance, { setAuthorizationHeader } from "@/axios/axiosInstance";
 import { IProfileImage, IProfileSubmit } from "@/interface/profile.interface";
-import { getToken, getWareId } from "@/shared/utils/cookies-utils/cookies.utils";
+import {
+  getToken,
+  getWareId,
+} from "@/shared/utils/cookies-utils/cookies.utils";
 import axios from "axios";
 import { config } from "../../config";
 const apiURL = config.gateway.apiURL;
@@ -14,26 +17,17 @@ export const getProfile = async () => {
     throw error;
   }
 };
-export const getProfileShow = async () => {
-  try {
-    const response = await axiosInstance.get("/profile/show");
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
 
 export const updateProfile = async (data: IProfileSubmit) => {
   try {
-    const response = await axiosInstance.patch("/profile", data);
+    const response = await axiosInstance.put("/user/update", data);
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-
-export const uploadProfileImage = async (image: File) => {
+export const uploadProfileImage = async (avatar: File) => {
   const imageUrl = `${apiURL}/profile/image`;
 
   const headers = {
@@ -44,12 +38,12 @@ export const uploadProfileImage = async (image: File) => {
 
   try {
     const formData = new FormData();
-    formData.append("image", image);
+    formData.append("avatar", avatar);
 
     const response = await axios.post(imageUrl, formData, {
       headers: headers,
     });
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 };

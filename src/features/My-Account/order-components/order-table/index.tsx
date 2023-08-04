@@ -84,7 +84,7 @@ const OrderTable = () => {
                                                 {changeDateFormat(order?.orderDate)}
                                             </td>
                                             <td className="text-center">
-                                                <span className={`py-1.5 px-2.5 text-xs leading-4 text-white rounded-[12px] ${order?.status === 'Pending' ? 'bg-slate-600' : 'bg-primary'}`}>{order?.status}</span>
+                                                <span className={`py-1.5 px-2.5 text-xs leading-4 text-white rounded-[12px] ${order?.orderStatus === 'Pending' ? 'bg-slate-600' : 'bg-primary'}`}>{order?.orderStatus}</span>
                                             </td>
                                             <td className="px-5 py-5 text-center whitespace-nowrap">
                                                 NRS {order?.total}
@@ -113,11 +113,14 @@ const OrderTable = () => {
                     />
                 )}
             </div>
-            <Pagination
-                totalPages={orders?.meta?.pagination?.total_pages}
-                currentPage={orders?.meta?.pagination?.current_page}
-                pageChange={handlePageChange}
-            />
+            {
+                orders && orders?.data?.length > 0 &&
+                <Pagination
+                    totalPages={orders?.meta?.pagination?.total_pages}
+                    currentPage={orders?.meta?.pagination?.current_page}
+                    pageChange={handlePageChange}
+                />
+            }
         </>
 
 

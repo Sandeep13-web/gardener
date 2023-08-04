@@ -9,7 +9,7 @@ export interface IResetPassword {
 }
 
 export interface IChangePassword {
-  "old-password": string;
-  "new-password": string;
-  "confirm-password": string;
+  old_password: string;
+  password: string;
+  password_confirmation: string;
 }

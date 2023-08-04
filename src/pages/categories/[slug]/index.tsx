@@ -1,25 +1,17 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
-import { BsFillGrid3X3GapFill } from 'react-icons/bs'
-import { FaListUl } from 'react-icons/fa';
-import Slider from 'react-slider'
 import 'react-range-slider-input/dist/style.css';
 import { NextPageWithLayout } from '@/pages/_app';
 import MainLayout from '@/shared/main-layout';
 import Card from '@/shared/components/card';
 import Pagination from '@/shared/components/pagination';
-import { CardImg } from '@/shared/lib/image-config'
-import CardLg from '@/shared/components/card-lg';
 import { useState } from 'react';
 import { getProductByCategory } from '@/services/product.service';
 import EmptyPage from '@/components/emptyPage';
 import ReactSlider from 'react-slider';
 import { getConfig } from '@/services/home.service';
-import { ITag } from '@/interface/tag.interface';
 import { getTagList } from '@/services/tag.service';
-import Loader from '@/components/Loading';
 import CategorySidebar from '@/shared/components/categorySidebar';
 import TagSidebar from '@/shared/components/tagSidebar';
 import Breadcrumb from '@/shared/components/breadcrumb';
@@ -35,21 +27,20 @@ const CategoryDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const { slug } = router.query
     const token = getToken()
-    const [grid, setGrid] = useState<boolean>(true)
     const [query, setQuery] = useState<string>('');
-    const queryClient = useQueryClient();
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [setFiltered, setSetFiltered] = useState(false);
     const [productData, setProductData] = useState(null);
     const [selectedValue, setSelectedValue] = useState<string>('')
     const [productModalId, setProductModalId] = useState<string>("")
-    const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategories'] });
+    // const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategoriesList'] });
+
     const { data: cart } = useQuery<ICartItem>(["getCart"]);
     const { data: tags } = useQuery({
         queryKey: ["getTagList"],
         queryFn: getTagList,
     });
-    const { data: config, isInitialLoading } = useQuery({
+    const { data: config } = useQuery({
         queryKey: ["getConfig"],
         queryFn: getConfig,
     });
@@ -73,9 +64,9 @@ const CategoryDetail: NextPageWithLayout = () => {
     };
 
     // Handle categories link click
-    const handleCategoriesClick = () => {
-        setValue(initialValue); // Reset value to initial values
-    };
+    // const handleCategoriesClick = () => {
+    //     setValue(initialValue); // Reset value to initial values
+    // };
 
     //Fetch Category Data
     const handleSortingChange = (value: string) => {
@@ -100,7 +91,7 @@ const CategoryDetail: NextPageWithLayout = () => {
         //     ...item.product,
         // }
         isFav: favList && favList?.data?.length > 0 ? favList?.data?.some((favItem: any) => favItem?.product_id === item?.id) : false,
-        favId: favList && favList.data.length > 0 ? favList?.data.find((favItem: any) => favItem.product_id === item?.id)?.id : 0
+        favId: favList && favList?.data?.length > 0 ? favList?.data.find((favItem: any) => favItem.product_id === item?.id)?.id : 0
     }));
 
     const handlePageChange = (value: number) => {
@@ -199,7 +190,7 @@ const CategoryDetail: NextPageWithLayout = () => {
                     <div className='col-span-12 md:col-span-9'>
                         <div className='flex flex-col sm:flex-row px-[30px] py-[10px] mb-[30px] bg-slate-150'>
                             <div className='flex-1 flex items-center mb-4 sm:mb-0 gap-[15px]'>
-                                <p className='text-gray-750 text-sm leading-[20px]'>There Are {initialProductData?.data.length} Products.</p>
+                                <p className='text-gray-750 text-sm leading-[20px]'>There Are {initialProductData?.data?.length} Products.</p>
                             </div>
                             <div className='flex items-center gap-[10px]'>
                                 <p className='text-gray-750 text-sm leading-[20px] p-2'>Sort By:</p>

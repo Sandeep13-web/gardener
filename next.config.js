@@ -10,6 +10,7 @@ const nextConfig = {
       'api.uat.ordering-merokishan.ekbana.net', 
       "assets.iamthegardener.com",
       "https://assets.iamthegardener.com/",
+      "uat.ordering-iamthegardener-v5.ekbana.net"
   ],
   },
   async rewrites() {
