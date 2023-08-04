@@ -23,7 +23,7 @@ export const getHomeData = async () => {
 
 export const getConfig = async () => {
   try {
-    const response = await axiosInstance.get(`/config`);
+    const response = await axiosInstance.get(`/configs`);
     addWareHouseToStorage(response.data.data);
     return response.data;
   } catch (error) {

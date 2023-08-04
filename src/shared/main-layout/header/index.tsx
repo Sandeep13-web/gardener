@@ -228,7 +228,7 @@ const Header = () => {
                     tabIndex={0}
                     className="btn btn-link text-md text-[12px] p-0 text-white no-underline h-auto min-h-fit capitalize"
                   >
-                    Outlet: {config?.data?.warehouse[0]?.title}
+                    Outlet: {config?.data?.warehouses[0]?.title}
                   </label>
                   <ul
                     tabIndex={0}
