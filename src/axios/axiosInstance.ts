@@ -17,7 +17,7 @@ const axiosInstance = axios.create({
     ...(getCartNumber() && { "Cart-Number": getCartNumber() }),
     // ...(getCoupon() && { Coupon: getCoupon() }),
     "Api-Key": config.gateway.apiKey,
-    "Warehouse-Id": getWareId() || 1,
+    "Warehouse-Id": getWareId() || 4,
   },
 });
 

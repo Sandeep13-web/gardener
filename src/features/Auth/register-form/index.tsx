@@ -2,7 +2,7 @@ import { signUp } from '@/services/auth.service'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { IRegister } from '../../../interface/register.interface'
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
 import ButtonLoader from '@/shared/components/btn-loading'
@@ -26,21 +26,22 @@ const RegisterForm = () => {
         }
     })
 
-    const { register, getValues, handleSubmit, watch, setError, formState: { errors, isDirty }, trigger } = useForm<IRegister>()
+    const { register, getValues, handleSubmit, watch, formState: { errors, isDirty }, trigger } = useForm<IRegister>()
 
-    const registerSubmit = (data: any) => {
+    const registerSubmit: SubmitHandler<IRegister> = (data: any) => {
         mutation.mutate(data)
     }
 
     useEffect(() => {
-        if (getValues("confirm_password") !== '') {
-            // Update password match status whenever password or confirm_password values change
+        if (getValues("password_confirmation") !== '') {
+            // Update password match status whenever password or password_confirmation values change
             if (isDirty) {
-                setPasswordMatch(watch("password") === watch("confirm_password"));
+                setPasswordMatch(watch("password") === watch("password_confirmation"));
             }
 
         }
-    }, [watch("password"), watch("confirm_password"), isDirty]);
+    }, [watch("password"), watch("password_confirmation"), isDirty]);
+
     return (
         <form onSubmit={handleSubmit(registerSubmit)} autoComplete='off'>
             <div className='flex flex-col mb-[20px]'>
@@ -129,13 +130,17 @@ const RegisterForm = () => {
                 }
             </div>
             <div className='flex flex-col mb-[20px]'>
-                <input type="text"
+                <input type="password"
                     placeholder='Password'
                     {...register("password", {
                         required: 'Password is required',
                         minLength: {
-                            value: 5,
-                            message: "Password must have at least 6 characters.",
+                            value: 7,
+                            message: "Password must have at least 8 characters.",
+                        },
+                        pattern: {
+                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+                            message: "Password must contain at least one uppercase letter, one lowercase letter, and one number.",
                         },
                     })}
                     onKeyUp={() => trigger('password')}
@@ -147,23 +152,23 @@ const RegisterForm = () => {
                 }
             </div>
             <div className='flex flex-col mb-[20px]'>
-                <input type="text"
+                <input type="password"
                     placeholder='Confirm Password'
-                    {...register("confirm_password",
+                    {...register("password_confirmation",
                         {
                             required: "Confirm Password is required.",
                             validate: (value) => value === watch("password") || "Passwords do not match",
                         },
                     )}
-                    onKeyUp={() => trigger('confirm_password')}
-                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.confirm_password && !passwordMatch ? 'border-error' : 'border-gray-350'}`}
+                    onKeyUp={() => trigger('password_confirmation')}
+                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.password_confirmation && !passwordMatch ? 'border-error' : 'border-gray-350'}`}
                 />
                 {
-                    errors.confirm_password && !passwordMatch &&
-                    <p className='text-error text-xs leading-[24px] mt-1'>{errors.confirm_password.message}</p>
+                    errors.password_confirmation && !passwordMatch &&
+                    <p className='text-error text-xs leading-[24px] mt-1'>{errors.password_confirmation.message}</p>
                 }
                 {
-                    !errors.confirm_password && !passwordMatch && // Display error message when passwords don't match
+                    !errors.password_confirmation && !passwordMatch && // Display error message when passwords don't match
                     <p className='text-error text-xs leading-[24px] mt-1'>Passwords do not match</p>
                 }
             </div>
@@ -171,7 +176,7 @@ const RegisterForm = () => {
                 <button
                     type='submit'
                     className='submit-btn'
-                    disabled={mutation.isLoading ? true : false}
+                    disabled={mutation.isLoading}
                 >
                     Sign Up
                     {

@@ -37,7 +37,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
     },
     onError: (error: any) => {
       const errors = error?.response?.data?.errors
-      showToast(TOAST_TYPES.error, errors[0]?.message)
+      showToast(TOAST_TYPES.error, errors[0]?.detail)
     },
   })
   const { register, handleSubmit, formState: { errors }, trigger } = useForm<ILogin>()
@@ -51,19 +51,21 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
       <div className='flex flex-col mb-[20px]'>
         <input
           type="text"
+          autoComplete="off"
           placeholder='Phone Number/Email'
-          {...register("username", { required: 'Phone Number Or Email is required' })}
-          onBlur={() => trigger('username')}
-          className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.username ? 'border-error' : 'border-gray-350'}`}
+          {...register("account", { required: 'Phone Number Or Email is required' })}
+          onBlur={() => trigger('account')}
+          className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.account ? 'border-error' : 'border-gray-350'}`}
         />
         {
-          errors.username &&
-          <p className='text-error text-xs leading-[24px] mt-1'>{errors.username.message}</p>
+          errors.account &&
+          <p className='text-error text-xs leading-[24px] mt-1'>{errors.account.message}</p>
         }
       </div>
       <div className='flex flex-col mb-[20px]'>
         <input type="password"
           placeholder='Password'
+          autoComplete="off" 
           {...register("password", { required: 'Password is required', })}
           onBlur={() => trigger('password')}
           className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.password ? 'border-error' : 'border-gray-350'}`}
