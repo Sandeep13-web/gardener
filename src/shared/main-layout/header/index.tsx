@@ -115,7 +115,7 @@ const Header = () => {
   // })
 
 
-  const LogoutMutation = useMutation({
+  const logoutMutation = useMutation({
     mutationFn: logout,
     onSuccess: async () => {
       deleteCookie("token");
@@ -130,7 +130,7 @@ const Header = () => {
   });
 
   const logoutHandler = () => {
-    LogoutMutation.mutate();
+    logoutMutation.mutate();
   };
 
   //suggestion
@@ -291,7 +291,7 @@ const Header = () => {
                         showModal={showModal}
                         btnFunction={logoutHandler}
                         cancelFuntion={() => setShowModal(false)}
-                        isLoading={LogoutMutation.isLoading}
+                        isLoading={logoutMutation.isLoading}
                       />
                     )}
                   </div>

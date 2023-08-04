@@ -14,7 +14,7 @@ const apiURL = config.gateway.apiURL;
 
 export const signUp = async (data: any) => {
   try {
-    const response = await axiosInstance.post(`/signup`, data);
+    const response = await axiosInstance.post(`/register`, data);
 
     if (response.status === 201) {
       return response.data;
@@ -25,19 +25,11 @@ export const signUp = async (data: any) => {
 };
 
 export const login = async (data: any) => {
-  const grant_type = "password";
-  const client_secret: any = process.env.NEXT_PUBLIC_CLIENT_SECRET;
-  const client_id: any = process.env.NEXT_PUBLIC_CLIENT_ID;
-  const provider = "";
-  const refresh_token = "";
+  const grantType = "password";
   try {
-    const response = await axiosInstance.post(`/auth/login`, {
+    const response = await axiosInstance.post(`/login`, {
       ...data,
-      grant_type,
-      client_secret,
-      client_id,
-      provider,
-      refresh_token,
+      grantType,
     });
 
     if (response.status === 200) {
@@ -50,7 +42,7 @@ export const login = async (data: any) => {
 
 export const logout = async () => {
   try {
-    const response = await axiosInstance.get("/auth/logout");
+    const response = await axiosInstance.get("/logout");
     if (response.status === 204) {
       setCouponHeader({
         coupon: "",
@@ -62,10 +54,10 @@ export const logout = async () => {
   }
 };
 
-export const forgotPassword = async (email: IForgotPassword) => {
+export const forgotPassword = async (account: IForgotPassword) => {
   try {
-    const response = await axiosInstance.post("/auth/forgot-password", email);
-    return response;
+    const response = await axiosInstance.post("/forget-password", account);
+    return response?.data?.data;
   } catch (error) {
     throw error;
   }
@@ -74,10 +66,10 @@ export const forgotPassword = async (email: IForgotPassword) => {
 export const resetPassword = async (resetPasswordBody: IResetPassword) => {
   try {
     const response = await axiosInstance.post(
-      "/auth/reset-password",
+      "/reset-password",
       resetPasswordBody
     );
-    return response;
+    return response?.data?.data;
   } catch (error) {
     throw error;
   }

@@ -18,7 +18,7 @@ const ForgotPasswordForm = () => {
     const mutation = useMutation({
         mutationFn: forgotPassword,
         onSuccess: (data) => {
-            showToast(TOAST_TYPES.success, 'An email has been sent to you mailing address.');
+            showToast(TOAST_TYPES.success, data?.message);
             router.push('/reset-password');
         },
         onError: (error: any) => {
@@ -39,13 +39,13 @@ const ForgotPasswordForm = () => {
                 <input
                     type="text"
                     placeholder='Enter Your Email or Phone number'
-                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.email ? 'border-error' : 'border-gray-350'}`}
-                    {...register("email", { required: 'Email or Phone Number is required.' })}
-                    onBlur={() => trigger('email')}
+                    className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.account ? 'border-error' : 'border-gray-350'}`}
+                    {...register("account", { required: 'Email or Phone Number is required.' })}
+                    onBlur={() => trigger('account')}
                 />
                 {
-                    errors.email &&
-                    <p className='text-error text-xs leading-[24px] mt-1'>{errors.email.message}</p>
+                    errors.account &&
+                    <p className='text-error text-xs leading-[24px] mt-1'>{errors.account.message}</p>
                 }
             </div>
             <div className='flex items-center justify-between'>
