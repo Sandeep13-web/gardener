@@ -9,9 +9,9 @@ import {
 import { getCookie } from "cookies-next";
 // import { getCoupon } from "@/shared/utils/local-storage-utils/local-storage.utils";
 
-const baseURL = config.gateway.baseURL;
+const apiURL = config.gateway.apiURL;
 const axiosInstance = axios.create({
-  baseURL: baseURL,
+  baseURL: apiURL,
   headers: {
     Accept: "application/json",
     ...(getCartNumber() && { "Cart-Number": getCartNumber() }),

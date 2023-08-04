@@ -3,7 +3,7 @@ import { IProfileImage, IProfileSubmit } from "@/interface/profile.interface";
 import { getToken, getWareId } from "@/shared/utils/cookies-utils/cookies.utils";
 import axios from "axios";
 import { config } from "../../config";
-const baseURL = config.gateway.baseURL;
+const apiURL = config.gateway.apiURL;
 
 export const getProfile = async () => {
   try {
@@ -34,7 +34,7 @@ export const updateProfile = async (data: IProfileSubmit) => {
 
 
 export const uploadProfileImage = async (image: File) => {
-  const imageUrl = `${baseURL}/profile/image`;
+  const imageUrl = `${apiURL}/profile/image`;
 
   const headers = {
     ...(getToken() && { Authorization: `Bearer ${getToken()}` }),

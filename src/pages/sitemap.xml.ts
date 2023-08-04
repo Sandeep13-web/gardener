@@ -2,8 +2,8 @@
 const EXTERNAL_DATA_URL = 'https://jsonplaceholder.typicode.com/posts';
 import { config } from "../../config";
 import axios from 'axios';
-const baseUrl =  config.gateway.baseURL;
-const domainUrl =  config.gateway.apiURL;
+const apiUrl =  config.gateway.apiURL;
+const domainUrl =  config.gateway.baseURL;
 
 
 function generateSiteMap( 
@@ -275,7 +275,7 @@ function SiteMap() {
 
 async function fetchTagData() {
   try {
-    const tagResponse = await axios.get(`${baseUrl}/tag`, {
+    const tagResponse = await axios.get(`${apiUrl}/tag`, {
       headers: {
         'Api-Key': config.gateway.apiKey
       }
@@ -288,7 +288,7 @@ async function fetchTagData() {
 }
 async function fetchBlogData() {
   try {
-    const blogResponse = await axios.get(`${baseUrl}/blog?page=1&perPage=4`, {
+    const blogResponse = await axios.get(`${apiUrl}/blog?page=1&perPage=4`, {
       headers: {
         'Api-Key': config.gateway.apiKey
       }
@@ -302,7 +302,7 @@ async function fetchBlogData() {
 
 async function fetchCategories() {
   try {
-    const categoryResponse = await axios.get(`${baseUrl}/category`, {
+    const categoryResponse = await axios.get(`${apiUrl}/category`, {
       headers: {
         'Api-Key': config.gateway.apiKey
       }
@@ -316,14 +316,14 @@ async function fetchCategories() {
 
 async function generateProductByCategories() {
   const productUrls = [];
-  const categoryData = await axios.get(`${baseUrl}/category`, {
+  const categoryData = await axios.get(`${apiUrl}/category`, {
       headers: {
           'Api-Key': config.gateway.apiKey
       }
   });
   const category = categoryData.data;
   const apiUrls = category.data.map((product:any) => ({
-      url: `${baseUrl}/product?categoryId=${product.slug}&allProduct=1&page=1`,
+      url: `${apiUrl}/product?categoryId=${product.slug}&allProduct=1&page=1`,
   }));
   for (const url of apiUrls) {
       try {
@@ -343,14 +343,14 @@ async function generateProductByCategories() {
 
 async function generateProductByCategoriesTwo() {
   const productUrls = [];
-  const categoryData = await axios.get(`${baseUrl}/category`, {
+  const categoryData = await axios.get(`${apiUrl}/category`, {
       headers: {
           'Api-Key': config.gateway.apiKey
       }
   });
   const category = categoryData.data;
   const apiUrls = category.data.map((product:any) => ({
-      url: `${baseUrl}/product?categoryId=${product.slug}&allProduct=1&page=2`,
+      url: `${apiUrl}/product?categoryId=${product.slug}&allProduct=1&page=2`,
   }));
   for (const url of apiUrls) {
       try {
@@ -370,14 +370,14 @@ async function generateProductByCategoriesTwo() {
 
 async function generateProductByCategoriesThree() {
   const productUrls = [];
-  const categoryData = await axios.get(`${baseUrl}/category`, {
+  const categoryData = await axios.get(`${apiUrl}/category`, {
       headers: {
           'Api-Key': config.gateway.apiKey
       }
   });
   const category = categoryData.data;
   const apiUrls = category.data.map((product:any) => ({
-      url: `${baseUrl}/product?categoryId=${product.slug}&allProduct=1&page=3`,
+      url: `${apiUrl}/product?categoryId=${product.slug}&allProduct=1&page=3`,
   }));
   for (const url of apiUrls) {
       try {
@@ -397,14 +397,14 @@ async function generateProductByCategoriesThree() {
 
 async function generateProductByCategoriesFour() {
   const productUrls = [];
-  const categoryData = await axios.get(`${baseUrl}/category`, {
+  const categoryData = await axios.get(`${apiUrl}/category`, {
       headers: {
           'Api-Key': config.gateway.apiKey
       }
   });
   const category = categoryData.data;
   const apiUrls = category.data.map((product:any) => ({
-      url: `${baseUrl}/product?categoryId=${product.slug}&allProduct=1&page=4`,
+      url: `${apiUrl}/product?categoryId=${product.slug}&allProduct=1&page=4`,
   }));
   for (const url of apiUrls) {
       try {
@@ -424,14 +424,14 @@ async function generateProductByCategoriesFour() {
 
 async function generateProductByCategoriesFive() {
   const productUrls = [];
-  const categoryData = await axios.get(`${baseUrl}/category`, {
+  const categoryData = await axios.get(`${apiUrl}/category`, {
       headers: {
           'Api-Key': config.gateway.apiKey
       }
   });
   const category = categoryData.data;
   const apiUrls = category.data.map((product:any) => ({
-      url: `${baseUrl}/product?categoryId=${product.slug}&allProduct=1&page=5`,
+      url: `${apiUrl}/product?categoryId=${product.slug}&allProduct=1&page=5`,
   }));
   for (const url of apiUrls) {
       try {
@@ -451,14 +451,14 @@ async function generateProductByCategoriesFive() {
 
 async function generateProductByCategoriesSix() {
   const productUrls = [];
-  const categoryData = await axios.get(`${baseUrl}/category`, {
+  const categoryData = await axios.get(`${apiUrl}/category`, {
       headers: {
           'Api-Key': config.gateway.apiKey
       }
   });
   const category = categoryData.data;
   const apiUrls = category.data.map((product:any) => ({
-      url: `${baseUrl}/product?categoryId=${product.slug}&allProduct=1&page=6`,
+      url: `${apiUrl}/product?categoryId=${product.slug}&allProduct=1&page=6`,
   }));
   for (const url of apiUrls) {
       try {
@@ -478,14 +478,14 @@ async function generateProductByCategoriesSix() {
 
 async function generateProductByCategoriesSeven() {
   const productUrls = [];
-  const categoryData = await axios.get(`${baseUrl}/category`, {
+  const categoryData = await axios.get(`${apiUrl}/category`, {
       headers: {
           'Api-Key': config.gateway.apiKey
       }
   });
   const category = categoryData.data;
   const apiUrls = category.data.map((product:any) => ({
-      url: `${baseUrl}/product?categoryId=${product.slug}&allProduct=1&page=7`,
+      url: `${apiUrl}/product?categoryId=${product.slug}&allProduct=1&page=7`,
   }));
   for (const url of apiUrls) {
       try {
@@ -505,14 +505,14 @@ async function generateProductByCategoriesSeven() {
 
 async function generateProductByCategoriesEight() {
   const productUrls = [];
-  const categoryData = await axios.get(`${baseUrl}/category`, {
+  const categoryData = await axios.get(`${apiUrl}/category`, {
       headers: {
           'Api-Key': config.gateway.apiKey
       }
   });
   const category = categoryData.data;
   const apiUrls = category.data.map((product:any) => ({
-      url: `${baseUrl}/product?categoryId=${product.slug}&allProduct=1&page=8`,
+      url: `${apiUrl}/product?categoryId=${product.slug}&allProduct=1&page=8`,
   }));
   for (const url of apiUrls) {
       try {
@@ -532,14 +532,14 @@ async function generateProductByCategoriesEight() {
 
 async function generateProductByCategoriesNine() {
   const productUrls = [];
-  const categoryData = await axios.get(`${baseUrl}/category`, {
+  const categoryData = await axios.get(`${apiUrl}/category`, {
       headers: {
           'Api-Key': config.gateway.apiKey
       }
   });
   const category = categoryData.data;
   const apiUrls = category.data.map((product:any) => ({
-      url: `${baseUrl}/product?categoryId=${product.slug}&allProduct=1&page=9`,
+      url: `${apiUrl}/product?categoryId=${product.slug}&allProduct=1&page=9`,
   }));
   for (const url of apiUrls) {
       try {
@@ -559,14 +559,14 @@ async function generateProductByCategoriesNine() {
 
 async function generateProductByCategoriesTen() {
   const productUrls = [];
-  const categoryData = await axios.get(`${baseUrl}/category`, {
+  const categoryData = await axios.get(`${apiUrl}/category`, {
       headers: {
           'Api-Key': config.gateway.apiKey
       }
   });
   const category = categoryData.data;
   const apiUrls = category.data.map((product:any) => ({
-      url: `${baseUrl}/product?categoryId=${product.slug}&allProduct=1&page=10`,
+      url: `${apiUrl}/product?categoryId=${product.slug}&allProduct=1&page=10`,
   }));
   for (const url of apiUrls) {
       try {
@@ -598,7 +598,7 @@ export async function getServerSideProps({ res }:any) {
   const allProductsEight = await generateProductByCategoriesEight();
   const allProductsNine = await generateProductByCategoriesNine();
   const allProductsTen = await generateProductByCategoriesTen();
-  const domainUrl: string | undefined = config.gateway.apiURL;
+  const domainUrl: string | undefined = config.gateway.baseURL;
   if (domainUrl) {
     const sitemap = generateSiteMap(
       tagUrls, blogUrls, 
