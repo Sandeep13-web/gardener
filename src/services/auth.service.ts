@@ -10,7 +10,7 @@ import {
 } from "@/interface/password.interface";
 import axios from "axios";
 import { getCartNumber } from "@/shared/utils/cookies-utils/cookies.utils";
-const baseURL = config.gateway.baseURL;
+const apiURL = config.gateway.apiURL;
 
 export const signUp = async (data: any) => {
   try {
@@ -105,7 +105,7 @@ export const deleteAccount = async () => {
 };
 
 export const registerGuestUser = async (data: any, isInitialSubmit: any) => {
-  const registerGuestUserUrl = `${baseURL}/guest/auth/signup`;
+  const registerGuestUserUrl = `${apiURL}/guest/auth/signup`;
   let payload;
   if (isInitialSubmit) {
     payload = {

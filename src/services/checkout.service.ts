@@ -4,10 +4,10 @@ import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import { config } from '../../config';
 
-const baseURL = config.gateway.baseURL;
+const apiURL = config.gateway.apiURL;
 
 export const checkout = async (deliveryId: any, paymentMethodId: any, note:any) => {
-  const checkoutUrl = `${baseURL}/cart/checkout`;
+  const checkoutUrl = `${apiURL}/cart/checkout`;
 
   const headers = {
     ...(getToken() && { Authorization: `Bearer ${getToken()}` }),

@@ -13,7 +13,7 @@ import axios from "axios";
 import { getCookie, setCookie } from "cookies-next";
 import { config } from "../../config";
 import { useCart } from "@/store/use-cart";
-const baseURL = config.gateway.baseURL;
+const apiURL = config.gateway.apiURL;
 
 // export const setCartNumberCookie = async () => {
 //   try {
@@ -101,7 +101,7 @@ export const bulkDeleteCart = async () => {
 // };
 
 export const associateCart = async (auth: any) => {
-  const associateCartUrl = `${baseURL}/cart/associate`;
+  const associateCartUrl = `${apiURL}/cart/associate`;
 
   const headers = {
     ...(getCartNumber() && { "Cart-Number": getCartNumber() }),
