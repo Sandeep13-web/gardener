@@ -28,7 +28,7 @@ const TreeInstallation: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (treeInstallationData) {
-      setDescriptionContent(treeInstallationData?.data?.description || '');
+      setDescriptionContent(treeInstallationData?.data?.content || '');
     }
   }, [treeInstallationData]);
   return (

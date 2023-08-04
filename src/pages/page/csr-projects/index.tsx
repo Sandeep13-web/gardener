@@ -28,7 +28,7 @@ const CSRProjects: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (csrProjectData) {
-      setDescriptionContent(csrProjectData?.data?.description || '');
+      setDescriptionContent(csrProjectData?.data?.content || '');
     }
   }, [csrProjectData]);
   return (

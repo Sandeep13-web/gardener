@@ -27,7 +27,7 @@ const AppPrivacyPolicy: NextPageWithLayout = () => {
 
     useEffect(() => {
         if (privacyPolicy) {
-            setDescriptionContent(privacyPolicy?.data?.description || "");
+            setDescriptionContent(privacyPolicy?.data?.content || "");
         }
     }, [privacyPolicy]);
 

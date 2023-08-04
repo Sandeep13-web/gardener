@@ -28,7 +28,7 @@ const PlantConsultation: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (plantConsultationData) {
-      setDescriptionContent(plantConsultationData?.data?.description || "");
+      setDescriptionContent(plantConsultationData?.data?.content || "");
     }
   }, [plantConsultationData]);
 

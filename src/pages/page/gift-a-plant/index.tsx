@@ -28,7 +28,7 @@ const GiftAPlant: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (giftPlantData) {
-      setDescriptionContent(giftPlantData?.data?.description || '');
+      setDescriptionContent(giftPlantData?.data?.content || '');
     }
   }, [giftPlantData]);
   return (

@@ -27,7 +27,7 @@ const TermsAndCondition: NextPageWithLayout = () => {
 
     useEffect(() => {
         if (termsAndCondition) {
-            setDescriptionContent(termsAndCondition?.data?.description || "");
+            setDescriptionContent(termsAndCondition?.data?.content || "");
         }
     }, [termsAndCondition]);
     return (
