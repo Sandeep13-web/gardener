@@ -30,7 +30,7 @@ const AboutUs: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (aboutData) {
-      setDescriptionContent(aboutData?.data?.description || '');
+      setDescriptionContent(aboutData?.data?.content || '');
     }
   }, [aboutData]);
   return (

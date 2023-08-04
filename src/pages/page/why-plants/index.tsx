@@ -27,7 +27,7 @@ const WhyPlant: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (whyPlantData) {
-      setDescriptionContent(whyPlantData?.data?.description || '');
+      setDescriptionContent(whyPlantData?.data?.content || '');
     }
   }, [whyPlantData]);
   return (

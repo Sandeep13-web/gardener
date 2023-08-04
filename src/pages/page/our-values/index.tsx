@@ -28,7 +28,7 @@ const OurValues: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (valuesData) {
-      setDescriptionContent(valuesData?.data?.description || '');
+      setDescriptionContent(valuesData?.data?.content || '');
     }
   }, [valuesData]);
   return (

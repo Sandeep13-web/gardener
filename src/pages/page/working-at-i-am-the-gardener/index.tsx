@@ -28,7 +28,7 @@ const Career: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (careerData) {
-      setDescriptionContent(careerData?.data?.description || '');
+      setDescriptionContent(careerData?.data?.content || '');
     }
   }, [careerData]);
   return (
