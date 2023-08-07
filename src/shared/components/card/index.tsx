@@ -134,8 +134,6 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
       setLogin(false)
     }
   }, [loggedIn])
-
-  console.log(product)
   return (
     <>
       <div className="relative card plant-card">
@@ -154,7 +152,7 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
                 }
               </button>
               :
-              <button onClick={() => removeFromFav(product?.favId!)} className="absolute top-3 right-3 z-[2]">
+              <button onClick={() => removeFromFav(product?.id!)} className="absolute top-3 right-3 z-[2]">
                 {
                   removeLoading ?
                     <ButtonLoader className="!border-primary !block" /> :
