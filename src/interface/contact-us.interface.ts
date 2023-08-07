@@ -1,7 +1,8 @@
 export interface IContactUs {
-  message: string;
-  subject: string;
-  email: string;
-  name: string;
-  contact: string;
+  context: string,
+  department: string,
+  email: string,
+  first_name: string,
+  last_name: string,
+  mobile_number:string
 }
