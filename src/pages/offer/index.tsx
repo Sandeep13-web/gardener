@@ -22,7 +22,7 @@ const Offer: NextPageWithLayout = () => {
   const [selectedValue, setSelectedValue] = useState<string>('')
   const [productModalId, setProductModalId] = useState<string>("")
 
-  const offer = 1
+  const offer = true
 
   const { data: offers, isLoading, error } = useQuery(
     ['getOffers', query, pageNumber, offer, selectedValue], () =>
@@ -48,7 +48,7 @@ const Offer: NextPageWithLayout = () => {
         <div className="container">
           <section className="my-[60px]">
             <div>
-              {offers?.data.length === 0 ? (
+              {offers?.length === 0 ? (
                 <EmptyPage />
               ) : (
                 <>
@@ -76,7 +76,7 @@ const Offer: NextPageWithLayout = () => {
                       (
                         <>
                           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                            {offers.data.map((product: any, index: any) => (
+                            {offers?.data?.map((product: any, index: any) => (
                               <Card
                                 setProductModalId={setProductModalId}
                                 product={product}

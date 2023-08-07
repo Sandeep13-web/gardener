@@ -125,7 +125,7 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
                           <Card
                             product={product}
                             key={index}
-                            cartItem={cart?.cartProducts.find((item) => item?.product?.id === product?.id)}
+                            cartItem={cart?.carts.find((item) => item?.product?.id === product?.id)}
                             setProductModalId={setProductModalId}
                           />
                         </SwiperSlide>
