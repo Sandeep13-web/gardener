@@ -48,7 +48,7 @@ const Banner = () => {
                 {homeData?.data?.banners.map((prev, index) => (
                   <SwiperSlide key={`banner-images-${index}`} onClick={() => handleOpenNewTab(`${prev.websiteUrl}`)}>
                     <Image
-                      src={prev.bannerImage}
+                      src={prev?.webpBannerImage ? prev?.webpBannerImage : prev.bannerImage}
                       height={100}
                       width={2000}
                       style={{ objectFit: "cover" }}

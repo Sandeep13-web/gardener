@@ -135,7 +135,6 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
     }
   }, [loggedIn])
 
-  console.log(product)
   return (
     <>
       <div className="relative card plant-card">
@@ -204,7 +203,7 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
         </div>
         <div className="card-body px-[15px] py-[20px] gap-[10px]">
           <p className="text-xs uppercase text-gray-450">
-            {product?.categoryTitle}
+            {product?.restaurantName}
           </p>
           <h2 className="card-title plant-card-title">{product?.name}</h2>
           {

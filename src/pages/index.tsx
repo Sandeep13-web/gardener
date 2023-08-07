@@ -6,6 +6,7 @@ import {
   DeliveryImg,
   LockImg,
   CallImg,
+  banner,
 } from "@/shared/lib/image-config";
 import Image from "next/image";
 import Banner from "@/shared/components/banner";
@@ -19,6 +20,7 @@ import Head from "next/head";
 import { ICartItem } from "@/interface/cart.interface";
 import { getCartData } from "@/services/cart.service";
 import { useCart } from "@/store/use-cart";
+import Link from "next/link";
 
 const Home: NextPageWithLayout = () => {
   const { data: home, isInitialLoading: homeLoading } = useQuery<IHome>({
@@ -33,6 +35,9 @@ const Home: NextPageWithLayout = () => {
   //     setCartNumberCookie()
   //   }
   // }, [])
+  const adBanners = home?.data?.adBanners || [];
+  const totalAdBanners = adBanners.length;
+  let displayedAdBanners = 0;
 
   return (
     <>
@@ -102,6 +107,27 @@ const Home: NextPageWithLayout = () => {
             loading={loadingCategories}
             categories={categories?.data}
           />
+          <div className="grid grid-cols-12 gap-4 my-6">
+            {adBanners.length > 0 &&
+              adBanners?.slice(0, 2).map((bannerImg: any) => (
+                <div className="col-span-12 overflow-hidden sm:col-span-6" key={bannerImg?.id}>
+                  <Image
+                    src={bannerImg?.webpWebImage ? bannerImg?.webpWebImage : bannerImg?.webImage}
+                    alt={`bannerImage-${bannerImg?.id}`}
+                    className="!h-full w-full transition-all duration-300 ease-linear translate hover:scale-[1.035]"
+                    width={1000}
+                    height={1000}
+                    priority={true}
+                    quality={100}
+                    style={{
+                      width: "100%",
+                      height: "auto"
+                    }}
+                  />
+                </div>
+              ))
+            }
+          </div>
 
         </div>
         {homeLoading ?
@@ -118,10 +144,50 @@ const Home: NextPageWithLayout = () => {
           :
           <>
             {home?.data?.appCategories?.map((prev: IAppCategories, index: number) => (
-              <AppCategories
+              <React.Fragment
                 key={`appcatgories-${index}`}
-                prev={prev}
-              />
+              >
+                <AppCategories
+                  prev={prev}
+                />
+                {
+                  index * 2 + 2 < home?.data?.adBanners.length &&
+                  <div className="container">
+                    <div className="grid grid-cols-12 gap-4 my-6">
+                      {home?.data?.adBanners
+                        .slice((index * 2) + 2, (index + 1) * 2 + 2) // Display 2 adBanners after each AppCategories set
+                        .map((adBanner: any) => (
+                          <div className="relative col-span-12 overflow-hidden sm:col-span-6" key={adBanner?.id}>
+                            {/* {
+                              adBanner?.linkType === 'Website' ? (
+                                <Link className="absolute w-full h-full" target="_blank" href={`/${adBanner?.linkValue}`} />
+                              ) : (
+                                <Link className="absolute w-full h-full" href={
+                                  adBanner?.linkType === 'Category' ? `/categories/${adBanner?.slug}`
+                                    : `/product/${adBanner?.slug}`
+                                } />
+                              )
+                            } */}
+                            <Image
+                              src={adBanner?.webpWebImage ? adBanner?.webpWebImage : adBanner?.webImage}
+                              alt={`bannerImage-${adBanner?.id}`}
+                              className="!h-full w-full transition-all duration-300 ease-linear translate hover:scale-[1.035]"
+                              width={1000}
+                              height={1000}
+                              priority={true}
+                              quality={100}
+                              style={{
+                                width: "100%",
+                                height: "auto"
+                              }}
+                            />
+                          </div>
+                        ))}
+                    </div>
+
+                  </div>
+                }
+              </React.Fragment>
             )
             )}
           </>

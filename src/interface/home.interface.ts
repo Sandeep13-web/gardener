@@ -4,7 +4,7 @@ export interface IHome {
   data: IHomeData;
 }
 export interface IHomeData {
-  adbanners: IAdBanner[];
+  adBanners: IAdBanner[];
   appCategories: IAppCategories[];
   banners: IBanner[];
   brands: IBrands[];
@@ -28,6 +28,7 @@ export interface IAdBanner {
 
 export interface IBanner {
   bannerImage: string;
+  webpBannerImage: string;
   id: number;
   linkTo: string;
   position: number;

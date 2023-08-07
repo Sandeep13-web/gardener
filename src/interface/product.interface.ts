@@ -30,7 +30,7 @@ export interface IProduct {
   categoryIcon: string;
   categoryId: number;
   categorySlug: string;
-  categoryTitle: string;
+  restaurantName: string;
   decimal: boolean;
   description: string;
   hasOffer: boolean;

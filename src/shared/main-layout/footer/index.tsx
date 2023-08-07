@@ -27,7 +27,7 @@ const Footer = () => {
       <footer className="relative block p-4 !pb-0 sm:p-10 footer text-base-content">
         <div className="container flex flex-wrap items-start justify-between gap-2 footer">
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
-            <Image src={config?.data?.pageData['logo']} height={69} width={128} alt="footer-logo" priority />
+            <Image src={config?.data?.pageData['logo']} height={69} width={128} alt="footer-logo" priority={true} />
             <p className="text-[12px]">
               {config?.data?.pageData["section1 description"]}
             </p>
@@ -67,80 +67,80 @@ const Footer = () => {
           </div>
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
             <span className="footer-title">{config?.data?.pageData['section2 title']}</span>
-            {config?.data?.pageData && <> 
+            {config?.data?.pageData && <>
               <div className="flex items-center justify-start gap-4 mb-3">
-              <FooterBullet />
-              <Link href={`${config?.data?.pageData['section2 link1']}`} aria-label="about-us" className="p-0 footer-link">{config?.data?.pageData['section2 content1']}</Link>
-            </div>
-            <div className="flex items-center justify-start gap-4 mb-3">
-              <FooterBullet />
-              <Link href={`${config?.data?.pageData['section2 link2']}`} aria-label="privacy-policy-footter" className="p-0 footer-link">{config?.data?.pageData['section2 content2']}</Link>
-            </div>
-            <div className="flex items-center justify-start gap-4 mb-3">
-              <FooterBullet />
-              <Link href={`${config?.data?.pageData['section2 link3']}`} aria-label="faq-footer" className="p-0 footer-link">{config?.data?.pageData['section2 content3']}</Link>
-            </div>
-            <div className="flex items-center justify-start gap-4 mb-3">
-              <FooterBullet />
-              <Link href={`${config?.data?.pageData['section2 link4']}`} aria-label="contact-us" className="p-0 footer-link">{config?.data?.pageData['section2 content4']}</Link>
-            </div>
-            <div className="flex items-center justify-start gap-4 mb-3">
-              <FooterBullet />
-              <Link href={`${config?.data?.pageData['section2 link5']}`} aria-label="terms-and-condition" className="p-0 footer-link">{config?.data?.pageData['section2 content5']}</Link>
-            </div>
-            </> }
-            
+                <FooterBullet />
+                <Link href={`${config?.data?.pageData['section2 link1']}`} aria-label="about-us" className="p-0 footer-link">{config?.data?.pageData['section2 content1']}</Link>
+              </div>
+              <div className="flex items-center justify-start gap-4 mb-3">
+                <FooterBullet />
+                <Link href={`${config?.data?.pageData['section2 link2']}`} aria-label="privacy-policy-footter" className="p-0 footer-link">{config?.data?.pageData['section2 content2']}</Link>
+              </div>
+              <div className="flex items-center justify-start gap-4 mb-3">
+                <FooterBullet />
+                <Link href={`${config?.data?.pageData['section2 link3']}`} aria-label="faq-footer" className="p-0 footer-link">{config?.data?.pageData['section2 content3']}</Link>
+              </div>
+              <div className="flex items-center justify-start gap-4 mb-3">
+                <FooterBullet />
+                <Link href={`${config?.data?.pageData['section2 link4']}`} aria-label="contact-us" className="p-0 footer-link">{config?.data?.pageData['section2 content4']}</Link>
+              </div>
+              <div className="flex items-center justify-start gap-4 mb-3">
+                <FooterBullet />
+                <Link href={`${config?.data?.pageData['section2 link5']}`} aria-label="terms-and-condition" className="p-0 footer-link">{config?.data?.pageData['section2 content5']}</Link>
+              </div>
+            </>}
+
           </div>
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
             <span className="footer-title">{`${config?.data?.pageData['section4 title']}`}</span>
-            {config?.data?.pageData && <> 
+            {config?.data?.pageData && <>
               <div className="flex items-center justify-start gap-4 mb-3">
-              <FooterBullet />
-              <Link href='/plant-consultation' aria-label="plant-and-consultation" className="p-0 footer-link">
-              {`${config?.data?.pageData['section4 content1']}`}
-              </Link>
-            </div>
-            <div className="flex items-center justify-start gap-4 mb-3">
-              <FooterBullet />
-              <Link href='/tree-installation' aria-label="tree-installation" className="p-0 footer-link">{`${config?.data?.pageData['section4 content2']}`}</Link>
-            </div>
-            <div className="flex items-center justify-start gap-4 mb-3">
-              <FooterBullet />
-              <Link href='/tree-installation' aria-label="tree-installation" className="p-0 footer-link">{`${config?.data?.pageData['section4 content3']}`}</Link>
-            </div>
-            </> }
-            
+                <FooterBullet />
+                <Link href='/plant-consultation' aria-label="plant-and-consultation" className="p-0 footer-link">
+                  {`${config?.data?.pageData['section4 content1']}`}
+                </Link>
+              </div>
+              <div className="flex items-center justify-start gap-4 mb-3">
+                <FooterBullet />
+                <Link href='/tree-installation' aria-label="tree-installation" className="p-0 footer-link">{`${config?.data?.pageData['section4 content2']}`}</Link>
+              </div>
+              <div className="flex items-center justify-start gap-4 mb-3">
+                <FooterBullet />
+                <Link href='/tree-installation' aria-label="tree-installation" className="p-0 footer-link">{`${config?.data?.pageData['section4 content3']}`}</Link>
+              </div>
+            </>}
+
           </div>
         </div>
         <div className="container flex flex-wrap items-center justify-between gap-4 mb-4">
           <div className="flex gap-3">
-            {config?.data?.pageData && <> 
+            {config?.data?.pageData && <>
               <Link href={`${config?.data?.pageData['section5 facebook']}`} aria-label="fb-link" target="_blank" className="w-auto p-0 btn btn-circle">
-              <Image
-                src={socials.facebook}
-                height={36}
-                width={36}
-                alt="facebook"
-              />
-            </Link>
-            <Link href={`${config?.data?.pageData['section5 instagram']}`} aria-label="insta-link" target="_blank" className="w-auto p-0 btn btn-circle">
-              <Image
-                src={socials.instagram}
-                height={36}
-                width={36}
-                alt="insta"
-              />
-            </Link>
-            <Link href={`${config?.data?.pageData['section5 youtube']}`} aria-label="youtube" target="_blank" className="w-auto p-0 btn btn-circle">
-              <Image
-                src={socials.youtube}
-                height={36}
-                width={36}
-                alt="yt"
-              />
-            </Link>
+                <Image
+                  src={socials.facebook}
+                  height={36}
+                  width={36}
+                  alt="facebook"
+                />
+              </Link>
+              <Link href={`${config?.data?.pageData['section5 instagram']}`} aria-label="insta-link" target="_blank" className="w-auto p-0 btn btn-circle">
+                <Image
+                  src={socials.instagram}
+                  height={36}
+                  width={36}
+                  alt="insta"
+                />
+              </Link>
+              <Link href={`${config?.data?.pageData['section5 youtube']}`} aria-label="youtube" target="_blank" className="w-auto p-0 btn btn-circle">
+                <Image
+                  src={socials.youtube}
+                  height={36}
+                  width={36}
+                  alt="yt"
+                />
+              </Link>
             </>}
-            
+
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <h3 className="text-base font-bold text-black me-4">
@@ -175,34 +175,38 @@ const Footer = () => {
             <div className="flex flex-wrap justify-center mx-auto">
               {config?.data?.pageData && <>
                 <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
-                <Image src={config?.data?.pageData['section3 content1']}
-                  height={56}
-                  width={56}
-                  alt="esewa" />
-              </button>
-              <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
-              <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
-                <Image src={config?.data?.pageData['section3 content2']}
-                  height={56}
-                  width={56}
-                  alt="master-card" />
-              </button>
-              <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
-              <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
-                <Image src={config?.data?.pageData['section3 content3']}
-                  height={56}
-                  width={56}
-                  alt="cash on hand" />
-              </button>
-              <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
-              <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
-                <Image src={config?.data?.pageData['section3 content4']}
-                  height={56}
-                  width={56}
-                  alt="union pay" />
-              </button>
-               </>}
-              
+                  <Image src={config?.data?.pageData['section3 content1']}
+                    height={100}
+                    width={100}
+                    quality={100}
+                    alt="esewa" />
+                </button>
+                <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
+                <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
+                  <Image src={config?.data?.pageData['section3 content2']}
+                    height={100}
+                    width={100}
+                    quality={100}
+                    alt="master-card" />
+                </button>
+                <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
+                <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
+                  <Image src={config?.data?.pageData['section3 content3']}
+                    height={100}
+                    width={100}
+                    quality={100}
+                    alt="cash on hand" />
+                </button>
+                <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
+                <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
+                  <Image src={config?.data?.pageData['section3 content4']}
+                    height={100}
+                    width={100}
+                    quality={100}
+                    alt="union pay" />
+                </button>
+              </>}
+
             </div>
           </div>
         </div>
