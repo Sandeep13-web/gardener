@@ -1,6 +1,6 @@
 import { IContactUs } from '@/interface/contact-us.interface';
 import { feedBackOption, sendFeedback } from '@/services/contact.service';
-import { getProfileShow } from '@/services/profile.service';
+import { getProfile } from '@/services/profile.service';
 import ButtonLoader from '@/shared/components/btn-loading'
 import CaretDownIcon from '@/shared/icons/common/CaretDownIcon';
 import { getToken } from '@/shared/utils/cookies-utils/cookies.utils';
@@ -26,16 +26,22 @@ const ContactUsForm = () => {
         setSelectedType(text);
     };
 
-    const { data: showProfileData } = useQuery(['getProfileShow'], getProfileShow)
+    const { data: showProfileData } = useQuery( {
+        queryKey: ['getProfile' , token],
+        queryFn: getProfile,
+        enabled: !!token
+    }
+    )
 
-    const { data: feedbackOptions } = useQuery(['getFeedbackOptions'], feedBackOption)
+    const { data: feedback, } = useQuery(['getFeedbackOptions'], feedBackOption)
     const { register, handleSubmit, control, formState: { errors }, trigger, reset } = useForm<IContactUs>({
         defaultValues: {
-            message: '',
-            subject: selectedType,
+            context: '',
+            department: selectedType,
             email: '',
-            name: '',
-            contact: '',
+            first_name: '',
+            last_name: '',
+            mobile_number: '',
         }
     })
     const mutation = useMutation({
@@ -53,17 +59,18 @@ const ContactUsForm = () => {
         if (showProfileData) {
             reset({
                 ...showProfileData?.data,
-                name: `${showProfileData?.data?.firstName} ${showProfileData?.data?.lastName}`,
-                contact: showProfileData?.data?.mobileNumber
+                first_name: `${showProfileData?.data?.firstName}`,
+                last_name: `${showProfileData?.data?.lastName}`,
+                mobile_number: showProfileData?.data?.mobileNumber
             })
         }
     }, [showProfileData])
 
     useEffect(() => {
-        if (feedbackOptions) {
-            setOptions(feedbackOptions?.data)
+        if (feedback) {
+            setOptions(feedback?.data)
         }
-    }, [feedbackOptions])
+    }, [feedback])
 
     return (
         <div className='my-[60px] p-[40px] max-w-[700px] mx-auto bg-gray-1250'>
@@ -72,15 +79,28 @@ const ContactUsForm = () => {
                 <div className="grid grid-cols-12 gap-4 md:gap-6">
                     <div className="col-span-6">
                         <input
-                            {...register("name", { required: 'Your full name is required.' })}
+                            {...register("first_name", { required: 'Your first name is required.' })}
                             type="text"
-                            placeholder="Full Name"
-                            className={`capitalize px-3.5 text-black h-[45px] w-full outline-0 text-sm border  bg-transparent ${errors?.name ? 'border-error' : 'border-zinc-450'}`}
-                            onBlur={() => trigger("name")}
+                            placeholder="First Name"
+                            className={`capitalize px-3.5 text-black h-[45px] w-full outline-0 text-sm border  bg-transparent ${errors?.first_name ? 'border-error' : 'border-zinc-450'}`}
+                            onBlur={() => trigger("first_name")}
                         />
                         {
-                            errors?.name &&
-                            <p className="text-error text-xs leading-[24px] mt-1">{errors?.name?.message}</p>
+                            errors?.first_name &&
+                            <p className="text-error text-xs leading-[24px] mt-1">{errors?.first_name?.message}</p>
+                        }
+                    </div>
+                    <div className="col-span-6">
+                        <input
+                            {...register("last_name", { required: 'Your last name is required.' })}
+                            type="text"
+                            placeholder="Last Name"
+                            className={`capitalize px-3.5 text-black h-[45px] w-full outline-0 text-sm border  bg-transparent ${errors?.last_name ? 'border-error' : 'border-zinc-450'}`}
+                            onBlur={() => trigger("last_name")}
+                        />
+                        {
+                            errors?.last_name &&
+                            <p className="text-error text-xs leading-[24px] mt-1">{errors?.last_name?.message}</p>
                         }
                     </div>
                     <div className="col-span-6">
@@ -102,30 +122,30 @@ const ContactUsForm = () => {
                             <p className="text-error text-xs leading-[24px] mt-1">{errors?.email?.message}</p>
                         }
                     </div>
-                    <div className="col-span-12">
+                    <div className="col-span-6">
                         <input
                             type="text"
                             placeholder="Phone Number"
-                            className={`px-3.5 text-black h-[45px] w-full outline-0 text-sm border bg-transparent ${errors?.contact ? 'border-error' : 'border-zinc-450'}`}
-                            {...register("contact", {
+                            className={`px-3.5 text-black h-[45px] w-full outline-0 text-sm border bg-transparent ${errors?.mobile_number ? 'border-error' : 'border-zinc-450'}`}
+                            {...register("mobile_number", {
                                 required: 'Phone number is required.',
                                 pattern: {
                                     value: /^[9]\d{9}$/,
                                     message: "Phone number must start with 9 and have 10 digits.",
                                 }
                             })}
-                            onBlur={() => trigger("contact")}
+                            onBlur={() => trigger("mobile_number")}
                         />
                         {
-                            errors?.contact &&
-                            <p className="text-error text-xs leading-[24px] mt-1">{errors?.contact?.message}</p>
+                            errors?.mobile_number &&
+                            <p className="text-error text-xs leading-[24px] mt-1">{errors?.mobile_number?.message}</p>
                         }
                     </div>
                     <div className="col-span-12">
                         <Controller
-                            name='subject'
+                            name='department'
                             control={control}
-                            rules={{ required: 'Subject is required.' }}
+                            rules={{ required: 'Department is required.' }}
                             render={({ field }) => (
 
                                 <div className="block dropdown">
@@ -152,12 +172,12 @@ const ContactUsForm = () => {
                         />
 
                         {
-                            errors?.subject &&
-                            <p className="text-error text-xs leading-[24px] mt-1">{errors?.subject?.message}</p>
+                            errors?.department &&
+                            <p className="text-error text-xs leading-[24px] mt-1">{errors?.department?.message}</p>
                         }
                     </div>
                     <div className="col-span-12">
-                        <textarea {...register("message", {
+                        <textarea {...register("context", {
                             required: "Message is required.",
                             minLength: {
                                 value: 20,
@@ -165,10 +185,10 @@ const ContactUsForm = () => {
                             }
                         })}
                             placeholder='Message Here'
-                            className={`p-3.5 text-black min-h-[200px] w-full outline-0 text-sm border bg-transparent resize-none ${errors?.message ? 'border-error' : 'border-zinc-450'}`}></textarea>
+                            className={`p-3.5 text-black min-h-[200px] w-full outline-0 text-sm border bg-transparent resize-none ${errors?.context ? 'border-error' : 'border-zinc-450'}`}></textarea>
                         {
-                            errors?.message &&
-                            <p className="text-error text-xs leading-[24px] mt-1">{errors?.message?.message}</p>
+                            errors?.context &&
+                            <p className="text-error text-xs leading-[24px] mt-1">{errors?.context?.message}</p>
                         }
                     </div>
                     <div className="flex justify-between col-span-12">
