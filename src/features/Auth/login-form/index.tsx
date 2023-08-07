@@ -22,7 +22,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      setCookie('token', data?.access_token);
+      setCookie('token', data?.data?.accessToken);
       setCookie('isLoggedIn', true)
       showToast(TOAST_TYPES.success, 'You have been successfully logged in.');
       if (cart && cart.cartProducts?.length > 0) {
@@ -33,7 +33,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
       } else {
         router.push('/');
       }
-      // router.push('/');
+      router.push('/');
     },
     onError: (error: any) => {
       const errors = error?.response?.data?.errors
@@ -65,7 +65,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
       <div className='flex flex-col mb-[20px]'>
         <input type="password"
           placeholder='Password'
-          autoComplete="off" 
+          autoComplete="off"
           {...register("password", { required: 'Password is required', })}
           onBlur={() => trigger('password')}
           className={`px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border ${errors.password ? 'border-error' : 'border-gray-350'}`}

@@ -19,7 +19,7 @@ const AccountSidebar = () => {
   const router = useRouter();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showDelAccModal, setShowDelAccModal] = useState<boolean>(false);
-  
+
   const listItemClass = `group text-gray-400 relative p-4 flex gap-2 items-center border-none md:border-b border-gray-350 border-solid text-[14px]`;
   const linkClass = "absolute top-0 left-0 w-full h-full";
   const iconClass = "group-hover:text-primary-focus w-5 h-auto md:w-auto";
@@ -34,7 +34,8 @@ const AccountSidebar = () => {
     mutationFn: logout,
     onSuccess: () => {
       deleteCookie("token");
-      deleteCookie("isLoggedIn")
+      deleteCookie("isLoggedIn");
+      router.push('/login')
       showToast(TOAST_TYPES.success, "Logged out successfully");
     },
   });
@@ -42,9 +43,10 @@ const AccountSidebar = () => {
   const delAccMutation = useMutation({
     mutationFn: deleteAccount,
     onSuccess: (data) => {
+      console.log(data)
       deleteCookie("token");
       deleteCookie("isLoggedIn");
-      showToast(TOAST_TYPES.success, data?.data?.success?.message);
+      showToast(TOAST_TYPES.success, data?.data?.message);
       router.push('/login');
     },
   });
@@ -62,8 +64,8 @@ const AccountSidebar = () => {
   return (
     <div className="py-6">
       <div className="pb-4 border-b border-gray-350">
-         <ProfileImage />
-        
+        <ProfileImage />
+
 
       </div>
       <ul className="[&>:active]:text-primary flex md:block justify-around border-b border-gray-350 border-solid ">

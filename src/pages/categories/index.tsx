@@ -7,7 +7,7 @@ import { NextPageWithLayout } from "../_app";
 
 const CategoriesPage: NextPageWithLayout = () => {
 
-    const { data: categories, isInitialLoading }: any = useQuery({ queryKey: ['getCategories'] });
+    const { data: categories, isInitialLoading }: any = useQuery({ queryKey: ['getCategoriesList'] });
 
 
     return (

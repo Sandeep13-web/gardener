@@ -1,11 +1,9 @@
 import axiosInstance from "@/axios/axiosInstance";
-import { config } from "../../config";
-import axios from "axios";
 import { addWareHouseToStorage } from "@/shared/utils/cookies-utils/cookies.utils";
 
-export const getProductCategory = async () => {
+export const getCategoriesList = async () => {
   try {
-    const response = await axiosInstance.get(`/category`);
+    const response = await axiosInstance.get(`/categories`);
     return response.data;
   } catch (error) {
     throw error;
@@ -14,7 +12,7 @@ export const getProductCategory = async () => {
 
 export const getHomeData = async () => {
   try {
-    const response = await axiosInstance.get(`/home`);
+    const response = await axiosInstance.get(`/web-home`);
     return response.data;
   } catch (error) {
     throw error;

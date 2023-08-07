@@ -26,7 +26,7 @@ const Home: NextPageWithLayout = () => {
   });
   const { coupon } = useCart();
   const { data: cart } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon }))
-  const { data: categories, isInitialLoading: loadingCategories }: any = useQuery({ queryKey: ['getCategories'] });
+  const { data: categories, isInitialLoading: loadingCategories }: any = useQuery({ queryKey: ['getCategoriesList'] });
 
   // useEffect(() => {
   //   if (!getCookie(CookieKeys.CARTNUMBER)) {

@@ -9,22 +9,20 @@ import "swiper/css/scrollbar";
 import "swiper/css/effect-fade";
 import { useQuery } from "@tanstack/react-query";
 import { IHome } from "@/interface/home.interface";
-import { useRouter } from "next/router";
 import BannerSkeletonLoader from "../skeleton/banner";
 import { getHomeData } from "@/services/home.service";
 
 const Banner = () => {
-  const router = useRouter();
-  const { data, isInitialLoading } = useQuery<IHome>({
+  const { data: homeData, isInitialLoading } = useQuery<IHome>({
     queryKey: ["getHomeData"],
     queryFn: () => getHomeData(),
     enabled: true
   });
 
   const handleOpenNewTab = (value: any) => {
-    // Open the URL in a new tab
     window.open(value, '_blank');
   };
+
   return (
     <div>
       {
@@ -32,7 +30,7 @@ const Banner = () => {
           <BannerSkeletonLoader /> :
 
           <>
-            {data && data?.data && data?.data?.banners &&
+            {homeData && homeData?.data && homeData?.data?.banners &&
               <Swiper
                 loop={true}
                 className="bannerSwiper aspect-[640/266]"
@@ -47,7 +45,7 @@ const Banner = () => {
                 modules={[Autoplay, Pagination, EffectFade]}
                 effect="fade"
               >
-                {data?.data?.banners.map((prev, index) => (
+                {homeData?.data?.banners.map((prev, index) => (
                   <SwiperSlide key={`banner-images-${index}`} onClick={() => handleOpenNewTab(`${prev.websiteUrl}`)}>
                     <Image
                       src={prev.bannerImage}

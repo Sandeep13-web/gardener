@@ -112,7 +112,7 @@ const Categories: React.FC<IProps> = ({ loading, categories }) => {
 
                             <CategoryCard
                                 key={`categories-${index}`}
-                                title={item?.title}
+                                title={item?.name}
                                 totalProducts={item?.productCount}
                                 shopLink={`/categories/${item?.slug}`}
                                 image={item.icon}

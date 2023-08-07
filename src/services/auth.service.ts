@@ -78,7 +78,7 @@ export const resetPassword = async (resetPasswordBody: IResetPassword) => {
 export const changePassword = async (changePasswordBody: IChangePassword) => {
   try {
     const response = await axiosInstance.post(
-      "/profile/change-password",
+      "/change-password",
       changePasswordBody
     );
     return response;
@@ -89,7 +89,9 @@ export const changePassword = async (changePasswordBody: IChangePassword) => {
 
 export const deleteAccount = async () => {
   try {
-    const response = await axiosInstance.post("/request-account-delete");
+    const response = await axiosInstance.post("/user/delete", {
+      reason: "",
+    });
     return response.data;
   } catch (error) {
     throw error;

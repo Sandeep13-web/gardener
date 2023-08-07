@@ -21,7 +21,7 @@ const RegisterForm = () => {
         onError: (error: any) => {
             const errors = error?.response?.data?.errors
             errors.map((err: any) => {
-                showToast(TOAST_TYPES.error, err.message);
+                showToast(TOAST_TYPES.error, err.detail);
             })
         }
     })

@@ -1,6 +1,5 @@
 import Badge from "@/shared/components/badge";
 import Button from "@/shared/components/button";
-import { Logo } from "@/shared/lib/image-config";
 import Image from "next/image";
 import FlowerIcon from "@/shared/icons/common/FlowerIcon";
 import SearchIcon from "@/shared/icons/common/SearchIcon";
@@ -15,8 +14,7 @@ import {
 } from "@tanstack/react-query";
 import {
   getConfig,
-  getHomeData,
-  getProductCategory,
+  getCategoriesList,
 } from "@/services/home.service";
 import OfferIcon from "@/shared/icons/common/OfferIcon";
 import HeartIcon from "@/shared/icons/common/HeartIcon";
@@ -24,7 +22,6 @@ import Link from "next/link";
 import { getProfile } from "@/services/profile.service";
 import { deleteCookie, getCookie } from "cookies-next";
 import { FaChevronDown, FaUser } from "react-icons/fa";
-import { IHome } from "@/interface/home.interface";
 import {
   getToken,
 } from "@/shared/utils/cookies-utils/cookies.utils";
@@ -36,13 +33,11 @@ import { useRouter } from "next/router";
 import { getSuggestionResults } from "@/services/search.service";
 import CartDropdown from "@/shared/components/cartDropdown";
 import { BsCaretDownFill } from "react-icons/bs";
-import { getAllWishlistProducts } from "@/services/wishlist.service";
 import { useDebounce } from "@/hooks/useDebounce.hooks";
 import { ICartItem } from "@/interface/cart.interface";
 import { getCartData } from "@/services/cart.service";
 import { useCart } from "@/store/use-cart";
-import { first } from "lodash";
-import { setAuthorizationHeader, setCouponHeader } from "@/axios/axiosInstance";
+import { setAuthorizationHeader } from "@/axios/axiosInstance";
 
 const Header = () => {
   const router = useRouter();
@@ -74,19 +69,19 @@ const Header = () => {
   //   queryFn: getHomeData,
   // });
 
-  const { data: categories, isInitialLoading: loading } = useQuery({
-    queryKey: ["getCategories"],
-    queryFn: getProductCategory,
+  const { data: categories } = useQuery({
+    queryKey: ["getCategoriesList"],
+    queryFn: getCategoriesList,
 
   });
 
-  const { data: profile, isInitialLoading: loadingProfile } = useQuery({
+  const { data: profile } = useQuery({
     queryKey: ["getProfile", token],
     queryFn: getProfile,
     enabled: !!token,
   });
 
-  const { data: favouriteList, isInitialLoading: loadingFavourite }: any = useQuery(["wishlistProducts", token], {
+  const { data: favouriteList }: any = useQuery(["wishlistProducts", token], {
     enabled: !!token
   })
 
@@ -460,7 +455,7 @@ const Header = () => {
                         href={`/categories/${item.slug}`}
                         className="dropdown-item"
                       >
-                        {item.title}
+                        {item.name}
                       </Link>
                     </li>
                   ))}
