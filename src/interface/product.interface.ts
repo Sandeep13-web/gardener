@@ -2,7 +2,6 @@ import { IWareHouse, UnitPrice } from "./home.interface";
 
 export interface ICartProduct {
   id: number;
-  note: string;
   price: number;
   product: IProduct;
   quantity: number;

@@ -1,9 +1,8 @@
-import { ICartProduct, IProduct } from "./product.interface";
+import { ICartProduct } from "./product.interface";
 
 export interface ICreateCartItem {
   note: string;
-  productId: number | undefined;
-  priceId: number | undefined;
+  variant_id: number | undefined;
   quantity: number;
   cart_id?: string;
 }
@@ -19,25 +18,50 @@ export interface ExtraCharge {
   value: number;
 }
 
+// export interface ICartItem {
+//   campaign_message: string;
+//   cartNumber: string;
+//   carts: ICartProduct[];
+//   categoryId: null | number;
+//   deliveryCharge: number;
+//   discount: number;
+//   extra: ExtraCharge[];
+//   couponDiscount: number;
+//   id: number;
+//   message: string;
+//   orderAmount: number;
+//   pickupTotal: number;
+//   scheme: number;
+//   subTotal: number;
+//   total: number;
+//   warehouseId: number;
+// }
+
 export interface ICartItem {
-  campaign_message: string;
-  cartNumber: string;
-  cartProducts: ICartProduct[];
-  categoryId: null | number;
-  deliveryCharge: number;
-  discount: number;
-  extra: ExtraCharge[];
-  couponDiscount:number,
+  warehouseId: number;
+  deliveryAddress: string | null;
+  message: string | null;
   id: number;
-  message: string;
   orderAmount: number;
-  pickupTotal: number;
+  discountAmount: number;
   scheme: number;
+  vatAmount: number;
+  offerDiscount: number;
+  deliveryDiscount: number;
+  deliveryCharge: number;
+  serviceCharge: number;
   subTotal: number;
   total: number;
-  warehouseId: number;
+  numberOfCartProducts: number;
+  numberOfCarts: number;
+  couponDiscount: number;
 }
 
 export interface ICartTable {
   cartItem?: ICartProduct;
+}
+
+export interface ICartData {
+  cartProducts: ICartProduct[];
+  deals: any;
 }

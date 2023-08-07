@@ -168,7 +168,7 @@ const ProductSlug = () => {
 
   useEffect(() => {
     if (productData) {
-      setSelectedSizeId(productData?.response?.data?.unitPrice[0]?.id)
+      setSelectedSizeId(productData?.response?.data?.variants[0]?.id)
     }
   }, [productData])
 
@@ -176,14 +176,14 @@ const ProductSlug = () => {
 
   //for SKU multiple
   //For checking if the selected size and the mapped pricec are equal to show the change in price
-  const selectedPrice = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId);
+  const selectedPrice = productData?.response?.data?.variants?.find((price: any) => price?.id === selectedSizeId);
 
   //to display image according to the changed size.
   const selectedImg = productData?.response?.data?.images?.find((img: any) => img?.unit_price_id === selectedSizeId);
   const updateCart = cartData?.cartProducts?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
 
   //checking stock for each product/sku element
-  const stock: any = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId)?.stock
+  const stock: any = productData?.response?.data?.variants?.find((price: any) => price?.id === selectedSizeId)?.stock
   const selectedCartItems: ICartProduct | undefined = cartData?.cartProducts?.find((cart: any) => JSON.parse(cart?.selectedUnit?.id) === selectedSizeId);
 
   useEffect(() => {
@@ -208,7 +208,7 @@ const ProductSlug = () => {
                 isLoading ?
                   <SkeletonImage />
                   : (
-                    productData?.response?.data?.unitPrice.length > 1 && selectedImg ? (
+                    productData?.response?.data?.variants.length > 1 && selectedImg ? (
                       <>
                         <div className='w-full'>
                           <Image
@@ -284,12 +284,12 @@ const ProductSlug = () => {
                 ) : (
                   <>
                     <h2 className="mb-6 text-2xl font-semibold text-slate-850">
-                      {productData?.response?.data?.title}
+                      {productData?.response?.data?.name}
                     </h2>
                     <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
                       Category:
                       <Link href={`/category/${productData?.response?.data?.categorySlug}`} aria-label="category-title" className="mb-0 text-primary">
-                        <span className="font-normal">{productData?.response?.data?.categoryTitle}</span>
+                        <span className="font-normal">{productData?.response?.data?.restaurantName}</span>
                       </Link>
                     </p>
                     <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">

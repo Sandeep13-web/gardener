@@ -5,7 +5,7 @@ import Link from "next/link";
 import SearchIcon from "@/shared/icons/common/SearchIcon";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addToCart } from "@/services/cart.service";
-import { ICartItem, ICreateCartItem, IUpdateCartItem } from "@/interface/cart.interface";
+import { ICartData, ICartItem, ICreateCartItem, IUpdateCartItem } from "@/interface/cart.interface";
 import ButtonLoader from "../btn-loading";
 import { useCarts } from "@/hooks/cart.hooks";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
@@ -15,6 +15,7 @@ import { useWishlists } from "@/hooks/wishlist.hooks";
 import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
+import { ICartProduct } from "@/interface/product.interface";
 
 const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
 
@@ -25,7 +26,7 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
   const router = useRouter()
 
   //Use query hook
-  const { data: cart } = useQuery<ICartItem>(["getCart"]);
+  const { data: cart } = useQuery<ICartData>(["getCartList"]);
   const queryClient = useQueryClient();
   const stock: any = cartItem?.selectedUnit?.stock
   const { addFavMutation, removeFavMutation, addLoading, removeLoading } = useWishlists() //for adding products for wishlist ->hook
@@ -134,6 +135,7 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
       setLogin(false)
     }
   }, [loggedIn])
+
   return (
     <>
       <div className="relative card plant-card">
@@ -163,7 +165,7 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
         }
         <figure>
           {
-            product?.webpImages.length > 0 ? (
+            product && product?.webpImages && product?.webpImages?.length > 0 ? (
               <Image
                 src={product?.webpImages[0]?.imageName}
                 alt="Plant"

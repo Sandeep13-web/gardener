@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { ITag } from '@/interface/tag.interface'
 import { getToken } from '@/shared/utils/cookies-utils/cookies.utils'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { ICartItem, ICreateCartItem, IUpdateCartItem } from '@/interface/cart.interface'
+import { ICartData, ICartItem, ICreateCartItem, IUpdateCartItem } from '@/interface/cart.interface'
 import { addToCart, getCartData, updateCart } from '@/services/cart.service'
 import { getProductsFromSlug } from '@/services/product.service'
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
@@ -38,7 +38,7 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
 
     const { data: cartData } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon: '' }));
-
+    const { data: cartList } = useQuery<ICartData>(['getCartList'])
     const { data: productData, isLoading, error } = useQuery(
         ['getProductsFromSlug', slug],
         async () => {
@@ -51,7 +51,7 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
     );
     //For SKU
     const [selectedSizeId, setSelectedSizeId] = useState<number>(0)
-    const unitPriceArray = productData?.response?.data?.unitPrice || [];
+    const unitPriceArray = productData?.response?.data?.variants || [];
     const filteredUnitPrice = selectedSizeId
         ? unitPriceArray.filter((sizeObj: any) => sizeObj.size === selectedSizeId)
         : unitPriceArray;
@@ -60,8 +60,7 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
     const handleAddToCart = () => {
         const payload: ICreateCartItem = {
             note: '',
-            productId: productData?.productId,
-            priceId: selectedPrice?.id,
+            variant_id: selectedSizeId,
             quantity: value,
         }
         mutation.mutate(payload)
@@ -71,6 +70,7 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
         mutationFn: addToCart,
         onSuccess: () => {
             showToast(TOAST_TYPES.success, 'Item Added To Cart Successfully');
+            queryClient.invalidateQueries(['getCartList'])
             queryClient.invalidateQueries(['getCart'])
             setProductModalId('')
         },
@@ -146,7 +146,7 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
 
     useEffect(() => {
         if (cartData) {
-            cartData?.cartProducts?.map((item: any) => {
+            cartList?.cartProducts?.map((item: any) => {
                 if (slug === item?.product?.slug) {
                     setItemCartDetail(item)
                 }
@@ -165,7 +165,7 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
 
     useEffect(() => {
         if (productData) {
-            setSelectedSizeId(productData?.response?.data?.unitPrice[0]?.id)
+            setSelectedSizeId(productData?.response?.data?.variants[0]?.id)
         }
     }, [productData])
 
@@ -174,16 +174,16 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
     }, [selectedSizeId])
 
     //For checking if the selected size and the mapped pricec are equal to show the change in price
-    const selectedPrice = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId);
+    const selectedPrice = productData?.response?.data?.variants?.find((price: any) => price?.id === selectedSizeId);
 
     //to display image according to the changed size.
     const selectedImg = productData?.response?.data?.images.find((img: any) => img?.unit_price_id === selectedSizeId);
-    const updatedCart = cartData?.cartProducts?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
+    const updatedCart = cartList?.cartProducts?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
 
     //checking stock for each product/sku element
-    const stock: any = productData?.response?.data?.unitPrice?.find((price: any) => price?.id === selectedSizeId)?.stock
+    const stock: any = productData?.response?.data?.variants?.find((price: any) => price?.id === selectedSizeId)?.stock
 
-    const selectedCartItems: ICartProduct | undefined = cartData?.cartProducts?.find((cart: any) => JSON.parse(cart?.selectedUnit?.id) === selectedSizeId);
+    const selectedCartItems: ICartProduct | undefined = cartList?.cartProducts?.find((cart: any) => JSON.parse(cart?.selectedUnit?.id) === selectedSizeId);
 
     useEffect(() => {
         if (updatedCart) {
@@ -208,7 +208,7 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
                                 isLoading ?
                                     <SkeletonImage />
                                     : (
-                                        productData?.response?.data?.unitPrice.length > 1 && selectedImg ? (
+                                        productData?.response?.data?.variants.length > 1 && selectedImg ? (
                                             <>
                                                 <div className='w-full'>
                                                     <Image

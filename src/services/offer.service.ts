@@ -7,7 +7,7 @@ export const getOffers = async (
   sortBy: string
 ) => {
   try {
-    const response = await axiosInstance.get(`/product`, {
+    const response = await axiosInstance.get(`/products`, {
       params: {
         query,
         page,
