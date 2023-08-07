@@ -110,7 +110,7 @@ const OrderDetailModal = ({
                                                             Phone Number :
                                                         </strong>
                                                         <span className='data-desc'>
-                                                            {orderDetails?.deliveryAddress?.contactNo}
+                                                            {orderDetails?.deliveryAddress?.mobileNumber}
                                                         </span>
                                                     </li>
                                                     <li className="flex items-start">

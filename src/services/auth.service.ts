@@ -121,10 +121,10 @@ export const registerGuestUser = async (data: any, isInitialSubmit: any) => {
       password: data.password,
       cartNumber: getCartNumber(),
       contact_no: data.contact_no,
-      customer: data.customer,
+      name: data.name,
       delivery_title: data.title,
-      latitude: data.latitude,
-      longitude: data.longitude,
+      lat: data.lat,
+      lng: data.lng,
     };
   }
 

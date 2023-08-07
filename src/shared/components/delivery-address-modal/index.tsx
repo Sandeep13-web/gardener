@@ -28,11 +28,11 @@ const DeliveryAddressModal: React.FC<IProps> = ({
 
   const [addressSaved, setAddressSaved] = useState(false);
 
-  const handleMarkerClick = (latitude: any, longitude: any) => {
+  const handleMarkerClick = (lat: any, lng: any) => {
     setFormData((prevData: any) => ({
       ...prevData,
-      latitude,
-      longitude,
+      lat,
+      lng,
     }));
   };
 
@@ -49,12 +49,12 @@ const DeliveryAddressModal: React.FC<IProps> = ({
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setAddressSaved(true);
-    if (formData.latitude === 0 || formData.longitude === 0) {
+    if (formData.lat === 0 || formData.lng === 0) {
       showToast(TOAST_TYPES.error, 'Please select a location');
       setAddressSaved(false);
       return;
     }
-    if (!phoneNumberRegex.test(formData.contact_no)) {
+    if (!phoneNumberRegex.test(formData.mobile_number)) {
       return;
     }
     if (isEditing) {
@@ -109,8 +109,8 @@ const DeliveryAddressModal: React.FC<IProps> = ({
           <form action="" className="py-4" onSubmit={handleSubmit}>
             <div className="h-[280px] mb-3">
               <LeafletMap
-                lat={formData.latitude || 27.7172}
-                long={formData.longitude || 85.3240}
+                lat={formData.lat || 27.7172}
+                long={formData.lng || 85.3240}
                 onChange={handleMarkerClick}
               />
             </div>
@@ -145,8 +145,8 @@ const DeliveryAddressModal: React.FC<IProps> = ({
             <input
               type="text"
               id="fullname"
-              value={formData.customer}
-              onChange={(e) => setFormData({ ...formData, customer: e.target.value })}
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               maxLength={40}
               pattern="^[a-zA-Z ]*$"
               className="px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border mb-4"
@@ -163,22 +163,22 @@ const DeliveryAddressModal: React.FC<IProps> = ({
             <input
               type="number"
               id="number"
-              value={formData.contact_no}
-              onChange={(e) => setFormData({ ...formData, contact_no: e.target.value })}
+              value={formData.mobile_number}
+              onChange={(e) => setFormData({ ...formData, mobile_number: e.target.value })}
               pattern="(9[7,8])[0-9]{8}"
 
               className="px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border mb-4"
             />
-            {formData.contact_no.length > 0 && !phoneNumberRegex.test(formData.contact_no) && (
+            {formData.mobile_number.length > 0 && !phoneNumberRegex.test(formData.mobile_number) && (
               <p className="pb-2 text-sm text-red-500">Incorrect phone format</p>
             )}
             <div className="flex items-center gap-2 mb-4">
               <input
                 type="checkbox"
                 id="check"
-                checked={formData.isDefault}
+                checked={formData.default}
                 onChange={(e) =>
-                  setFormData({ ...formData, isDefault: e.target.checked })
+                  setFormData({ ...formData, default: e.target.checked })
                 }
               />
 
