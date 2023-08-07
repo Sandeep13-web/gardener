@@ -4,13 +4,6 @@ import React, { useEffect, useState } from 'react';
 const LeafletMap = dynamic(() => import('@/shared/components/leaflet'), {
     ssr: false,
   });
-//   interface IDeliveryAddress {
-//     title: string;
-//     customer: string;
-//     contact_no: string;
-//     latitude: number;
-//     longitude: number;
-//   }
 
   interface IProps{
     guestformData: IDeliveryAddress;
@@ -19,11 +12,11 @@ const LeafletMap = dynamic(() => import('@/shared/components/leaflet'), {
 
 
 const GuestUserAddress: React.FC<IProps> = ({guestformData, setGuestFormData}) => {
-    const handleMarkerClickGuest = (latitude: any, longitude: any) => {
+    const handleMarkerClickGuest = (lat: any, lng: any) => {
         setGuestFormData((prevData:any) => ({
           ...prevData,
-          latitude,
-          longitude,
+          lat,
+          lng,
         }));
       };
 
@@ -34,8 +27,8 @@ const GuestUserAddress: React.FC<IProps> = ({guestformData, setGuestFormData}) =
             <div className="h-[280px] mb-3">
 
                 <LeafletMap
-                lat={guestformData?.latitude || 27.7172}
-                long={guestformData.longitude || 85.3240}
+                lat={guestformData?.lat || 27.7172}
+                long={guestformData.lng || 85.3240}
                 onChange={handleMarkerClickGuest}
                 />
 
@@ -74,8 +67,8 @@ const GuestUserAddress: React.FC<IProps> = ({guestformData, setGuestFormData}) =
                 <input
                 type="text"
                 id="fullname"
-                value={guestformData.customer}
-                onChange={(e) => setGuestFormData({ ...guestformData, customer: e.target.value })}
+                value={guestformData.name}
+                onChange={(e) => setGuestFormData({ ...guestformData, name: e.target.value })}
                 maxLength={40}
                 pattern="^[a-zA-Z ]*$"
                 className="px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border mb-4"
@@ -92,13 +85,13 @@ const GuestUserAddress: React.FC<IProps> = ({guestformData, setGuestFormData}) =
                 <input
                 type="number"
                 id="number"
-                value={guestformData.contact_no}
-                onChange={(e) => setGuestFormData({ ...guestformData, contact_no: e.target.value })}
+                value={guestformData.mobile_number}
+                onChange={(e) => setGuestFormData({ ...guestformData, mobile_number: e.target.value })}
                 pattern="(9[7,8])[0-9]{8}"
 
                 className="px-3.5 text-gray-650 h-[45px] w-full outline-0 text-sm border mb-4"
                 />
-                {guestformData.contact_no.length > 0 && !phoneNumberRegex.test(guestformData.contact_no) && (
+                {guestformData.mobile_number.length > 0 && !phoneNumberRegex.test(guestformData.mobile_number) && (
                 <p className="pb-2 text-sm text-red-500">Incorrect phone format</p>
                 )}
         </>

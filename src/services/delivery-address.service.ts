@@ -3,7 +3,7 @@ import { IDeliveryAddress } from "@/interface/delivery-address.interface";
 
 export const getDeliverAddress = async () => {
   try {
-    const response = await axiosInstance.get(`/delivery-address`);
+    const response = await axiosInstance.get(`/deliveryAddress`);
     return response.data.data;
   } catch (error) {
     throw error;
@@ -12,7 +12,7 @@ export const getDeliverAddress = async () => {
 
 export const getDeliverAddressById = async (addressId: number) => {
   try {
-    const response = await axiosInstance.get(`/delivery-address/${addressId}`);
+    const response = await axiosInstance.get(`/deliveryAddress/${addressId}`);
     return response;
   } catch (error) {
     throw error;
@@ -21,14 +21,14 @@ export const getDeliverAddressById = async (addressId: number) => {
 
 export const addDeliverAddress = async (deliveryAddress: IDeliveryAddress) => {
   try {
-    const response = await axiosInstance.post("/delivery-address", {
-      customer: deliveryAddress.customer,
-      contact_no: deliveryAddress.contact_no,
+    const response = await axiosInstance.post("/deliveryAddress", {
+      name: deliveryAddress.name,
+      mobile_number: deliveryAddress.mobile_number,
       address: deliveryAddress.address,
       title: deliveryAddress.title,
-      latitude: deliveryAddress.latitude,
-      longitude: deliveryAddress.longitude,
-      isDefault: deliveryAddress.isDefault,
+      lat: deliveryAddress.lat,
+      lng: deliveryAddress.lng,
+      default: deliveryAddress.default,
     });
     return response.data;
   } catch (error) {
@@ -38,7 +38,7 @@ export const addDeliverAddress = async (deliveryAddress: IDeliveryAddress) => {
 
 export const deleteDeliverAddressById = async (id: number) => {
   try {
-    const response = await axiosInstance.delete(`/delivery-address/${id}`);
+    const response = await axiosInstance.delete(`/deliveryAddress/${id}`);
     return response;
   } catch (error) {
     throw error;
@@ -49,18 +49,18 @@ export const updateDeliveryAddressByAddressId = async (
   deliveryAddress: IDeliveryAddress
 ) => {
   const payload = {
-    customer: deliveryAddress.customer,
-    contact_no: deliveryAddress.contact_no,
+    name: deliveryAddress.name,
+    mobile_number: deliveryAddress.mobile_number,
     address: deliveryAddress.address,
     title: deliveryAddress.title,
-    latitude: deliveryAddress.latitude,
-    longitude: deliveryAddress.longitude,
-    isDefault: deliveryAddress.isDefault,
+    lat: deliveryAddress.lat,
+    lng: deliveryAddress.lng,
+    default: deliveryAddress.default,
   };
 
   try {
     const response = await axiosInstance.patch(
-      `/delivery-address/${deliveryAddress?.id}`,
+      `/deliveryAddress/${deliveryAddress?.id}`,
       payload
     );
     return response.data;

@@ -20,11 +20,11 @@ const DelieveryAddress = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<IDeliveryAddress>({
     address: '',
-    contact_no: '',
-    customer: '',
-    isDefault: false,
-    latitude: 27.7172,
-    longitude: 85.3240,
+    mobile_number: '',
+    name: '',
+    default: false,
+    lat: 27.7172,
+    lng: 85.3240,
     title: ''
   });
 
@@ -38,11 +38,11 @@ const DelieveryAddress = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (formData.latitude === 0 || formData.longitude === 0) {
+    if (formData.lat === 0 || formData.lng === 0) {
       showToast(TOAST_TYPES.error, 'Please select a location');
       return;
     }
-    if (!phoneNumberRegex.test(formData.contact_no)) {
+    if (!phoneNumberRegex.test(formData.mobile_number)) {
       return;
     }
     if (isEditing) {
@@ -81,8 +81,8 @@ const DelieveryAddress = () => {
   const handleMarkerClick = (lat: number, lng: number) => {
     setFormData((prevData) => ({
       ...prevData,
-      latitude: lat,
-      longitude: lng,
+      lat: lat,
+      lng: lng,
     }));
   };
   return (
@@ -110,6 +110,7 @@ const DelieveryAddress = () => {
         formData={formData}
         setFormData={setFormData}
           setShowModal={setShowModal}
+          setIsEditing={setIsEditing}
           showModal={showModal}/>
       </div>
     </>
