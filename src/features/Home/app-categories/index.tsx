@@ -54,7 +54,7 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
     <>
       {
         !prev?.product ? '' : (
-          prev?.type === 'half_left' ?
+          prev?.type === 'half left' ?
             <HalfLeftCard updatedData={prev} /> :
             (
               <div className="container">
@@ -85,7 +85,7 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
                     <Swiper
                       slidesPerView={5}
                       grid={{
-                        rows: (prev?.type === "product_horizontal" || prev?.type === 'product_vertical') ? 1 : 2,
+                        rows: (prev?.type === "product horizontal" || prev?.type === 'product vertical') ? 1 : 2,
                         fill: "row",
                       }}
                       pagination={false}
@@ -100,21 +100,21 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
                         0: {
                           slidesPerView: 1,
                           grid: {
-                            rows: (prev?.type === "product_horizontal" || prev?.type === 'product_vertical') ? 1 : 2,
+                            rows: (prev?.type === "product horizontal" || prev?.type === 'product vertical') ? 1 : 2,
                           },
                           spaceBetween: 20,
                         },
                         768: {
                           slidesPerView: 3,
                           grid: {
-                            rows: (prev?.type === "product_horizontal" || prev?.type === 'product_vertical') ? 1 : 2,
+                            rows: (prev?.type === "product horizontal" || prev?.type === 'product vertical') ? 1 : 2,
                           },
                           spaceBetween: 20,
                         },
                         1050: {
                           slidesPerView: 5,
                           grid: {
-                            rows: (prev?.type === "product_horizontal" || prev?.type === 'product_vertical') ? 1 : 2,
+                            rows: (prev?.type === "product horizontal" || prev?.type === 'product vertical') ? 1 : 2,
                           },
                           spaceBetween: 20,
                         }

@@ -115,7 +115,7 @@ const Categories: React.FC<IProps> = ({ loading, categories }) => {
                                 title={item?.name}
                                 totalProducts={item?.productCount}
                                 shopLink={`/categories/${item?.slug}`}
-                                image={item.icon}
+                                image={item?.webpBackgroundImage ? item?.webpBackgroundImage : item?.backgroundImage}
                             />
 
                         </SwiperSlide>

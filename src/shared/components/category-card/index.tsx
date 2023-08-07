@@ -15,6 +15,7 @@ const CategoryCard: React.FC<Props> = ({ title, totalProducts, shopLink, image }
           width={389}
           height={147}
           quality={100}
+          priority={true}
           style={{
             maxWidth: '100%',
             height: 'auto',
