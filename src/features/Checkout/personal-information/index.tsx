@@ -38,7 +38,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
     const onSubmitRegisterGuestUser: SubmitHandler<IRegister> = async (data) => {
         const generatedPwd = generatePasswordValue();
         data.password = generatedPwd;
-        data.confirm_password = generatedPwd;
+        data.password_confirmation = generatedPwd;
         // Set the guest user data in the state
         setGuestUserData(data);
         setSubmitLoading(true)
@@ -66,7 +66,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             const password = generatePassword(8);
             setGeneratedPassword(password);
             setValue('password', password);
-            setValue('confirm_password', password);
+            setValue('password_confirmation', password);
             return password;
         }
         return generatedPassword;

@@ -1,4 +1,4 @@
-import { ICartItem } from "@/interface/cart.interface";
+import { ICartData, ICartItem } from "@/interface/cart.interface";
 import { IAppCategories } from "@/interface/home.interface";
 import { getCartData } from "@/services/cart.service";
 import Card from "@/shared/components/card";
@@ -23,7 +23,7 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
   const [prevDisable, setPrevDisable] = useState<boolean>(false)
   const [productModalId, setProductModalId] = useState<string>("")
 
-  const { data: cart } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon: '' }));
+  const { data: cart } = useQuery<ICartData>(['getCartList']);
   const { data: favList }: any = useQuery<any>(["wishlistProducts", token], { enabled: !!token });
 
   const updatedData = prev?.product?.map(item => ({
@@ -125,7 +125,7 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
                           <Card
                             product={product}
                             key={index}
-                            cartItem={cart?.carts.find((item) => item?.product?.id === product?.id)}
+                            cartItem={cart?.cartProducts?.find((item) => item?.product?.id === product?.id)}
                             setProductModalId={setProductModalId}
                           />
                         </SwiperSlide>

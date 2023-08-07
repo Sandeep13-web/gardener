@@ -3,16 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { NextPageWithLayout } from '../_app';
 import MainLayout from '@/shared/main-layout';
 import Title from '@/shared/components/title';
-import { ICartItem } from '@/interface/cart.interface';
+import { ICartData, ICartItem } from '@/interface/cart.interface';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Head from 'next/head';
 import CartTableRow from '@/features/Cart/cart-table-row';
 import EmptyCart from '../../shared/components/empty-content/empty-cart';
 import { useCarts } from '@/hooks/cart.hooks';
 import ButtonLoader from '@/shared/components/btn-loading';
-import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import { useCart as useCartStore } from '@/store/use-cart';
-import { getCartData } from '@/services/cart.service';
+import { getCartData, getCartProduct } from '@/services/cart.service';
 
 enum COUPON_METHODS {
   ADD_COUPON = 'Apply Coupon',
@@ -25,6 +24,7 @@ const Cart: NextPageWithLayout = () => {
   const { setCoupon, coupon } = useCartStore();
   const [couponText, setCouponText] = useState<COUPON_METHODS>(COUPON_METHODS.ADD_COUPON);
   const { data: cart } = useQuery<ICartItem>(['getCart', coupon], () => getCartData({ coupon }));
+  const { data: cartData } = useQuery<ICartData>(['getCartList', coupon], getCartProduct);
   const { bulkCartDelete, bulkDeleteLoading } = useCarts();
 
   const clearCart = () => {
@@ -59,7 +59,7 @@ const Cart: NextPageWithLayout = () => {
       <Head>
         <title>I am the gardener | Cart</title>
       </Head>
-      {cart?.cartProducts.length === 0 ? (
+      {cartData?.cartProducts?.length === 0 ? (
         <EmptyCart />
       ) : (
         <>
@@ -94,7 +94,7 @@ const Cart: NextPageWithLayout = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {cart?.cartProducts?.map((item: any, index: number) => (
+                  {cartData?.cartProducts?.map((item: any, index: number) => (
                     <CartTableRow item={item} key={index} />
                   ))}
                 </tbody>
