@@ -38,7 +38,7 @@ export const getCartData = async (params: { coupon?: string }) => {
         coupon: "",
       });
     }
-    const response = await axiosInstance.get(`/cart`);
+    const response = await axiosInstance.get(`/carts`);
     if (!getCookie(CookieKeys.CARTNUMBER)) {
       setCookie(CookieKeys.CARTNUMBER, response?.data?.data?.cartNumber);
     }
@@ -48,9 +48,18 @@ export const getCartData = async (params: { coupon?: string }) => {
   }
 };
 
+export const getCartProduct = async () => {
+  try {
+    const response = await axiosInstance.get("/cart-products");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const deleteCartItemById = async (id: number) => {
   try {
-    const response = await axiosInstance.delete(`/cart-product/${id}`);
+    const response = await axiosInstance.delete(`/cart-products/${id}`);
     return response;
   } catch (error) {
     throw error;
@@ -59,7 +68,7 @@ export const deleteCartItemById = async (id: number) => {
 
 export const addToCart = async (data: ICreateCartItem) => {
   try {
-    const response = await axiosInstance.post(`/cart-product`, data);
+    const response = await axiosInstance.post(`/cart-products`, data);
     return response.data;
   } catch (error) {
     throw error;

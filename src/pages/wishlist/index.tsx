@@ -9,7 +9,7 @@ import { useState } from "react";
 import Breadcrumb from "@/shared/components/breadcrumb";
 import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import Head from "next/head";
-import { ICartItem } from "@/interface/cart.interface";
+import { ICartData, ICartItem } from "@/interface/cart.interface";
 import Pagination from "@/shared/components/pagination";
 import SkeletonLoadingCard from "@/shared/components/skeleton/products";
 import ProductDetailModal from "@/shared/components/product-detail-modal";
@@ -28,7 +28,7 @@ const Wishlist: NextPageWithLayout = () => {
                 return response
             })
     )
-    const { data: cart } = useQuery<ICartItem>(["getCart"]);
+    const { data: cart } = useQuery<ICartData>(["getCartList"]);
 
     const { data: favList }: any = useQuery<any>(["wishlistProducts", token], { enabled: !!token });
 
@@ -47,6 +47,7 @@ const Wishlist: NextPageWithLayout = () => {
     const handlePageChange = (value: number) => {
         setPageNumber(value)
     }
+    console.log(cart)
     return (
         <div>
             <Head>
@@ -77,7 +78,7 @@ const Wishlist: NextPageWithLayout = () => {
                                                         setProductModalId={setProductModalId}
                                                         product={favProduct?.product}
                                                         key={`app-cat-products-${index}`}
-                                                        cartItem={cart?.cartProducts.find((item) => item?.product?.id === favProduct?.product?.id)}
+                                                        cartItem={cart?.cartProducts?.find((item) => item?.product?.id === favProduct?.product?.id)}
                                                     />
                                                 )}
 

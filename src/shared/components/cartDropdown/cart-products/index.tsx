@@ -12,10 +12,14 @@ const CartDropdownProducts = ({ item }: any) => {
     const selectedUnit = item?.selectedUnit
 
     //used for finding the correct image to display according to selected id
-    const selectedImg = item?.product?.images.find((img: any) => img?.unit_price_id === JSON.parse(selectedUnit?.id));
+    const selectedImg = item?.webpImages ?
+        item?.webpImages.find((img: any) => img?.unit_price_id === JSON.parse(selectedUnit?.id))
+        : item?.images.find((img: any) => img?.unit_price_id === JSON.parse(selectedUnit?.id))
+        ;
 
     //to display the offer price if the product has offer
-    const checkOffer = item?.product?.unitPrice?.find((price: any) => price?.hasOffer)
+    const checkOffer = item?.variants?.find((price: any) => price?.hasOffer)
+
     return (
         <div key={item.product?.id} className="relative flex gap-4 py-[30px] border-b-2 border-solid border-gray-350">
             <div className="min-w-[85px] min-h-[100px] aspect-auto border-solid border-2 border-gray-350 relative">
@@ -27,7 +31,7 @@ const CartDropdownProducts = ({ item }: any) => {
                         width: 'auto',
                         height: 'auto'
                     }}
-                    src={selectedImg ? selectedImg?.imageName : item?.product?.images[0]?.imageName}
+                    src={selectedImg ? selectedImg?.imageName : item?.images[0]?.imageName}
                     alt="image"
                     className="object-contain min-w-[93px] max-w-[93px] min-h-[92px]"
                     crossOrigin="anonymous"
@@ -38,10 +42,10 @@ const CartDropdownProducts = ({ item }: any) => {
             </div>
             <div className="flex-grow">
                 <Link
-                    href={`/products/${item.product?.slug}`}
+                    href={`/products/${item?.slug}`}
                     aria-label={`product-${item?.product?.id}`}
-                    className="overflow-hidden text-sm font-semibold transition-all delay-150 duration-150 block text-ellipsis whitespace-nowrap max-w-[90%] hover:text-primary ">
-                    {item.product?.title}
+                    className="overflow-hidden capitalize text-sm font-semibold transition-all delay-150 duration-150 block text-ellipsis whitespace-nowrap max-w-[90%] hover:text-primary ">
+                    {item?.name}
                 </Link>
                 <p className="mt-1 text-sm gray-550">
                     {/* <span>NPR</span> {item?.product?.unitPrice[0].hasOffer ? item.product?.unitPrice[0]?.newPrice * item?.quantity : item.product?.unitPrice[0]?.sellingPrice * item?.quantity} */}
