@@ -8,7 +8,7 @@ import { ILogin } from '../../../interface/login.interface';
 import { setCookie } from 'cookies-next';
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils';
 import ButtonLoader from '@/shared/components/btn-loading';
-import { ICartItem } from '@/interface/cart.interface';
+import { ICartData, ICartItem } from '@/interface/cart.interface';
 import { associateCart, getCartData } from '@/services/cart.service';
 
 interface LoginFormProps {
@@ -18,7 +18,7 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
   const router = useRouter()
   const queryClient = useQueryClient();
-  const { data: cart } = useQuery<ICartItem>(["getCart"])
+  const { data: cart } = useQuery<ICartData>(["getCartList"])
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
