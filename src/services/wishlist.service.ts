@@ -3,7 +3,7 @@ import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 
 export const getWishlists = async (page: number, perPage: number) => {
   try {
-    const response = await axiosInstance.get("/favourite", {
+    const response = await axiosInstance.get("/favourite/product", {
       params: {
         page,
         perPage,
@@ -19,7 +19,7 @@ export const getAllWishlistProducts = async (token: any) => {
   setAuthorizationHeader();
   if (token) {
     try {
-      const response = await axiosInstance.get("/favourite/products");
+      const response = await axiosInstance.get("/favourite/product/list");
       return response.data;
     } catch (error) {
       throw error;
@@ -27,21 +27,12 @@ export const getAllWishlistProducts = async (token: any) => {
   }
 };
 
-export const addProductToWishlist = async (id: number) => {
+export const updateProductInWishlist = async (id: number) => {
   try {
     const produtId = {
       id: id,
     };
-    const response = await axiosInstance.post("/favourite", produtId);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const removeProductFromWishlist = async (id: number) => {
-  try {
-    const response = await axiosInstance.delete(`/favourite/${id}`);
+    const response = await axiosInstance.post("/favourite/product", produtId);
     return response.data;
   } catch (error) {
     throw error;

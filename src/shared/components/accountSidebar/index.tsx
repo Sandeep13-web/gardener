@@ -43,7 +43,6 @@ const AccountSidebar = () => {
   const delAccMutation = useMutation({
     mutationFn: deleteAccount,
     onSuccess: (data) => {
-      console.log(data)
       deleteCookie("token");
       deleteCookie("isLoggedIn");
       showToast(TOAST_TYPES.success, data?.data?.message);
