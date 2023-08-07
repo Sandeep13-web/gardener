@@ -117,7 +117,7 @@ const Home: NextPageWithLayout = () => {
           </div>
           :
           <>
-            {home?.data?.appCategories.map((prev: IAppCategories, index: number) => (
+            {home?.data?.appCategories?.map((prev: IAppCategories, index: number) => (
               <AppCategories
                 key={`appcatgories-${index}`}
                 prev={prev}

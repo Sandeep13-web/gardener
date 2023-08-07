@@ -27,7 +27,7 @@ const Footer = () => {
       <footer className="relative block p-4 !pb-0 sm:p-10 footer text-base-content">
         <div className="container flex flex-wrap items-start justify-between gap-2 footer">
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
-            <Image src={config?.data?.pageData.logo} height={69} width={128} alt="footer-logo" priority />
+            <Image src={config?.data?.pageData['logo']} height={69} width={128} alt="footer-logo" priority />
             <p className="text-[12px]">
               {config?.data?.pageData["section1 description"]}
             </p>
@@ -70,43 +70,43 @@ const Footer = () => {
             {config?.data?.pageData && <> 
               <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <Link href={config?.data?.pageData['section2 link1']} aria-label="about-us" className="p-0 footer-link">{config?.data?.pageData['section2 content1']}</Link>
+              <Link href={`${config?.data?.pageData['section2 link1']}`} aria-label="about-us" className="p-0 footer-link">{config?.data?.pageData['section2 content1']}</Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <Link href={config?.data?.pageData['section2 link2']} aria-label="privacy-policy-footter" className="p-0 footer-link">{config?.data?.pageData['section2 content2']}</Link>
+              <Link href={`${config?.data?.pageData['section2 link2']}`} aria-label="privacy-policy-footter" className="p-0 footer-link">{config?.data?.pageData['section2 content2']}</Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <Link href={config?.data?.pageData['section2 link3']} aria-label="faq-footer" className="p-0 footer-link">{config?.data?.pageData['section2 content3']}</Link>
+              <Link href={`${config?.data?.pageData['section2 link3']}`} aria-label="faq-footer" className="p-0 footer-link">{config?.data?.pageData['section2 content3']}</Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <Link href={config?.data?.pageData['section2 link4']} aria-label="contact-us" className="p-0 footer-link">{config?.data?.pageData['section2 content4']}</Link>
+              <Link href={`${config?.data?.pageData['section2 link4']}`} aria-label="contact-us" className="p-0 footer-link">{config?.data?.pageData['section2 content4']}</Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <Link href={config?.data?.pageData['section2 link5']} aria-label="terms-and-condition" className="p-0 footer-link">{config?.data?.pageData['section2 content5']}</Link>
+              <Link href={`${config?.data?.pageData['section2 link5']}`} aria-label="terms-and-condition" className="p-0 footer-link">{config?.data?.pageData['section2 content5']}</Link>
             </div>
             </> }
             
           </div>
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
-            <span className="footer-title">{config?.data?.pageData['section4 title']}</span>
+            <span className="footer-title">{`${config?.data?.pageData['section4 title']}`}</span>
             {config?.data?.pageData && <> 
               <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
               <Link href='/plant-consultation' aria-label="plant-and-consultation" className="p-0 footer-link">
-              {config?.data?.pageData['section4 content1']}
+              {`${config?.data?.pageData['section4 content1']}`}
               </Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <Link href='/tree-installation' aria-label="tree-installation" className="p-0 footer-link">{config?.data?.pageData['section4 content2']}</Link>
+              <Link href='/tree-installation' aria-label="tree-installation" className="p-0 footer-link">{`${config?.data?.pageData['section4 content2']}`}</Link>
             </div>
             <div className="flex items-center justify-start gap-4 mb-3">
               <FooterBullet />
-              <Link href='/tree-installation' aria-label="tree-installation" className="p-0 footer-link">{config?.data?.pageData['section4 content3']}</Link>
+              <Link href='/tree-installation' aria-label="tree-installation" className="p-0 footer-link">{`${config?.data?.pageData['section4 content3']}`}</Link>
             </div>
             </> }
             
@@ -115,7 +115,7 @@ const Footer = () => {
         <div className="container flex flex-wrap items-center justify-between gap-4 mb-4">
           <div className="flex gap-3">
             {config?.data?.pageData && <> 
-              <Link href={config?.data?.pageData['section5 facebook']} aria-label="fb-link" target="_blank" className="w-auto p-0 btn btn-circle">
+              <Link href={`${config?.data?.pageData['section5 facebook']}`} aria-label="fb-link" target="_blank" className="w-auto p-0 btn btn-circle">
               <Image
                 src={socials.facebook}
                 height={36}
@@ -123,7 +123,7 @@ const Footer = () => {
                 alt="facebook"
               />
             </Link>
-            <Link href={config?.data?.pageData['section5 instagram']} aria-label="insta-link" target="_blank" className="w-auto p-0 btn btn-circle">
+            <Link href={`${config?.data?.pageData['section5 instagram']}`} aria-label="insta-link" target="_blank" className="w-auto p-0 btn btn-circle">
               <Image
                 src={socials.instagram}
                 height={36}
@@ -131,7 +131,7 @@ const Footer = () => {
                 alt="insta"
               />
             </Link>
-            <Link href={config?.data?.pageData['section5 youtube']} aria-label="youtube" target="_blank" className="w-auto p-0 btn btn-circle">
+            <Link href={`${config?.data?.pageData['section5 youtube']}`} aria-label="youtube" target="_blank" className="w-auto p-0 btn btn-circle">
               <Image
                 src={socials.youtube}
                 height={36}
@@ -148,10 +148,10 @@ const Footer = () => {
             </h3>
             <div className="flex gap-3">
               {config?.data?.pageData && <>
-                <Link target="_blank" aria-label="app-store" href={config?.data?.pageData['section4 appstore link']} className="p-0 btn">
+                <Link target="_blank" aria-label="app-store" href={`${config?.data?.pageData['section4 appstore link']}`} className="p-0 btn">
                   <Image src={AppStore} height={32} width={108} alt="app-store" />
                 </Link>
-                <Link aria-label="play-store" target="_blank" href={config?.data?.pageData['section4 googleplay link']} className="p-0 btn">
+                <Link aria-label="play-store" target="_blank" href={`${config?.data?.pageData['section4 googleplay link']}`} className="p-0 btn">
                   <Image
                     src={PlayStore}
                     height={32}
