@@ -36,14 +36,15 @@ export interface IProduct {
   hasOffer: boolean;
   id: number;
   images: IProductImage[];
+  webpImages: IProductImage[];
   link: string;
   moreInfo: string;
   slug: string;
   tags: IProductTag[];
   taxable: boolean;
   taxableAmount: number;
-  title: string;
-  unitPrice: UnitPrice[];
+  name: string;
+  variants: UnitPrice[];
   warehouses: IWareHouse[];
   isFav?: boolean;
   favId?: number;

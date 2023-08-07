@@ -109,7 +109,7 @@ export const associateCart = async (auth: any) => {
 
     Authorization: `Bearer ${auth}`,
     "Api-Key": config.gateway.apiKey,
-    "Warehouse-Id": getWareId() || 1,
+    "Warehouse-Id": getWareId() || 4,
   };
 
   try {

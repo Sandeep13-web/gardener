@@ -21,11 +21,12 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
   const token = getToken();
   const [nextDisable, setNextDisable] = useState<boolean>(false)
   const [prevDisable, setPrevDisable] = useState<boolean>(false)
+  const [productModalId, setProductModalId] = useState<string>("")
 
   const { data: cart } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon: '' }));
   const { data: favList }: any = useQuery<any>(["wishlistProducts", token], { enabled: !!token });
 
-  const updatedData = prev?.products?.map(item => ({
+  const updatedData = prev?.product?.map(item => ({
     ...item,
     isFav: favList && favList.data.length > 0 ? favList?.data.some((favItem: any) => favItem.product_id === item.id) : false,
     favId: favList && favList.data.length > 0 ? favList?.data.find((favItem: any) => favItem.product_id === item.id)?.id : 0
@@ -49,11 +50,10 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
     }
   }, [swiperRef]);
 
-  const [productModalId, setProductModalId] = useState<string>("")
   return (
     <>
       {
-        !prev?.products ? '' : (
+        !prev?.product ? '' : (
           prev?.type === 'half_left' ?
             <HalfLeftCard updatedData={prev} /> :
             (
@@ -62,7 +62,7 @@ const AppCategories: React.FC<IProps> = ({ prev }) => {
                   <div className="relative flex items-center justify-between">
                     <Title type="title-section" text={prev?.title} />
                     {
-                      prev?.products?.length > 0 && (
+                      prev?.product?.length > 0 && (
                         <div className='!static productSwiper-navigation mb-[45px]'>
                           <button
                             disabled={prevDisable}

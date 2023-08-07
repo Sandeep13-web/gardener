@@ -3,7 +3,6 @@ import { Props } from "./card.props";
 import Image from "next/image";
 import Link from "next/link";
 import SearchIcon from "@/shared/icons/common/SearchIcon";
-import TrashIcon from "@/shared/icons/common/TrashIcon";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addToCart } from "@/services/cart.service";
 import { ICartItem, ICreateCartItem, IUpdateCartItem } from "@/interface/cart.interface";
@@ -16,8 +15,6 @@ import { useWishlists } from "@/hooks/wishlist.hooks";
 import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
-import { config } from "../../../../config";
-import ProductDetailModal from "../product-detail-modal";
 
 const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
 
@@ -138,7 +135,7 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
     }
   }, [loggedIn])
 
-
+  console.log(product)
   return (
     <>
       <div className="relative card plant-card">
@@ -167,19 +164,35 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
           </>
         }
         <figure>
-
-          <Image
-            src={product?.images[0]?.imageName}
-            alt="Plant"
-            width={216}
-            height={270}
-            quality={100}
-            style={{
-              maxWidth: '100%',
-              height: 'auto',
-              width: '100%',
-            }}
-          />
+          {
+            product?.webpImages.length > 0 ? (
+              <Image
+                src={product?.webpImages[0]?.imageName}
+                alt="Plant"
+                width={216}
+                height={270}
+                quality={100}
+                style={{
+                  maxWidth: '100%',
+                  height: 'auto',
+                  width: '100%',
+                }}
+              />
+            ) : (
+              <Image
+                src={product?.images[0]?.imageName}
+                alt="Plant"
+                width={216}
+                height={270}
+                quality={100}
+                style={{
+                  maxWidth: '100%',
+                  height: 'auto',
+                  width: '100%',
+                }}
+              />
+            )
+          }
         </figure>
         <div className="plant-card_preview-icon">
           <Link
@@ -193,22 +206,22 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
           <p className="text-xs uppercase text-gray-450">
             {product?.categoryTitle}
           </p>
-          <h2 className="card-title plant-card-title">{product?.title}</h2>
+          <h2 className="card-title plant-card-title">{product?.name}</h2>
           {
-            product?.unitPrice[0]?.hasOffer ? (
+            product?.variants[0]?.hasOffer ? (
               <div className="flex items-center">
                 <p className="flex-grow-0 mr-2 text-sm text-red-250">
-                  NPR{product?.unitPrice[0]?.newPrice}
+                  NPR{product?.variants[0]?.newPrice}
                 </p>
                 <p className="flex-grow-0 mr-2 text-sm font-semibold line-through text-primary">
                   NPR
-                  {product?.unitPrice[0]?.oldPrice}
+                  {product?.variants[0]?.oldPrice}
                 </p>
                 <p className="flex-grow-0 flex justify-center py-0.5 px-1 text-xs text-center text-white capitalize rounded-md bg-red-250">offer</p>
               </div>
             ) : (
               <p className="text-sm font-semibold text-primary">
-                NPR {product?.unitPrice[0]?.sellingPrice}
+                NPR {product?.variants[0]?.sellingPrice}
               </p>
             )
           }

@@ -77,7 +77,7 @@ export interface IAppCategories {
   icon: string | null;
   id: number;
   position: number;
-  products: IProduct[]; // Replace 'any' with the appropriate type for the 'products' property
+  product: IProduct[]; // Replace 'any' with the appropriate type for the 'products' property
   title: string;
   type: string;
 }
