@@ -34,7 +34,7 @@ export const getSearchResults = async (
 //suggestion
 export const getSuggestionResults = async (type?: string, query?: string) => {
   try {
-    const response = await axiosInstance.get("/suggest", {
+    const response = await axiosInstance.get("/v1/suggest", {
       params: {
         type,
         query,

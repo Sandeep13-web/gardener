@@ -21,7 +21,7 @@ export const getBlogs = async (
                 featured,
             }
         }
-        const response = await axiosInstance.get(`/blog`, {
+        const response = await axiosInstance.get(`/v1/blog`, {
             params: params,
         });
         return response.data;
@@ -32,7 +32,7 @@ export const getBlogs = async (
 
 export const getBlogDetailsFromSlug = async ( slug: string | string[] ) => {
     try {
-        const response = await axiosInstance.get(`/blog/${slug}`);
+        const response = await axiosInstance.get(`/v1/blog/${slug}`);
         return response.data;
     } catch (error) {
         throw error;

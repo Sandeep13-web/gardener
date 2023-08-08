@@ -3,7 +3,7 @@ import { IContactUs } from "@/interface/contact-us.interface";
 
 export const sendFeedback = async (payload: IContactUs) => {
   try {
-    const response = await axiosInstance.post("/contact-us", payload);
+    const response = await axiosInstance.post("/v1/contact-us", payload);
     return response;
   } catch (error) {
     throw error;
@@ -12,7 +12,7 @@ export const sendFeedback = async (payload: IContactUs) => {
 
 export const feedBackOption = async () => {
   try {
-    const response = await axiosInstance.get("/feedbackSection");
+    const response = await axiosInstance.get("/v1/feedbackSection");
     return response?.data;
   } catch (error) {
     throw error;

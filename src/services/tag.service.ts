@@ -2,7 +2,7 @@ import axiosInstance from "@/axios/axiosInstance";
 
 export const getTagList = async () => {
   try {
-    const response = await axiosInstance.get(`/tag`);
+    const response = await axiosInstance.get(`/v1/tag`);
     return response.data;
   } catch (error) {
     throw error;
@@ -17,7 +17,7 @@ export const getProductByTagId = async (
   minPrice: any
 ) => {
   try {
-    const response = await axiosInstance.get(`/product`, {
+    const response = await axiosInstance.get(`/v1/product`, {
       params: {
         query,
         page,

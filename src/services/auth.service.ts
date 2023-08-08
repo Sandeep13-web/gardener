@@ -14,7 +14,7 @@ const apiURL = config.gateway.apiURL;
 
 export const signUp = async (data: any) => {
   try {
-    const response = await axiosInstance.post(`/register`, data);
+    const response = await axiosInstance.post(`/v1/register`, data);
 
     if (response.status === 201) {
       return response.data;
@@ -27,7 +27,7 @@ export const signUp = async (data: any) => {
 export const login = async (data: any) => {
   const grantType = "password";
   try {
-    const response = await axiosInstance.post(`/login`, {
+    const response = await axiosInstance.post(`/v1/login`, {
       ...data,
       grantType,
     });
@@ -42,7 +42,7 @@ export const login = async (data: any) => {
 
 export const logout = async () => {
   try {
-    const response = await axiosInstance.get("/logout");
+    const response = await axiosInstance.get("/v1/logout");
     if (response.status === 204) {
       setCouponHeader({
         coupon: "",
@@ -56,7 +56,7 @@ export const logout = async () => {
 
 export const forgotPassword = async (account: IForgotPassword) => {
   try {
-    const response = await axiosInstance.post("/forget-password", account);
+    const response = await axiosInstance.post("/v1/forget-password", account);
     return response?.data?.data;
   } catch (error) {
     throw error;
@@ -66,7 +66,7 @@ export const forgotPassword = async (account: IForgotPassword) => {
 export const resetPassword = async (resetPasswordBody: IResetPassword) => {
   try {
     const response = await axiosInstance.post(
-      "/reset-password",
+      "/v1/reset-password",
       resetPasswordBody
     );
     return response?.data?.data;
@@ -78,7 +78,7 @@ export const resetPassword = async (resetPasswordBody: IResetPassword) => {
 export const changePassword = async (changePasswordBody: IChangePassword) => {
   try {
     const response = await axiosInstance.post(
-      "/change-password",
+      "/v1/change-password",
       changePasswordBody
     );
     return response;
@@ -89,7 +89,7 @@ export const changePassword = async (changePasswordBody: IChangePassword) => {
 
 export const deleteAccount = async () => {
   try {
-    const response = await axiosInstance.post("/user/delete", {
+    const response = await axiosInstance.post("/v1/user/delete", {
       reason: "",
     });
     return response.data;
@@ -99,7 +99,7 @@ export const deleteAccount = async () => {
 };
 
 export const registerGuestUser = async (data: any, isInitialSubmit: any) => {
-  const registerGuestUserUrl = `${apiURL}/guest/auth/signup`;
+  const registerGuestUserUrl = `${apiURL}/v1/guest/auth/signup`;
   let payload;
   if (isInitialSubmit) {
     payload = {
@@ -129,7 +129,7 @@ export const registerGuestUser = async (data: any, isInitialSubmit: any) => {
   }
 
   try {
-    const response = await axios.post(`${registerGuestUserUrl}`, payload, {
+    const response = await axios.post(`/v1/${registerGuestUserUrl}`, payload, {
       headers: {
         "Cart-Number": getCartNumber(),
       },
