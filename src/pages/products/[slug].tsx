@@ -6,12 +6,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getProductsFromSlug, getRelatedProductsFromId } from '@/services/product.service';
 import Breadcrumb from '@/shared/components/breadcrumb';
 import Link from 'next/link';
-import { ICartItem, ICreateCartItem, IUpdateCartItem } from '@/interface/cart.interface';
+import { ICartData, ICartItem, ICreateCartItem, IUpdateCartItem } from '@/interface/cart.interface';
 import { ICartProduct } from '@/interface/product.interface';
 import { useCarts } from '@/hooks/cart.hooks';
 import ButtonLoader from '@/shared/components/btn-loading';
 import Head from 'next/head';
-import { addToCart, getCartData } from '@/services/cart.service';
+import { addToCart, getCartData, getCartProduct } from '@/services/cart.service';
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils';
 import SkeletonImage from '@/shared/components/skeleton/image';
 import CardHeartIcon from '@/shared/icons/common/CardHeartIcon';
@@ -41,7 +41,7 @@ const ProductSlug = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
 
 
-  const { data: cartData } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon: '' }));
+  const { data: cartData } = useQuery<ICartData>(['getCartList'], getCartProduct);
 
   const { data: productData, isLoading, error } = useQuery(
     ['getProductsFromSlug', slug],
@@ -56,7 +56,7 @@ const ProductSlug = () => {
 
   //For SKU
   const [selectedSizeId, setSelectedSizeId] = useState<number>(0)
-  const unitPriceArray = productData?.response?.data?.unitPrice || [];
+  const unitPriceArray = productData?.response?.data?.variants || [];
   const filteredUnitPrice = selectedSizeId
     ? unitPriceArray.filter((sizeObj: any) => sizeObj.size === selectedSizeId)
     : unitPriceArray;
@@ -74,8 +74,7 @@ const ProductSlug = () => {
   const handleAddToCart = () => {
     const payload: ICreateCartItem = {
       note: '',
-      productId: productData?.productId,
-      priceId: selectedPrice?.id,
+      variant_id: selectedPrice?.id,
       quantity: value,
     }
     mutation.mutate(payload)
@@ -85,6 +84,7 @@ const ProductSlug = () => {
     mutationFn: addToCart,
     onSuccess: () => {
       showToast(TOAST_TYPES.success, 'Item Added To Cart Successfully');
+      queryClient.invalidateQueries(['getCartList'])
       queryClient.invalidateQueries(['getCart'])
     },
     onError: (error: any) => {
@@ -149,7 +149,7 @@ const ProductSlug = () => {
 
   useEffect(() => {
     if (cartData) {
-      cartData?.cartProducts?.map((item: any) => {
+      cartData?.data?.map((item: any) => {
         if (slug === item?.product?.slug) {
           setItemCartDetail(item)
         }
@@ -180,11 +180,11 @@ const ProductSlug = () => {
 
   //to display image according to the changed size.
   const selectedImg = productData?.response?.data?.images?.find((img: any) => img?.unit_price_id === selectedSizeId);
-  const updateCart = cartData?.cartProducts?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
+  const updateCart = cartData?.data?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
 
   //checking stock for each product/sku element
   const stock: any = productData?.response?.data?.variants?.find((price: any) => price?.id === selectedSizeId)?.stock
-  const selectedCartItems: ICartProduct | undefined = cartData?.cartProducts?.find((cart: any) => JSON.parse(cart?.selectedUnit?.id) === selectedSizeId);
+  const selectedCartItems: ICartProduct | undefined = cartData?.data?.find((cart: any) => JSON.parse(cart?.selectedUnit?.id) === selectedSizeId);
 
   useEffect(() => {
     if (updateCart) {
@@ -197,9 +197,9 @@ const ProductSlug = () => {
   return (
     <>
       <Head>
-        <title>{productData?.response?.data?.title}</title>
+        <title>{productData?.response?.data?.name}</title>
       </Head>
-      <Breadcrumb title={productData?.response?.data?.title} />
+      <Breadcrumb title={productData?.response?.data?.name} />
       <section className="my-[60px]">
         <div className="container">
           <div className="grid grid-cols-12">
@@ -294,9 +294,9 @@ const ProductSlug = () => {
                     </p>
                     <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
                       Tags:
-                      {productData?.response?.data?.tags.map((prev: ITag, index: number) => (
-                        <Link href={`/tag?id=${prev?.slug}`} aria-label="tag-title" className="mb-0 text-primary" key={`tag-${index}`}>
-                          <span className="font-normal">{prev?.title}</span>
+                      {productData?.response?.data?.tags?.map((prev: ITag, index: number) => (
+                        <Link href={`/tag?id=${prev?.slug}`} aria-label="tag-title" className="mb-0 capitalize text-primary" key={`tag-${index}`}>
+                          <span className="font-normal">{prev?.name}</span>
                         </Link>
                       ))}
                     </p>
@@ -430,13 +430,13 @@ const ProductSlug = () => {
                           selectedCartItems && updateCart ?
                             <button
                               type='button'
-                              onClick={updateCartHandler}
-                              disabled={updateCartLoading}
-                              className={`${updateCartLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
+                              onClick={handleAddToCart}
+                              disabled={mutation.isLoading}
+                              className={`${mutation.isLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
 
                               + Update To Cart
                               {
-                                updateCartLoading &&
+                                mutation.isLoading &&
                                 <ButtonLoader />
                               }
                             </button>

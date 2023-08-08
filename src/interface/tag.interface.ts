@@ -3,5 +3,5 @@ export interface ITag {
   id: number;
   imageLink: string;
   slug: string;
-  title: string;
+  name: string;
 }

@@ -62,6 +62,5 @@ export interface ICartTable {
 }
 
 export interface ICartData {
-  cartProducts: ICartProduct[];
-  deals: any;
+  data: ICartProduct[];
 }
