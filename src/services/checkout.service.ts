@@ -7,7 +7,7 @@ import { config } from '../../config';
 const apiURL = config.gateway.apiURL;
 
 export const checkout = async (deliveryId: any, paymentMethodId: any, note:any) => {
-  const checkoutUrl = `${apiURL}/cart/checkout`;
+  const checkoutUrl = `${apiURL}/v1/cart/checkout`;
 
   const headers = {
     ...(getToken() && { Authorization: `Bearer ${getToken()}` }),
@@ -20,7 +20,7 @@ export const checkout = async (deliveryId: any, paymentMethodId: any, note:any) 
   };
 
   try {
-    const response = await axios.delete(`${checkoutUrl}?note=${note}`, { headers });
+    const response = await axios.delete(`${checkoutUrl}/?note=${note}`, { headers });
     // Handle successful response
   } catch (error) {
     // Handle error
