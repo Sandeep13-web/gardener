@@ -8,7 +8,7 @@ import { ITag } from '@/interface/tag.interface'
 import { getToken } from '@/shared/utils/cookies-utils/cookies.utils'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ICartData, ICartItem, ICreateCartItem, IUpdateCartItem } from '@/interface/cart.interface'
-import { addToCart, getCartData, updateCart } from '@/services/cart.service'
+import { addToCart, getCartData } from '@/services/cart.service'
 import { getProductsFromSlug } from '@/services/product.service'
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils'
 import { useWishlists } from '@/hooks/wishlist.hooks'
@@ -79,28 +79,28 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
         }
     })
 
-    const updateCartMutation = useMutation({
-        mutationFn: updateCart,
-        onSuccess: () => {
-            showToast(TOAST_TYPES.success, 'Item Updated To Cart Successfully');
-            queryClient.invalidateQueries(['getCart'])
-            setProductModalId("")
-        },
-        onError: (error: any) => {
-            showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message);
-        }
-    })
-    //updateCart function
-    const updateCartHandler = () => {
-        if (value <= stock) {
-            const payload: IUpdateCartItem = {
-                note: '',
-                quantity: value,
-                product_number: selectedCartItems?.id || itemCartDetail?.id || productData?.productId
-            }
-            updateCartMutation.mutate(payload)
-        }
-    }
+    // const updateCartMutation = useMutation({
+    //     mutationFn: updateCart,
+    //     onSuccess: () => {
+    //         showToast(TOAST_TYPES.success, 'Item Updated To Cart Successfully');
+    //         queryClient.invalidateQueries(['getCart'])
+    //         setProductModalId("")
+    //     },
+    //     onError: (error: any) => {
+    //         showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message);
+    //     }
+    // })
+    // //updateCart function
+    // const updateCartHandler = () => {
+    //     if (value <= stock) {
+    //         const payload: IUpdateCartItem = {
+    //             note: '',
+    //             quantity: value,
+    //             product_number: selectedCartItems?.id || itemCartDetail?.id || productData?.productId
+    //         }
+    //         updateCartMutation.mutate(payload)
+    //     }
+    // }
     const { addFavMutation, removeFavMutation, addLoading, removeLoading } = useWishlists() //for adding products for wishlist ->hook
     //getFavlist items
     const { data: favList }: any = useQuery<any>(["wishlistProducts", token], { enabled: !!token });
@@ -157,7 +157,7 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
     useEffect(() => {
         if (productData) {
             setDescriptionContent(productData?.response?.data?.description || '');
-            setMoreInfoContent(productData?.response?.data?.moreInfo || '');
+            setMoreInfoContent(productData?.response?.data?.description || '');
             const message = productData?.response?.data?.taxable ? 'Including Tax' : 'Excluding Tax';
             setTaxMessage(message);
         }
@@ -284,22 +284,25 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
                                 ) : (
                                     <>
                                         <h2 className="mb-6 text-2xl font-semibold text-slate-850">
-                                            {productData?.response?.data?.title}
+                                            {productData?.response?.data?.name}
                                         </h2>
                                         <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
                                             Category:
                                             <Link href={`/category/${productData?.response?.data?.categorySlug}`} aria-label="category-title" className="mb-0 text-primary">
-                                                <span className="font-normal">{productData?.response?.data?.categoryTitle}</span>
+                                                <span className="font-normal">{productData?.response?.data?.restaurantName}</span>
                                             </Link>
                                         </p>
-                                        <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
-                                            Tags:
-                                            {productData?.response?.data?.tags.map((prev: ITag, index: number) => (
-                                                <Link href={`/tag?id=${prev?.slug}`} aria-label="tag-title" className="mb-0 text-primary" key={`tag-${index}`}>
-                                                    <span className="font-normal">{prev?.title}</span>
-                                                </Link>
-                                            ))}
-                                        </p>
+                                        {
+                                            productData?.response?.data?.tags.length > 0 &&
+                                            <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
+                                                Tags:
+                                                {productData?.response?.data?.tags.map((prev: ITag, index: number) => (
+                                                    <Link href={`/tag?id=${prev?.slug}`} aria-label="tag-title" className="mb-0 capitalize text-primary" key={`tag-${index}`}>
+                                                        <span className="font-normal">{prev?.name}</span>
+                                                    </Link>
+                                                ))}
+                                            </p>
+                                        }
                                         <ul className="flex my-5">
 
                                             {
@@ -333,7 +336,7 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
                                             </li>
                                         </ul>
 
-                                        <p dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
+                                        <p className='font-normal' dangerouslySetInnerHTML={{ __html: selectedPrice?.description, }} />
 
                                         {
                                             unitPriceArray?.length > 1 &&
@@ -378,13 +381,13 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
                                                     itemCartDetail && updatedCart ?
                                                         <button
                                                             type='button'
-                                                            onClick={updateCartHandler}
-                                                            disabled={updateCartMutation.isLoading}
-                                                            className={`${updateCartMutation.isLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
+                                                            onClick={handleAddToCart}
+                                                            disabled={mutation.isLoading}
+                                                            className={`${mutation.isLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
 
                                                             + Update To Cart
                                                             {
-                                                                updateCartMutation.isLoading &&
+                                                                mutation.isLoading &&
                                                                 <ButtonLoader />
                                                             }
                                                         </button>

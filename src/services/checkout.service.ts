@@ -24,6 +24,3 @@ export const getCartNumber = (): any => {
   let number = getCookie(CookieKeys.CARTNUMBER);
   return number || "";
 };
-
-
-

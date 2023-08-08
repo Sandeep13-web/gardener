@@ -8,16 +8,16 @@ export const useWishlists = () => {
 
     const addFavMutation = useMutation({
         mutationFn: updateProductInWishlist,
-        onSuccess: () => {
-            showToast(TOAST_TYPES.success, 'Item Added To Favourite Successfully');
+        onSuccess: (data) => {
+            showToast(TOAST_TYPES.success, data?.data?.message);
             queryClient.invalidateQueries(['wishlistProducts'])
         }
     })
 
     const removeFavMutation = useMutation({
         mutationFn: updateProductInWishlist,
-        onSuccess: () => {
-            showToast(TOAST_TYPES.success, 'Item Removed From Favourite Successfully');
+        onSuccess: (data) => {
+            showToast(TOAST_TYPES.success, data?.data?.message);
             queryClient.invalidateQueries(['wishlistProducts'])
             queryClient.invalidateQueries(['getWishlists'])
         }
