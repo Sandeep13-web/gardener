@@ -353,7 +353,8 @@ const Checkout: NextPageWithLayout = () => {
                             formData={formData}
                             setFormData={setFormData}
                             setShowModal={setShowModal}
-                            showModal={showModal} />
+                            showModal={showModal}
+                            setIsEditing={setIsEditing} />
 
                         </div>
                         <div className="text-right">

@@ -99,12 +99,11 @@ export const deleteAccount = async () => {
 };
 
 export const registerGuestUser = async (data: any, isInitialSubmit: any) => {
-  const registerGuestUserUrl = `${apiURL}/v1/guest/auth/signup`;
+  const registerGuestUserUrl = `${apiURL}/v1/guest/register`;
   let payload;
   if (isInitialSubmit) {
     payload = {
-      check: 1,
-      confirmPassword: data.confirm_password,
+      password_confirmation: data.confirm_password,
       email: data.email,
       first_name: data.first_name,
       last_name: data.last_name,
@@ -113,18 +112,12 @@ export const registerGuestUser = async (data: any, isInitialSubmit: any) => {
     };
   } else {
     payload = {
-      confirmPassword: data.confirm_password,
+      password_confirmation: data.confirm_password,
       email: data.email,
       first_name: data.first_name,
       last_name: data.last_name,
       mobile_number: data.mobile_number,
       password: data.password,
-      cartNumber: getCartNumber(),
-      contact_no: data.contact_no,
-      name: data.name,
-      delivery_title: data.title,
-      lat: data.lat,
-      lng: data.lng,
     };
   }
 

@@ -1,32 +1,24 @@
+import axiosInstance from '@/axios/axiosInstance';
 import { CookieKeys } from '@/shared/enum';
-import { getToken, getWareId } from '@/shared/utils/cookies-utils/cookies.utils';
-import axios from 'axios';
 import { getCookie } from 'cookies-next';
-import { config } from '../../config';
 
-const apiURL = config.gateway.apiURL;
-
-export const checkout = async (deliveryId: any, paymentMethodId: any, note:any) => {
-  const checkoutUrl = `${apiURL}/v1/cart/checkout`;
-
-  const headers = {
-    ...(getToken() && { Authorization: `Bearer ${getToken()}` }),
-    ...(getCartNumber() && { "Cart-Number": getCartNumber() }),
-    // ...(getCoupon() && { Coupon: getCoupon() }),
-    "Api-Key": config.gateway.apiKey,
-    "Warehouse-Id": getWareId(),
-    "DeliveryId": deliveryId.toString(),
-    "PaymentMethodId": paymentMethodId.toString()
-  };
-
+export const checkout = async (
+  delivery_address_id: any, 
+  payment_method_id: any,
+  note: any) => {
   try {
-    const response = await axios.delete(`${checkoutUrl}/?note=${note}`, { headers });
-    // Handle successful response
+    const payload = {
+      delivery_address_id: delivery_address_id,
+      payment_method_id: payment_method_id,
+      note: note
+    };
+    const response = await axiosInstance.post("/v1/checkout", payload);
+    return response;
   } catch (error) {
-    // Handle error
-    console.error(error);
+    throw error;
   }
 };
+
 
 export const getCartNumber = (): any => {
   let number = getCookie(CookieKeys.CARTNUMBER);
