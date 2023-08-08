@@ -1,4 +1,7 @@
 import axiosInstance from "@/axios/axiosInstance";
+import { config } from "../../config";
+
+const apiEndPoint1 = config.gateway.apiEndPoint1;
 
 export const getSearchResults = async (
   type?: string,
@@ -34,7 +37,7 @@ export const getSearchResults = async (
 //suggestion
 export const getSuggestionResults = async (type?: string, query?: string) => {
   try {
-    const response = await axiosInstance.get("/suggest", {
+    const response = await axiosInstance.get(`/${apiEndPoint1}/suggest`, {
       params: {
         type,
         query,

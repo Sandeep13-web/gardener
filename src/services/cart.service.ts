@@ -1,19 +1,16 @@
-import axiosInstance, {
-  setAuthorizationHeader,
-  setCouponHeader,
-} from "@/axios/axiosInstance";
-import { ICreateCartItem, IUpdateCartItem } from "@/interface/cart.interface";
+import axiosInstance, { setCouponHeader } from "@/axios/axiosInstance";
+import { ICreateCartItem } from "@/interface/cart.interface";
 import { CookieKeys } from "@/shared/enum";
 import {
   getCartNumber,
-  getToken,
   getWareId,
 } from "@/shared/utils/cookies-utils/cookies.utils";
 import axios from "axios";
 import { getCookie, setCookie } from "cookies-next";
 import { config } from "../../config";
-import { useCart } from "@/store/use-cart";
+
 const apiURL = config.gateway.apiURL;
+const apiEndPoint2 = config.gateway.apiEndPoint2;
 
 // export const setCartNumberCookie = async () => {
 //   try {
@@ -38,7 +35,7 @@ export const getCartData = async (params: { coupon?: string }) => {
         coupon: "",
       });
     }
-    const response = await axiosInstance.get(`/carts`);
+    const response = await axiosInstance.get(`/${apiEndPoint2}/carts`);
     if (!getCookie(CookieKeys.CARTNUMBER)) {
       setCookie(CookieKeys.CARTNUMBER, response?.data?.data?.cartNumber);
     }
@@ -50,8 +47,8 @@ export const getCartData = async (params: { coupon?: string }) => {
 
 export const getCartProduct = async () => {
   try {
-    const response = await axiosInstance.get("/cart-products");
-    return response.data;
+    const response = await axiosInstance.get(`/${apiEndPoint2}/cart-products`);
+    return response.data.data;
   } catch (error) {
     throw error;
   }
@@ -59,7 +56,9 @@ export const getCartProduct = async () => {
 
 export const deleteCartItemById = async (id: number) => {
   try {
-    const response = await axiosInstance.delete(`/cart-products/${id}`);
+    const response = await axiosInstance.delete(
+      `/${apiEndPoint2}/cart-products/${id}`
+    );
     return response;
   } catch (error) {
     throw error;
@@ -68,22 +67,9 @@ export const deleteCartItemById = async (id: number) => {
 
 export const addToCart = async (data: ICreateCartItem) => {
   try {
-    const response = await axiosInstance.post(`/cart-products`, data);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const updateCart = async (data: IUpdateCartItem) => {
-  const payload = {
-    ...data,
-  };
-  delete payload.product_number;
-  try {
-    const response = await axiosInstance.patch(
-      `/cart-product/${data.product_number}`,
-      payload
+    const response = await axiosInstance.post(
+      `/${apiEndPoint2}/cart-products`,
+      data
     );
     return response.data;
   } catch (error) {
@@ -91,9 +77,25 @@ export const updateCart = async (data: IUpdateCartItem) => {
   }
 };
 
+// export const updateCart = async (data: IUpdateCartItem) => {
+//   const payload = {
+//     ...data,
+//   };
+//   delete payload.product_number;
+//   try {
+//     const response = await axiosInstance.patch(
+//       `/cart-product/${data.product_number}`,
+//       payload
+//     );
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
 export const bulkDeleteCart = async () => {
   try {
-    const response = await axiosInstance.delete("/cart");
+    const response = await axiosInstance.delete(`/${apiEndPoint2}/cart`);
     return response;
   } catch (error) {
     throw error;
@@ -110,7 +112,7 @@ export const bulkDeleteCart = async () => {
 // };
 
 export const associateCart = async (auth: any) => {
-  const associateCartUrl = `${apiURL}/cart/associate`;
+  const associateCartUrl = `${apiURL}/${apiEndPoint2}/cart/associate`;
 
   const headers = {
     ...(getCartNumber() && { "Cart-Number": getCartNumber() }),

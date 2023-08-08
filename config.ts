@@ -8,5 +8,7 @@ export const config = {
     baseURL: process.env.NEXT_PUBLIC_BASE_URL,
     systemURL: process.env.NEXT_PUBLIC_API_SYSTEM_URL,
     skuMethod: process.env.NEXT_PUBLIC_SKU_METHOD,
+    apiEndPoint1: process.env.NEXT_PUBLIC_V1_API,
+    apiEndPoint2: process.env.NEXT_PUBLIC_V2_API,
   },
 };

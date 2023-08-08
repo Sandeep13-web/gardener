@@ -1,13 +1,20 @@
-import { CookieKeys } from '@/shared/enum';
-import { getToken, getWareId } from '@/shared/utils/cookies-utils/cookies.utils';
-import axios from 'axios';
-import { getCookie } from 'cookies-next';
-import { config } from '../../config';
+import { CookieKeys } from "@/shared/enum";
+import {
+  getToken,
+  getWareId,
+} from "@/shared/utils/cookies-utils/cookies.utils";
+import axios from "axios";
+import { getCookie } from "cookies-next";
+import { config } from "../../config";
 
 const apiURL = config.gateway.apiURL;
-
-export const checkout = async (deliveryId: any, paymentMethodId: any, note:any) => {
-  const checkoutUrl = `${apiURL}/cart/checkout`;
+const apiEndPoint1 = config.gateway.apiEndPoint1;
+export const checkout = async (
+  deliveryId: any,
+  paymentMethodId: any,
+  note: any
+) => {
+  const checkoutUrl = `${apiURL}/${apiEndPoint1}/cart/checkout`;
 
   const headers = {
     ...(getToken() && { Authorization: `Bearer ${getToken()}` }),
@@ -15,12 +22,14 @@ export const checkout = async (deliveryId: any, paymentMethodId: any, note:any) 
     // ...(getCoupon() && { Coupon: getCoupon() }),
     "Api-Key": config.gateway.apiKey,
     "Warehouse-Id": getWareId(),
-    "DeliveryId": deliveryId.toString(),
-    "PaymentMethodId": paymentMethodId.toString()
+    DeliveryId: deliveryId.toString(),
+    PaymentMethodId: paymentMethodId.toString(),
   };
 
   try {
-    const response = await axios.delete(`${checkoutUrl}?note=${note}`, { headers });
+    const response = await axios.delete(`${checkoutUrl}/?note=${note}`, {
+      headers,
+    });
     // Handle successful response
   } catch (error) {
     // Handle error
@@ -32,6 +41,3 @@ export const getCartNumber = (): any => {
   let number = getCookie(CookieKeys.CARTNUMBER);
   return number || "";
 };
-
-
-

@@ -71,7 +71,7 @@ const ProductSlug = () => {
     }
   );
 
-  const handleAddToCart = () => {
+  const handleCartAction = () => {
     const payload: ICreateCartItem = {
       note: '',
       variant_id: selectedPrice?.id,
@@ -83,7 +83,11 @@ const ProductSlug = () => {
   const mutation = useMutation({
     mutationFn: addToCart,
     onSuccess: () => {
-      showToast(TOAST_TYPES.success, 'Item Added To Cart Successfully');
+      if (selectedCartItems && updateCart) {
+        showToast(TOAST_TYPES.success, 'Product Updated Successfully');
+      } else {
+        showToast(TOAST_TYPES.success, 'Item Added To Cart Successfully');
+      }
       queryClient.invalidateQueries(['getCartList'])
       queryClient.invalidateQueries(['getCart'])
     },
@@ -93,16 +97,16 @@ const ProductSlug = () => {
   })
 
   //updateCart function
-  const updateCartHandler = () => {
-    if (value <= stock) {
-      const payload: IUpdateCartItem = {
-        note: '',
-        quantity: value,
-        product_number: selectedCartItems?.id || itemCartDetail?.id || productData?.productId
-      }
-      updateCartMutation.mutate(payload)
-    }
-  }
+  // const updateCartHandler = () => {
+  //   if (value <= stock) {
+  //     const payload: IUpdateCartItem = {
+  //       note: '',
+  //       quantity: value,
+  //       product_number: selectedCartItems?.id || itemCartDetail?.id || productData?.productId
+  //     }
+  //     updateCartMutation.mutate(payload)
+  //   }
+  // }
 
   const { addFavMutation, removeFavMutation, addLoading, removeLoading } = useWishlists() //for adding products for wishlist ->hook
   //getFavlist items
@@ -149,7 +153,7 @@ const ProductSlug = () => {
 
   useEffect(() => {
     if (cartData) {
-      cartData?.data?.map((item: any) => {
+      cartData?.cartProducts?.map((item: any) => {
         if (slug === item?.product?.slug) {
           setItemCartDetail(item)
         }
@@ -159,8 +163,7 @@ const ProductSlug = () => {
 
   useEffect(() => {
     if (productData) {
-      setDescriptionContent(productData?.response?.data?.description || '');
-      setMoreInfoContent(productData?.response?.data?.moreInfo || '');
+      setMoreInfoContent(productData?.response?.data?.description || '');
       const message = productData?.response?.data?.taxable ? 'Including Tax' : 'Excluding Tax';
       setTaxMessage(message);
     }
@@ -182,11 +185,11 @@ const ProductSlug = () => {
   const selectedImg = productData?.response?.data?.webpImages ?
     productData?.response?.data?.webpImages?.find((img: any) => img?.unit_price_id === selectedSizeId)
     : productData?.response?.data?.images?.find((img: any) => img?.unit_price_id === selectedSizeId);
-  const updateCart = cartData?.data?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
+  const updateCart = cartData?.cartProducts?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
 
   //checking stock for each product/sku element
   const stock: any = productData?.response?.data?.variants?.find((price: any) => price?.id === selectedSizeId)?.stock
-  const selectedCartItems: ICartProduct | undefined = cartData?.data?.find((cart: any) => JSON.parse(cart?.selectedUnit?.id) === selectedSizeId);
+  const selectedCartItems: ICartProduct | undefined = cartData?.cartProducts?.find((cart: any) => JSON.parse(cart?.selectedUnit?.id) === selectedSizeId);
 
   useEffect(() => {
     if (updateCart) {
@@ -329,65 +332,13 @@ const ProductSlug = () => {
                             </span>
                           </li>
                         )
-
-                        //   productData?.response?.data?.unitPrice?.map((price: any) => (
-                        // (price?.size === selectedSize) && (price?.hasOffer) ? (
-                        // console.log('price.size === selectedSize', price?.size === selectedSize)
-                        //       // <>
-                        //       //   <li className="mr-1 text-base text-red-250">
-                        //       //     NPR
-                        //       //     <span>
-                        //       //       {price.newPrice}
-                        //       //     </span>
-                        //       //   </li>
-
-                        //       //   <li className="mr-1 text-base font-semibold line-through text-primary">
-                        //       //     NPR
-                        //       //     <span>
-                        //       //       {price.oldPrice}
-                        //       //     </span>
-                        //       //   </li>
-                        //       // </>
-                        // ) : (
-                        // < li className="mr-1 text-base text-red-250" >
-                        //   NPR
-                        //   <span>
-                        //     {price.sellingPrice}
-                        //   </span>
-                        // </li>
-                        // )
-                        // ))
                       }
-                      {/* {productData?.response?.data?.unitPrice[0]?.hasOffer ? (
-                        <>
-                          <li className="mr-1 text-base text-red-250">
-                            NPR
-                            <span>
-                              {productData?.response?.data?.unitPrice[0]?.newPrice}
-                            </span>
-                          </li>
-
-                          <li className="mr-1 text-base font-semibold line-through text-primary">
-                            NPR
-                            <span>
-                              {productData?.response?.data?.unitPrice[0]?.oldPrice}
-                            </span>
-                          </li>
-                        </>
-                      ) : (
-                        <li className="mr-1 text-base text-red-250">
-                          NPR
-                          <span>
-                            {productData?.response?.data?.unitPrice[0]?.sellingPrice}
-                          </span>
-                        </li>
-                      )} */}
                       <li className="text-base font-semibold text-primary ">
                         ( <span dangerouslySetInnerHTML={{ __html: taxMessage }} />)
                       </li>
                     </ul>
 
-                    <p dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
+                    <p dangerouslySetInnerHTML={{ __html: selectedPrice?.description, }} />
 
                     {
                       unitPriceArray.length > 1 &&
@@ -432,7 +383,7 @@ const ProductSlug = () => {
                           selectedCartItems && updateCart ?
                             <button
                               type='button'
-                              onClick={handleAddToCart}
+                              onClick={handleCartAction}
                               disabled={mutation.isLoading}
                               className={`${mutation.isLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
 
@@ -445,7 +396,7 @@ const ProductSlug = () => {
                             :
                             <button
                               type='button'
-                              onClick={handleAddToCart}
+                              onClick={handleCartAction}
                               disabled={mutation.isLoading}
                               className={`${mutation.isLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
 
@@ -500,7 +451,7 @@ const ProductSlug = () => {
         moreInfoContent !== '' &&
         <div className="mb-[60px]">
           <div className="container">
-            <a data-toggle="tab" className="active relative flex justify-center uppercase pb-3 text-lg font-bold text-center after:h-[2px] after:absolute after:left-0 after:right-0 after:bottom-[-1px] after:bg-transparent after:transition-all after:duration-300 after:ease-linear after:bg-primary text-slate-850 after:w-[250px] after:text-center after:m-auto">
+            <a data-toggle="tab" className="active relative flex justify-center uppercase pb-3 text-lg font-bold text-center after:h-[2px] after:absolute after:left-0 after:right-0 after:bottom-[-1px] after:transition-all after:duration-300 after:ease-linear after:bg-primary text-slate-850 after:w-[250px] after:text-center after:m-auto">
               Product Description
             </a>
             <div className="px-8 py-10 overflow-hidden text-base leading-6 text-left bg-white border border-gray-200 tab-content">

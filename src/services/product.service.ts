@@ -1,8 +1,13 @@
 import axiosInstance from "@/axios/axiosInstance";
+import { config } from "../../config";
+
+const apiEndPoint1 = config.gateway.apiEndPoint1;
 
 export const getProductsFromSlug = async (productSlug: any) => {
   try {
-    const response = await axiosInstance.get(`/products/${productSlug}`);
+    const response = await axiosInstance.get(
+      `/${apiEndPoint1}/products/${productSlug}`
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -11,7 +16,9 @@ export const getProductsFromSlug = async (productSlug: any) => {
 
 export const getRelatedProductsFromId = async (productId: any) => {
   try {
-    const response = await axiosInstance.get(`/products/${productId}/related`);
+    const response = await axiosInstance.get(
+      `/${apiEndPoint1}/products/${productId}/related`
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -27,7 +34,7 @@ export const getProductByCategory = async (
   sortBy: string
 ) => {
   try {
-    let url = `products?keyword=${query}&page=${page}&categoryId=${categoryId}&sortBy=${sortBy}&allProduct=1`;
+    let url = `/${apiEndPoint1}/products?keyword=${query}&page=${page}&categoryId=${categoryId}&sortBy=${sortBy}&allProduct=1`;
 
     if (minPrice !== "" && maxPrice !== "") {
       url += `&minPrice=${minPrice}&maxPrice=${maxPrice}`;

@@ -26,8 +26,8 @@ const ContactUsForm = () => {
         setSelectedType(text);
     };
 
-    const { data: showProfileData } = useQuery( {
-        queryKey: ['getProfile' , token],
+    const { data: showProfileData } = useQuery({
+        queryKey: ['getProfile', token],
         queryFn: getProfile,
         enabled: !!token
     }
@@ -52,8 +52,8 @@ const ContactUsForm = () => {
         },
     })
     const feedBackSubmit = (data: IContactUs) => {
-        // mutation.mutate(data)
-        // reset()
+        mutation.mutate(data)
+        reset()
     }
     useEffect(() => {
         if (showProfileData) {
@@ -146,9 +146,11 @@ const ContactUsForm = () => {
                             name='department'
                             control={control}
                             rules={{ required: 'Department is required.' }}
+                            // onChange={ handleTypeChange(option?.title)}
                             render={({ field }) => (
 
                                 <div className="block dropdown">
+
                                     <label
                                         tabIndex={0}
                                         htmlFor={field?.name}
@@ -162,7 +164,13 @@ const ContactUsForm = () => {
                                         className="dropdown-content menu shadow p-0 bg-base-100 rounded-sm w-full z-[60]"
                                     >
                                         {options.map((option: any) => (
-                                            <li key={option?.id} onClick={() => handleTypeChange(option?.title)} className={`hover:!bg-[#ebf5ff] ${option?.title === selectedType ? 'bg-[#ebf5ff]' : ''}`}>
+                                            <li key={option?.id}
+                                                onClick={() => {
+                                                    field.onChange(option?.title); // Update the form control value
+                                                    handleTypeChange(option?.title); // Update your state or value using handleTypeChange
+                                                }}
+                                                // onClick={() => handleTypeChange(option?.title)}
+                                                className={`hover:!bg-[#ebf5ff] ${option?.title === selectedType ? 'bg-[#ebf5ff]' : ''}`}>
                                                 <span className='border-0 rounded-none bg-none hover:!bg-none'>{option?.title}</span>
                                             </li>
                                         ))}

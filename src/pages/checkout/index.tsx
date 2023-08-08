@@ -71,12 +71,12 @@ const Checkout: NextPageWithLayout = () => {
 
   const handleAddressSubmitGuest = (e: any) => {
     e.preventDefault();
-    if (guestformData.latitude === 0 || guestformData.longitude === 0) {
+    if (guestformData.lat === 0 || guestformData.lng === 0) {
       showToast(TOAST_TYPES.error, 'Please select a location');
       return;
     }
     setAddressFormValidated(true);
-    if (guestformData.latitude && guestformData.longitude && guestformData.title) {
+    if (guestformData.lat && guestformData.lng && guestformData.title) {
       setAddressFormValidated(false);
     } else {
 
@@ -96,21 +96,21 @@ const Checkout: NextPageWithLayout = () => {
   const [selectedDeliveryAddress, setSelectedDeliveryAddress] = useState(null);
   const [formData, setFormData] = useState<IDeliveryAddress>({
     address: '',
-    contact_no: '',
-    customer: '',
-    isDefault: false,
-    latitude: 0,
-    longitude: 0,
+    mobile_number: '',
+    name: '',
+    default: false,
+    lat: 0,
+    lng: 0,
     title: ''
   });
 
   const [guestformData, setGuestFormData] = useState<IDeliveryAddress>({
     address: '',
-    contact_no: '',
-    customer: '',
-    isDefault: false,
-    latitude: 0,
-    longitude: 0,
+    mobile_number: '',
+    name: '',
+    default: false,
+    lat: 0,
+    lng: 0,
     title: '',
     id: 0
   });

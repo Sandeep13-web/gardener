@@ -11,14 +11,29 @@ export interface IDeliveryAddressDetail {
 
 export interface IDeliveryAddress {
   address: string;
-  contact_no: string;
+  mobile_number: any;
   createdAt?: string;
-  customer: string;
+  name: string;
   detail?: IDeliveryAddressDetail | null;
   id?: number;
   title: string;
-  latitude: number;
-  longitude: number;
-  isDefault: boolean;
+  lat: number;
+  lng: number;
+  // isDefault: boolean;
+  default: boolean;
   updatedAt?: string;
 }
+
+// export interface IDeliveryAddress {
+//   address: string;
+//   contact_no: string;
+//   createdAt?: string;
+//   customer: string;
+//   detail?: IDeliveryAddressDetail | null;
+//   id?: number;
+//   title: string;
+//   latitude: number;
+//   longitude: number;
+//   isDefault: boolean;
+//   updatedAt?: string;
+// }

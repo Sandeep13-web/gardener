@@ -23,7 +23,7 @@ const Breadcrumb = ({ title }: any) => {
     { label: "Categories", path: "/categories" },
     { label: "Search", path: "/search" },
     { label: "About Us", path: "/page/about-us" },
-    { label: "Wishlist", path: "/wishlist" },
+  { label: "Wishlist", path: "/wishlist" },
     { label: "Blogs", path: "/blogs" },
     { label: "Account Profile", path: '/account/profile' },
     { label: "Order", path: '/account/order' },

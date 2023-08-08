@@ -1,8 +1,11 @@
 import axiosInstance from "@/axios/axiosInstance";
+import { config } from "../../config";
+
+const apiEndPoint1 = config.gateway.apiEndPoint1;
 
 export const getOrders = async (page: number, perPage: number) => {
   try {
-    const response = await axiosInstance.get("/orders", {
+    const response = await axiosInstance.get(`/${apiEndPoint1}/orders`, {
       params: {
         page,
         perPage,
@@ -16,7 +19,9 @@ export const getOrders = async (page: number, perPage: number) => {
 
 export const getOrderDetails = async (orderId: number) => {
   try {
-    const response = await axiosInstance.get(`/orders/${orderId}`);
+    const response = await axiosInstance.get(
+      `/${apiEndPoint1}/orders/${orderId}`
+    );
     return response.data;
   } catch (error) {
     throw error;

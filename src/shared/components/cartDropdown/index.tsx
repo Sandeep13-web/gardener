@@ -5,7 +5,7 @@ import CartIcon from '@/shared/icons/common/CartIcon';
 import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
 import { getCartData, getCartProduct } from '@/services/cart.service';
-import { ICartItem } from '@/interface/cart.interface';
+import { ICartData, ICartItem } from '@/interface/cart.interface';
 import { useCart } from '@/store/use-cart';
 import CartDropdownProducts from './cart-products';
 
@@ -15,7 +15,7 @@ const CartDropdown = () => {
 
   const { coupon, setCoupon } = useCart()
   const { data: cart } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon }));
-  const { data: cartList } = useQuery<any>(['getCartList'], getCartProduct)
+  const { data: cartList } = useQuery<ICartData>(['getCartList'], getCartProduct)
 
   useEffect(() => {
     if (window && localStorage && localStorage.getItem("coupon")) {
@@ -28,20 +28,20 @@ const CartDropdown = () => {
       <div className="relative z-40 py-3 bg-gray-350 btn-circle shrink-0">
         <CartIcon className="mx-auto" />
         <Badge className="badge-accent" badgePosition="top-right">
-          {cartList?.data?.length || 0}
+          {cartList?.cartProducts?.length || 0}
         </Badge>
         {/* Total Price */}
 
         {/* dropdown content */}
         <div tabIndex={0} className="dropdown-content min-w-[350px] right-0 z-[2] top-[100%] p-4 shadow bg-base-100">
           {/* item list*/}
-          <div className={`max-h-42 overflow-auto px-[30px] ${cartList?.data?.length === 0 ? '' : 'pb-[30px]'}`}>
-            {!cartList || cartList?.data?.length === 0 ? (
+          <div className={`max-h-42 overflow-auto px-[30px] ${cartList?.cartProducts?.length === 0 ? '' : 'pb-[30px]'}`}>
+            {!cartList || cartList?.cartProducts?.length === 0 ? (
               <p className="text-sm font-bold text-center text-slate-850">No Products in the cart.</p>
             ) : (
               <>
                 <div className="overflow-y-scroll max-h-[350px] pr-[20px]">
-                  {cartList?.data?.map((item: any, index: number) => (
+                  {cartList && cartList?.cartProducts?.map((item: any, index: number) => (
                     <CartDropdownProducts item={item} key={index} />
                   ))}
                 </div>

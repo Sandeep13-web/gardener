@@ -7,11 +7,12 @@ import {
 import axios from "axios";
 import { config } from "../../config";
 const apiURL = config.gateway.apiURL;
+const apiEndPoint1 = config.gateway.apiEndPoint1;
 
 export const getProfile = async () => {
   try {
     setAuthorizationHeader();
-    const response = await axiosInstance.get("/profile");
+    const response = await axiosInstance.get(`/${apiEndPoint1}/profile`);
     return response.data;
   } catch (error) {
     throw error;
@@ -20,7 +21,10 @@ export const getProfile = async () => {
 
 export const updateProfile = async (data: IProfileSubmit) => {
   try {
-    const response = await axiosInstance.put("/user/update", data);
+    const response = await axiosInstance.put(
+      `/${apiEndPoint1}/user/update`,
+      data
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -28,7 +32,7 @@ export const updateProfile = async (data: IProfileSubmit) => {
 };
 
 export const uploadProfileImage = async (avatar: File) => {
-  const imageUrl = `${apiURL}/profile/image`;
+  const imageUrl = `${apiURL}/${apiEndPoint1}/profile/image`;
 
   const headers = {
     ...(getToken() && { Authorization: `Bearer ${getToken()}` }),

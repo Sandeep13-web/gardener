@@ -1,8 +1,11 @@
 import axiosInstance from "@/axios/axiosInstance";
+import { config } from "../../config";
+
+const apiEndPoint1 = config.gateway.apiEndPoint1;
 
 export const getTagList = async () => {
   try {
-    const response = await axiosInstance.get(`/tag`);
+    const response = await axiosInstance.get(`/${apiEndPoint1}/tag`);
     return response.data;
   } catch (error) {
     throw error;
@@ -17,7 +20,7 @@ export const getProductByTagId = async (
   minPrice: any
 ) => {
   try {
-    const response = await axiosInstance.get(`/product`, {
+    const response = await axiosInstance.get(`/${apiEndPoint1}/product`, {
       params: {
         query,
         page,

@@ -12,6 +12,7 @@ interface IProps {
   showModal: boolean;
   formData: IDeliveryAddress;
   setFormData: (arg1: any) => void;
+  setIsEditing: (arg0:boolean) => void
 
 }
 
@@ -19,21 +20,12 @@ const Address: React.FC<IProps> = ({
   setShowModal,
   showModal,
   formData,
-  setFormData
+  setFormData,
+  setIsEditing,
 }) => {
-  // const [formData, setFormData] = useState<IDeliveryAddress>({
-  //   address: '',
-  //   contact_no: '',
-  //   customer: '',
-  //   isDefault: false,
-  //   latitude: 27.7172,
-  //   longitude: 85.3240,
-  //   title: ''
-  // });
   const queryClient = useQueryClient();
-  const [isEditing, setIsEditing] = useState(false);
   const [deliveryAddressId, setDeliveryAddressId] = useState<string>('')
-  const { data: deliveryAddressData, refetch: getDeliveryAddress } = useQuery({
+  const { data: deliveryAddressData } = useQuery({
     queryKey: ["getDeliverAddress"],
     queryFn: getDeliverAddress,
   });
@@ -42,11 +34,11 @@ const Address: React.FC<IProps> = ({
     // Reset the form data when adding a new address
     setFormData({
       address: '',
-      contact_no: '',
-      customer: '',
-      isDefault: false,
-      latitude: 0,
-      longitude: 0,
+      mobile_number: '',
+      name: '',
+      default: false,
+      lat: 0,
+      lng: 0,
       title: '',
     });
     // Set isEditing to false when adding
@@ -64,11 +56,11 @@ const Address: React.FC<IProps> = ({
         ...formData,
         id: addressData?.id,
         title: addressData?.title,
-        customer: addressData?.customer,
-        contact_no: addressData?.contactNo,
-        latitude: addressData?.latitude,
-        longitude: addressData?.longitude,
-        isDefault: addressData?.isDefault
+        name: addressData?.name,
+        mobile_number: addressData?.mobileNumber,
+        lat: addressData?.lat,
+        lng: addressData?.lng,
+        default: addressData?.isDefault
       });
       // Set isEditing to true when editing
       setIsEditing(true);
@@ -84,7 +76,7 @@ const Address: React.FC<IProps> = ({
     mutationFn: deleteDeliverAddressById,
     onSuccess: () => {
       showToast(TOAST_TYPES.success, 'Delivery Address has been deleted');
-      queryClient.invalidateQueries(['getDeliveryAddress'])
+      queryClient.invalidateQueries(['getDeliverAddress'])
     },
     onError: (error: any) => {
       const errors = error?.response?.data?.errors;
@@ -114,10 +106,10 @@ const Address: React.FC<IProps> = ({
       ) : null}
       {deliveryAddressData?.map((deliveryAddressContent: any, index: any) => (
         <div className={`col-span-12 sm:col-span-6 lg:col-span-4 border boder-solid boder-grey-500 min-h-[170px] p-4 ${deliveryAddressContent.isDefault ? 'border-green-50' : ''}`} key={deliveryAddressContent.id}>
-          <h5 className="mb-2">{deliveryAddressContent?.customer}</h5>
+          <h5 className="mb-2">{deliveryAddressContent?.name}</h5>
           <p className="text-sm mb-1">{deliveryAddressContent?.title}</p>
           <p className="text-sm mb-1">{deliveryAddressContent?.detail?.formatted_address}</p>
-          <p className="text-sm mb-1 font-medium">Phone: {deliveryAddressContent?.contactNo}</p>
+          <p className="text-sm mb-1 font-medium">Phone: {deliveryAddressContent?.mobileNumber}</p>
           <div className="flex gap-6">
             <button
               disabled={(deliveryAddressContent?.id === deliveryAddressId && deleteAdddressMutation.isLoading)}
