@@ -179,7 +179,9 @@ const ProductSlug = () => {
   const selectedPrice = productData?.response?.data?.variants?.find((price: any) => price?.id === selectedSizeId);
 
   //to display image according to the changed size.
-  const selectedImg = productData?.response?.data?.images?.find((img: any) => img?.unit_price_id === selectedSizeId);
+  const selectedImg = productData?.response?.data?.webpImages ?
+    productData?.response?.data?.webpImages?.find((img: any) => img?.unit_price_id === selectedSizeId)
+    : productData?.response?.data?.images?.find((img: any) => img?.unit_price_id === selectedSizeId);
   const updateCart = cartData?.data?.find((cartItem: any) => JSON.parse(cartItem?.selectedUnit?.id) === selectedSizeId) ? true : false
 
   //checking stock for each product/sku element
