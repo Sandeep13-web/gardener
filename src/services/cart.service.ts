@@ -1,4 +1,7 @@
-import axiosInstance, { setAuthorizationHeader, setCouponHeader } from "@/axios/axiosInstance";
+import axiosInstance, {
+  setAuthorizationHeader,
+  setCouponHeader,
+} from "@/axios/axiosInstance";
 import { ICreateCartItem } from "@/interface/cart.interface";
 import { CookieKeys } from "@/shared/enum";
 import {
@@ -12,7 +15,6 @@ import { config } from "../../config";
 const apiURL = config.gateway.apiURL;
 const apiEndPoint1 = config.gateway.apiEndPoint1;
 const apiEndPoint2 = config.gateway.apiEndPoint2;
-const apiEndPoint1 = config.gateway.apiEndPoint1;
 
 // export const setCartNumberCookie = async () => {
 //   try {
@@ -37,7 +39,7 @@ export const getCartData = async (params: { coupon?: string }) => {
         coupon: "",
       });
     }
-    setAuthorizationHeader()
+    setAuthorizationHeader();
     const response = await axiosInstance.get(`/${apiEndPoint2}/carts`);
     if (!getCookie(CookieKeys.CARTNUMBER)) {
       setCookie(CookieKeys.CARTNUMBER, response?.data?.data?.cartNumber);
@@ -105,8 +107,7 @@ export const bulkDeleteCart = async () => {
   }
 };
 
-
-export const associateCart = async (auth: any, status:string) => {
+export const associateCart = async (auth: any, status: string) => {
   const associateCartUrl = `${apiURL}/${apiEndPoint1}/cart/associate`;
 
   const headers = {
@@ -117,9 +118,9 @@ export const associateCart = async (auth: any, status:string) => {
     "Api-Key": config.gateway.apiKey,
     "Warehouse-Id": getWareId() || 4,
   };
-    if (status === 'true' || status === 'false') {
-      headers["Flush-Old-Cart"] = status;
-    }
+  if (status === "true" || status === "false") {
+    headers["Flush-Old-Cart"] = status;
+  }
 
   try {
     const response = await axios.get(`${associateCartUrl}`, { headers });

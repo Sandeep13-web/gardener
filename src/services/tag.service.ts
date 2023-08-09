@@ -13,20 +13,24 @@ export const getTagList = async () => {
 };
 
 export const getProductByTagId = async (
-  query: any,
+  keyword: any,
   page: any,
   tagId: any,
   maxPrice: any,
-  minPrice: any
+  minPrice: any,
+  sortBy: any,
+  priceOrder: any
 ) => {
   try {
     const response = await axiosInstance.get(`/${apiEndPoint1}/products`, {
       params: {
-        query,
+        keyword,
         page,
         tagId,
         maxPrice,
         minPrice,
+        sortBy,
+        priceOrder,
       },
     });
     return response.data;

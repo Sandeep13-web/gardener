@@ -24,6 +24,7 @@ const SearchPage: NextPageWithLayout = () => {
   const { type, keyword } = router.query;
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [selectedValue, setSelectedValue] = useState<string>('')
+  const [selectedPriceValue, setSelectedPriceValue] = useState<string>("")
   const [pageNumber, setPageNumber] = useState<number>(1)
   const [productModalId, setProductModalId] = useState<string>("")
 
@@ -32,8 +33,8 @@ const SearchPage: NextPageWithLayout = () => {
   };
 
 
-  const { data: searchData, isLoading, error } = useQuery(['searchResults', type?.toString() || '', keyword?.toString() || '', selectedValue, pageNumber], () =>
-    getSearchResults(type?.toString() || '', keyword?.toString() || '', pageNumber, selectedValue)
+  const { data: searchData, isLoading, error } = useQuery(['searchResults', type?.toString() || '', keyword?.toString() || '', selectedValue, pageNumber, selectedPriceValue], () =>
+    getSearchResults(type?.toString() || '', keyword?.toString() || '', pageNumber, selectedValue, selectedPriceValue)
   );
 
   const { data: favList }: any = useQuery<any>(["wishlistProducts", token], { enabled: !!token });
@@ -48,7 +49,13 @@ const SearchPage: NextPageWithLayout = () => {
   }));
 
   const handleSortingChange = (value: string) => {
-    setSelectedValue(value)
+    if (value === 'asc' || value === 'desc') {
+      setSelectedValue(value);
+      setSelectedPriceValue('');
+    } else if (value === 'low' || value === 'high') {
+      setSelectedPriceValue(value);
+      setSelectedValue('');
+    }
   }
 
   /**
@@ -139,10 +146,10 @@ const SearchPage: NextPageWithLayout = () => {
                           {updatedData.map((item: any, index: number) => (
                             <CategoryCard
                               key={`categories-${index}`}
-                              title={item?.title}
+                              title={item?.name}
                               totalProducts={item?.productCount}
                               shopLink={`/categories/${item?.slug}`}
-                              image={item.icon}
+                              image={item?.webpBackgroundImage ? item?.webpBackgroundImage : item?.backgroundImage}
                             />
                           ))}
                         </div>

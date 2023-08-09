@@ -20,13 +20,14 @@ const Offer: NextPageWithLayout = () => {
   const [query, setQuery] = useState<string>('');
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [selectedValue, setSelectedValue] = useState<string>('')
+  const [selectedPriceValue, setSelectedPriceValue] = useState<string>("")
   const [productModalId, setProductModalId] = useState<string>("")
 
   const offer = true
 
   const { data: offers, isLoading, error } = useQuery(
-    ['getOffers', query, pageNumber, offer, selectedValue], () =>
-    getOffers(query, pageNumber, offer, selectedValue)
+    ['getOffers', query, pageNumber, offer, selectedValue, selectedPriceValue], () =>
+    getOffers(query, pageNumber, offer, selectedValue, selectedPriceValue)
   );
 
   const handlePageChange = (value: number) => {
@@ -35,7 +36,13 @@ const Offer: NextPageWithLayout = () => {
 
   //Fetch Product Data
   const handleSortingChange = (value: string) => {
-    setSelectedValue(value)
+    if (value === 'asc' || value === 'desc') {
+      setSelectedValue(value);
+      setSelectedPriceValue('');
+    } else if (value === 'low' || value === 'high') {
+      setSelectedPriceValue(value);
+      setSelectedValue('');
+    }
   }
   return (
     <>

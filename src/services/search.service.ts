@@ -5,26 +5,28 @@ const apiEndPoint1 = config.gateway.apiEndPoint1;
 
 export const getSearchResults = async (
   type?: string,
-  query?: string,
+  keyword?: string,
   page?: number,
-  sortBy?: string
+  sortBy?: string,
+  priceOrder?: string
 ) => {
   try {
     let apiUrl = "";
 
     if (type === "category") {
-      apiUrl = "/category";
+      apiUrl = `${apiEndPoint1}/categories`;
     } else if (type === "product") {
-      apiUrl = "/product";
+      apiUrl = `${apiEndPoint1}/products`;
     } else {
       throw new Error("Invalid search type");
     }
 
     const response = await axiosInstance.get(apiUrl, {
       params: {
-        query,
+        keyword,
         page,
         sortBy,
+        priceOrder,
       },
     });
 
@@ -35,12 +37,12 @@ export const getSearchResults = async (
 };
 
 //suggestion
-export const getSuggestionResults = async (type?: string, query?: string) => {
+export const getSuggestionResults = async (type?: string, keyword?: string) => {
   try {
     const response = await axiosInstance.get(`/${apiEndPoint1}/suggest`, {
       params: {
         type,
-        query,
+        keyword,
       },
     });
     return response.data;

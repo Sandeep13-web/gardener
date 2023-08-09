@@ -17,7 +17,7 @@ import TagSidebar from '@/shared/components/tagSidebar';
 import Breadcrumb from '@/shared/components/breadcrumb';
 import SortingDropdown from '@/shared/components/sorting-dropdown';
 import SkeletonLoadingCard from '@/shared/components/skeleton/products';
-import { ICartItem } from '@/interface/cart.interface';
+import { ICartData, ICartItem } from '@/interface/cart.interface';
 import Head from 'next/head';
 import { getToken } from '@/shared/utils/cookies-utils/cookies.utils';
 import ProductDetailModal from '@/shared/components/product-detail-modal';
@@ -36,7 +36,7 @@ const CategoryDetail: NextPageWithLayout = () => {
     const [productModalId, setProductModalId] = useState<string>("")
     // const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategoriesList'] });
     // const { data: cart } = useQuery<ICartData>(["getCartList"]);
-    const { data: cart } = useQuery<ICartItem>(["getCartList"]);
+    const { data: cart } = useQuery<ICartData>(["getCartList"]);
     const { data: tags } = useQuery({
         queryKey: ["getTagList"],
         queryFn: getTagList,
@@ -82,7 +82,7 @@ const CategoryDetail: NextPageWithLayout = () => {
             setSelectedPriceValue(value);
             setSelectedValue('');
         }
-      };
+    };
 
     const { data: initialProductData, isLoading, error } = useQuery(
         ['getProductByCategoryId', slug, pageNumber, selectedValue, selectedPriceValue],

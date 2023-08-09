@@ -45,7 +45,7 @@ const DeliveryAddressModal: React.FC<IProps> = ({
     queryFn: getDeliverAddress,
     enabled: !!token
   });
-  
+
 
   const fetchDeliveryAddress = async () => {
     await getDeliveryAddress();
@@ -68,7 +68,7 @@ const DeliveryAddressModal: React.FC<IProps> = ({
         getDeliveryAddress();
         setAddressSaved(false);
         setShowModal(false);
-      } catch (error) {
+      } catch (error: any) {
         showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.detail)
       }
     } else {
@@ -76,7 +76,7 @@ const DeliveryAddressModal: React.FC<IProps> = ({
         await addDeliverAddress(formData);
         getDeliveryAddress();
         setShowModal(false);
-      } catch (error) {
+      } catch (error: any) {
         showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.detail)
       }
     }
@@ -96,10 +96,10 @@ const DeliveryAddressModal: React.FC<IProps> = ({
           <div className="pb-2 border-b border-gray-300 ">
             <h3 className="text-lg font-medium">
               SET DELIEVERY LOCATION
-                                  </h3>
+            </h3>
             <p className="text-sm text-primary">
               {" "}
-                Drag the map to pin point your delievery lcoation{" "}
+              Drag the map to pin point your delievery lcoation{" "}
             </p>
           </div>
 
@@ -118,7 +118,7 @@ const DeliveryAddressModal: React.FC<IProps> = ({
               className="block mb-2 text-sm"
             >
               {" "}
-                                    Address Title <span className="text-red-250">*</span>
+              Address Title <span className="text-red-250">*</span>
             </label>
 
             <input
@@ -137,8 +137,8 @@ const DeliveryAddressModal: React.FC<IProps> = ({
               className="block mb-2 text-sm"
             >
               {" "}
-                                    Full Name
-                                  </label>
+              Full Name
+            </label>
 
             <input
               type="text"
@@ -155,8 +155,8 @@ const DeliveryAddressModal: React.FC<IProps> = ({
               className="block mb-2 text-sm"
             >
               {" "}
-                                    Phone number
-                                  </label>
+              Phone number
+            </label>
 
             <input
               type="number"
@@ -182,7 +182,7 @@ const DeliveryAddressModal: React.FC<IProps> = ({
 
               <label htmlFor="check" className="text-sm">
                 Set As Default
-                                    </label>
+              </label>
 
             </div>
 
@@ -192,7 +192,7 @@ const DeliveryAddressModal: React.FC<IProps> = ({
                 className="btn-error rounded-[30px] px-[30px] py-[11px]"
               >
                 Cancel
-                                    </button>
+              </button>
               {isEditing ? (
                 <button type="submit" className="btn rounded-[30px] px-[30px] py-[11px]">
                   Update

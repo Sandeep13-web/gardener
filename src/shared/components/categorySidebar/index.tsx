@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 const CategorySidebar = () => {
     const router = useRouter();
     const { slug } = router.query;
-    const { data: categories }: any = useQuery({ queryKey: ["getCategories"] })
+    const { data: categories }: any = useQuery(["getCategoriesList"])
 
     return (
         <ul className='pl-4'>
@@ -17,7 +17,7 @@ const CategorySidebar = () => {
                             aria-label={`categories-${index}`}
                             className={`block text-gray-550 font-semibold text-[15px] leading-[22px] transition-all delay-100 duration-300 hover:text-primary pb-2 capitalize ${item?.slug == slug && 'text-primary'}`}
                         >
-                            {item?.title}
+                            {item?.name}
                         </Link>
                     </li>
                 ))
