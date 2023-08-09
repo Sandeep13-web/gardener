@@ -47,7 +47,6 @@ const Wishlist: NextPageWithLayout = () => {
     const handlePageChange = (value: number) => {
         setPageNumber(value)
     }
-    console.log(cart)
     return (
         <div>
             <Head>

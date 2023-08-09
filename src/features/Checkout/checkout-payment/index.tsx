@@ -15,7 +15,7 @@ const CheckoutPayment: React.FC<CheckoutPaymentProps> = ({ selectedPayment, hand
   });
     return (
         <>
-            {config?.data?.paymentMethod.map((payment: IPaymentMethod) => (
+            {config?.data?.paymentMethods.map((payment: IPaymentMethod) => (
                 <div className="form-control" key={payment.id}>
                 <label className="justify-start cursor-pointer label">
                     <input

@@ -1,5 +1,6 @@
 import { IDeliveryAddress } from '@/interface/delivery-address.interface';
 import { addDeliverAddress, getDeliverAddress, updateDeliveryAddressByAddressId } from '@/services/delivery-address.service';
+import { getToken } from '@/shared/utils/cookies-utils/cookies.utils';
 import { showToast, TOAST_TYPES } from '@/shared/utils/toast-utils/toast.utils';
 import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
@@ -27,7 +28,7 @@ const DeliveryAddressModal: React.FC<IProps> = ({
   isEditing }) => {
 
   const [addressSaved, setAddressSaved] = useState(false);
-
+  const token = getToken();
   const handleMarkerClick = (lat: any, lng: any) => {
     setFormData((prevData: any) => ({
       ...prevData,
@@ -38,10 +39,13 @@ const DeliveryAddressModal: React.FC<IProps> = ({
 
   const phoneNumberRegex = /^(97|98)\d{8}$/;
 
+
   const { data: deliveryAddressData, refetch: getDeliveryAddress } = useQuery({
-    queryKey: ["getDeliverAddress"],
+    queryKey: ["getDeliverAddress", token],
     queryFn: getDeliverAddress,
+    enabled: !!token
   });
+  
 
   const fetchDeliveryAddress = async () => {
     await getDeliveryAddress();
@@ -58,28 +62,22 @@ const DeliveryAddressModal: React.FC<IProps> = ({
       return;
     }
     if (isEditing) {
-      // Call the update API for editing an existing address
       try {
 
         await updateDeliveryAddressByAddressId(formData);
         getDeliveryAddress();
         setAddressSaved(false);
-        setShowModal(false); // Close the modal after successful update
+        setShowModal(false);
       } catch (error) {
-        // Handle error during update
-        console.error('Error occurred during update:', error);
+        showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.detail)
       }
     } else {
-      // Call the add API for saving a new address
       try {
         await addDeliverAddress(formData);
-        // Call getDeliveryAddress function immediately after adding the new address
         getDeliveryAddress();
-        setShowModal(false); // Close the modal after successful save
+        setShowModal(false);
       } catch (error) {
-        // showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message);
-        // Handle error during save
-        console.error('Error occurred during save:', error);
+        showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.detail)
       }
     }
   };
@@ -188,7 +186,6 @@ const DeliveryAddressModal: React.FC<IProps> = ({
 
             </div>
 
-
             <div className="flex gap-4 mt-2">
               <button
                 onClick={() => setShowModal(false)}
@@ -196,7 +193,7 @@ const DeliveryAddressModal: React.FC<IProps> = ({
               >
                 Cancel
                                     </button>
-              {isEditing ? ( // Check if the form is in edit mode
+              {isEditing ? (
                 <button type="submit" className="btn rounded-[30px] px-[30px] py-[11px]">
                   Update
                 </button>

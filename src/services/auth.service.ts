@@ -6,7 +6,7 @@ import {
   IResetPassword,
 } from "@/interface/password.interface";
 import axios from "axios";
-import { getCartNumber } from "@/shared/utils/cookies-utils/cookies.utils";
+import { getCartNumber, getWareId } from "@/shared/utils/cookies-utils/cookies.utils";
 const apiURL = config.gateway.apiURL;
 const apiEnpoint1 = config.gateway.apiEndPoint1;
 
@@ -100,15 +100,11 @@ export const deleteAccount = async () => {
 };
 
 export const registerGuestUser = async (data: any, isInitialSubmit: any) => {
-<<<<<<< HEAD
-  const registerGuestUserUrl = `${apiURL}/v1/guest/register`;
-=======
-  const registerGuestUserUrl = `${apiURL}/${apiEnpoint1}/guest/auth/signup`;
->>>>>>> dev-5
+  const registerGuestUserUrl = `${apiURL}/${apiEnpoint1}/guest/register`;
   let payload;
   if (isInitialSubmit) {
     payload = {
-      password_confirmation: data.confirm_password,
+      password_confirmation: data.password_confirmation,
       email: data.email,
       first_name: data.first_name,
       last_name: data.last_name,
@@ -117,7 +113,7 @@ export const registerGuestUser = async (data: any, isInitialSubmit: any) => {
     };
   } else {
     payload = {
-      password_confirmation: data.confirm_password,
+      password_confirmation: data.password_confirmation,
       email: data.email,
       first_name: data.first_name,
       last_name: data.last_name,
@@ -128,11 +124,13 @@ export const registerGuestUser = async (data: any, isInitialSubmit: any) => {
 
   try {
     const response = await axios.post(
-      `/${apiEnpoint1}/${registerGuestUserUrl}`,
+      `${registerGuestUserUrl}`,
       payload,
       {
         headers: {
           "Cart-Number": getCartNumber(),
+          "Api-Key": config.gateway.apiKey,
+          "Warehouse-Id": getWareId(),
         },
       }
     );

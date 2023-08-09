@@ -1,4 +1,4 @@
-import axiosInstance, { setCouponHeader } from "@/axios/axiosInstance";
+import axiosInstance, { setAuthorizationHeader, setCouponHeader } from "@/axios/axiosInstance";
 import { ICreateCartItem } from "@/interface/cart.interface";
 import { CookieKeys } from "@/shared/enum";
 import {
@@ -11,6 +11,7 @@ import { config } from "../../config";
 
 const apiURL = config.gateway.apiURL;
 const apiEndPoint2 = config.gateway.apiEndPoint2;
+const apiEndPoint1 = config.gateway.apiEndPoint1;
 
 // export const setCartNumberCookie = async () => {
 //   try {
@@ -35,6 +36,7 @@ export const getCartData = async (params: { coupon?: string }) => {
         coupon: "",
       });
     }
+    setAuthorizationHeader()
     const response = await axiosInstance.get(`/${apiEndPoint2}/carts`);
     if (!getCookie(CookieKeys.CARTNUMBER)) {
       setCookie(CookieKeys.CARTNUMBER, response?.data?.data?.cartNumber);
@@ -102,17 +104,9 @@ export const bulkDeleteCart = async () => {
   }
 };
 
-// export const associateCart = async () => {
-//   try {
-//     const response = await axiosInstance.get(`/cart/associate`);
-//     return response.data.data;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
 
-export const associateCart = async (auth: any) => {
-  const associateCartUrl = `${apiURL}/${apiEndPoint2}/cart/associate`;
+export const associateCart = async (auth: any, status:string) => {
+  const associateCartUrl = `${apiURL}/${apiEndPoint1}/cart/associate`;
 
   const headers = {
     ...(getCartNumber() && { "Cart-Number": getCartNumber() }),
@@ -122,12 +116,14 @@ export const associateCart = async (auth: any) => {
     "Api-Key": config.gateway.apiKey,
     "Warehouse-Id": getWareId() || 4,
   };
+    if (status === 'true' || status === 'false') {
+      headers["Flush-Old-Cart"] = status;
+    }
 
   try {
     const response = await axios.get(`${associateCartUrl}`, { headers });
-    // Handle successful response
+    return { response, error: null };
   } catch (error) {
-    // Handle error
-    console.error(error);
+    return { response: null, error };
   }
 };
