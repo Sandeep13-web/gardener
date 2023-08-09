@@ -8,7 +8,6 @@ import Breadcrumb from '@/shared/components/breadcrumb';
 import Link from 'next/link';
 import { ICartData, ICartItem, ICreateCartItem, IUpdateCartItem } from '@/interface/cart.interface';
 import { ICartProduct } from '@/interface/product.interface';
-import { useCarts } from '@/hooks/cart.hooks';
 import ButtonLoader from '@/shared/components/btn-loading';
 import Head from 'next/head';
 import { addToCart, getCartData, getCartProduct } from '@/services/cart.service';
@@ -35,7 +34,6 @@ const ProductSlug = () => {
 
   const [itemCartDetail, setItemCartDetail] = useState<ICartProduct>()
   const [value, setValue] = useState<number>(1);
-  const { updateCartMutation, updateCartLoading } = useCarts()
 
   //for swiper carousel
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);

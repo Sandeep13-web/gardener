@@ -17,7 +17,7 @@ import TagSidebar from '@/shared/components/tagSidebar';
 import Breadcrumb from '@/shared/components/breadcrumb';
 import SortingDropdown from '@/shared/components/sorting-dropdown';
 import SkeletonLoadingCard from '@/shared/components/skeleton/products';
-import { ICartItem } from '@/interface/cart.interface';
+import { ICartData, ICartItem } from '@/interface/cart.interface';
 import Head from 'next/head';
 import { getToken } from '@/shared/utils/cookies-utils/cookies.utils';
 import ProductDetailModal from '@/shared/components/product-detail-modal';
@@ -32,10 +32,11 @@ const CategoryDetail: NextPageWithLayout = () => {
     const [setFiltered, setSetFiltered] = useState(false);
     const [productData, setProductData] = useState(null);
     const [selectedValue, setSelectedValue] = useState<string>('')
+    const [selectedPriceValue, setSelectedPriceValue] = useState<string>('')
     const [productModalId, setProductModalId] = useState<string>("")
     // const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategoriesList'] });
-
-    const { data: cart } = useQuery<ICartItem>(["getCart"]);
+    // const { data: cart } = useQuery<ICartData>(["getCartList"]);
+    const { data: cart } = useQuery<ICartData>(["getCartList"]);
     const { data: tags } = useQuery({
         queryKey: ["getTagList"],
         queryFn: getTagList,
@@ -69,18 +70,28 @@ const CategoryDetail: NextPageWithLayout = () => {
     // };
 
     //Fetch Category Data
+    // const handleSortingChange = (value: string) => {
+    //     setSelectedValue(value)
+    // }
+
     const handleSortingChange = (value: string) => {
-        setSelectedValue(value)
-    }
+        if (value === 'asc' || value === 'desc') {
+            setSelectedValue(value);
+            setSelectedPriceValue('');
+        } else if (value === 'low' || value === 'high') {
+            setSelectedPriceValue(value);
+            setSelectedValue('');
+        }
+    };
 
     const { data: initialProductData, isLoading, error } = useQuery(
-        ['getProductByCategoryId', slug, pageNumber, selectedValue],
+        ['getProductByCategoryId', slug, pageNumber, selectedValue, selectedPriceValue],
         async () => {
             let response;
             if (setFiltered) {
-                response = await getProductByCategory(query, pageNumber, slug, value[0], value[1], selectedValue);
+                response = await getProductByCategory(query, pageNumber, slug, value[0], value[1], selectedValue, selectedPriceValue);
             } else {
-                response = await getProductByCategory(query, pageNumber, slug, '', '', selectedValue);
+                response = await getProductByCategory(query, pageNumber, slug, '', '', selectedValue, selectedPriceValue);
             }
             return response;
         },
@@ -240,6 +251,8 @@ const CategoryDetail: NextPageWithLayout = () => {
         </>
     )
 }
+
+
 
 export default CategoryDetail
 

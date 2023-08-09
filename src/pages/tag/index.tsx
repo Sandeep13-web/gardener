@@ -12,6 +12,7 @@ import { ITag } from "@/interface/tag.interface";
 import TagSidebar from "@/shared/components/tagSidebar";
 import Breadcrumb from "@/shared/components/breadcrumb";
 import ProductDetailModal from "@/shared/components/product-detail-modal";
+import SortingDropdown from "@/shared/components/sorting-dropdown";
 
 
 const Tag: NextPageWithLayout = () => {
@@ -20,6 +21,9 @@ const Tag: NextPageWithLayout = () => {
   const [query, setQuery] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
   const [productModalId, setProductModalId] = useState<string>("")
+  const [selectedValue, setSelectedValue] = useState<string>('')
+  const [selectedPriceValue, setSelectedPriceValue] = useState<string>("")
+
   const offer = 1
   const maxPrice = null
   const minPrice = null
@@ -40,44 +44,26 @@ const Tag: NextPageWithLayout = () => {
   }, [tags, id]);
 
 
-  const [selectedOption, setSelectedOption] = useState('');
 
-  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
-  };
-
-  const { data: tagData, isLoading, error } = useQuery(
-    ['getProductByTagId', query, pageNumber, id, maxPrice, minPrice, selectedOption], () =>
-    getProductByTagId(query, pageNumber, id, maxPrice, minPrice)
-      .then((response) => {
-        if (selectedOption === "ascending") {
-          if (response.data) {
-            response.data.sort((firstProduct: any, secondProduct: any) => firstProduct.title.localeCompare(secondProduct.title));
-          }
-        } else if (selectedOption === "high") {
-          if (response.data) {
-            response.data.sort((firstProduct: any, secondProduct: any) =>
-              secondProduct.unitPrice[0].sellingPrice - firstProduct.unitPrice[0].sellingPrice
-            );
-          }
-        } else if (selectedOption === "low") {
-          if (response.data) {
-            response.data.sort((firstProduct: any, secondProduct: any) =>
-              firstProduct.unitPrice[0].sellingPrice - secondProduct.unitPrice[0].sellingPrice
-            );
-          }
-        } else if (selectedOption === "descending") {
-          if (response.data) {
-            response.data.sort((firstProduct: any, secondProduct: any) => secondProduct.title.localeCompare(firstProduct.title));
-          }
-        }
-        return response;
-      })
+  const { data: tagData, isLoading } = useQuery(
+    ['getProductByTagId', query, pageNumber, id, maxPrice, minPrice, selectedValue, selectedPriceValue], () =>
+    getProductByTagId(query, pageNumber, id, maxPrice, minPrice, selectedValue, selectedPriceValue)
   );
 
   if (isLoading) {
     // Show loader while data is being fetched
     return <Loader />;
+  }
+
+  //Fetch Product Data
+  const handleSortingChange = (value: string) => {
+    if (value === 'asc' || value === 'desc') {
+      setSelectedValue(value);
+      setSelectedPriceValue('');
+    } else if (value === 'low' || value === 'high') {
+      setSelectedPriceValue(value);
+      setSelectedValue('');
+    }
   }
 
   return (
@@ -115,22 +101,16 @@ const Tag: NextPageWithLayout = () => {
               </div>
               <div className="flex items-center sorting">
                 <p className="pr-3 text-sm font-normal text-gray-750">Sort By:</p>
-                <select defaultValue={selectedOption} onChange={handleSelectChange}>
-                  <option value="">Please Select</option>
-                  <option value="ascending">A to Z</option>
-                  <option value="descending">Z to A</option>
-                  <option value="low">Price(Low &gt; High)</option>
-                  <option value="high">Price(High &lt; Low)</option>
-                </select>
+                <SortingDropdown sortChange={handleSortingChange} />
               </div>
             </div>
             <section className="my-[60px]">
               <div>
-                {tagData?.data.length === 0 ? (
+                {tagData?.data?.length === 0 ? (
                   <EmptyPage />
                 ) : (
                   <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                    {tagData.data.map((product: any, index: any) => (
+                    {tagData?.data.map((product: any, index: any) => (
                       <Card
                         setProductModalId={setProductModalId}
                         product={product}

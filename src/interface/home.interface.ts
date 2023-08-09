@@ -92,9 +92,28 @@ export interface IPaymentMethod {
   id: number;
   title: string;
   icon: string;
-  default: boolean;
+  isDefault: boolean;
 }
 
 export interface PaymentFormProps {
   paymentMethods: IPaymentMethod[];
+}
+
+export interface IAdBanner {
+  id: number;
+  title: string;
+  description: string;
+  status: boolean;
+  warehouseId: string;
+  type: string;
+  linkType: string;
+  linkValue: string;
+  slug: string;
+  webImage: string;
+  appImage: string;
+  webpWebImage: string;
+  webpAppImage: string;
+  webAltText: string | null;
+  appAltText: string | null;
+  position: number;
 }

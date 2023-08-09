@@ -2,6 +2,7 @@ import { IDeliveryAddress } from '@/interface/delivery-address.interface';
 import { deleteDeliverAddressById, getDeliverAddress } from '@/services/delivery-address.service';
 import ButtonLoader from '@/shared/components/btn-loading';
 import NewAddressIcon from '@/shared/icons/common/NewAddressIcon';
+import { getToken } from '@/shared/utils/cookies-utils/cookies.utils';
 import { showToast, TOAST_TYPES } from '@/shared/utils/toast-utils/toast.utils';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { FC, useEffect, useState } from 'react';
@@ -24,11 +25,14 @@ const Address: React.FC<IProps> = ({
   setIsEditing,
 }) => {
   const queryClient = useQueryClient();
+  const token = getToken()
   const [deliveryAddressId, setDeliveryAddressId] = useState<string>('')
   const { data: deliveryAddressData } = useQuery({
-    queryKey: ["getDeliverAddress"],
+    queryKey: ["getDeliverAddress", token],
     queryFn: getDeliverAddress,
+    enabled: !!token
   });
+
 
   const handleAddNew = () => {
     // Reset the form data when adding a new address

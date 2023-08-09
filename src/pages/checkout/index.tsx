@@ -1,26 +1,21 @@
 import { IDeliveryAddress } from "@/interface/delivery-address.interface";
-import { addDeliverAddress, deleteDeliverAddressById, getDeliverAddress, updateDeliveryAddressByAddressId } from "@/services/delivery-address.service";
-import NewAddressIcon from "@/shared/icons/common/NewAddressIcon";
+import { getDeliverAddress} from "@/services/delivery-address.service";
 import MainLayout from "@/shared/main-layout";
-import { generatePassword, getToken } from "@/shared/utils/cookies-utils/cookies.utils";
+import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { TiTick } from "react-icons/ti";
 import { getConfig } from "@/services/home.service";
-import { IPaymentMethod, PaymentFormProps } from "@/interface/home.interface";
+import { IPaymentMethod} from "@/interface/home.interface";
 import { checkout } from "@/services/checkout.service";
 import { PaymentMethod } from "@/shared/enum";
 import { useRouter } from "next/router";
 import ConfirmationModal from "@/shared/components/confirmation-modal";
 import LoginForm from "@/features/Auth/login-form";
 import { IRegister } from "@/interface/register.interface";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { registerGuestUser } from "@/services/auth.service";
 import { setCookie } from "cookies-next";
-import { getProfile } from "@/services/profile.service";
-import dynamic from "next/dynamic";
-import Image from "next/image";
 import PersonalInformation from "@/features/Checkout/personal-information";
 import OrderNote from "@/features/Checkout/order-note";
 import CheckoutDetail from "@/features/Checkout/checkout-detail";
@@ -30,15 +25,8 @@ import DeliveryAddressModal from "@/shared/components/delivery-address-modal";
 import Address from "@/features/Address";
 import ButtonLoader from "@/shared/components/btn-loading";
 import { NextPageWithLayout } from "../_app";
-
-const token = getToken();
-const LeafletMap = dynamic(() => import('@/shared/components/leaflet'), {
-  ssr: false,
-});
-
-interface CheckoutProps {
-  guestUserData: IRegister | null;
-}
+import { associateCart, getCartProduct } from "@/services/cart.service";
+import { ICartData } from "@/interface/cart.interface";
 
 const Checkout: NextPageWithLayout = () => {
   const router = useRouter();
@@ -63,11 +51,15 @@ const Checkout: NextPageWithLayout = () => {
     setCheckoutGuestUserData(data);
   };
 
-  const [personalInfoSubmitted, setPersonalInfoSubmitted] = useState(false);
+  const { data: cartData } = useQuery<ICartData>(['getCartList'], getCartProduct);
+  const queryClient = useQueryClient();
+
+  const [personalInfoSubmitted, setPersonalInfoSubmitted] = useState<boolean>(false);
+  const [showAssociateCartModal, setAssociateCartModal] = useState<boolean>(false);
   const [addressFilled, setAddressFilled] = useState<boolean>(false)
-  const [addressCollapseDisabled, setAddressCollapseDisabled] = useState(true);
-  const [addressFormValidated, setAddressFormValidated] = useState(false);
-  const [paymentCollapseOpen, setPaymentCollapseOpen] = useState(false);
+  const [addressCollapseDisabled, setAddressCollapseDisabled] = useState<boolean>(true);
+  const [addressFormValidated, setAddressFormValidated] = useState<boolean>(false);
+  const [paymentCollapseOpen, setPaymentCollapseOpen] = useState<boolean>(false);
 
   const handleAddressSubmitGuest = (e: any) => {
     e.preventDefault();
@@ -126,15 +118,32 @@ const Checkout: NextPageWithLayout = () => {
     setShowLoginConfirmModal(false);
   };
 
+  const associateCartModal = async(value: string) => {
+    const associateCartResponse:any = await associateCart(token, value);
+    if(associateCartResponse){
+      queryClient.invalidateQueries(['getCart'])
+      queryClient.invalidateQueries(['getCartList'])
+      queryClient.invalidateQueries(['getProfile'])
+      router.push('/checkout');
+      setAssociateCartModal(false);
+    } else{
+      setAssociateCartModal(false);
+    }
+  };
+
   // Function to toggle the login modal
   const toggleLoginModal = () => {
     setShowLoginModal((prev) => !prev);
   };
 
+
   const { data: deliveryAddressData, refetch: getDeliveryAddress } = useQuery({
-    queryKey: ["getDeliverAddress"],
+    queryKey: ["getDeliverAddress", token],
     queryFn: getDeliverAddress,
+    enabled: !!token
   });
+
+  
 
 
   // Checkout Place order
@@ -164,7 +173,7 @@ const Checkout: NextPageWithLayout = () => {
         try {
           const guestUserRegisterResponse = await registerGuestUser(completeGuestUserData, false);
           const selectedPaymentMethodId = selectedPayment?.id;
-          setCookie('token', guestUserRegisterResponse?.data?.access_token);
+          setCookie('token', guestUserRegisterResponse?.data?.accessToken);
           setCookie('isLoggedIn', true)
           setPlaceBtnDisable(false)
           checkout(guestUserRegisterResponse?.data?.deliveryAddress?.data?.id, selectedPaymentMethodId, note)
@@ -200,7 +209,7 @@ const Checkout: NextPageWithLayout = () => {
   };
 
   useEffect(() => {
-    const defaultPayment = config?.data?.paymentMethod?.find((payment: IPaymentMethod) => payment.default);
+    const defaultPayment = config?.data?.paymentMethods?.find((payment: IPaymentMethod) => payment.isDefault);
     if (defaultPayment) {
       setSelectedPayment(defaultPayment);
     }
@@ -214,9 +223,9 @@ const Checkout: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (token) {
-      setAddressOpen(true)
+      setAddressOpen(true);
     }
-  }, [])
+  }, [token])
   return (
     <div>
       <div className="mt-[60px] mb-[40px]">
@@ -248,7 +257,7 @@ const Checkout: NextPageWithLayout = () => {
               <input type="checkbox" id="new" className="modal-toggle" defaultChecked />
               <div className="modal">
                 <div className="p-4 rounded-lg modal-box">
-                  <LoginForm closeModal={toggleLoginModal}></LoginForm>
+                  <LoginForm closeModal={toggleLoginModal} setAssociateCartModal={setAssociateCartModal}/>
                 </div>
                 <label
                   className="modal-backdrop"
@@ -256,6 +265,21 @@ const Checkout: NextPageWithLayout = () => {
                   onClick={() => setShowLoginModal(false)}
                 ></label>
               </div>
+
+            </>
+          )}
+            {showAssociateCartModal && (
+            <>
+               <ConfirmationModal
+              confirmHeading="You already have items. Do you want to delete your previous items?"
+              modalType="delete_account_modal"
+              btnName="Merge"
+              cancelBtnName="Remove"
+              showModal={showAssociateCartModal}
+              btnFunction={() => associateCartModal('false')}
+              cancelFuntion={() => associateCartModal('true')}
+              isLoading={false}
+            />
 
             </>
           )}
@@ -353,7 +377,8 @@ const Checkout: NextPageWithLayout = () => {
                             formData={formData}
                             setFormData={setFormData}
                             setShowModal={setShowModal}
-                            showModal={showModal} />
+                            showModal={showModal}
+                            setIsEditing={setIsEditing} />
 
                         </div>
                         <div className="text-right">
