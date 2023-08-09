@@ -5,7 +5,7 @@ import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export const useCarts = () => {
+export const useCartsHooks = () => {
     const [selectedId, setSelectedId] = useState<number>(0);
     const queryClient = useQueryClient();
     const router = useRouter()

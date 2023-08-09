@@ -1,4 +1,4 @@
-import { useCarts } from '@/hooks/cart.hooks';
+import { useCartsHooks } from '@/hooks/cart.hooks';
 import { useDebounce } from '@/hooks/useDebounce.hooks';
 import { ICreateCartItem, IUpdateCartItem } from '@/interface/cart.interface';
 import { addToCart } from '@/services/cart.service';
@@ -16,7 +16,7 @@ const CartTableRow = ({ item }: any) => {
     const stock: any = item?.selectedUnit?.stock
     const queryClient = useQueryClient();
 
-    const { updateCartMutation, handleRemoveFromCart, cartDeleteLoading } = useCarts(); //customHook
+    const { updateCartMutation, handleRemoveFromCart, cartDeleteLoading } = useCartsHooks(); //customHook
 
     const mutation = useMutation({
         mutationFn: addToCart,

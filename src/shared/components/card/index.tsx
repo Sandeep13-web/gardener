@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addToCart } from "@/services/cart.service";
 import { ICartData, ICartItem, ICreateCartItem, IUpdateCartItem } from "@/interface/cart.interface";
 import ButtonLoader from "../btn-loading";
-import { useCarts } from "@/hooks/cart.hooks";
+import { useCartsHooks } from "@/hooks/cart.hooks";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { debounce } from 'lodash'
 import CardHeartIcon from "@/shared/icons/common/CardHeartIcon";
@@ -35,7 +35,7 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
  * States 
  */
   const [quantity, setQuantity] = useState<number>(1);
-  const { updateCartMutation, handleRemoveFromCart, cartDeleteLoading } = useCarts(); //customHook
+  const { updateCartMutation, handleRemoveFromCart, cartDeleteLoading } = useCartsHooks(); //customHook
   const [showProductModal, setShowProductModal] = useState<boolean>(false)
   /*
   * Handle Add to cart api call
