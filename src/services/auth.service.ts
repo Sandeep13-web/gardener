@@ -8,11 +8,14 @@ import {
 import axios from "axios";
 import { getCartNumber, getWareId } from "@/shared/utils/cookies-utils/cookies.utils";
 const apiURL = config.gateway.apiURL;
-const apiEnpoint1 = config.gateway.apiEndPoint1;
+const apiEndpoint1 = config.gateway.apiEndPoint1;
 
 export const signUp = async (data: any) => {
   try {
-    const response = await axiosInstance.post(`/${apiEnpoint1}/register`, data);
+    const response = await axiosInstance.post(
+      `/${apiEndpoint1}/register`,
+      data
+    );
 
     if (response.status === 201) {
       return response.data;
@@ -25,7 +28,7 @@ export const signUp = async (data: any) => {
 export const login = async (data: any) => {
   const grantType = "password";
   try {
-    const response = await axiosInstance.post(`/${apiEnpoint1}/login`, {
+    const response = await axiosInstance.post(`/${apiEndpoint1}/login`, {
       ...data,
       grantType,
     });
@@ -40,7 +43,7 @@ export const login = async (data: any) => {
 
 export const logout = async () => {
   try {
-    const response = await axiosInstance.get(`/${apiEnpoint1}/logout`);
+    const response = await axiosInstance.get(`/${apiEndpoint1}/logout`);
     if (response.status === 204) {
       setCouponHeader({
         coupon: "",
@@ -55,7 +58,7 @@ export const logout = async () => {
 export const forgotPassword = async (account: IForgotPassword) => {
   try {
     const response = await axiosInstance.post(
-      `/${apiEnpoint1}/forget-password`,
+      `/${apiEndpoint1}/forget-password`,
       account
     );
     return response?.data?.data;
@@ -67,7 +70,7 @@ export const forgotPassword = async (account: IForgotPassword) => {
 export const resetPassword = async (resetPasswordBody: IResetPassword) => {
   try {
     const response = await axiosInstance.post(
-      `/${apiEnpoint1}/reset-password`,
+      `/${apiEndpoint1}/reset-password`,
       resetPasswordBody
     );
     return response?.data?.data;
@@ -79,7 +82,7 @@ export const resetPassword = async (resetPasswordBody: IResetPassword) => {
 export const changePassword = async (changePasswordBody: IChangePassword) => {
   try {
     const response = await axiosInstance.post(
-      `/${apiEnpoint1}/change-password`,
+      `/${apiEndpoint1}/change-password`,
       changePasswordBody
     );
     return response;
@@ -90,7 +93,7 @@ export const changePassword = async (changePasswordBody: IChangePassword) => {
 
 export const deleteAccount = async () => {
   try {
-    const response = await axiosInstance.post(`/${apiEnpoint1}/user/delete`, {
+    const response = await axiosInstance.post(`/${apiEndpoint1}/user/delete`, {
       reason: "",
     });
     return response.data;
@@ -100,7 +103,7 @@ export const deleteAccount = async () => {
 };
 
 export const registerGuestUser = async (data: any, isInitialSubmit: any) => {
-  const registerGuestUserUrl = `${apiURL}/${apiEnpoint1}/guest/register`;
+  const registerGuestUserUrl = `${apiURL}/${apiEndpoint1}/guest/register`;
   let payload;
   if (isInitialSubmit) {
     payload = {

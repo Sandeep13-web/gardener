@@ -1,4 +1,4 @@
-import { ICartProduct } from "./product.interface";
+import { ICartProduct, IProduct } from "./product.interface";
 
 export interface ICreateCartItem {
   note: string;
@@ -64,4 +64,32 @@ export interface ICartTable {
 export interface ICartData {
   cartProducts: ICartProduct[];
   // deals: any[];
+}
+
+export interface ICouponCartData {
+  id: number;
+  code: string;
+  couponValue: number;
+  faceValue: number;
+  minValue: number;
+  maxValue: number;
+  couponDiscount: number;
+  couponType: string;
+  couponAppliedFor: string;
+  applicableTotal: number;
+  products: IProduct[];
+  orderAmount: number;
+  vatAmount: number;
+  discount: number;
+  subTotal: number;
+  deliveryCharge: number;
+  serviceCharge: number;
+  total: number;
+  scheme: number;
+  pickupTotal: number;
+}
+export interface ICouponCartError {
+  code: number;
+  detail: string;
+  title: string;
 }

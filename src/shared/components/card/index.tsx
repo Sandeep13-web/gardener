@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addToCart } from "@/services/cart.service";
 import { ICartData, ICartItem, ICreateCartItem, IUpdateCartItem } from "@/interface/cart.interface";
 import ButtonLoader from "../btn-loading";
-import { useCarts } from "@/hooks/cart.hooks";
+import { useCartsHooks } from "@/hooks/cart.hooks";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { debounce } from 'lodash'
 import CardHeartIcon from "@/shared/icons/common/CardHeartIcon";
@@ -35,7 +35,7 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
  * States 
  */
   const [quantity, setQuantity] = useState<number>(1);
-  const { updateCartMutation, handleRemoveFromCart, cartDeleteLoading } = useCarts(); //customHook
+  const { updateCartMutation, handleRemoveFromCart, cartDeleteLoading } = useCartsHooks(); //customHook
   const [showProductModal, setShowProductModal] = useState<boolean>(false)
   /*
   * Handle Add to cart api call
@@ -76,33 +76,33 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
   /*
   ** Provides payload to the update api when the value is being increased or decreased.
   */
-  const handleUpdateCart = (newQuantity: number, itemId: number) => {
-    if (newQuantity <= stock) {
-      const payload: IUpdateCartItem = {
-        note: '',
-        quantity: newQuantity,
-        product_number: itemId,
-      }
-      updateCartMutation.mutate(payload)
-    }
-  };
+  // const handleUpdateCart = (newQuantity: number, itemId: number) => {
+  //   if (newQuantity <= stock) {
+  //     const payload: IUpdateCartItem = {
+  //       note: '',
+  //       quantity: newQuantity,
+  //       product_number: itemId,
+  //     }
+  //     updateCartMutation.mutate(payload)
+  //   }
+  // };
 
   /**
    * Used in order to debounce the value(quantity) that is being updated.
    */
-  const debouncedHandleUpdateCart = useCallback( //debounce callback to call when value changes
-    debounce((newQuantity) => {
-      handleUpdateCart(newQuantity, cartItem?.id!)
-    }, 300), [cartItem]
-  )
+  // const debouncedHandleUpdateCart = useCallback( //debounce callback to call when value changes
+  //   debounce((newQuantity) => {
+  //     handleUpdateCart(newQuantity, cartItem?.id!)
+  //   }, 300), [cartItem]
+  // )
 
   /**
    * For btn onClick function to pass the new value either being increased or decreased.
    */
-  const updateCartCall = (newQuantity: number) => {
-    setQuantity(newQuantity) //set the updated value
-    debouncedHandleUpdateCart(newQuantity) //debounce callback added the updated value
-  }
+  // const updateCartCall = (newQuantity: number) => {
+  //   setQuantity(newQuantity) //set the updated value
+  //   debouncedHandleUpdateCart(newQuantity) //debounce callback added the updated value
+  // }
 
   /*
    ** Add product in favourite list

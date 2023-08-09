@@ -10,6 +10,7 @@ import { getCookie, setCookie } from "cookies-next";
 import { config } from "../../config";
 
 const apiURL = config.gateway.apiURL;
+const apiEndPoint1 = config.gateway.apiEndPoint1;
 const apiEndPoint2 = config.gateway.apiEndPoint2;
 const apiEndPoint1 = config.gateway.apiEndPoint1;
 
@@ -97,7 +98,7 @@ export const addToCart = async (data: ICreateCartItem) => {
 
 export const bulkDeleteCart = async () => {
   try {
-    const response = await axiosInstance.delete(`/${apiEndPoint2}/cart`);
+    const response = await axiosInstance.delete(`/${apiEndPoint1}/carts`);
     return response;
   } catch (error) {
     throw error;
@@ -125,5 +126,16 @@ export const associateCart = async (auth: any, status:string) => {
     return { response, error: null };
   } catch (error) {
     return { response: null, error };
+  }
+};
+
+export const addCouponCode = async (code: string) => {
+  try {
+    const response = await axiosInstance.get(
+      `/${apiEndPoint1}/carts/coupon/${code}`
+    );
+    return response.data.data;
+  } catch (error: any) {
+    throw error.response?.data?.errors;
   }
 };

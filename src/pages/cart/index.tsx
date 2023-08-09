@@ -3,15 +3,17 @@ import React, { useEffect, useState } from 'react';
 import { NextPageWithLayout } from '../_app';
 import MainLayout from '@/shared/main-layout';
 import Title from '@/shared/components/title';
-import { ICartData, ICartItem } from '@/interface/cart.interface';
+import { ICartData, ICartItem, ICouponCartData, ICouponCartError } from '@/interface/cart.interface';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Head from 'next/head';
 import CartTableRow from '@/features/Cart/cart-table-row';
 import EmptyCart from '../../shared/components/empty-content/empty-cart';
-import { useCarts } from '@/hooks/cart.hooks';
+import { useCartsHooks } from '@/hooks/cart.hooks';
 import ButtonLoader from '@/shared/components/btn-loading';
-import { useCart as useCartStore } from '@/store/use-cart';
-import { getCartData, getCartProduct } from '@/services/cart.service';
+import { useCart as useCartStore } from '@/store/cart';
+
+import { addCouponCode, getCartData, getCartProduct } from '@/services/cart.service';
+import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils';
 
 enum COUPON_METHODS {
   ADD_COUPON = 'Apply Coupon',
@@ -21,11 +23,19 @@ enum COUPON_METHODS {
 const Cart: NextPageWithLayout = () => {
   const queryClient = useQueryClient();
   const [tempCoupon, setTempCoupon] = useState('');
-  const { setCoupon, coupon } = useCartStore();
+
+  const { coupon, setCoupon, setCouponData, couponData } = useCartStore();
+
   const [couponText, setCouponText] = useState<COUPON_METHODS>(COUPON_METHODS.ADD_COUPON);
-  const { data: cart } = useQuery<ICartItem>(['getCart', coupon], () => getCartData({ coupon }));
-  const { data: cartData } = useQuery<ICartData>(['getCartList', coupon], getCartProduct);
-  const { bulkCartDelete, bulkDeleteLoading } = useCarts();
+  const { data: cart } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon }));
+  const { data: cartData } = useQuery<ICartData>(['getCartList'], getCartProduct);
+  const { bulkCartDelete, bulkDeleteLoading } = useCartsHooks();
+
+  const { data: couponCartData, isError, error: couponCartError } = useQuery<ICouponCartData, ICouponCartError[]>({
+    queryKey: ['addCoupon', coupon],
+    queryFn: async () => addCouponCode(coupon),
+    enabled: !!coupon,
+  })
 
   const clearCart = () => {
     bulkCartDelete.mutate();
@@ -35,8 +45,9 @@ const Cart: NextPageWithLayout = () => {
     setCoupon(tempCoupon);
     localStorage.setItem('coupon', tempCoupon);
     setCouponText(COUPON_METHODS.DELETE_COUPON);
-    queryClient.invalidateQueries(['getCart', tempCoupon]);
+    queryClient.invalidateQueries(['getCouponCart']);
   };
+
   const handleRemoveCoupon = () => {
     if (localStorage.getItem('coupon')) {
       localStorage.removeItem('coupon');
@@ -44,8 +55,10 @@ const Cart: NextPageWithLayout = () => {
     setCouponText(COUPON_METHODS.ADD_COUPON);
     setCoupon('');
     setTempCoupon('');
-    queryClient.invalidateQueries(['getCart', tempCoupon]);
+    setCouponData({})
+    queryClient.invalidateQueries(['getCart']);
   };
+
   useEffect(() => {
     if (window && localStorage && localStorage.getItem('coupon')) {
       setTempCoupon(localStorage.getItem('coupon') as any);
@@ -53,6 +66,28 @@ const Cart: NextPageWithLayout = () => {
       setCouponText(COUPON_METHODS.DELETE_COUPON);
     }
   }, [localStorage, window]);
+
+  /**
+   * when coupon api throws error
+   */
+  useEffect(() => {
+    if (isError && couponCartError) {
+      showToast(TOAST_TYPES.error, couponCartError[0]?.title)
+      if (localStorage.getItem('coupon')) {
+        localStorage.removeItem('coupon');
+      }
+      setCouponText(COUPON_METHODS.ADD_COUPON);
+      setCoupon('');
+      setTempCoupon('');
+      queryClient.invalidateQueries(['getCart']);
+    }
+  }, [isError])
+
+  useEffect(() => {
+    if (couponCartData) {
+      setCouponData(couponCartData)
+    }
+  }, [couponCartData])
 
   return (
     <>
@@ -158,28 +193,29 @@ const Cart: NextPageWithLayout = () => {
                 </div>
                 <div className="flex items-center justify-between w-full mt-[36px] mb-[27px]">
                   <p className="text-sm font-semibold">Total products</p>
-                  <p className="text-lg font-bold">NPR {cart?.orderAmount}</p>
+                  <p className="text-lg font-bold">NPR {couponData?.orderAmount ? couponData?.orderAmount : cart?.orderAmount}</p>
                 </div>
                 {
-                  cart?.couponDiscount &&
+
+                  couponData?.couponDiscount &&
                   <div className="flex items-center justify-between w-full mt-[36px] mb-[27px]">
                     <p className="text-sm font-semibold">Coupon Discount</p>
                     <p className="text-lg font-bold">
-                      NPR {cart?.couponDiscount}
+                      NPR {couponData?.couponDiscount}
                     </p>
                   </div>
                 }
                 <div className="flex items-center justify-between w-full mt-[36px] mb-[27px]">
                   <p className="text-sm font-semibold">Subtotal</p>
-                  <p className="text-lg font-bold">NPR {cart?.subTotal}</p>
+                  <p className="text-lg font-bold">NPR {couponData?.subTotal ? couponData?.subTotal : cart?.subTotal}</p>
                 </div>
                 <div className="flex items-center justify-between w-full mt-[36px] mb-[27px]">
                   <p className="text-sm font-semibold">Delivery Charge</p>
-                  <p className="text-lg font-bold">NPR {cart?.deliveryCharge}</p>
+                  <p className="text-lg font-bold">NPR {couponData?.deliveryCharge ? couponData?.deliveryCharge : cart?.deliveryCharge}</p>
                 </div>
                 <div className="flex items-center justify-between w-full mb-[20px] text-primary">
                   <p className="text-xl font-bold">Grand Total</p>
-                  <p className="text-xl font-bold">NPR {cart?.total}</p>
+                  <p className="text-xl font-bold">NPR {couponData?.total ? couponData?.total : cart?.total}</p>
                 </div>
                 <Link
                   href={'/checkout'}
