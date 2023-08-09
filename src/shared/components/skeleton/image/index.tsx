@@ -5,7 +5,7 @@ interface IProps {
 }
 const SkeletonImage = ({ className }: IProps) => {
     return (
-        <figure className={`mb-4 bg-gray-300 w-80 h-80 animate-pulse ${className}`}></figure>
+        <figure className={`mb-4 bg-[#c2c2c2] w-80 h-80 animate-pulse  ${className}`}></figure>
     )
 }
 

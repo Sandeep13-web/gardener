@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NextPageWithLayout } from "./_app";
 import MainLayout from "@/shared/main-layout";
 import Title from "@/shared/components/title";
@@ -17,11 +17,13 @@ import { useQuery } from "@tanstack/react-query";
 import { IAdBanner, IAppCategories, IHome } from "@/interface/home.interface";
 import SkeletonLoadingCard from "@/shared/components/skeleton/products";
 import Head from "next/head";
-import { useCart } from "@/store/cart";
-import Link from "next/link";
 import AdBanner from "@/shared/components/ad-banner";
+import { getBannerPopup } from "@/services/home.service";
+import { getCookie } from "cookies-next";
+import BannerPopup from "@/features/Home/banner-popup";
 
 const Home: NextPageWithLayout = () => {
+  const [showPopupModal, setShowPopupModal] = useState<boolean>(true)
   const { data: home, isInitialLoading: homeLoading } = useQuery<IHome>({
     queryKey: ["getHomeData"],
   });
@@ -34,6 +36,8 @@ const Home: NextPageWithLayout = () => {
   //   }
   // }, [])
   const adBanners = home?.data?.adBanners || [];
+  const { data: bannerPopupData, isLoading: bannerPopupLoading } = useQuery(['getBannerPopup'], getBannerPopup)
+  const bannerPop = getCookie("bannerPopup")
 
   return (
     <>
@@ -153,6 +157,14 @@ const Home: NextPageWithLayout = () => {
             )
             )}
           </>
+        }
+        {
+          showPopupModal && (bannerPop !== (undefined || true)) &&
+          <BannerPopup
+            setShowPopupModal={setShowPopupModal}
+            popupData={bannerPopupData?.data[0]!}
+            bannerPopupLoading={bannerPopupLoading}
+          />
         }
       </div>
     </>
