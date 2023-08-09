@@ -1,11 +1,11 @@
-import { bulkDeleteCart, deleteCartItemById, updateCart } from "@/services/cart.service";
+import { addCouponCode, bulkDeleteCart, deleteCartItemById } from "@/services/cart.service";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export const useCarts = () => {
+export const useCartsHooks = () => {
     const [selectedId, setSelectedId] = useState<number>(0);
     const queryClient = useQueryClient();
     const router = useRouter()
@@ -28,14 +28,14 @@ export const useCarts = () => {
     };
 
     const updateCartMutation = useMutation({
-        mutationFn: updateCart,
-        onSuccess: () => {
-            showToast(TOAST_TYPES.success, 'Item Updated To Cart Successfully');
-            queryClient.invalidateQueries(['getCart'])
-        },
-        onError: (error: any) => {
-            showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message);
-        }
+        // mutationFn: updateCart,
+        // onSuccess: () => {
+        //     showToast(TOAST_TYPES.success, 'Item Updated To Cart Successfully');
+        //     queryClient.invalidateQueries(['getCart'])
+        // },
+        // onError: (error: any) => {
+        //     showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message);
+        // }
     })
 
     const bulkCartDelete = useMutation({
@@ -46,6 +46,19 @@ export const useCarts = () => {
             queryClient.invalidateQueries(['getCart'])
         }
     })
+
+    // const addCoupon = useMutation({
+    //     mutationFn: addCouponCode,
+    //     onSuccess: (data) => {
+    //         queryClient.invalidateQueries(['getCart'])
+    //     },
+    //     onError: (error: any) => {
+    //         showToast(TOAST_TYPES.error, error[0]?.title)
+    //         if (localStorage.getItem('coupon')) {
+    //             localStorage.removeItem('coupon')
+    //         }
+    //     }
+    // })
 
 
     return {

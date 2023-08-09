@@ -36,7 +36,7 @@ import { BsCaretDownFill } from "react-icons/bs";
 import { useDebounce } from "@/hooks/useDebounce.hooks";
 import { ICartItem } from "@/interface/cart.interface";
 import { getCartData } from "@/services/cart.service";
-import { useCart } from "@/store/use-cart";
+import { useCart } from "@/store/cart";
 import { setAuthorizationHeader } from "@/axios/axiosInstance";
 
 const Header = () => {

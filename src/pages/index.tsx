@@ -19,7 +19,7 @@ import SkeletonLoadingCard from "@/shared/components/skeleton/products";
 import Head from "next/head";
 import { ICartItem } from "@/interface/cart.interface";
 import { getCartData } from "@/services/cart.service";
-import { useCart } from "@/store/use-cart";
+import { useCart } from "@/store/cart";
 import Link from "next/link";
 
 const Home: NextPageWithLayout = () => {

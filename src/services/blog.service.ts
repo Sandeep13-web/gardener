@@ -1,8 +1,7 @@
 import axiosInstance from "@/axios/axiosInstance";
-import { IBlogItem } from "@/interface/blog.interface";
 import { config } from "../../config";
 
-const apiEnpoint1 = config.gateway.apiEndPoint1;
+const apiEndpoint1 = config.gateway.apiEndPoint1;
 
 export const getBlogs = async (
   page?: number,
@@ -24,7 +23,7 @@ export const getBlogs = async (
         featured,
       };
     }
-    const response = await axiosInstance.get(`/${apiEnpoint1}/blog`, {
+    const response = await axiosInstance.get(`/${apiEndpoint1}/blog`, {
       params: params,
     });
     return response.data;
@@ -35,7 +34,7 @@ export const getBlogs = async (
 
 export const getBlogDetailsFromSlug = async (slug: string | string[]) => {
   try {
-    const response = await axiosInstance.get(`/${apiEnpoint1}/blog/${slug}`);
+    const response = await axiosInstance.get(`/${apiEndpoint1}/blog/${slug}`);
     return response.data;
   } catch (error) {
     throw error;

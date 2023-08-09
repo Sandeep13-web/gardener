@@ -6,14 +6,15 @@ import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
 import { getCartData, getCartProduct } from '@/services/cart.service';
 import { ICartData, ICartItem } from '@/interface/cart.interface';
-import { useCart } from '@/store/use-cart';
+import { useCart as useCartStores } from '@/store/cart';
 import CartDropdownProducts from './cart-products';
 
 const CartDropdown = () => {
   const router = useRouter();
 
 
-  const { coupon, setCoupon } = useCart()
+  const { coupon, setCoupon, couponData } = useCartStores();
+
   const { data: cart } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon }));
   const { data: cartList } = useQuery<ICartData>(['getCartList'], getCartProduct)
 
@@ -48,22 +49,22 @@ const CartDropdown = () => {
                 {/* pricing list */}
                 <div className="my-[25px]">
                   <p className="flex justify-between mb-1 font-medium text-gray-450">
-                    Order Amount : <span>NPR {cart?.orderAmount}</span>
+                    Order Amount : <span>NPR {couponData?.orderAmount ? couponData?.orderAmount : cart?.orderAmount}</span>
                   </p>
                   <p className="flex justify-between mb-1 font-medium text-gray-450">
-                    Subtotal : <span>NPR {cart?.subTotal}</span>
+                    Subtotal : <span>NPR {couponData?.subTotal ? couponData?.subTotal : cart?.subTotal}</span>
                   </p>
                   {
-                    cart?.couponDiscount &&
+                    couponData?.couponDiscount &&
                     <p className="flex justify-between mb-1 font-medium text-gray-450">
-                      Coupon Discount : <span>NPR {cart?.couponDiscount}</span>
+                      Coupon Discount : <span>NPR {couponData?.couponDiscount}</span>
                     </p>
                   }
                   <p className="flex justify-between mb-1 font-medium text-gray-450">
-                    Delivery charge : <span>NPR {cart?.deliveryCharge}</span>
+                    Delivery charge : <span>NPR {couponData?.deliveryCharge ? couponData?.deliveryCharge : cart?.deliveryCharge}</span>
                   </p>
                   <p className="flex justify-between text-slate-850">
-                    Total : <span>NPR {cart?.total}</span>
+                    Total : <span>NPR {couponData?.total ? couponData?.total : cart?.total}</span>
                   </p>
                 </div>
                 <div className=" [&>*:first-child]:mb-4">
@@ -90,7 +91,7 @@ const CartDropdown = () => {
           TOTAL PRICE
         </p>
         <p className="text-[#222222] text-sm font-bold hidden xs:block whitespace-nowrap">
-          NPR {cart?.total || 0}
+          NPR {couponData?.total ? couponData?.total : cart?.total || 0}
         </p>
       </div>
     </div>

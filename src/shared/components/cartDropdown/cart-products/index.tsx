@@ -2,11 +2,11 @@ import Link from 'next/link'
 import React from 'react'
 import Badge from '../../badge'
 import Image from 'next/image'
-import { useCarts } from '@/hooks/cart.hooks'
+import { useCartsHooks } from '@/hooks/cart.hooks'
 import { FaTimes } from 'react-icons/fa'
 
 const CartDropdownProducts = ({ item }: any) => {
-    const { cartDelete, handleRemoveFromCart, selectedId } = useCarts();
+    const { cartDelete, handleRemoveFromCart, selectedId } = useCartsHooks();
     //for checking sku units
     const selectedUnit = item?.selectedUnit;
 
@@ -40,7 +40,7 @@ const CartDropdownProducts = ({ item }: any) => {
             </div>
             <div className="flex-grow">
                 <Link
-                    href={`/products/${item?.slug}`}
+                    href={`/products/${item?.product?.slug}`}
                     aria-label={`product-${item?.product?.id}`}
                     className="overflow-hidden capitalize text-sm font-semibold transition-all delay-150 duration-150 block text-ellipsis whitespace-nowrap max-w-[90%] hover:text-primary ">
                     {item?.product?.name}
