@@ -375,7 +375,7 @@ const Header = () => {
                             >
                               <div className="flex items-center cursor-pointer" onClick={() => redirectDetailPage(prev?.title)}>
                                 <Image
-                                  src={prev?.img}
+                                  src={prev?.image}
                                   width={30}
                                   height={20}
                                   alt={`image-${_i}`}

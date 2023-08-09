@@ -7,7 +7,8 @@ export const getOffers = async (
   query: any,
   page: any,
   offer: any,
-  sortBy: string
+  sortBy?: string,
+  priceOrder?: string
 ) => {
   try {
     const response = await axiosInstance.get(`/${apiEndPoint1}/products`, {
@@ -16,6 +17,7 @@ export const getOffers = async (
         page,
         offer,
         sortBy,
+        priceOrder,
       },
     });
     return response.data;
