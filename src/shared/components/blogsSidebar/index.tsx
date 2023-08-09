@@ -29,7 +29,7 @@ const BlogSidebar = () => {
 
   const { data: featuredBlog } = useQuery({
     queryKey: ["getBlogs",],
-    queryFn: async () => getBlogs(undefined, undefined, 1)
+    queryFn: async () => getBlogs()
   })
 
   const changeDateFormat = (dateString: string) => {
@@ -68,7 +68,7 @@ const BlogSidebar = () => {
                   <Image
                     width={200}
                     height={200}
-                    src={blog?.thumbImage}
+                    src={blog?.thumbnail}
                     alt="Blog Image"
                   />
                 </div>
@@ -77,7 +77,7 @@ const BlogSidebar = () => {
                     {" "}
                     {blog?.title}
                   </Link>
-                  <p className="text-sm">{changeDateFormat(blog?.created_date.date)}</p>
+                  <p className="text-sm">{blog?.createdAt}</p>
                 </div>
               </div>
             ))

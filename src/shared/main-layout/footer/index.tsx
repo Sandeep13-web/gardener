@@ -96,17 +96,17 @@ const Footer = () => {
             {config?.data?.pageData && <>
               <div className="flex items-center justify-start gap-4 mb-3">
                 <FooterBullet />
-                <Link href='/plant-consultation' aria-label="plant-and-consultation" className="p-0 footer-link">
+                <Link href='/page/plant-consultation' aria-label="plant-and-consultation" className="p-0 footer-link">
                   {`${config?.data?.pageData['section4 content1']}`}
                 </Link>
               </div>
               <div className="flex items-center justify-start gap-4 mb-3">
                 <FooterBullet />
-                <Link href='/tree-installation' aria-label="tree-installation" className="p-0 footer-link">{`${config?.data?.pageData['section4 content2']}`}</Link>
+                <Link href='/page/tree-installation' aria-label="tree-installation" className="p-0 footer-link">{`${config?.data?.pageData['section4 content2']}`}</Link>
               </div>
               <div className="flex items-center justify-start gap-4 mb-3">
                 <FooterBullet />
-                <Link href='/tree-installation' aria-label="tree-installation" className="p-0 footer-link">{`${config?.data?.pageData['section4 content3']}`}</Link>
+                <Link href='/page/tree-installation' aria-label="tree-installation" className="p-0 footer-link">{`${config?.data?.pageData['section4 content3']}`}</Link>
               </div>
             </>}
 

@@ -1,8 +1,9 @@
 export interface IBlogItem {
-    author: string;
+    createdBy: string;
     backgroundImage: string;
     created_date: any | undefined;
-    description: string;
+    createdAt: any | undefined;
+    content: string;
     featured: boolean;
     id: number;
     pageData: any | undefined;
@@ -11,4 +12,6 @@ export interface IBlogItem {
     subTitle: string;
     thumbImage: string;
     title: string;
+    thumbnail:string;
+    image:string;
 }
