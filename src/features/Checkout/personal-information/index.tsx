@@ -4,6 +4,9 @@ import ButtonLoader from '@/shared/components/btn-loading';
 import { generatePassword } from '@/shared/utils/cookies-utils/cookies.utils';
 import { handleKeyDownAlphabet, handleKeyDownNumber } from '@/shared/utils/form-validation-utils';
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils';
+import { useQueryClient } from '@tanstack/react-query';
+import { setCookie } from 'cookies-next';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -28,36 +31,44 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
     setPersonalOpen,
     setAddressOpen
 }) => {
-    //Password generated for guest user
-
+    const queryClient = useQueryClient();
+    const router = useRouter()
     const [submitLoading, setSubmitLoading] = useState<boolean>(false)
-    const [generatedPassword, setGeneratedPassword] = useState<string>(''); // Initialize password state as empty string
-    //Guest Register User
+    const [generatedPassword, setGeneratedPassword] = useState<string>('');
     const { register, watch, handleSubmit: handleSubmitRegisterGuestUser, setValue, formState: { errors, isSubmitting, isValid }, trigger } = useForm<IRegister>();
-
     const onSubmitRegisterGuestUser: SubmitHandler<IRegister> = async (data) => {
         const generatedPwd = generatePasswordValue();
         data.password = generatedPwd;
         data.password_confirmation = generatedPwd;
-        // Set the guest user data in the state
         setGuestUserData(data);
         setSubmitLoading(true)
         setPersonalInfoSubmitted(false);
-        setAddressCollapseDisabled(false); // Enable the address collapse section after successful submission.
+        setAddressCollapseDisabled(false);
         try {
-            await registerGuestUser(data, true);
-            setPersonalOpen(false)
-            setSubmitLoading(false)
-            setPersonalInfoSubmitted(true);
-            setAddressOpen(true)
-            // setGuestUserData(data);
+            const guestUserResponse = await registerGuestUser(data, true);
+            if(guestUserResponse.status===200){
+                setCookie('token', guestUserResponse?.data?.data?.accessToken);
+                setCookie('isLoggedIn', true)
+                setPersonalOpen(false)
+                setSubmitLoading(false)
+                setPersonalInfoSubmitted(true);
+                setAddressOpen(true)
+                queryClient.invalidateQueries(['getCart'])
+                queryClient.invalidateQueries(['getProfile'])
+                router.push('/checkout')
+            }
         } catch (error: any) {
             setSubmitLoading(false)
             setPersonalInfoSubmitted(false);
             setPersonalOpen(true)
             setAddressOpen(false)
             setAddressCollapseDisabled(true);
-            showToast(TOAST_TYPES.error, error?.response?.data?.errors[0]?.message)
+            if (error.response && error.response.data && error.response.data.errors) {
+                const errorArray = error.response.data.errors;
+                errorArray.forEach((errorItem:any) => {
+                    showToast(TOAST_TYPES.error, errorItem?.detail)
+                });
+              } 
         }
     };
     // Function to generate and set the initial password value

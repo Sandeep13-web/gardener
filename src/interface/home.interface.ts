@@ -92,7 +92,7 @@ export interface IPaymentMethod {
   id: number;
   title: string;
   icon: string;
-  default: boolean;
+  isDefault: boolean;
 }
 
 export interface PaymentFormProps {

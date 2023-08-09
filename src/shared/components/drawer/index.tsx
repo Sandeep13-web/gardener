@@ -43,6 +43,7 @@ const Drawer = () => {
   const logoutHandler = () => {
     mutation.mutate();
     setShowModal(false);
+    router.push('/');
   };
 
   return (

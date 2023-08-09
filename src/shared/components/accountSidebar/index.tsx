@@ -53,6 +53,7 @@ const AccountSidebar = () => {
   const logoutHandler = () => {
     mutation.mutate();
     setShowModal(false);
+    router.push('/');
   };
 
   const deleteAccountHandler = () => {

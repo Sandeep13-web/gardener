@@ -31,10 +31,11 @@ export const getProductByCategory = async (
   categoryId: any,
   minPrice: any,
   maxPrice: any,
-  sortBy: string
+  sortBy: string,
+  priceOrder: string
 ) => {
   try {
-    let url = `/${apiEndPoint1}/products?keyword=${query}&page=${page}&categoryId=${categoryId}&sortBy=${sortBy}&allProduct=1`;
+    let url = `/${apiEndPoint1}/products?keyword=${query}&page=${page}&categoryId=${categoryId}&sortBy=${sortBy}&priceOrder=${priceOrder}&allProduct=1`;
 
     if (minPrice !== "" && maxPrice !== "") {
       url += `&minPrice=${minPrice}&maxPrice=${maxPrice}`;

@@ -126,6 +126,7 @@ const Header = () => {
 
   const logoutHandler = () => {
     logoutMutation.mutate();
+    router.push('/');
   };
 
   //suggestion
