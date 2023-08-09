@@ -117,3 +117,23 @@ export interface IAdBanner {
   appAltText: string | null;
   position: number;
 }
+
+export interface IPopupBanner {
+  id: number;
+  title: string;
+  description: string;
+  status: boolean;
+  position: number | null;
+  type: string;
+  warehouseId: number;
+  linkTo: string;
+  linkValue: string | null;
+  webImage: string;
+  appImage: string;
+  webpWebImage: string;
+  webpAppImage: string;
+  webImageAltText: string | null;
+  appImageAltText: string | null;
+  startingDate: string;
+  expiryDate: string;
+}

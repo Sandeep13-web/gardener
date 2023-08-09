@@ -8,10 +8,10 @@ export enum CookieKeys {
 }
 
 export enum PaymentMethod {
-  ESEWA = 'Esewa',
-  KHALTI = 'Khalti',
-  VISA_MASTER_UNION_CARD_PAYMENT = 'VISA MASTER & Union Pay',
-  CARD_ON_DELIVERY = 'Card On Delivery',
-  CASH_ON_DELIVERY = 'Cash On Delivery',
-  FONEPAY = 'Fonepay',
+  ESEWA = "Esewa",
+  KHALTI = "Khalti",
+  VISA_MASTER_UNION_CARD_PAYMENT = "VISA MASTER & Union Pay",
+  CARD_ON_DELIVERY = "Card On Delivery",
+  CASH_ON_DELIVERY = "Cash On Delivery",
+  FONEPAY = "Fonepay",
 }
