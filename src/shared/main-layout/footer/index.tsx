@@ -33,7 +33,7 @@ const Footer = () => {
             </p>
           </div>
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
-            <span className="footer-title">{config?.data?.pageData['section1 title']}</span>
+            <span className="text-base font-bold footer-title">{config?.data?.pageData['section1 title']}</span>
             <div className="flex items-start justify-start gap-4 mb-3">
               <FooterBullet className="mt-[0.2rem]" />
               <div>
@@ -60,13 +60,14 @@ const Footer = () => {
               </div>
             </div>
             <div className="ps-4">
-              <Image src={QR} alt="QR" width={120} height={160}
+              <Image src={QR} alt="QR" width={150} height={190} quality={100}
                 style={{ width: "auto", height: "auto" }}
+                className="max-w-[150px]"
               />
             </div>
           </div>
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
-            <span className="footer-title">{config?.data?.pageData['section2 title']}</span>
+            <span className="text-base font-bold footer-title">{config?.data?.pageData['section2 title']}</span>
             {config?.data?.pageData && <>
               <div className="flex items-center justify-start gap-4 mb-3">
                 <FooterBullet />
@@ -92,7 +93,7 @@ const Footer = () => {
 
           </div>
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
-            <span className="footer-title">{`${config?.data?.pageData['section4 title']}`}</span>
+            <span className="text-base font-bold footer-title">{`${config?.data?.pageData['section4 title']}`}</span>
             {config?.data?.pageData && <>
               <div className="flex items-center justify-start gap-4 mb-3">
                 <FooterBullet />
@@ -112,7 +113,7 @@ const Footer = () => {
 
           </div>
         </div>
-        <div className="container flex flex-wrap items-center justify-between gap-4 mb-4">
+        <div className="container flex flex-wrap items-center justify-between gap-4 mb-4 mt-[-50px]">
           <div className="flex gap-3">
             {config?.data?.pageData && <>
               <Link href={`${config?.data?.pageData['section5 facebook']}`} aria-label="fb-link" target="_blank" className="w-auto p-0 btn btn-circle">
@@ -120,6 +121,7 @@ const Footer = () => {
                   src={socials.facebook}
                   height={36}
                   width={36}
+                  quality={100}
                   alt="facebook"
                 />
               </Link>
@@ -148,16 +150,17 @@ const Footer = () => {
             </h3>
             <div className="flex gap-3">
               {config?.data?.pageData && <>
-                <Link target="_blank" aria-label="app-store" href={`${config?.data?.pageData['section4 appstore link']}`} className="p-0 btn">
-                  <Image src={AppStore} height={32} width={108} alt="app-store" />
-                </Link>
                 <Link aria-label="play-store" target="_blank" href={`${config?.data?.pageData['section4 googleplay link']}`} className="p-0 btn">
                   <Image
                     src={PlayStore}
                     height={32}
                     width={108}
+                    quality={100}
                     alt="play-store"
                   />
+                </Link>
+                <Link target="_blank" aria-label="app-store" href={`${config?.data?.pageData['section4 appstore link']}`} className="p-0 btn">
+                  <Image src={AppStore} quality={100} height={32} width={108} alt="app-store" />
                 </Link>
               </>}
             </div>
@@ -170,19 +173,19 @@ const Footer = () => {
                 © {currentYear} I am the Gardener. All Rights Reserved
               </p>
               <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 hidden xs:flex"></div>
-              <p>Powered By <Link href='https://koklass.com/' target="_blank">Koklass</Link> from Ekbana</p>
+              <p>Powered By <Link href='https://koklass.com/' target="_blank" className="hover:text-orange-450">Koklass</Link> from <Link href='https://ekbana.com/' target="_blank" className="hover:text-orange-450">Ekbana</Link></p>
             </div>
             <div className="flex flex-wrap justify-center mx-auto">
               {config?.data?.pageData && <>
-                <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
+                <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn hover:!bg-transparent hover:cursor-default">
                   <Image src={config?.data?.pageData['section3 content1']}
-                    height={100}
-                    width={100}
+                    height={300}
+                    width={300}
                     quality={100}
                     alt="esewa" />
                 </button>
                 <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
-                <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
+                <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn hover:!bg-transparent hover:cursor-default">
                   <Image src={config?.data?.pageData['section3 content2']}
                     height={100}
                     width={100}
@@ -190,7 +193,7 @@ const Footer = () => {
                     alt="master-card" />
                 </button>
                 <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
-                <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
+                <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn hover:!bg-transparent hover:cursor-default">
                   <Image src={config?.data?.pageData['section3 content3']}
                     height={100}
                     width={100}
@@ -198,7 +201,7 @@ const Footer = () => {
                     alt="cash on hand" />
                 </button>
                 <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 my-3"></div>
-                <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn">
+                <button className="relative w-10 h-10 p-0 bg-transparent border-0 sm:h-14 sm:w-14 btn hover:!bg-transparent hover:cursor-default">
                   <Image src={config?.data?.pageData['section3 content4']}
                     height={100}
                     width={100}

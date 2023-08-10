@@ -92,6 +92,7 @@ export interface IPaymentMethod {
   id: number;
   title: string;
   icon: string;
+  webpIcon:string;
   isDefault: boolean;
 }
 

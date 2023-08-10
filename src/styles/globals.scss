@@ -99,3 +99,10 @@ input[type="number"] {
   visibility: hidden;
   opacity: 0;
 }
+.tooltip::before {
+  @apply bg-white text-slate-850 border border-gray-300 ;
+}
+
+.tooltip:hover::after {
+  content: none;
+}

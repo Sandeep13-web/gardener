@@ -19,7 +19,7 @@ const CartDropdownProducts = ({ item }: any) => {
     const checkOffer = item?.product?.variants?.find((price: any) => price?.hasOffer);
 
     return (
-        <div key={item.product?.id} className="relative flex gap-4 py-[30px] border-b-2 border-solid border-gray-350">
+        <div key={item.product?.id} className="relative flex gap-4  border-b-2 border-solid border-gray-350">
             <div className="min-w-[85px] min-h-[100px] aspect-auto border-solid border-2 border-gray-350 relative">
                 <Link href={`/products/${item.product?.slug}`} className="absolute w-full h-full" aria-label={`product-item-slug`} />
                 <Image
@@ -53,13 +53,13 @@ const CartDropdownProducts = ({ item }: any) => {
                 </p>
             </div>
             <button
-                className="absolute right-0 w-5 btn-circle btn-error btn aspect-square hover:bg-primary hover:border-primary"
+                className="absolute right-0 w-5 btn-circle btn-error btn aspect-square hover:bg-primary hover:border-primary bg-gray-750 border-gray-750"
                 onClick={() => handleRemoveFromCart(item?.id)}
                 disabled={selectedId === item?.id && cartDelete.isLoading}>
                 {selectedId === item?.id && cartDelete.isLoading ? (
                     <span className="w-3 h-3 border-2 border-dotted rounded-full border-primary border-t-transparent animate-spin"></span>
                 ) : (
-                    <FaTimes className="w-3 h-3" />
+                    <FaTimes className="w-3 h-3 text-white" />
                 )}
             </button>
         </div>

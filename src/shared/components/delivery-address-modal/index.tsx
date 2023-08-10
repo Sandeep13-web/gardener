@@ -92,8 +92,8 @@ const DeliveryAddressModal: React.FC<IProps> = ({
         defaultChecked
       />
       <div className="modal">
-        <div className="p-4 rounded-lg modal-box">
-          <div className="pb-2 border-b border-gray-300 ">
+        <div className="p-0 overflow-auto relative rounded-lg modal-box">
+          <div className="pb-2 border-b border-gray-300 sticky top-0 bg-white z-[9999] w-full left-0 pl-8 pt-8 ">
             <h3 className="text-lg font-medium">
               SET DELIEVERY LOCATION
             </h3>
@@ -104,7 +104,7 @@ const DeliveryAddressModal: React.FC<IProps> = ({
           </div>
 
 
-          <form action="" className="py-4" onSubmit={handleSubmit}>
+          <form action="" className="p-4" onSubmit={handleSubmit}>
             <div className="h-[280px] mb-3">
               <LeafletMap
                 lat={formData.lat || 27.7172}

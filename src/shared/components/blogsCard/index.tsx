@@ -37,12 +37,16 @@ const BlogsCard: React.FC<Props> = ({ blog }) => {
         </figure>
       </Link>
       <div className="px-0 card-body">
-        <Link
-          href={`/blogs/${blog?.slug}`}
-          className="block mb-2 text-2xl font-semibold truncate card-title hover:text-primary"
-        >
-          {blog.title}
-        </Link>
+        <div className="tooltip tooltip-bottom" data-tip={blog?.title}>
+          <Link
+            href={`/blogs/${blog?.slug}`}
+            className="block mb-2 text-2xl font-semibold text-left truncate card-title hover:text-primary"
+          >
+            {blog.title}
+          </Link>
+        </div>
+
+
         <div className="flex items-center gap-2 mb-4">
           <Link
             href={`/blogs/${blog?.slug}`}

@@ -404,7 +404,7 @@ const Header = () => {
             {/* Why Plant Button */}
             <Link href="/page/why-plants" aria-label="why-plantss-2">
               <button className="btn btn-primary btn-outline !min-h-12 font-bold text-base gap-0">
-                <FlowerIcon /> <p className="hidden lg:block">Why Plant</p>
+                <FlowerIcon /> <p className="hidden lg:block">Why Plants</p>
               </button>
             </Link>
           </div>

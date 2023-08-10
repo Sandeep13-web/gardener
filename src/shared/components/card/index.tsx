@@ -206,7 +206,11 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
           <p className="text-xs uppercase leading-[12px] text-gray-450">
             {product?.restaurantName}
           </p>
+          {/* <div className="static z-[2]"> */}
+          {/* <div className="tooltip tooltip-bottom" data-tip={product?.name}> */}
           <h2 className="card-title plant-card-title">{product?.name}</h2>
+          {/* </div> */}
+          {/* </div> */}
           {
             product?.variants[0]?.hasOffer ? (
               <div className="flex items-center">
