@@ -44,7 +44,7 @@ const AboutUs: NextPageWithLayout = () => {
         ) : (
           <>
             <Breadcrumb title={aboutData?.data?.title} />
-            <div className="main-wrapper-block aboutus-wrapper" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
+            <div className="my-8 main-wrapper-block aboutus-wrapper" dangerouslySetInnerHTML={{ __html: descriptionContent, }} />
           </>
         )
       }
