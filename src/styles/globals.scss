@@ -9,7 +9,7 @@
   @apply hover:bg-white hover:text-primary;
 }
 .btn {
-  @apply min-h-0 min-w-0 h-auto capitalize;
+  @apply min-h-0 min-w-0 h-auto;
 }
 .container {
   @apply px-4 md:px-10 max-w-7xl;
@@ -19,9 +19,6 @@ body {
   overflow-x: hidden;
   max-width: 100vw;
   min-width: 100vw;
-}
-* {
-  font-family: "Rubik", sans-serif;
 }
 // * {
 //   outline: red;
@@ -96,4 +93,9 @@ input[type="number"] {
       @apply transform-none;
     }
   }
+}
+
+.dropdown-content, .dropdown:not(.dropdown-hover):focus .dropdown-content, .dropdown:focus-within .dropdown-content {
+  visibility: hidden;
+  opacity: 0;
 }

@@ -170,7 +170,7 @@ const ContactUsForm = () => {
                                                     handleTypeChange(option?.title); // Update your state or value using handleTypeChange
                                                 }}
                                                 // onClick={() => handleTypeChange(option?.title)}
-                                                className={`hover:!bg-[#ebf5ff] ${option?.title === selectedType ? 'bg-[#ebf5ff]' : ''}`}>
+                                                className={`hover:!bg-[#f5faff] ${option?.title === selectedType ? 'bg-[#ebf5ff]' : ''}`}>
                                                 <span className='border-0 rounded-none bg-none hover:!bg-none'>{option?.title}</span>
                                             </li>
                                         ))}

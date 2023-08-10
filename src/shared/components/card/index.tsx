@@ -203,7 +203,7 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
           </Link>
         </div>
         <div className="card-body px-[15px] py-[20px] gap-[10px]">
-          <p className="text-xs uppercase text-gray-450">
+          <p className="text-xs uppercase leading-[12px] text-gray-450">
             {product?.restaurantName}
           </p>
           <h2 className="card-title plant-card-title">{product?.name}</h2>
