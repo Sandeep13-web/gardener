@@ -92,7 +92,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
                 <div className="grid grid-cols-12 gap-4">
                     <div className="flex flex-col col-span-6 mb-[15px]">
                         <label className="label">
-                            <span className="label-text">First Name</span>
+                            <span className="label-text">First Name<span className="asterick-icon text-red-250 ml-[3px] text-sm">*</span></span>
                         </label>
                         <input
                             type="text"
@@ -110,7 +110,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
 
                     <div className="flex flex-col col-span-6 mb-[15px]">
                         <label className="label">
-                            <span className="label-text">Last Name</span>
+                            <span className="label-text">Last Name<span className="asterick-icon text-red-250 ml-[3px] text-sm">*</span></span>
                         </label>
                         <input
                             type="text"
@@ -128,7 +128,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
 
                     <div className="flex flex-col col-span-6 mb-[15px]">
                         <label className="label">
-                            <span className="label-text">Phone Number</span>
+                            <span className="label-text">Phone Number<span className="asterick-icon text-red-250 ml-[3px] text-sm">*</span></span>
                         </label>
                         <input
                             type="text"

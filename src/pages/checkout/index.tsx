@@ -388,10 +388,6 @@ const Checkout: NextPageWithLayout = () => {
                             onClick={handleNextButtonClick}
                           >
                             Next
-                            {
-                              personalInfoSubmitted &&
-                              <ButtonLoader />
-                            }
                           </button>
                         </div>
                       </>
