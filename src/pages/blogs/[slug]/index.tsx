@@ -56,7 +56,7 @@ const BlogDetails: NextPageWithLayout = () => {
                             <div className="col-span-12 md:col-span-9">
                                 <div className="mb-8">
                                     <Image
-                                        src={blogDetails.backgroundImage}
+                                        src={blogDetails?.thumbnail}
                                         width={2000}
                                         height={2000}
                                         alt="banner image"
@@ -64,12 +64,12 @@ const BlogDetails: NextPageWithLayout = () => {
                                     />
                                 </div>
                                 <div>
-                                    <p className="mb-3">{blogDetails.subTitle}</p>
+                                    <p className="mb-3">{blogDetails?.subTitle}</p>
                                     <Link
                                         href={``}
                                         className="block mb-3 text-2xl font-semibold truncate card-title hover:text-primary"
                                     >
-                                        {blogDetails.title}
+                                        {blogDetails?.title}
                                     </Link>
                                     <div className="flex items-center gap-2 mb-8">
                                         <Link
@@ -77,19 +77,19 @@ const BlogDetails: NextPageWithLayout = () => {
                                             className="flex items-center gap-1 pr-2 text-sm border-r border-black border-solid group hover:text-primary "
                                         >
                                             <Usersvg className="text-black hover:fill-blue-500" />
-                                            {blogDetails.author}
+                                            {blogDetails?.createdBy}
                                         </Link>
                                         <Link
                                             href={``}
                                             className="flex items-center gap-1 text-sm group hover:text-primary"
                                         >
                                             <CalendarIcon className="text-black hover:fill-blue-500" />
-                                            {changeDateFormat(blogDetails.created_date.date)}
+                                            {blogDetails?.createdAt}
                                         </Link>
                                     </div>
                                     <div className="blog-content">
                                         <p
-                                            dangerouslySetInnerHTML={{ __html: blogDetails.description }}
+                                            dangerouslySetInnerHTML={{ __html: blogDetails?.content }}
                                         >
                                         </p>
                                     </div>

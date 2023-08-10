@@ -11,14 +11,16 @@ import EmptyPage from "@/components/emptyPage";
 import Breadcrumb from "@/shared/components/breadcrumb";
 import Head from "next/head";
 import SkeletonBlogCard from "@/shared/components/skeleton/blog-card";
+import { useRouter } from "next/router";
+import { getPageData } from "@/services/page.service";
 
 const Blogs: NextPageWithLayout = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const perPage = 4;
 
   const { data: blogs, isLoading, error } = useQuery(
-    ["getBlogs", pageNumber, perPage], async () =>
-    await getBlogs(pageNumber, perPage, undefined)
+    ["getBlogs"], async () =>
+    await getBlogs()
       .then(response => {
         return response;
       })

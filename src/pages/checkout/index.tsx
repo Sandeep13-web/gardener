@@ -218,7 +218,7 @@ const Checkout: NextPageWithLayout = () => {
     if (defaultAddress) {
       setSelectedDeliveryAddress(defaultAddress.id);
     }
-  }, [config?.data?.paymentMethod, deliveryAddressData]);
+  }, [config?.data?.paymentMethods, deliveryAddressData]);
 
 
   useEffect(() => {

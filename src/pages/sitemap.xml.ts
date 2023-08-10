@@ -25,7 +25,7 @@ function generateSiteMap(
   const tagUrlsSitemap = tagUrls?.data?.map((tag:any) => {
     return `
       <url>
-        <loc>${domainUrl}/tag/${tag?.slug}</loc>
+        <loc>${domainUrl}/tag?id=${tag?.slug}</loc>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>

@@ -22,7 +22,7 @@ const BlogsCard: React.FC<Props> = ({ blog }) => {
       <Link href={`/blogs/${blog.slug}`} aria-label={`blog-${blog?.slug}`}>
         <figure>
           <Image
-            src={blog.thumbImage}
+            src={blog.thumbnail}
             alt="Plant"
             className="w-full h-auto aspect-[420/300]"
             width={216}
@@ -38,29 +38,29 @@ const BlogsCard: React.FC<Props> = ({ blog }) => {
       </Link>
       <div className="px-0 card-body">
         <Link
-          href={`/blogs/${blog.slug}`}
+          href={`/blogs/${blog?.slug}`}
           className="block mb-2 text-2xl font-semibold truncate card-title hover:text-primary"
         >
           {blog.title}
         </Link>
         <div className="flex items-center gap-2 mb-4">
           <Link
-            href={`/blogs/${blog.slug}`}
+            href={`/blogs/${blog?.slug}`}
             className="flex items-center gap-1 pr-2 text-sm border-r border-black border-solid group hover:text-primary "
           >
             <Usersvg className="text-black hover:fill-blue-500" />
-            {blog.author}
+            {blog?.createdBy}
           </Link>
           <Link
-            href={`/blogs/${blog.slug}`}
+            href={`/blogs/${blog?.slug}`}
             className="flex items-center gap-1 text-sm group hover:text-primary"
           >
             <CalendarIcon className="text-black hover:fill-blue-500" />
-            {changeDateFormat(blog.created_date.date)}
+            {blog?.createdAt}
           </Link>
         </div>
         <p className="mb-4 text-sm line-clamp-2"
-          dangerouslySetInnerHTML={{ __html: blog.description }}
+          dangerouslySetInnerHTML={{ __html: blog?.content }}
         >
         </p>
         <div className="card-actions">

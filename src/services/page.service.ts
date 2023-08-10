@@ -11,6 +11,8 @@ export const getPageData = async (slug: any) => {
   }
 };
 
+
+
 export const getFaqData = async () => {
   try {
     const response = await axiosInstance.get(`/${apiEndPoint1}/faq`);
