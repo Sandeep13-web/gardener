@@ -34,14 +34,14 @@ const CartDropdown = () => {
         {/* Total Price */}
 
         {/* dropdown content */}
-        <div tabIndex={0} className="dropdown-content min-w-[350px] right-0 z-[2] top-[100%] p-4 shadow bg-base-100">
+        <div tabIndex={0} className="dropdown-content min-w-[350px] right-[-110px] z-[2] top-[100%] p-[25px] shadow bg-base-100">
           {/* item list*/}
-          <div className={`max-h-42 overflow-auto px-[30px] ${cartList?.cartProducts?.length === 0 ? '' : 'pb-[30px]'}`}>
+          <div className={`max-h-42 overflow-auto ${cartList?.cartProducts?.length === 0 ? '' : 'pb-[10px]'}`}>
             {!cartList || cartList?.cartProducts?.length === 0 ? (
               <p className="text-sm font-bold text-center text-slate-850">No Products in the cart.</p>
             ) : (
               <>
-                <div className="overflow-y-scroll max-h-[350px] pr-[20px]">
+                <div className="overflow-y-scroll max-h-[350px">
                   {cartList && cartList?.cartProducts?.map((item: any, index: number) => (
                     <CartDropdownProducts item={item} key={index} />
                   ))}

@@ -25,7 +25,7 @@ const CheckoutDetail: React.FC<CheckoutDetailProps> = ({ selectedPayment }) => {
           <ul className="">
             {cartData?.cartProducts.map((productData: any, index: any) => (
               <li className="flex justify-between" key={index}>
-                <span> {productData?.product?.title} X {productData?.quantity} </span>
+                <span> {productData?.product?.name} X {productData?.quantity} </span>
                 <span>NPR {productData.selectedUnit.sellingPrice *
                   productData.quantity} </span>
               </li>

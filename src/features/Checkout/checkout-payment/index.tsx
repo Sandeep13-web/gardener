@@ -28,9 +28,10 @@ const CheckoutPayment: React.FC<CheckoutPaymentProps> = ({ selectedPayment, hand
                         <div className="flex">
                             <Image
                                 alt="Checkout Img"
-                                width={200}
-                                height={200}
-                                src={payment.icon}
+                                width={50}
+                                height={50}
+                                quality={100}
+                                src={payment?.webpIcon ? payment?.webpIcon :  payment?.icon}
                                 className="w-[30px] mx-3"
                             />
                             <span className="capitalize">{payment.title}</span>

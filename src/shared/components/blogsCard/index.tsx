@@ -43,6 +43,8 @@ const BlogsCard: React.FC<Props> = ({ blog }) => {
         >
           {blog.title}
         </Link>
+        
+        
         <div className="flex items-center gap-2 mb-4">
           <Link
             href={`/blogs/${blog?.slug}`}
