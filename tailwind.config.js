@@ -23,6 +23,7 @@ module.exports = {
                 "gray-1200": "#ddd",
                 "gray-1250": "#f3f3f3",
                 "gray-1350": "#dbdbdb",
+                "gray-1450": "#9b9b9b",
                 "zinc-250": '#454545',
                 "zinc-450": '#c1c1c1',
                 "slate-150": '#f6f6f6',
@@ -39,6 +40,7 @@ module.exports = {
                 "white-350": '#2e323e',
                 "white-150": '#e6f5ee',
                 "green-50":'#80bb01',
+                "green-150": "rgba(0, 174, 77, 0.2)",
             },
             container: {
                 // margin: {

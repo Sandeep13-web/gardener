@@ -19,8 +19,8 @@ const CartDropdownProducts = ({ item }: any) => {
     const checkOffer = item?.product?.variants?.find((price: any) => price?.hasOffer);
 
     return (
-        <div key={item.product?.id} className="relative flex gap-4  border-b-2 border-solid border-gray-350">
-            <div className="min-w-[85px] min-h-[100px] aspect-auto border-solid border-2 border-gray-350 relative">
+        <div key={item.product?.id} className="relative flex gap-4 py-3 border-b border-gray-350">
+            <div className="min-w-[85px] min-h-[100px] aspect-auto border border-gray-350 relative">
                 <Link href={`/products/${item.product?.slug}`} className="absolute w-full h-full" aria-label={`product-item-slug`} />
                 <Image
                     width={85}
@@ -51,6 +51,10 @@ const CartDropdownProducts = ({ item }: any) => {
                         checkOffer ? (checkOffer?.newPrice * item?.quantity) : (item?.selectedUnit?.sellingPrice * item?.quantity)
                     }
                 </p>
+                {
+                    selectedUnit?.stock === 0 &&
+                    <p className='mt-1 text-xs text-red-250'>Out Of Stock</p>
+                }
             </div>
             <button
                 className="absolute right-0 w-5 btn-circle btn-error btn aspect-square hover:bg-primary hover:border-primary bg-gray-750 border-gray-750"

@@ -286,9 +286,18 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
                                         <h2 className="mb-6 text-2xl font-semibold text-slate-850">
                                             {productData?.response?.data?.name}
                                         </h2>
+                                        <p className='mb-2 text-sm font-bold text-sllate-850'>Availability: {' '}
+                                            {
+                                                selectedPrice?.stock === 0 ? (
+                                                    <span className='font-semibold text-red-250'>Out Of Stock</span>
+                                                ) : (
+                                                    <span className='font-semibold text-primary'>In Stock</span>
+                                                )
+                                            }
+                                        </p>
                                         <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
                                             Category:
-                                            <Link href={`/category/${productData?.response?.data?.categorySlug}`} aria-label="category-title" className="mb-0 text-primary">
+                                            <Link href={`/category/${productData?.response?.data?.categorySlug}`} aria-label="category-title" className="mb-0 text-primary hover:text-orange-450">
                                                 <span className="font-normal">{productData?.response?.data?.restaurantName}</span>
                                             </Link>
                                         </p>
@@ -297,7 +306,7 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
                                             <p className="flex items-center gap-3 mb-2 text-sm font-bold color-slate-850">
                                                 Tags:
                                                 {productData?.response?.data?.tags.map((prev: ITag, index: number) => (
-                                                    <Link href={`/tag?id=${prev?.slug}`} aria-label="tag-title" className="mb-0 capitalize text-primary" key={`tag-${index}`}>
+                                                    <Link href={`/tag?id=${prev?.slug}`} aria-label="tag-title" className="mb-0 capitalize text-primary hover:text-orange-450" key={`tag-${index}`}>
                                                         <span className="font-normal">{prev?.name}</span>
                                                     </Link>
                                                 ))}
@@ -382,7 +391,7 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
                                                         <button
                                                             type='button'
                                                             onClick={handleAddToCart}
-                                                            disabled={mutation.isLoading}
+                                                            disabled={mutation.isLoading || selectedPrice?.stock === 0}
                                                             className={`${mutation.isLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
 
                                                             + Update To Cart
@@ -395,7 +404,7 @@ const ProductDetailModal = ({ slug, setProductModalId }: IProductModal) => {
                                                         <button
                                                             type='button'
                                                             onClick={handleAddToCart}
-                                                            disabled={mutation.isLoading}
+                                                            disabled={mutation.isLoading || selectedPrice?.stock === 0}
                                                             className={`${mutation.isLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
 
                                                             + Add To Cart

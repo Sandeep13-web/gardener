@@ -84,10 +84,14 @@ const CartTableRow = ({ item }: any) => {
                 />
             </td>
             <td className="w-[435px] text-gray-650 text-center py-[30px] font-medium">
-                <Link href={`/products/${item?.product?.slug}`} className="text-[15px]" aria-label="indoor-plants" >
+                <Link href={`/products/${item?.product?.slug}`} className="text-[15px] hover:text-primary" aria-label="indoor-plants" >
                     {item?.product?.name}{" "}
                     <span className="capitalize text-orange-4500">({item?.selectedUnit?.size})</span>
                 </Link>
+                {
+                    selectedUnit?.stock === 0 &&
+                    <p className='px-2 m-auto mt-1 mt-2 text-xs border border-red-250 text-red-250 w-fit'>Out Of Stock</p>
+                }
             </td>
             <td className="w-[435px] text-gray-650 text-center py-[30px] font-medium text-[15px]">
                 NPR {item?.selectedUnit?.sellingPrice}

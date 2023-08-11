@@ -95,10 +95,10 @@ input[type="number"] {
   }
 }
 
-.dropdown-content, .dropdown:not(.dropdown-hover):focus .dropdown-content, .dropdown:focus-within .dropdown-content {
-  visibility: hidden;
-  opacity: 0;
-}
+// .dropdown-content, .dropdown:not(.dropdown-hover):focus .dropdown-content, .dropdown:focus-within .dropdown-content {
+//   visibility: hidden;
+//   opacity: 0;
+// }
 .tooltip::before {
   @apply bg-white text-slate-850 border border-gray-300 ;
 }

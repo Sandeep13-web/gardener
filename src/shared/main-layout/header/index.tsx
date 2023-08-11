@@ -461,7 +461,7 @@ const Header = () => {
                     </li>
                   ))}
                 <li>
-                  <Link href="/categories" aria-label="header-categories" className="dropdown-item">
+                  <Link href="/categories" aria-label="header-categories" className="py-2.5 px-5 dropdown-item hover:!pl-7">
                     + More categories
                   </Link>
                 </li>

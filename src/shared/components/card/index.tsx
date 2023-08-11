@@ -163,7 +163,7 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
               </button>}
           </>
         }
-        <figure>
+        <figure className="relative">
           {
             product && product?.webpImages && product?.webpImages?.length > 0 ? (
               <Image
@@ -193,7 +193,12 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
               />
             )
           }
+          {
+            product?.variants[0]?.hasOffer &&
+            <p className="absolute px-2 py-1 text-xs font-medium text-white rounded-md bottom-2 left-3 bg-red-250">Offer</p>
+          }
         </figure>
+
         <div className="plant-card_preview-icon">
           <Link
             href={`/products/${product?.slug}`}
@@ -203,6 +208,7 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
           </Link>
         </div>
         <div className="card-body px-[15px] py-[20px] gap-[10px]">
+
           <p className="text-xs uppercase leading-[12px] text-gray-450">
             {product?.restaurantName}
           </p>
@@ -211,26 +217,9 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
           <h2 className="card-title plant-card-title">{product?.name}</h2>
           {/* </div> */}
           {/* </div> */}
-          {
-            product?.variants[0]?.hasOffer ? (
-              <div className="flex items-center">
-                <p className="flex-grow-0 mr-2 text-sm text-red-250">
-                  NPR{product?.variants[0]?.newPrice}
-                </p>
-                <p className="flex-grow-0 mr-2 text-sm font-semibold line-through text-primary">
-                  NPR
-                  {product?.variants[0]?.oldPrice}
-                </p>
-                <p className="flex-grow-0 flex justify-center py-0.5 px-1 text-xs text-center text-white capitalize rounded-md bg-red-250">offer</p>
-              </div>
-            ) : (
-              <p className="text-sm font-semibold text-primary">
-                NPR {product?.variants[0]?.sellingPrice}
-              </p>
-            )
-          }
 
-          <div className="flex justify-end relative z-[3]">
+
+          <div className="flex justify-between items-center relative z-[3] h-[40px]">
             {/* config?.gateway?.skuMethod ? (
                <button
                 className="btn btn-primary btn-outline p-2 h-auto !min-h-0 text-xs leading-auto"
@@ -239,6 +228,23 @@ const Card: React.FC<Props> = ({ product, cartItem, setProductModalId }) => {
                 Add to Cart
               </button>
             ) : ( */}
+            {
+              product?.variants[0]?.hasOffer ? (
+                <div className="flex flex-col ">
+                  <p className="flex-grow-0 mr-2 text-sm text-primary">
+                    NPR {product?.variants[0]?.newPrice}
+                  </p>
+                  <p className="flex-grow-0 mr-2 text-xs font-semibold line-through text-gray-1450">
+                    NPR {' '}
+                    {product?.variants[0]?.oldPrice}
+                  </p>
+                </div>
+              ) : (
+                <p className="text-sm font-semibold text-primary">
+                  NPR {product?.variants[0]?.sellingPrice}
+                </p>
+              )
+            }
             {(!(cart?.cartProducts?.some((item: any) => item?.product.id === product?.id))) ? (
               <button
                 className="btn btn-primary btn-outline p-2 h-auto !min-h-0 text-xs leading-auto"

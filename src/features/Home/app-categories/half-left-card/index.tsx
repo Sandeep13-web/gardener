@@ -136,6 +136,10 @@ const HalfLeftCard = ({ updatedData }: IProps) => {
                                                     <SearchIcon className="max-w-[15px] h-auto" />
                                                 </Link>
                                             </div>
+                                            {
+                                                product?.variants[0]?.hasOffer &&
+                                                <p className="absolute left-0 px-2 leading-[18px] text-[10px] font-medium text-white rounded-md bottom-2 bg-red-250">Offer</p>
+                                            }
                                         </div>
                                         <div className='half-left-card__desc'>
                                             <Link href={`/categories/${product?.categorySlug}`}
@@ -153,16 +157,15 @@ const HalfLeftCard = ({ updatedData }: IProps) => {
                                             {/* </div> */}
                                             {product?.variants[0]?.hasOffer ? (
                                                 <>
-                                                    <div className="flex items-center">
-                                                        <p className="flex-grow-0 mr-2 text-sm text-red-250">
+                                                    <div className="flex flex-col">
+                                                        <p className="flex-grow-0 mr-2 text-sm text-primary">
                                                             NPR{product?.variants[0]?.newPrice}
                                                         </p>
-                                                        <p className="flex-grow-0 mr-2 text-sm font-semibold line-through text-primary">
+                                                        <p className="flex-grow-0 mr-2 text-xs font-semibold line-through text-gray-1450">
                                                             NPR
                                                             {product?.variants[0]?.oldPrice}
                                                         </p>
                                                     </div>
-                                                    <p className="flex-grow-0 flex justify-center py-0.5 px-1 text-xs text-center text-white capitalize rounded-md bg-red-250">offer</p>
                                                 </>
                                             ) : (
                                                 <p className="text-sm font-semibold text-primary">
