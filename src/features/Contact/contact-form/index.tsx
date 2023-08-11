@@ -202,13 +202,14 @@ const ContactUsForm = () => {
                     <div className="flex justify-between col-span-12">
                         <button
                             type='submit'
+                            disabled={mutation?.isLoading}
                             className="btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white"
                         >
                             Save
-                            {/* {
+                            {
                                 mutation.isLoading &&
                                 <ButtonLoader />
-                            } */}
+                            }
                         </button>
                     </div>
                 </div>

@@ -1,21 +1,18 @@
 import { deleteAccount, logout } from "@/services/auth.service";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCookie, setCookie } from "cookies-next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { FaAddressBook, FaShoppingBag, FaSignOutAlt, FaTrashAlt, FaUserAlt } from "react-icons/fa";
 import { RiLockPasswordFill } from 'react-icons/ri'
 import ConfirmationModal from "../confirmation-modal";
-import Image from "next/image";
-import { ProfileImg } from "@/shared/lib/image-config";
-import { BiEdit } from 'react-icons/bi';
-import { uploadProfileImage } from "@/services/profile.service";
 import ProfileImage from "@/features/ProfileImage";
 
 const AccountSidebar = () => {
   const { pathname } = useRouter()
+  const queryClient = useQueryClient()
   const router = useRouter();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showDelAccModal, setShowDelAccModal] = useState<boolean>(false);
@@ -35,6 +32,8 @@ const AccountSidebar = () => {
     onSuccess: () => {
       deleteCookie("token");
       deleteCookie("isLoggedIn");
+      queryClient.invalidateQueries(['getCart']);
+      queryClient.invalidateQueries(['getCartList']);
       router.push('/login')
       showToast(TOAST_TYPES.success, "Logged out successfully");
     },
@@ -45,6 +44,8 @@ const AccountSidebar = () => {
     onSuccess: (data) => {
       deleteCookie("token");
       deleteCookie("isLoggedIn");
+      queryClient.invalidateQueries(['getCart']);
+      queryClient.invalidateQueries(['getCartList']);
       showToast(TOAST_TYPES.success, data?.data?.message);
       router.push('/login');
     },

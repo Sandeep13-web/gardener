@@ -117,7 +117,8 @@ const Header = () => {
       deleteCookie("isLoggedIn");
       deleteCookie("cart_number");
       await setAuthorizationHeader();
-      queryClient.invalidateQueries(['getCart', coupon || '']);
+      queryClient.invalidateQueries(['getCart']);
+      queryClient.invalidateQueries(['getCartList']);
       showToast(TOAST_TYPES.success, "Logged out successfully");
       router.push('/')
       setShowModal(false);
@@ -295,14 +296,14 @@ const Header = () => {
                   <div className="flex">
                     <Link
                       href={"/login"}
-                      className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]"
+                      className="btn btn-link capitalize text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]"
                     >
                       Login
                     </Link>
                     <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0"></div>
                     <Link
                       href={"/register"}
-                      className="btn btn-link text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]"
+                      className="btn btn-link capitalize text-[12px] text-slate-50 no-underline h-auto min-h-fit p-0 hover:no-underline hover:transform hover:scale-[1.1]"
                     >
                       Sign Up
                     </Link>
@@ -334,7 +335,7 @@ const Header = () => {
                 <div className="flex items-center justify-between gap-1 ">
                   <input
                     type="text"
-                    placeholder={`Search ${selectedType}.`}
+                    placeholder={`Search ${selectedType}`}
                     className="input input-ghost w-full max-w-xs !shadow-none !outline-none md:max-w-2xl"
                     value={searchValue}
                     onChange={handleInputChange}

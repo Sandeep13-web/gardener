@@ -7,7 +7,7 @@ import TagIcon from "@/shared/icons/common/TagIcon";
 import UserIcon from "@/shared/icons/common/UserIcon";
 import { getToken } from "@/shared/utils/cookies-utils/cookies.utils";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteCookie } from "cookies-next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -18,6 +18,7 @@ import ConfirmationModal from "../confirmation-modal";
 import { getAllWishlistProducts } from "@/services/wishlist.service";
 
 const Drawer = () => {
+  const queryClient = useQueryClient()
   const [showModal, setShowModal] = useState<boolean>(false);
   const [toggleDrawer, setToggleDrawer] = useState<boolean>(false)
   const token = getToken()
@@ -36,6 +37,8 @@ const Drawer = () => {
     onSuccess: () => {
       deleteCookie("token");
       deleteCookie("isLoggedIn")
+      queryClient.invalidateQueries(['getCart']);
+      queryClient.invalidateQueries(['getCartList']);
       showToast(TOAST_TYPES.success, "Logged out successfully");
     },
   });

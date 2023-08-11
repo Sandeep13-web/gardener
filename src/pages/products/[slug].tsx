@@ -420,7 +420,7 @@ const ProductSlug = () => {
                     {
                       token && (
                         isFavGen() ?
-                          <button onClick={() => removeFromFav(productData?.productId)} className='flex items-center gap-3'>
+                          <button onClick={() => removeFromFav(productData?.productId)} className='flex items-center gap-3 font-normal'>
                             {
                               removeLoading ? (
                                 <ButtonLoader className='!border-primary' />
@@ -432,7 +432,7 @@ const ProductSlug = () => {
                               )
                             }
                           </button> :
-                          <button onClick={() => addToFav(productData?.productId)} className='flex items-center gap-3'>
+                          <button onClick={() => addToFav(productData?.productId)} className='flex items-center gap-3 font-normal'>
                             {
                               addLoading ? (
                                 <ButtonLoader className='!border-primary' />
