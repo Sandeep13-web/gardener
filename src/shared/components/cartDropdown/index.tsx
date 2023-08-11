@@ -17,7 +17,8 @@ const CartDropdown = () => {
 
   const { data: cart } = useQuery<ICartItem>(['getCart'], () => getCartData({ coupon }));
   const { data: cartList } = useQuery<ICartData>(['getCartList'], getCartProduct)
-
+  //checking if there is any item which is out of stock
+  const hasOutOfStock = cartList?.cartProducts.find((item) => item?.selectedUnit?.stock === 0) ? true : false
   useEffect(() => {
     if (window && localStorage && localStorage.getItem("coupon")) {
       setCoupon(localStorage.getItem("coupon") as string)
@@ -34,7 +35,7 @@ const CartDropdown = () => {
         {/* Total Price */}
 
         {/* dropdown content */}
-        <div tabIndex={0} className="dropdown-content min-w-[350px] right-[-110px] z-[2] top-[100%] p-[25px] shadow bg-base-100">
+        <div tabIndex={0} className="dropdown-content cursor-default min-w-[350px] right-[-110px] z-[2] top-[100%] p-[25px] shadow bg-base-100">
           {/* item list*/}
           <div className={`max-h-42 overflow-auto ${cartList?.cartProducts?.length === 0 ? '' : 'pb-[10px]'}`}>
             {!cartList || cartList?.cartProducts?.length === 0 ? (
@@ -77,9 +78,13 @@ const CartDropdown = () => {
 
                     CART
                   </Link>
-                  <Link href={'/checkout'} className="py-4 font-normal btn btn-block rounded-3xl hover:bg-primary hover:text-white " aria-label={`checkout`}>
+                  <button
+                    disabled={hasOutOfStock}
+                    className="py-4 font-normal btn btn-block rounded-3xl hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:pointer-events-auto "
+                    onClick={() => router.push('/checkout')}
+                  >
                     CHECKOUT
-                  </Link>
+                  </button>
                 </div>
               </>
             )}

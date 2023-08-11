@@ -14,6 +14,7 @@ import { useCart as useCartStore } from '@/store/cart';
 
 import { addCouponCode, getCartData, getCartProduct } from '@/services/cart.service';
 import { TOAST_TYPES, showToast } from '@/shared/utils/toast-utils/toast.utils';
+import { useRouter } from 'next/router';
 
 enum COUPON_METHODS {
   ADD_COUPON = 'Apply Coupon',
@@ -22,6 +23,7 @@ enum COUPON_METHODS {
 
 const Cart: NextPageWithLayout = () => {
   const queryClient = useQueryClient();
+  const router = useRouter()
   const [tempCoupon, setTempCoupon] = useState('');
 
   const { coupon, setCoupon, setCouponData, couponData } = useCartStore();
@@ -40,6 +42,9 @@ const Cart: NextPageWithLayout = () => {
   const clearCart = () => {
     bulkCartDelete.mutate();
   };
+
+  //checking if there is any item which is out of stock
+  const hasOutOfStock = cartData?.cartProducts.find((item) => item?.selectedUnit?.stock === 0) ? true : false
 
   const handleApplyCoupon = () => {
     setCoupon(tempCoupon);
@@ -217,11 +222,12 @@ const Cart: NextPageWithLayout = () => {
                   <p className="text-xl font-bold">Grand Total</p>
                   <p className="text-xl font-bold">NPR {couponData?.total ? couponData?.total : cart?.total}</p>
                 </div>
-                <Link
-                  href={'/checkout'}
-                  className="btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white w-full">
+                <button
+                  onClick={() => router.push('/checkout')}
+                  disabled={hasOutOfStock}
+                  className="disabled:cursor-not-allowed disabled:pointer-events-auto btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white w-full">
                   Proceed To Checkout
-                </Link>
+                </button>
               </div>
             </div>
           </div>

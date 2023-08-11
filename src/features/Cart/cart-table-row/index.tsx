@@ -90,7 +90,7 @@ const CartTableRow = ({ item }: any) => {
                 </Link>
                 {
                     selectedUnit?.stock === 0 &&
-                    <p className='px-2 m-auto mt-1 mt-2 text-xs border border-red-250 text-red-250 w-fit'>Out Of Stock</p>
+                    <p className='px-2 m-auto mt-2 text-xs border border-red-250 text-red-250 w-fit'>Out Of Stock</p>
                 }
             </td>
             <td className="w-[435px] text-gray-650 text-center py-[30px] font-medium text-[15px]">
