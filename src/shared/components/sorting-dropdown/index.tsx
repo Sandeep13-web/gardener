@@ -37,8 +37,8 @@ const SortingDropdown: React.FC<ISortDropdown> = ({ sortChange }) => {
                     <span className='border-0 rounded-none bg-none hover:!bg-none opacity-25'>Please Select</span>
                 </li>
                 {options.map((option) => (
-                    <li key={option.value} onClick={() => { handleTypeChange(option.label); sortChange(option.value) }} className={`hover:!bg-[#ebf5ff] ${option.label === selectedType ? 'bg-[#ebf5ff]' : ''}`}>
-                        <span className='border-0 rounded-none bg-none hover:!bg-none'>{option.label}</span>
+                    <li key={option.value} onClick={() => { handleTypeChange(option.label); sortChange(option.value) }} className={`hover:!bg-[#f5faff] ${option.label === selectedType ? 'bg-[#f5faff]' : ''}`}>
+                        <span className='border-0 rounded-none bg-none hover:!bg-transparent'>{option.label}</span>
                     </li>
                 ))}
             </ul>

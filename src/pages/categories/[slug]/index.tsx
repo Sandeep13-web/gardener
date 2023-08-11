@@ -9,7 +9,7 @@ import Pagination from '@/shared/components/pagination';
 import { useState } from 'react';
 import { getProductByCategory } from '@/services/product.service';
 import EmptyPage from '@/components/emptyPage';
-import ReactSlider from 'react-slider';
+import Slider from 'react-slider';
 import { getConfig } from '@/services/home.service';
 import { getTagList } from '@/services/tag.service';
 import CategorySidebar from '@/shared/components/categorySidebar';
@@ -34,6 +34,7 @@ const CategoryDetail: NextPageWithLayout = () => {
     const [selectedValue, setSelectedValue] = useState<string>('')
     const [selectedPriceValue, setSelectedPriceValue] = useState<string>('')
     const [productModalId, setProductModalId] = useState<string>("")
+    const [enableFilter, setEnableFilter] = useState<boolean>(false)
     // const { data: categories, isInitialLoading: loading }: any = useQuery({ queryKey: ['getCategoriesList'] });
     // const { data: cart } = useQuery<ICartData>(["getCartList"]);
     const { data: cart } = useQuery<ICartData>(["getCartList"]);
@@ -62,6 +63,7 @@ const CategoryDetail: NextPageWithLayout = () => {
 
     const handleFilterButtonClick = async () => {
         setSetFiltered(true); // Toggle the value of setFiltered
+        setEnableFilter(!enableFilter)
     };
 
     // Handle categories link click
@@ -83,16 +85,10 @@ const CategoryDetail: NextPageWithLayout = () => {
             setSelectedValue('');
         }
     };
-
-    const { data: initialProductData, isLoading, error } = useQuery(
-        ['getProductByCategoryId', slug, pageNumber, selectedValue, selectedPriceValue],
+    const { data: initialProductData, isLoading } = useQuery(
+        ['getProductByCategoryId', slug, pageNumber, enableFilter, selectedValue, selectedPriceValue],
         async () => {
-            let response;
-            if (setFiltered) {
-                response = await getProductByCategory(query, pageNumber, slug, value[0], value[1], selectedValue, selectedPriceValue);
-            } else {
-                response = await getProductByCategory(query, pageNumber, slug, '', '', selectedValue, selectedPriceValue);
-            }
+            const response = await getProductByCategory(query, pageNumber, slug, value[0], value[1], selectedValue, selectedPriceValue);
             return response;
         },
     );
@@ -159,35 +155,22 @@ const CategoryDetail: NextPageWithLayout = () => {
                                 </ul> */}
                             </div>
                             <div className='mt-3.5'>
-                                <h4 className='text-slate-850 font-semibold font-base mb-[40px]'>Price</h4>
+                                <h4 className='mb-4 font-semibold text-slate-850 font-base'>Price</h4>
+                                <p className='text-sm leading-6 text-slate-850  mb-[20px] pricevalue'>NPR {value[0]} - NPR {value[1]}</p>
                                 <div>
-                                    <div className="mb-2">
-                                        <ReactSlider
-                                            className="horizontal-slider"
-                                            thumbClassName="example-thumb"
-                                            trackClassName="example-track"
-                                            value={value}
+                                    <div>
+                                        <Slider
+                                            className='slider'
                                             onChange={setValue}
-                                            ariaLabel={['Lower thumb', 'Upper thumb']}
-                                            ariaValuetext={state => `Thumb value ${state.valueNow}`}
-                                            max={maximumPrice}
+                                            value={value}
                                             min={minimumPrice}
-                                            renderThumb={(props, state) => (
-                                                <div {...props} className="focus:outline-none absolute top-[-5px] h-[15px] w-[15px] rounded-full bg-primary" style={{ ...props.style, }}>
-                                                    {/* <div className="focus:outline-none relative top-[-180px] text-white rounded-full text-[12px]">{state.valueNow}</div> */}
-                                                    <p className='font-normal absolute top-[-20px] text-[14px]'>{config?.data?.currency}{state.valueNow}</p>
-                                                </div>
-                                            )}
-                                            renderTrack={(props, state) => <div {...props} style={{
-                                                ...props.style, height: '5px', backgroundColor:
-                                                    state.index === 0 ? '#f0f0f0' : state.index === 2 ? '#f0f0f0' : '#07a04b'
-                                            }} />}
-                                            pearling
-                                            minDistance={10}
+                                            max={maximumPrice}
                                         />
                                     </div>
 
-                                    <button className='btn btn-primary w-full font-bold px-[22px] py-[13px] rounded-[50px] text-white text-lg uppercase tracking-[1px] leading-[1] mt-[30px]' onClick={handleFilterButtonClick}>Filter</button>
+                                    <button
+                                        className='btn btn-primary w-full font-bold px-[22px] py-[13px] rounded-[50px] text-white text-lg uppercase tracking-[1px] leading-[1] mt-[30px]'
+                                        onClick={handleFilterButtonClick}>Filter</button>
                                 </div>
                             </div>
                         </div>

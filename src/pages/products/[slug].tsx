@@ -221,7 +221,7 @@ const ProductSlug = () => {
                           />
                         </div>
                         <div className="flex justify-start w-full gap-2 py-2">
-                          <Image alt='Product image' src={selectedImg?.imageName} width={90} height={90} />
+                          <Image alt='Product image' className='border border-primary' src={selectedImg?.imageName} width={90} height={90} />
                         </div>
                       </>
                     ) : (
@@ -383,7 +383,7 @@ const ProductSlug = () => {
                               type='button'
                               onClick={handleCartAction}
                               disabled={mutation.isLoading}
-                              className={`${mutation.isLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
+                              className={`${mutation.isLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-normal hover:bg-orange-250 hover:text-base-100`}>
 
                               + Update To Cart
                               {
@@ -396,7 +396,7 @@ const ProductSlug = () => {
                               type='button'
                               onClick={handleCartAction}
                               disabled={mutation.isLoading}
-                              className={`${mutation.isLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-sm hover:bg-orange-250 hover:text-base-100`}>
+                              className={`${mutation.isLoading && 'opacity-70 '} disabled:cursor-not-allowed flex items-center gap-4 relative px-[55px] font-bold uppercase rounded-[30px] bg-accent text-base-100 ml-2.5 h-[48px] text-normal hover:bg-orange-250 hover:text-base-100`}>
 
                               + Add To Cart
                               {

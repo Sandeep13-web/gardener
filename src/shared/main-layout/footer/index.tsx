@@ -33,7 +33,7 @@ const Footer = () => {
             </p>
           </div>
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
-            <span className="footer-title font-bold">{config?.data?.pageData['section1 title']}</span>
+            <span className="text-base font-bold footer-title">{config?.data?.pageData['section1 title']}</span>
             <div className="flex items-start justify-start gap-4 mb-3">
               <FooterBullet className="mt-[0.2rem]" />
               <div>
@@ -60,13 +60,14 @@ const Footer = () => {
               </div>
             </div>
             <div className="ps-4">
-              <Image src={QR} alt="QR" width={150} height={190}
+              <Image src={QR} alt="QR" width={150} height={190} quality={100}
                 style={{ width: "auto", height: "auto" }}
+                className="max-w-[150px]"
               />
             </div>
           </div>
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
-            <span className="footer-title font-bold">{config?.data?.pageData['section2 title']}</span>
+            <span className="text-base font-bold footer-title">{config?.data?.pageData['section2 title']}</span>
             {config?.data?.pageData && <>
               <div className="flex items-center justify-start gap-4 mb-3">
                 <FooterBullet />
@@ -92,7 +93,7 @@ const Footer = () => {
 
           </div>
           <div className="w-full xs:w-[45%] md:w-[23%] mb-3">
-            <span className="footer-title font-bold">{`${config?.data?.pageData['section4 title']}`}</span>
+            <span className="text-base font-bold footer-title">{`${config?.data?.pageData['section4 title']}`}</span>
             {config?.data?.pageData && <>
               <div className="flex items-center justify-start gap-4 mb-3">
                 <FooterBullet />
@@ -112,7 +113,7 @@ const Footer = () => {
 
           </div>
         </div>
-        <div className="container flex flex-wrap items-center justify-between gap-4 mb-4">
+        <div className="container flex flex-wrap items-center justify-between gap-4 mb-4 mt-[-50px]">
           <div className="flex gap-3">
             {config?.data?.pageData && <>
               <Link href={`${config?.data?.pageData['section5 facebook']}`} aria-label="fb-link" target="_blank" className="w-auto p-0 btn btn-circle">
@@ -120,6 +121,7 @@ const Footer = () => {
                   src={socials.facebook}
                   height={36}
                   width={36}
+                  quality={100}
                   alt="facebook"
                 />
               </Link>
@@ -153,11 +155,12 @@ const Footer = () => {
                     src={PlayStore}
                     height={32}
                     width={108}
+                    quality={100}
                     alt="play-store"
                   />
                 </Link>
                 <Link target="_blank" aria-label="app-store" href={`${config?.data?.pageData['section4 appstore link']}`} className="p-0 btn">
-                  <Image src={AppStore} height={32} width={108} alt="app-store" />
+                  <Image src={AppStore} quality={100} height={32} width={108} alt="app-store" />
                 </Link>
               </>}
             </div>

@@ -208,7 +208,6 @@ const Header = () => {
     }
   }, [loggedIn])
 
-
   return (
     <>
       <header>
@@ -216,15 +215,16 @@ const Header = () => {
         <div className="z-10 bg-primary">
           <div className="container mx-auto">
             <div className="navbar bg-primary min-h-[48px] text-[12px] flex-wrap flex-col sm:flex-row px-2">
-              <div className="flex-1">
-                <p className="text-slate-50">Welcome to {config?.data?.title} !</p>
-                <div className="divider divider-horizontal before:bg-white before:w-[1px] after:w-[1px] after:bg-white m-0 hidden sm:block"></div>
-                <div className="hidden dropdown sm:block">
+              <div className="flex-1 align-items-center">
+                <p className="font-semibold text-white">Welcome to {config?.data?.title} !</p>
+                <p className="mx-1 text-white">|</p>
+                <p className="h-auto p-0 text-xs font-semibold text-white no-underline capitalize text-md min-h-fit">Outlet: {config?.data?.warehouses[0]?.name}</p>
+                {/* <div className="hidden dropdown sm:block">
                   <label
                     tabIndex={0}
                     className="btn btn-link text-md text-[12px] p-0 text-white no-underline h-auto min-h-fit capitalize"
                   >
-                    Outlet: {config?.data?.warehouses[0]?.title}
+                    Outlet: {config?.data?.warehouses[0]?.name}
                   </label>
                   <ul
                     tabIndex={0}
@@ -237,7 +237,7 @@ const Header = () => {
                       <p>Item 2</p>
                     </li>
                   </ul>
-                </div>
+                </div> */}
               </div>
               <div className="flex-none">
                 <FaUser className="w-[13px] h-auto text-white me-2" />
@@ -334,7 +334,7 @@ const Header = () => {
                 <div className="flex items-center justify-between gap-1 ">
                   <input
                     type="text"
-                    placeholder="Search product."
+                    placeholder={`Search ${selectedType}.`}
                     className="input input-ghost w-full max-w-xs !shadow-none !outline-none md:max-w-2xl"
                     value={searchValue}
                     onChange={handleInputChange}
@@ -403,7 +403,7 @@ const Header = () => {
 
             {/* Why Plant Button */}
             <Link href="/page/why-plants" aria-label="why-plantss-2">
-              <button className="btn btn-primary btn-outline !min-h-12 font-bold text-base gap-0">
+              <button className="btn btn-primary capitalize btn-outline !min-h-12 font-bold text-base gap-0">
                 <FlowerIcon /> <p className="hidden lg:block">Why Plants</p>
               </button>
             </Link>
@@ -438,23 +438,23 @@ const Header = () => {
           <div className="flex w-full gap-10 md:w-auto">
             <div className="dropdown dropdown-hover  md:min-w-[15rem] min-w-full">
               <label
-                tabIndex={0}
+                tabIndex={1}
                 className="btn btn-primary rounded-sm font-bold text-white capitalize flex justify-between flex-nowrap whitespace-nowrap md:min-w-[15rem] !min-h-[3rem] min-w-full remove-focus"
               >
                 <BarsIcon />
                 All Categories <CaretDownIcon />
               </label>
               <ul
-                tabIndex={0}
-                className="w-full p-0 shadow dropdown-content menu bg-base-100"
+                tabIndex={1}
+                className={`w-full p-0 shadow dropdown-content menu bg-base-100`}
               >
                 {categories?.data
                   ?.slice(0, 9)
                   .map((item: any, index: number) => (
-                    <li key={`menu-${index}`}>
+                    <li key={`menu-${index}`} className="py-1">
                       <Link
                         href={`/categories/${item.slug}`}
-                        className="dropdown-item"
+                        className="py-2.5 px-5 dropdown-item hover:!pl-7"
                       >
                         {item.name}
                       </Link>

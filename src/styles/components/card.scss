@@ -70,7 +70,7 @@
     }
   }
   &-title {
-    @apply text-slate-850 font-bold leading-[18px] text-sm capitalize transition-all ease-in-out delay-150 duration-300 cursor-pointer block w-max;
+    @apply text-slate-850 font-bold leading-[18px] text-lg capitalize transition-all ease-in-out delay-150 duration-300 cursor-pointer block w-max;
   }
 }
 .checkout-card {

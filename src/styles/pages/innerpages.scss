@@ -1,7 +1,8 @@
 .main-wrapper-block {
-    @apply py-8;
+    @apply pb-8;
     .page__wrapper {
         @apply relative;
+        font-family: "Rubik", sans-serif;
         .banner {
             &.sub__banner {
                 @apply relative;

@@ -171,14 +171,14 @@ const Cart: NextPageWithLayout = () => {
                         onClick={handleApplyCoupon}
                         type="button"
                         disabled={tempCoupon === '' || tempCoupon === null}
-                        className="btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white">
+                        className="disabled:cursor-not-allowed disabled:pointer-events-auto btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white">
                         {couponText}
                       </button>
                     ) : (
                       <button
                         onClick={handleRemoveCoupon}
                         type="button"
-                        className="btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white">
+                        className=" btn btn-primary text-sm uppercase font-bold px-[42px] py-[13px] rounded-[50px] text-white">
                         {couponText}
                       </button>
                     )}
